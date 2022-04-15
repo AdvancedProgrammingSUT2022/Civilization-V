@@ -1,8 +1,7 @@
 package Controller;
 
 import Model.Civilization;
-import Model.Tile.Tile;
-import Model.Tile.Tile;
+import Model.TileAndFeatures.Tile.Tile;
 import Model.Units.Unit;
 
 import java.util.ArrayList;

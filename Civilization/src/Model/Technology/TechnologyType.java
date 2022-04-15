@@ -22,5 +22,4 @@ public enum TechnologyType {
     ScientificTheory,
     AnimalHusbandry,
     Combustion;
-
 }

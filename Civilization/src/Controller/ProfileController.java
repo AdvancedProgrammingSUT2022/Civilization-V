@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Units.Combat.Combat;
+
 public class ProfileController extends Controller{
     public String changeNickname(){
         return "";
