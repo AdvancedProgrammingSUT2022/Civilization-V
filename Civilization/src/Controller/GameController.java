@@ -1,7 +1,8 @@
 package Controller;
 
 import Model.Civilization;
-import Model.Terrian.Terrain;
+import Model.Tile.Tile;
+import Model.Tile.Tile;
 import Model.Units.Unit;
 
 import java.util.ArrayList;
@@ -10,10 +11,10 @@ import java.util.regex.Matcher;
 public class GameController {
     private ArrayList<Civilization> civilizations;
     private Civilization playerTurn;
-    private ArrayList<Terrain> terrains;
+    private ArrayList<Tile> terrains;
     private Unit selectedUnit;
 
-    public Terrain getTerrain(int x , int y){
+    public Tile getTerrain(int x , int y){
         return null;
     }
 
@@ -29,7 +30,7 @@ public class GameController {
         return "";
     }
 
-    public String attack(Terrain terrain){
+    public String attack(Tile terrain){
         return "";
     }
 
@@ -37,7 +38,7 @@ public class GameController {
         return "";
     }
 
-    public String assignTerrainState(Terrain terrain){
+    public String assignTerrainState(Tile terrain){
         return "";
     }
 

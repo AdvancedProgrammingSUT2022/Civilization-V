@@ -1,6 +1,6 @@
-package Model.Terrian;
+package Model.Tile;
 
-public enum TerrainType {
+public enum TileType {
     Desert,
     Grassland,
     Hill,

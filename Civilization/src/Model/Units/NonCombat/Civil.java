@@ -1,4 +1,4 @@
-package Model.Units.Civil;
+package Model.Units.NonCombat;
 
 import Model.Units.Unit;
 

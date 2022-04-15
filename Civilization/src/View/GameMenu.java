@@ -1,6 +1,12 @@
 package View;
 
 public class GameMenu extends Menu{
-    private GameMenuController
+
+    @Override
+    public void checkCommand(String command) {
+        
+        
+    }
+    
 
 }

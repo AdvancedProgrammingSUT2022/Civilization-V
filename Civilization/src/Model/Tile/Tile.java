@@ -1,20 +1,26 @@
-package Model.Terrian;
+package Model.Tile;
 
+import Model.Feature.FeatureType;
+import Model.Resource.ResourceType;
 import Model.Units.Unit;
 
-public class Terrain {
+public class Tile {
     private int x;
     private int y;
     private Unit civilUnit;
     private Unit combatUnit;
-
-    TerrainType terrainType;
+    FeatureType featureType;
+    ResourceType resourceType;
+    int mp;
+    
+    TileType terrainType;
 
     public int getX() {
         return x;
     }
 
     public int getY() {
+        int a = ResourceType.Bananas.Food;
         return y;
     }
 
@@ -54,5 +60,9 @@ public class Terrain {
 
     public Unit getCombatUnit() {
         return combatUnit;
+    }
+
+    public int calculateMp(){
+        return 0;
     }
 }
