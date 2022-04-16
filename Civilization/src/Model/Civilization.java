@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 
 import Model.Technology.Technology;
+import Model.TileAndFeatures.Building.Building;
+import Model.TileAndFeatures.Improvement.Improvement;
 import Model.TileAndFeatures.Resource.Resource;
 import Model.TileAndFeatures.Tile.Tile;
 import Model.Units.Unit;
@@ -16,10 +18,24 @@ public class Civilization {
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies;
     private ArrayList<Unit> units;
+    private ArrayList<Improvement> improvements;
     private Technology currentResearchProject;
     private ArrayList<DiplomaticTies> diplomaticTies; 
+    private Building building;
     public int getPopulation() {
         return population;
+    }
+    public ArrayList<Improvement> getImprovements() {
+        return improvements;
+    }
+    public void setImprovements(ArrayList<Improvement> improvements) {
+        this.improvements = improvements;
+    }
+    public Building getBuilding() {
+        return building;
+    }
+    public void setBuilding(Building building) {
+        this.building = building;
     }
     public ArrayList<DiplomaticTies> getDiplomaticTies() {
         return diplomaticTies;

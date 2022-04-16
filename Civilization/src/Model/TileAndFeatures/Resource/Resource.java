@@ -1,12 +1,5 @@
 package Model.TileAndFeatures.Resource;
 
-import java.util.ArrayList;
-
-import Model.Technology.TechnologyType;
-import Model.TileAndFeatures.Feature.FeatureType;
-import Model.TileAndFeatures.Improvement.Improvement;
-import Model.TileAndFeatures.Resource.ResourceType;
-
 public class Resource {
     private ResourceType resourceType;
 

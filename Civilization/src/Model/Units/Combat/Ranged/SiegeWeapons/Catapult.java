@@ -1,4 +1,4 @@
-package Model.Units.Combat.Ranged;
+package Model.Units.Combat.Ranged.SiegeWeapons;
 
 import java.util.ArrayList;
 
@@ -8,15 +8,17 @@ import Model.Technology.Technology;
 import Model.TileAndFeatures.Resource.Resource;
 import Model.TileAndFeatures.Tile.Tile;
 
-public class Catapult extends Ranged {
+public class Catapult extends Siege {
 
     public Catapult(Civilization civilization, City city, Tile tile, int movement, int cost,
             Technology technologyRequired, ArrayList<Resource> resourcesRequired, int maxCombatStrength,
-            int rangedStrength) {
+            int rangedStrength, boolean preAttackDone) {
         super(civilization, city, tile, movement, cost, technologyRequired, resourcesRequired, maxCombatStrength,
-                rangedStrength);
+                rangedStrength, preAttackDone);
         //TODO Auto-generated constructor stub
     }
+
+    
 
     
 }

@@ -1,6 +1,7 @@
 package Model;
 
 public class City {
+    Civilization civilization;
     private int food;
     private int population;
     public void feedPopulation(){

@@ -44,4 +44,16 @@ public class GameController {
     public String sleep(){
         return "";
     }
+    public void updateData(){
+
+    }
+
+    public void updateCurrentBuildingProject(){
+
+    }
+
+    public void updateCurrentTechnologyProject(){
+
+    }
+    
 }

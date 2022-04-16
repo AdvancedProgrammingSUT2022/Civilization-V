@@ -95,4 +95,8 @@ public class Combat extends Unit {
     public int calculateDamage(){
         return 0;
     }
+
+    public void calculateFeatureCombatEffect(){
+
+    }
 }

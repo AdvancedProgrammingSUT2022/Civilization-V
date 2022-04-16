@@ -98,4 +98,8 @@ public class Unit {
     public void setAlerted(boolean isAlerted) {
         this.isAlerted = isAlerted;
     }
+
+    public void specialAbility(){
+
+    }
 }

@@ -1,4 +1,4 @@
-package Model.Units.Combat.Ranged;
+package Model.Units.Combat.Ranged.SiegeWeapons;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import Model.Civilization;
 import Model.Technology.Technology;
 import Model.TileAndFeatures.Resource.Resource;
 import Model.TileAndFeatures.Tile.Tile;
+import Model.Units.Combat.Ranged.Ranged;
 
 public class Trebuchet extends Ranged {
 
@@ -17,5 +18,7 @@ public class Trebuchet extends Ranged {
                 rangedStrength);
         //TODO Auto-generated constructor stub
     }
+
+    
     
 }

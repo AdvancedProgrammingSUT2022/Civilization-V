@@ -1,10 +1,10 @@
 package Model;
 
 public class User {
-     private String username;
-     private  String password;
-     private String nickname;
-
+    private String username;
+    private  String password;
+    private String nickname;
+    
     public String getUsername() {
         return username;
     }

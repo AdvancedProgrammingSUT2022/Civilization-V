@@ -8,9 +8,8 @@ import Model.Technology.Technology;
 import Model.TileAndFeatures.Improvement.Improvement;
 import Model.TileAndFeatures.Resource.Resource;
 import Model.TileAndFeatures.Tile.Tile;
-import Model.Units.Unit;
 
-public class Worker extends Unit{
+public class Worker extends NonCombat{
     private Improvement improvement;
     public Worker(Civilization civilization, City city, Tile tile, int movement, int cost,
             Technology technologyRequired, ArrayList<Resource> resourcesRequired, boolean isSleep, boolean isAlerted) {
@@ -22,7 +21,11 @@ public class Worker extends Unit{
     public void setImprovement(Improvement improvement) {
         this.improvement = improvement;
     }
-    public void build(Improvement improvement){
+    public void queueImprovementBuilding(Improvement improvement,Civilization civilization){
+
+    }
+    @Override
+    public void updateDataAfterAction(City city){
 
     }
 }
