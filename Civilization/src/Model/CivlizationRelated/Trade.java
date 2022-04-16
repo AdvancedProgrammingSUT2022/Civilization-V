@@ -1,4 +1,4 @@
-package Model;
+package Model.CivlizationRelated;
 
 public class Trade {
     TradeOffer firstCivilization;

@@ -1,6 +1,6 @@
-package Model;
+package Model.CivlizationRelated;
 
-public class DiplomaticTies {
+public class DiplomaticTie {
     private Civilization one;
     private Civilization two;
     public Civilization getOne() {

@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Civilization;
+import Model.CivlizationRelated.Civilization;
 import Model.TileAndFeatures.Tile.Tile;
 import Model.Units.Unit;
 
@@ -55,5 +55,8 @@ public class GameController {
     public void updateCurrentTechnologyProject(){
 
     }
-    
+
+    public String printResearchPanel(){
+        return null;
+    }
 }

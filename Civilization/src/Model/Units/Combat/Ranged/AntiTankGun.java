@@ -1,23 +1,14 @@
 package Model.Units.Combat.Ranged;
-
-import java.util.ArrayList;
-
-import Model.City;
-import Model.Civilization;
-import Model.Technology.Technology;
-import Model.TileAndFeatures.Resource.Resource;
+import Model.CivlizationRelated.City;
+import Model.CivlizationRelated.Civilization;
 import Model.TileAndFeatures.Tile.Tile;
+import Model.Units.UnitType;
 
 public class AntiTankGun extends Ranged {
 
-    public AntiTankGun(Civilization civilization, City city, Tile tile, int movement, int cost,
-            Technology technologyRequired, ArrayList<Resource> resourcesRequired, int maxCombatStrength,
-            int rangedStrength) {
-        super(civilization, city, tile, movement, cost, technologyRequired, resourcesRequired, maxCombatStrength,
-                rangedStrength);
+    public AntiTankGun(Civilization civilization, City city, Tile tile) {
+        super(civilization, city, tile, UnitType.AntiTankGun);
         //TODO Auto-generated constructor stub
     }
 
-    
-    
 }
