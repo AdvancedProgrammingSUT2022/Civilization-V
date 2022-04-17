@@ -1,7 +1,9 @@
 package Model.Units;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.TileAndFeatures.Tile.Tile;
+import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitStateType;
+import Model.Units.TypeEnums.UnitType;
 
 public class Unit {
     protected Civilization civilization;
@@ -10,6 +12,7 @@ public class Unit {
     protected int movementsLeft;
     protected UnitType unitType;
     protected UnitStateType unitStateType;
+    protected int maxDamage;
 
     public Unit(Civilization civilization, City city, Tile tile, UnitType unitType) {
         this.civilization = civilization;

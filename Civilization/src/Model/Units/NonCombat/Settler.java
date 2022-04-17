@@ -2,8 +2,8 @@ package Model.Units.NonCombat;
 
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.TileAndFeatures.Tile.Tile;
-import Model.Units.UnitType;
+import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitType;
 
 public class Settler extends NonCombat {
 

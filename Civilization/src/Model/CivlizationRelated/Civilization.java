@@ -4,29 +4,32 @@ import java.util.ArrayList;
 
 import Model.User;
 import Model.Technology.Technology;
-import Model.TileAndFeatures.Building.Building;
-import Model.TileAndFeatures.Improvement.Improvement;
-import Model.TileAndFeatures.Resource.Resource;
-import Model.TileAndFeatures.Tile.Tile;
+import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 
 public class Civilization {
-    private int population;
-    private int goldProductionRatePerRound;
-    private int productionRatePerRound;
-    private int happiness;
     private User user;
     private ArrayList<City> cities;
+    private int population;
+    private int gold;
+    private int goldProductionRatePerRound;
+    private int happiness;
     private ArrayList<Tile> tiles;
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies;
     private ArrayList<Unit> units;
-    private ArrayList<Improvement> improvements;
     private Technology currentResearchProject;
     private ArrayList<DiplomaticTie> diplomaticTies; 
     private ArrayList<String> notifHistory;
     public int getPopulation() {
         return population;
+    }
+    public int getGold() {
+        return gold;
+    }
+    public void setGold(int gold) {
+        this.gold = gold;
     }
     public int getHappiness() {
         return happiness;
@@ -43,23 +46,20 @@ public class Civilization {
     public void addUnit(Unit unit){
         units.add(unit);
     }
-    public int getProductionRatePerRound() {
-        return productionRatePerRound;
+    public void addGole(int gold){
+        this.gold += gold;
     }
-    public void setProductionRatePerRound(int productionRatePerRound) {
-        this.productionRatePerRound = productionRatePerRound;
+    public int calculateHappiness(){
+        return 0;
+    }
+    public int calculateGoldIncome(){
+        return 0;
     }
     public int getGoldProductionRatePerRound() {
         return goldProductionRatePerRound;
     }
     public void setGoldProductionRatePerRound(int goldProductionRatePerRound) {
         this.goldProductionRatePerRound = goldProductionRatePerRound;
-    }
-    public ArrayList<Improvement> getImprovements() {
-        return improvements;
-    }
-    public void setImprovements(ArrayList<Improvement> improvements) {
-        this.improvements = improvements;
     }
     public ArrayList<DiplomaticTie> getDiplomaticTies() {
         return diplomaticTies;
@@ -113,7 +113,7 @@ public class Civilization {
     public void setCurrentResearchProject(Technology currentResearchProject) {
         this.currentResearchProject = currentResearchProject;
     }
-    public int calculateHappiness(){
-        return 0;
+    public Technology getTechnology(){
+        return null;
     }
 }

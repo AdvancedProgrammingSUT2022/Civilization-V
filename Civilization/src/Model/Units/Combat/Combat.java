@@ -2,9 +2,9 @@ package Model.Units.Combat;
 
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.TileAndFeatures.Tile.Tile;
+import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
-import Model.Units.UnitType;
+import Model.Units.TypeEnums.UnitType;
 
 public class Combat extends Unit {
 

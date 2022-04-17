@@ -1,23 +1,67 @@
 package Model.CivlizationRelated;
-
 import java.util.ArrayList;
 
-import Model.TileAndFeatures.Building.Building;
-import Model.TileAndFeatures.Tile.Tile;
+import Model.TileRelated.Building.Building;
+import Model.TileRelated.Improvement.Improvement;
+import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 
 public class City {
     Civilization civilization;
     private int hitPoint = 20;
     private int foodProductionRate;
-    private int citizenPopulation;
-    private Building building;
-    private ArrayList<Tile> tiles;
+    private int population;
+    private ArrayList<Building> building;
+    private ArrayList<Tile> cityTiles;
     private ArrayList<Unit> garrisonUnits;
+    private ArrayList<Unit> units;
+    private ArrayList<Citizen> citizens;
+    private ArrayList<Improvement> improvements;
     public void feedPopulation(){
 
     }
     
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
+    }
+
+    public ArrayList<Building> getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(ArrayList<Building> building) {
+        this.building = building;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+    public ArrayList<Tile> getCityTiles() {
+        return cityTiles;
+    }
+    public void setCityTiles(ArrayList<Tile> cityTiles) {
+        this.cityTiles = cityTiles;
+    }
+    public ArrayList<Improvement> getImprovements() {
+        return improvements;
+    }
+    public void setImprovements(ArrayList<Improvement> improvements) {
+        this.improvements = improvements;
+    }
+    public ArrayList<Citizen> getCitizens() {
+        return citizens;
+    }
+    public void setCitizens(ArrayList<Citizen> citizens) {
+        this.citizens = citizens;
+    }
+
     public int getHitPoint() {
         return hitPoint;
     }
@@ -26,27 +70,12 @@ public class City {
         this.hitPoint = hitPoint;
     }
 
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
     public ArrayList<Unit> getGarrisonUnits() {
         return garrisonUnits;
     }
 
     public void setGarrisonUnits(ArrayList<Unit> garrisonUnits) {
         this.garrisonUnits = garrisonUnits;
-    }
-
-    public int getCitizenPopulation() {
-        return citizenPopulation;
-    }
-    public void setCitizenPopulation(int citizenPopulation) {
-        this.citizenPopulation = citizenPopulation;
     }
     public int getFoodProductionRate() {
         return foodProductionRate;

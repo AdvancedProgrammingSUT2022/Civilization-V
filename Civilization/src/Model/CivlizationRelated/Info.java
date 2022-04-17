@@ -6,37 +6,37 @@ import Model.Technology.Technology;
 import Model.Units.Unit;
 
 public abstract class Info {
-    public String printResearchPanel(Technology technology){
+    public static String printResearchPanel(Technology technology){
         return null;
     }
-    public String printUnitListPanel(ArrayList<Unit> units){
+    public static String printUnitListPanel(ArrayList<Unit> units){
         return null;
     }
-    public String printCityListPanel(ArrayList<City> cities){
+    public static String printCityListPanel(ArrayList<City> cities){
         return null;
     }
-    public String printDiplomacyInfoPanel(ArrayList<Civilization> civilizations,Civilization myCivilization){
+    public static String printDiplomacyInfoPanel(ArrayList<Civilization> civilizations,Civilization myCivilization){
         return null;
     }
-    public String printVictoryProgressScreen(ArrayList<Civilization> civilizations,Civilization myCivilization){
+    public static String printVictoryProgressScreen(ArrayList<Civilization> civilizations,Civilization myCivilization){
         return null;
     }
-    public String printDemographicsInfoPanel(Civilization civilization){
+    public static String printDemographicsInfoPanel(Civilization civilization){
         return null;
     }
-    public String printMillitaryOverviewPanel(Civilization civilization){
+    public static String printMillitaryOverviewPanel(Civilization civilization){
         return null;
     }
-    public String printEconomicOverviewPanel(Civilization civilization){
+    public static String printEconomicOverviewPanel(Civilization civilization){
         return null;
     }
-    public String printDiplomaticOverviewPanel(ArrayList<DiplomaticTie> diplomaticTies){
+    public static String printDiplomaticOverviewPanel(ArrayList<DiplomaticTie> diplomaticTies){
         return null;
     }
-    public String printDealHistoryPanel(ArrayList<Trade> trades){
+    public static String printDealHistoryPanel(ArrayList<Trade> trades){
         return null;
     }
-    public String printNotifHistory(ArrayList<String> notifs){
+    public static String printNotifHistory(ArrayList<String> notifs){
         return null;
     }
 }

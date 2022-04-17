@@ -2,9 +2,9 @@ package Model.Units.NonCombat;
 
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.TileAndFeatures.Improvement.Improvement;
-import Model.TileAndFeatures.Tile.Tile;
-import Model.Units.UnitType;
+import Model.TileRelated.Improvement.Improvement;
+import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitType;
 
 public class Worker extends NonCombat{
     public Worker(Civilization civilization, City city, Tile tile) {

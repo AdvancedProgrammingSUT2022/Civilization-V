@@ -2,7 +2,7 @@ package Model.CivlizationRelated;
 
 import java.util.ArrayList;
 
-import Model.TileAndFeatures.Resource.Resource;
+import Model.TileRelated.Resource.Resource;
 
 public class TradeOffer {
     private Civilization civilization;
