@@ -1,5 +1,5 @@
 package Model.TileRelated.Terraine;
 
-public class Terraine {
+public class Terrain {
     TerraineType terraineType;
 }
