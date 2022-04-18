@@ -1,5 +1,10 @@
 package Model.TileRelated.Terraine;
 
+import Model.Technology.Technology;
+
 public class Terrain {
-    TerraineType terraineType;
+    private TerrainType terrainType;
+    public Terrain(TerrainType terrainType){
+        this.terrainType = terrainType;
+    }
 }
