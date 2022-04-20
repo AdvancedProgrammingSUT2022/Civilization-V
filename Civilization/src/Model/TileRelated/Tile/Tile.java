@@ -6,7 +6,7 @@ import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.Resource;
-import Model.TileRelated.Terraine.TerraineType;
+import Model.TileRelated.Terraine.TerrainType;
 import Model.Units.Unit;
 
 public class Tile {
@@ -18,7 +18,7 @@ public class Tile {
     private Feature feature;
     private Resource resource;
     private River river;
-    private TerraineType terrain;
+    private TerrainType terrain;
     private TileVisibility tileVisibility;
     private Improvement improvement;
     
@@ -42,11 +42,11 @@ public class Tile {
         this.units = units;
     }
 
-    public TerraineType getTerrain() {
+    public TerrainType getTerrain() {
         return terrain;
     }
 
-    public void setTerrain(TerraineType terrain) {
+    public void setTerrain(TerrainType terrain) {
         this.terrain = terrain;
     }
 

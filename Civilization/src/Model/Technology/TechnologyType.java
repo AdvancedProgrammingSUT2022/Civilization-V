@@ -1,5 +1,7 @@
 package Model.Technology;
 
+import java.util.ArrayList;
+
 public enum TechnologyType {
     Agriculture,
     Calendar,
@@ -49,4 +51,5 @@ public enum TechnologyType {
     ScientificTheory,
     AnimalHusbandry,
     Combustion;
+
 }
