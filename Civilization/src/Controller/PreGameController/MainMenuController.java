@@ -2,16 +2,25 @@ package Controller.PreGameController;
 
 import Controller.Controller;
 
+import java.util.regex.Matcher;
+
 public class MainMenuController extends Controller{
-    public String changeNickname(){
-        return "";
+
+    public String userLogout(){
+        LoginMenuController.setLoggedInUser(null);
+        return "user logged out successfully!";
     }
-    public String changeCurrentPassword(){
-        return "";
+
+    @Override
+    public String showCurrentMenu() {
+        return "Main Menu";
     }
-    public String checkPasswordChange(String password){
-        return "";
+
+    public String enterMenu(Matcher matcher) {
+        if(matcher.group("menu").equals("Profile_Menu"))return "done!";
+        return "menu navigation is not possible";
     }
+
     public String checkEnterMenuErrors(String menu){
         return "";
     }
