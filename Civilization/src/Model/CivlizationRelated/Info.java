@@ -24,7 +24,7 @@ public abstract class Info {
     public static String printDemographicsInfoPanel(Civilization civilization){
         return null;
     }
-    public static String printMillitaryOverviewPanel(Civilization civilization){
+    public static String printMilitaryOverviewPanel(Civilization civilization){
         return null;
     }
     public static String printEconomicOverviewPanel(Civilization civilization){

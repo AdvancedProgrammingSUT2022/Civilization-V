@@ -123,4 +123,11 @@ public class Tile {
     public void setRiver(River river) {
         this.river = river;
     }
+
+    public boolean checkType(TerrainType terrainType){
+        return this.terrain == terrainType;
+    }
+
+
+
 }

@@ -9,6 +9,8 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 
 public class Civilization {
+    private int x;
+    private int y;
     private User user;
     private ArrayList<City> cities;
     private int population;
@@ -115,5 +117,21 @@ public class Civilization {
     }
     public Technology getTechnology(){
         return null;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 }

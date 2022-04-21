@@ -7,4 +7,7 @@ public class Terrain {
     public Terrain(TerrainType terrainType){
         this.terrainType = terrainType;
     }
+
+
+
 }
