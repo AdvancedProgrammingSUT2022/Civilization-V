@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import Controller.Controller;
-import Model.Enums.User;
+import Model.User;
 
 public class LoginMenuController extends Controller{
     private ArrayList<User> users;

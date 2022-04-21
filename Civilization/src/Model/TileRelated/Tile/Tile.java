@@ -137,4 +137,5 @@ public class Tile {
     public boolean checkType(TerrainType terrainType){
         return this.terrain == terrainType;
     }
+
 }

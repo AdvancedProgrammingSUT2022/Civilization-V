@@ -103,7 +103,7 @@ public class City {
     public void initGarrisonUnits(){
 
     }
-    public void attacEnemyUnit(Unit unit){
+    public void attackEnemyUnit(Unit unit){
 
     }
 }
