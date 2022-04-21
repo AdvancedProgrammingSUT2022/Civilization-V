@@ -1,6 +1,13 @@
+import View.PreGameView.LoginMenuView;
+import View.PreGameView.Regex;
+
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        LoginMenuView loginMenuView = new LoginMenuView();
+        Regex regex = new Regex();
+        loginMenuView.run();
     }
 }
