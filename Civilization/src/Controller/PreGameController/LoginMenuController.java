@@ -1,11 +1,10 @@
 package Controller.PreGameController;
 
-import Model.User;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import Controller.Controller;
+import Model.Enums.User;
 
 public class LoginMenuController extends Controller{
     private ArrayList<User> users;

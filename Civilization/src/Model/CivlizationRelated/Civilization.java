@@ -2,7 +2,7 @@ package Model.CivlizationRelated;
 
 import java.util.ArrayList;
 
-import Model.User;
+import Model.Enums.User;
 import Model.Technology.Technology;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;

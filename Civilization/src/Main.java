@@ -1,7 +1,4 @@
-import java.util.Map;
 import Controller.GameController.GameController;
-import Model.Enums.MapEnum;
-import Model.TileRelated.Tile.Tile;
 
 public class Main {
 

@@ -1,7 +1,7 @@
 package Controller.GameController;
 
-import Model.Color;
 import Model.CivlizationRelated.Civilization;
+import Model.Enums.Color;
 import Model.Enums.MapEnum;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
@@ -17,9 +17,7 @@ import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.Unit;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ForkJoinPool;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -95,6 +93,7 @@ public class GameController {
         a.setX(2);
         a.setY(1);
         a.setBuilding(new Building(BuildingType.Armory));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
         a.setCivilization(first);
@@ -112,6 +111,7 @@ public class GameController {
         a.setY(2);
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setTerrain(TerrainType.Grassland);
         a.setCivilization(first);
         tiles.add(a);
@@ -124,6 +124,7 @@ public class GameController {
         a.setCivilization(second);
         a.setTileVisibility(TileVisibility.FOGOFWAR);
         a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         tiles.add(a);
         a = new Tile();
         a.setX(2);
@@ -140,6 +141,7 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(third);
         tiles.add(a);
         a = new Tile();
@@ -149,6 +151,7 @@ public class GameController {
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
         a.setCivilization(third);
+        a.setResource(new Resource(ResourceType.Bananas));
         tiles.add(a);
         a = new Tile();
         a.setX(4);
@@ -190,8 +193,8 @@ public class GameController {
         char returnChar = (char)(asciiA + civilizations.indexOf(civilization));
         return Character.toString(returnChar);
     }
-    public void nullify(String map[][],int startIndex,int endIndex,int y){
-        for (int i = startIndex; i < endIndex; i++) {
+    public void nullify(String map[][],int startIndex,int length,int y){
+        for (int i = startIndex; i < startIndex + length; i++) {
             map[y][i] = "";          
         }
     }
@@ -208,7 +211,6 @@ public class GameController {
         String reset = Color.ANSI_RESET;
         if(tile.getTileVisibility() != null && tile.getTileVisibility().equals(TileVisibility.FOGOFWAR))
             backgroundColor = Color.ANSI_WHITE_BACKGROUND;
-            //for (int i = x + MapEnum.HEXSIDESHORT.amount; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount; i++) 
         if(y == 0){for (int i = MapEnum.HEXSIDESHORT.amount; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount ; i++)map[y][x + i] = "_";}
         for (int i = 1; i < MapEnum.HEXSIDESHORT.amount * 2 + 1; i++) {
             String chap,rast;
@@ -225,11 +227,25 @@ public class GameController {
             }
             map[y + i][x + tmp] = chap;map[y + i][x + tmp + 1] = backgroundColor + " ";map[y + i][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount * 2 - tmp - 2] = " " + reset;map[y + i][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount * 2 - tmp - 1] = rast;
         }
+        int textDistance = MapEnum.HEXSIDESHORT.amount * 2 / 5;
         map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDESHORT.amount - 1]= "\\";map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDESHORT.amount] = backgroundColor + "_";for (int i = MapEnum.HEXSIDESHORT.amount + 1; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount  - 1; i++) {map[y + MapEnum.HEXSIDESHORT.amount * 2][x + i] = "_";}map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount - 1] = "_" + reset;map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount] = "/";
-        // if(tile.getCivilization() != null && tile.getTileVisibility() != TileVisibility.FOGOFWAR)
-        //     map[y + 1][x + 5] = assignCharToCivilization(tile.getCivilization());
-        //if(tile.getFeature() != null)
-          //  nullify(map, x + 3, x + 3 + tile.getFeature().getFeatureType().name().length(), y + 2);
+        if(tile.getTileVisibility() != TileVisibility.FOGOFWAR){
+            if(tile.getCivilization() != null)
+                map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
+            textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
+                if(tile.getFeature() != null){
+                nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getFeature().getFeatureType().name().length() / 2 + 1,tile.getFeature().getFeatureType().name().length(), y + textDistance);
+                map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getFeature().getFeatureType().name().length() / 2 + 1] = tile.getFeature().getFeatureType().name();
+            }
+            textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
+            nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getTerrain().name().length() / 2 + 1,tile.getTerrain().name().length(), y + textDistance);
+            map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getTerrain().name().length() / 2 + 1] = tile.getTerrain().name();
+            if(tile.getResource() != null){
+                textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
+            nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getResource().getResourceType().name().length() / 2 + 1,tile.getResource().getResourceType().name().length(), y + textDistance);
+            map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getResource().getResourceType().name().length() / 2 + 1] = tile.getResource().getResourceType().name();
+            }
+        }
     }
     
     public ArrayList<Tile> generateMap(int Civilization){

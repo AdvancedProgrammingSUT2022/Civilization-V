@@ -1,4 +1,4 @@
-package Model;
+package Model.Enums;
 
 public class User {
     private String username;

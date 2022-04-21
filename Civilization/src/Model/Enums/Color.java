@@ -1,4 +1,4 @@
-package Model;
+package Model.Enums;
 
 public class Color {
     public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
