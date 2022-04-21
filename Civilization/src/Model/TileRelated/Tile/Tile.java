@@ -1,6 +1,7 @@
 package Model.TileRelated.Tile;
 import java.util.ArrayList;
 
+import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
@@ -21,9 +22,18 @@ public class Tile {
     private TerrainType terrain;
     private TileVisibility tileVisibility;
     private Improvement improvement;
+    private Civilization civilization;
     
     public int getX() {
         return x;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 
     public Building getBuilding() {
@@ -122,5 +132,9 @@ public class Tile {
 
     public void setRiver(River river) {
         this.river = river;
+    }
+
+    public boolean checkType(TerrainType terrainType){
+        return this.terrain == terrainType;
     }
 }

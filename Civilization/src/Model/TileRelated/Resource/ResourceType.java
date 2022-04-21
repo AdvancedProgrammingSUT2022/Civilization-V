@@ -6,7 +6,6 @@ import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Terraine.TerrainType;
 
 import java.util.ArrayList;
-import java.util.zip.Adler32;
 
 public enum ResourceType {
     // Bonus Resources

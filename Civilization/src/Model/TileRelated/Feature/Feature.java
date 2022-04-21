@@ -10,7 +10,13 @@ public class Feature {
     public ArrayList<Resource> possibleResources;
     private FeatureType featureType;
     public Feature(FeatureType featureType){
-        this.featureType = featureType;
+        this.setFeatureType(featureType);
     }
     //penalties
+    public FeatureType getFeatureType() {
+        return featureType;
+    }
+    public void setFeatureType(FeatureType featureType) {
+        this.featureType = featureType;
+    }
 }

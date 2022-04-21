@@ -3,8 +3,6 @@ package Model.TileRelated.Building;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 
-import java.time.chrono.MinguoEra;
-
 public enum BuildingType implements BuildingNotes{
 
     Barracks(80, 1, new Technology(TechnologyType.BronzeWorking), BuildingMainType.AncientEraBuilding){

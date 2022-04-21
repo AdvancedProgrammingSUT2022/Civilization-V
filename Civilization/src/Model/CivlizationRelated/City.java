@@ -7,7 +7,7 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 
 public class City {
-    Civilization civilization;
+    private Civilization civilization;
     private int hitPoint = 20;
     private int foodProductionRate;
     private int population;
@@ -21,6 +21,14 @@ public class City {
 
     }
     
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
+    }
+
     public ArrayList<Unit> getUnits() {
         return units;
     }

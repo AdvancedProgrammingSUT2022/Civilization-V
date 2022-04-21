@@ -8,9 +8,6 @@ import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
-import com.sun.source.tree.NewArrayTree;
-
-import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public enum ImprovementType {
