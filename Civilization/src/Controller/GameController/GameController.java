@@ -19,10 +19,7 @@ import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -47,7 +44,7 @@ public class GameController {
         a.setY(0);
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
+        a.setTerrain(TerrainType.Mountain);
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -55,7 +52,7 @@ public class GameController {
         a.setY(0);
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
+        a.setTerrain(TerrainType.Hill);
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -95,7 +92,7 @@ public class GameController {
         a.setY(1);
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
+        a.setTerrain(TerrainType.Mountain);
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -104,7 +101,7 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setResource(new Resource(ResourceType.Bananas));
         a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
+        a.setTerrain(TerrainType.Mountain);
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -357,8 +354,96 @@ public class GameController {
         else return valueY + 1 != testY || (valueX - 1 != testX && valueX + 1 != testX);
     }
 
+    public void test(){
+        HashMap <Tile ,Integer> seenBy = new HashMap<>();
+        seenByInit(seenBy);
+        changeVision(getTile(1 , 1) ,seenBy , 1 , 2);
+        System.out.println(seenBy.get(getTile(0,0)) + "    " + seenBy.get(getTile(2,0)) + "    " + seenBy.get(getTile(4,0)));
+        System.out.println("   " + seenBy.get(getTile(1,0)) + "    " + seenBy.get(getTile(3,0)));
+        System.out.println(seenBy.get(getTile(0,1)) + "    " + seenBy.get(getTile(2,1)) + "    " + seenBy.get(getTile(4,1)));
+        System.out.println("   " + seenBy.get(getTile(1,1)) + "    " + seenBy.get(getTile(3,1)));
+        System.out.println(seenBy.get(getTile(0,2)) + "    " + seenBy.get(getTile(2,2)) + "    " + seenBy.get(getTile(4,2)));
+        System.out.println("   " + seenBy.get(getTile(1,2)) + "    " + seenBy.get(getTile(3,2)));
+    }
 
-    public Tile getTerrain(int x , int y){
+    public void seenByInit(HashMap<Tile,Integer> seenBy){
+        for (Tile key:tiles) {
+            seenBy.put(key,-1);
+        }
+    }
+
+    private void changeVision(Tile tile , HashMap<Tile , Integer> seenBy , int changeAmount , int visionRadius){
+        HashMap <Tile,Integer> visibility = new HashMap<>();
+        visibility = findVisibles(tile , 0 ,visibility);
+        for (Tile key:visibility.keySet()) {
+            if(visibility.get(key) <= visionRadius){
+                if(seenBy.get(key) == -1 && changeAmount == 1)seenBy.replace(key,0);
+                seenBy.replace(key,seenBy.get(key) + changeAmount);
+            }
+        }
+    }
+    
+
+    private HashMap<Tile , Integer> findVisibles(Tile tile , int cycleCount , HashMap<Tile , Integer> visibles){
+        if(cycleCount == 0)visibles.put(tile , 0);
+        int seePoint = 1;
+        if(cycleCount!= 0 && (tile.getTerrain().equals(TerrainType.Hill) || tile.getTerrain().equals(TerrainType.Mountain) /*|| tile.getFeature().equals(FeatureType.Jungle)*/))seePoint = 2;
+        ArrayList<Tile> surroundings = getSurroundings(tile);
+        for (Tile nextTile: surroundings) {
+            if(nextTile == null)continue;
+            int nextSeePoint = seePoint + visibles.get(tile);
+            if(visibles.get(nextTile) != null ){
+                if(visibles.get(nextTile) > nextSeePoint) visibles.replace(nextTile,nextSeePoint);
+            }
+            else visibles.put(nextTile,nextSeePoint);
+        }
+        cycleCount++;
+        if(cycleCount==2)return visibles;
+        for (Tile nextTile:surroundings) {
+            if(nextTile == null)continue;
+            findVisibles(nextTile , cycleCount , visibles);
+        }
+        return visibles;
+    }
+
+    private TileVisibility getVisibility(int seenBy){
+        if(seenBy == -1)return TileVisibility.FOGOFWAR;
+        if(seenBy == 0)return TileVisibility.REVEALED;
+        return TileVisibility.REVEALED;
+    }
+
+    private ArrayList<Tile> getSurroundings(Tile tile){
+        if(tile.getX() % 2 == 0){
+            ArrayList <Tile> surroundings = new ArrayList<>(){
+                {
+                    add(getTile(tile.getX() , tile.getY() +1));
+                    add(getTile(tile.getX() , tile.getY() -1));
+                    add(getTile(tile.getX()+1 , tile.getY() -1));
+                    add(getTile(tile.getX()-1 , tile.getY() -1));
+                    add(getTile(tile.getX()+1 , tile.getY()));
+                    add(getTile(tile.getX()-1 , tile.getY()));
+                }
+            };return surroundings;
+        }
+        else{
+            ArrayList <Tile> surroundings = new ArrayList<>(){
+                {
+                    add(getTile(tile.getX() , tile.getY() +1));
+                    add(getTile(tile.getX() , tile.getY() -1));
+                    add(getTile(tile.getX()+1 , tile.getY() +1));
+                    add(getTile(tile.getX()-1 , tile.getY() +1));
+                    add(getTile(tile.getX()+1 , tile.getY()));
+                    add(getTile(tile.getX()-1 , tile.getY()));
+                }
+            };return surroundings;
+        }
+    }
+
+
+    public Tile getTile(int x , int y){
+        for (Tile key:tiles) {
+            if(key.getX() == x && key.getY() == y)return key;
+        }
         return null;
     }
 

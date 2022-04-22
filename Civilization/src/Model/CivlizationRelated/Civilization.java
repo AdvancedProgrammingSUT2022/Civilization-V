@@ -1,7 +1,12 @@
 package Model.CivlizationRelated;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Feature.FeatureType;
+import Model.TileRelated.Resource.ResourceType;
+import Model.TileRelated.Tile.TileVisibility;
 import Model.User;
 import Model.Technology.Technology;
 import Model.TileRelated.Resource.Resource;
@@ -18,6 +23,7 @@ public class Civilization {
     private int goldProductionRatePerRound;
     private int happiness;
     private ArrayList<Tile> tiles;
+    private HashMap<Tile, Integer> seenBy;
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies;
     private ArrayList<Unit> units;

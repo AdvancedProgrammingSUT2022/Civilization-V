@@ -1,6 +1,5 @@
 package View;
 
-
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.function.Consumer;
