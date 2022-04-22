@@ -23,7 +23,7 @@ public class Civilization {
     private int goldProductionRatePerRound;
     private int happiness;
     private ArrayList<Tile> tiles;
-    private HashMap<Tile, Integer> seenBy;
+    private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies;
     private ArrayList<Unit> units;
@@ -32,6 +32,12 @@ public class Civilization {
     private ArrayList<String> notifHistory;
     public int getPopulation() {
         return population;
+    }
+    public HashMap<Tile, Integer> getSeenBy() {
+        return seenBy;
+    }
+    public void setSeenBy(HashMap<Tile, Integer> seenBy) {
+        this.seenBy = seenBy;
     }
     public int getGold() {
         return gold;

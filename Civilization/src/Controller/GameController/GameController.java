@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 
 public class GameController {
     private ArrayList<Civilization> civilizations = new ArrayList<>();
-    private Civilization playerTurn;
+    public Civilization playerTurn;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Unit selectedUnit;
     private LinkedHashMap<Integer, ArrayList<Tile>> seedsForTiles = new LinkedHashMap<Integer, ArrayList<Tile>>();
@@ -216,7 +216,7 @@ public class GameController {
         }
         String backgroundColor = Color.getBackgroundColor(tile.getTerrain().ordinal());
         String reset = Color.ANSI_RESET;
-        if(tile.getTileVisibility() != null && tile.getTileVisibility().equals(TileVisibility.FOGOFWAR))
+        if(getVisibility(tile).equals(TileVisibility.FOGOFWAR))
             backgroundColor = Color.ANSI_WHITE_BACKGROUND;
         if(y == 0){for (int i = MapEnum.HEXSIDESHORT.amount; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount ; i++)map[y][x + i] = "_";}
         for (int i = 1; i < MapEnum.HEXSIDESHORT.amount * 2 + 1; i++) {
@@ -236,7 +236,7 @@ public class GameController {
         }
         int textDistance = MapEnum.HEXSIDESHORT.amount * 2 / 5;
         map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDESHORT.amount - 1]= "\\";map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDESHORT.amount] = backgroundColor + "_";for (int i = MapEnum.HEXSIDESHORT.amount + 1; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount  - 1; i++) {map[y + MapEnum.HEXSIDESHORT.amount * 2][x + i] = "_";}map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount - 1] = "_" + reset;map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount] = "/";
-        if(tile.getTileVisibility() != TileVisibility.FOGOFWAR){
+        if(getVisibility(tile) != TileVisibility.FOGOFWAR){
             if(tile.getCivilization() != null)
                 map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
             textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
@@ -253,6 +253,7 @@ public class GameController {
             map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getResource().getResourceType().name().length() / 2 + 1] = tile.getResource().getResourceType().name();
             }
         }
+        
     }
 
     public void generateMap(int mapX, int mapY){ // map[x][y]
@@ -355,15 +356,8 @@ public class GameController {
     }
 
     public void test(){
-        HashMap <Tile ,Integer> seenBy = new HashMap<>();
-        seenByInit(seenBy);
-        changeVision(getTile(1 , 1) ,seenBy , 1 , 2);
-        System.out.println(seenBy.get(getTile(0,0)) + "    " + seenBy.get(getTile(2,0)) + "    " + seenBy.get(getTile(4,0)));
-        System.out.println("   " + seenBy.get(getTile(1,0)) + "    " + seenBy.get(getTile(3,0)));
-        System.out.println(seenBy.get(getTile(0,1)) + "    " + seenBy.get(getTile(2,1)) + "    " + seenBy.get(getTile(4,1)));
-        System.out.println("   " + seenBy.get(getTile(1,1)) + "    " + seenBy.get(getTile(3,1)));
-        System.out.println(seenBy.get(getTile(0,2)) + "    " + seenBy.get(getTile(2,2)) + "    " + seenBy.get(getTile(4,2)));
-        System.out.println("   " + seenBy.get(getTile(1,2)) + "    " + seenBy.get(getTile(3,2)));
+        seenByInit(playerTurn.getSeenBy());
+        changeVision(getTile(1 , 1) ,playerTurn.getSeenBy() , 1 , 2);
     }
 
     public void seenByInit(HashMap<Tile,Integer> seenBy){
@@ -406,9 +400,9 @@ public class GameController {
         return visibles;
     }
 
-    private TileVisibility getVisibility(int seenBy){
-        if(seenBy == -1)return TileVisibility.FOGOFWAR;
-        if(seenBy == 0)return TileVisibility.REVEALED;
+    private TileVisibility getVisibility(Tile tile){
+        if(playerTurn.getSeenBy().get(tile) == -1)return TileVisibility.FOGOFWAR;
+        if(playerTurn.getSeenBy().get(tile) == 0)return TileVisibility.REVEALED;
         return TileVisibility.REVEALED;
     }
 
