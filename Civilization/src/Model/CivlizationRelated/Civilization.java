@@ -1,12 +1,9 @@
 package Model.CivlizationRelated;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import Model.TileRelated.Building.BuildingType;
-import Model.TileRelated.Feature.FeatureType;
-import Model.TileRelated.Resource.ResourceType;
-import Model.TileRelated.Tile.TileVisibility;
+import Model.TileRelated.Building.Building;
+import Model.TileRelated.Feature.Feature;
+import Model.TileRelated.Improvement.Improvement;
 import Model.User;
 import Model.Technology.Technology;
 import Model.TileRelated.Resource.Resource;
@@ -14,8 +11,6 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 
 public class Civilization {
-    private int x;
-    private int y;
     private User user;
     private ArrayList<City> cities;
     private int population;
@@ -24,6 +19,10 @@ public class Civilization {
     private int happiness;
     private ArrayList<Tile> tiles;
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
+    private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
+    private HashMap<Tile, Resource> revealedResources = new HashMap<>();
+    private HashMap<Tile, Improvement> revealedImprovements = new HashMap<>();
+    private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies;
     private ArrayList<Unit> units;
@@ -32,6 +31,30 @@ public class Civilization {
     private ArrayList<String> notifHistory;
     public int getPopulation() {
         return population;
+    }
+    public HashMap<Tile, Building> getRevealedBuildings() {
+        return revealedBuildings;
+    }
+    public void setRevealedBuildings(HashMap<Tile, Building> revealedBuildings) {
+        this.revealedBuildings = revealedBuildings;
+    }
+    public HashMap<Tile, Resource> getRevealedResources() {
+        return revealedResources;
+    }
+    public void setRevealedResources(HashMap<Tile, Resource> revealedResources) {
+        this.revealedResources = revealedResources;
+    }
+    public HashMap<Tile, Improvement> getRevealedImprovements() {
+        return revealedImprovements;
+    }
+    public void setRevealedImprovements(HashMap<Tile, Improvement> revealedImprovements) {
+        this.revealedImprovements = revealedImprovements;
+    }
+    public HashMap<Tile, Feature> getRevealedFeatures() {
+        return revealedFeatures;
+    }
+    public void setRevealedFeatures(HashMap<Tile, Feature> revealedFeatures) {
+        this.revealedFeatures = revealedFeatures;
     }
     public HashMap<Tile, Integer> getSeenBy() {
         return seenBy;
@@ -129,21 +152,5 @@ public class Civilization {
     }
     public Technology getTechnology(){
         return null;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
     }
 }

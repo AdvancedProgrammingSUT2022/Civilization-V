@@ -17,8 +17,6 @@ import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.NonCombat.Settler;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import Model.User;
-
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -286,9 +284,13 @@ public class GameController {
                 this.tiles.add(tile);
             }
         }
+        setRivers(this.tiles);
         this.seedsForTiles.put(MapSeed, this.tiles);
     }
+    public void setRivers(ArrayList<Tile> tiles){
 
+
+    }
     public Resource getARandomResource(){
         int pickResource = new Random().nextInt(ResourceType.values().length);
         return new Resource(ResourceType.values()[pickResource]);
@@ -303,42 +305,18 @@ public class GameController {
         int pickFeature = new Random().nextInt(FeatureType.values().length);
         return new Feature(FeatureType.values()[pickFeature]);
     }
-
-    public void setCivilizations(int civilizationCount, int mapX, int mapY){
-        Random randomSeed = new Random();
-        int MapSeed = randomSeed.nextInt(1000);
-        Random random = new Random(MapSeed);
-        int count = 0;
-        while(count < civilizationCount){
+    public void SetSettler(int playersCount){
+        for (int i = 0; i < playersCount; i++) {
+            Unit settler = new Unit(null, null, null, UnitType.Settler);
+            Unit warrior= new Unit(null, null, null, UnitType.Warrior);
+            ArrayList<Unit> thisPlayerFirstUnits = new ArrayList<Unit>();
+            thisPlayerFirstUnits.add(settler);
+            thisPlayerFirstUnits.add(warrior);
             Civilization civilization = new Civilization();
-            int testX = random.nextInt(mapX);
-            int testY = random.nextInt(mapY);
-            boolean availabilityTile = true;
-            for(Civilization value : this.civilizations){
-                int valueX = value.getX();
-                int valueY = value.getY();
-                availabilityTile = checkAvailabilityOfTile(mapX, mapY, testX, testY, valueX, valueY);
-                if(!availabilityTile) break;
-            }
-            if(availabilityTile) {
-                Tile tile = new Tile();
-                for (Tile value: this.tiles) {
-                    if(testX == value.getX() && testY == value.getY()){
-                        tile = value;
-                        break;
-                    }
-                }
-                Settler settler = new Settler(civilization, null, tile);
-                Unit unit = new Unit(civilization, null, tile, UnitType.Warrior);
-                this.units.add(unit);
-                this.seedForUnits.put(MapSeed, this.units);
-                this.civilizations.add(civilization);
-                count++;
-            }
+            civilization.setUnits(thisPlayerFirstUnits);
+            this.civilizations.add(civilization);
         }
-        this.seedForCivilization.put(MapSeed, this.civilizations);
     }
-
     public boolean checkAvailabilityOfTile(int mapX, int mapY, int testX, int testY, int valueX, int valueY){
         if(valueX == testX && valueY == testY)
             return false;
