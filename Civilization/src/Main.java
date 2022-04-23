@@ -1,6 +1,7 @@
 
 import Controller.GameController.GameController;
 import Model.CivlizationRelated.Civilization;
+import Model.Enums.MapEnum;
 import Model.TileRelated.Tile.Tile;
 import View.PreGameView.LoginMenuView;
 
@@ -17,10 +18,9 @@ public class Main {
 //        System.out.println(gameController.printMap());
         //LoginMenuView loginMenuView = new LoginMenuView();
         //loginMenuView.run();
-        gameController.generateMap(10, 10);
-        gameController.BeginningSettlersAndWarriors(2);
+        gameController.generateMap(MapEnum.MAPWIDTH.amount , MapEnum.MAPHEIGHT.amount);
+        gameController.gameInit(2);
+        gameController.playerTurn = gameController.civilizations.get(0);
         System.out.println(gameController.printMap());
-
-
     }
 }
