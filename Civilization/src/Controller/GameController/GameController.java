@@ -5,20 +5,14 @@ import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
 import Model.Enums.Direction;
 import Model.Enums.MapEnum;
-import Model.TileRelated.Building.Building;
-import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Feature.River;
-import Model.TileRelated.Improvement.Improvement;
-import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
-import Model.Units.NonCombat.Settler;
-import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import java.util.*;
@@ -33,7 +27,7 @@ public class GameController {
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private Random random = new Random();
 
-//    public void generateRandomMap(int civilizationCount,int countTile){
+    //    public void generateRandomMap(int civilizationCount,int countTile){
 //        Civilization first = new Civilization();
 //        Civilization second = new Civilization();
 //        Civilization third = new Civilization();
@@ -215,7 +209,7 @@ public class GameController {
 
     public void nullify(String map[][],int startIndex,int length,int y){
         for (int i = startIndex; i < startIndex + length; i++) {
-            map[y][i] = "";          
+            map[y][i] = "";
         }
     }
 
@@ -466,13 +460,12 @@ public class GameController {
                 warriorDeploy = availableSurroundings.get(index);
                 settlerDeploy = center;
                 break outer;
-
             }
             makeUnit(UnitType.Settler,civilization,null,settlerDeploy);
             makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
         }
     }
-    
+
 
     private void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
         Unit unit = new Unit(civilization,city,tile,unitType);

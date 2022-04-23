@@ -25,7 +25,7 @@ public class Civilization {
     private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies;
-    private ArrayList<Unit> units = new ArrayList<>();
+    private ArrayList<Unit> units = new ArrayList<Unit>();
     private Technology currentResearchProject;
     private ArrayList<DiplomaticTie> diplomaticTies; 
     private ArrayList<String> notifHistory;
@@ -141,6 +141,7 @@ public class Civilization {
     public ArrayList<Unit> getUnits() {
         return units;
     }
+
     public Technology getCurrentResearchProject() {
         return currentResearchProject;
     }
