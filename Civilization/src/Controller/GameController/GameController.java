@@ -2,6 +2,7 @@ package Controller.GameController;
 
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
+import Model.Enums.Direction;
 import Model.Enums.MapEnum;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
@@ -29,7 +30,7 @@ public class GameController {
     private LinkedHashMap<Integer, ArrayList<Civilization>> seedForCivilization = new LinkedHashMap<Integer, ArrayList<Civilization>>();
     private LinkedHashMap<Integer, ArrayList<Unit>> seedForUnits = new LinkedHashMap<Integer, ArrayList<Unit>>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
-    
+    //custom map
     public void generateRandomMap(int civilizationCount,int countTile){
         Civilization first = new Civilization();
         Civilization second = new Civilization();
@@ -43,6 +44,8 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Mountain);
+        a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -51,6 +54,8 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Hill);
+        a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -59,6 +64,8 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
+        a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -67,6 +74,8 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
+        a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -75,6 +84,8 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
+        a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -83,6 +94,8 @@ public class GameController {
         a.setBuilding(new Building(BuildingType.Armory));
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Desert);
+        a.setFeature(new Feature(FeatureType.Jungle));
+        a.setResource(new Resource(ResourceType.Bananas));
         a.setCivilization(first);
         tiles.add(a);
         a = new Tile();
@@ -126,7 +139,6 @@ public class GameController {
         a.setImprovement(new Improvement(ImprovementType.Camp));
         a.setTerrain(TerrainType.Hill);
         a.setCivilization(second);
-        a.setTileVisibility(TileVisibility.FOGOFWAR);
         a.setFeature(new Feature(FeatureType.Jungle));
         a.setResource(new Resource(ResourceType.Bananas));
         tiles.add(a);
@@ -166,12 +178,12 @@ public class GameController {
         a.setCivilization(third);
         tiles.add(a);
     }
-
+    //print map start
     public String printMap(){
         String[][] map = new String[MapEnum.MAPHEIGHT.amount * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount + 1][MapEnum.MAPWIDTH.amount * (MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount) + MapEnum.HEXSIDESHORT.amount];
         blankMap(map);
         for (int i = 0; i < tiles.size(); i++) {
-            createHexagon(tiles.get(i), map);
+            fillTileInfo(tiles.get(i), map);
         }
         return printArray(map);
     }
@@ -184,6 +196,7 @@ public class GameController {
             if(i != array.length - 1)
                 returnString += "\n";
         }
+        System.out.println(getVisibility(tiles.get(0)));
         return returnString;
     }
     public void blankMap(String map[][]){
@@ -198,62 +211,100 @@ public class GameController {
         char returnChar = (char)(asciiA + civilizations.indexOf(civilization));
         return Character.toString(returnChar);
     }
+
     public void nullify(String map[][],int startIndex,int length,int y){
         for (int i = startIndex; i < startIndex + length; i++) {
             map[y][i] = "";          
         }
     }
-       public void createHexagon(Tile tile,String map[][]){
-        int x,y;
-        if(tile.getX() % 2 == 0){
-            x = (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) * tile.getX() / 2;
-            y = (MapEnum.HEXSIDESHORT.amount * 2) * tile.getY();
-        }else{
-            x = (tile.getX() - 1) * (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) / 2 + (MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDELONG.amount);
-            y = tile.getY() * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount;
-        }
-        String backgroundColor = Color.getBackgroundColor(tile.getTerrain().ordinal());
-        String reset = Color.ANSI_RESET;
-        if(getVisibility(tile).equals(TileVisibility.FOGOFWAR))
-            backgroundColor = Color.ANSI_WHITE_BACKGROUND;
-        if(y == 0){for (int i = MapEnum.HEXSIDESHORT.amount; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount ; i++)map[y][x + i] = "_";}
+
+    public void fillTileInfo(Tile tile,String map[][]){
+        int x = NonConventionalCoordinatesX(tile);
+        int y = NonConventionalCoordinatesY(tile);
+        createHex(map, getBackGroundColor(tile), Color.ANSI_RESET, x, y);
+        printInfo(map, x, y, tile);
+    }
+
+    private void createHex(String map[][],String backgroundColor,String reset,int x,int y){
+        if(y == 0 || y == MapEnum.HEXSIDESHORT.amount){for (int i = MapEnum.HEXSIDESHORT.amount; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount ; i++)map[y][x + i] = "_";}
         for (int i = 1; i < MapEnum.HEXSIDESHORT.amount * 2 + 1; i++) {
             String chap,rast;
             int tmp;
-            if(i <= MapEnum.HEXSIDESHORT.amount){
-                tmp = Math.abs(MapEnum.HEXSIDESHORT.amount - i);
-                chap = "/";
-                rast = "\\";
-            }
-            else{
-                tmp = Math.abs(MapEnum.HEXSIDESHORT.amount - i) - 1;
-                chap = "\\";
-                rast = "/";
-            }
+            if(i <= MapEnum.HEXSIDESHORT.amount){tmp = Math.abs(MapEnum.HEXSIDESHORT.amount - i);chap = "/";rast = "\\";}
+            else{tmp = Math.abs(MapEnum.HEXSIDESHORT.amount - i) - 1;chap = "\\";rast = "/";}
             map[y + i][x + tmp] = chap;map[y + i][x + tmp + 1] = backgroundColor + " ";map[y + i][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount * 2 - tmp - 2] = " " + reset;map[y + i][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount * 2 - tmp - 1] = rast;
         }
-        int textDistance = MapEnum.HEXSIDESHORT.amount * 2 / 5;
         map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDESHORT.amount - 1]= "\\";map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDESHORT.amount] = backgroundColor + "_";for (int i = MapEnum.HEXSIDESHORT.amount + 1; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount  - 1; i++) {map[y + MapEnum.HEXSIDESHORT.amount * 2][x + i] = "_";}map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount - 1] = "_" + reset;map[y + MapEnum.HEXSIDESHORT.amount * 2][x + MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount] = "/";
-        if(getVisibility(tile) != TileVisibility.FOGOFWAR){
-            if(tile.getCivilization() != null)
-                map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
-            textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
-                if(tile.getFeature() != null){
-                nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getFeature().getFeatureType().name().length() / 2 + 1,tile.getFeature().getFeatureType().name().length(), y + textDistance);
-                map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getFeature().getFeatureType().name().length() / 2 + 1] = tile.getFeature().getFeatureType().name();
-            }
-            textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
-            nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getTerrain().name().length() / 2 + 1,tile.getTerrain().name().length(), y + textDistance);
-            map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getTerrain().name().length() / 2 + 1] = tile.getTerrain().name();
-            if(tile.getResource() != null){
-                textDistance += MapEnum.HEXSIDESHORT.amount * 2 / 5;
-            nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getResource().getResourceType().name().length() / 2 + 1,tile.getResource().getResourceType().name().length(), y + textDistance);
-            map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  tile.getResource().getResourceType().name().length() / 2 + 1] = tile.getResource().getResourceType().name();
-            }
-        }
-        
     }
 
+    private String getBackGroundColor(Tile tile){
+        if(getVisibility(tile).equals(TileVisibility.FOGOFWAR))
+            return Color.ANSI_WHITE_BACKGROUND;
+        return Color.getBackgroundColor(tile.getTerrain().ordinal());
+    }
+
+    private int NonConventionalCoordinatesY(Tile tile){
+        if(tile.getX() % 2 == 0){
+            return (MapEnum.HEXSIDESHORT.amount * 2) * tile.getY();
+        }
+        return tile.getY() * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount;
+
+    }
+
+    private int NonConventionalCoordinatesX(Tile tile){
+        if(tile.getX() % 2 == 0){
+            return (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) * tile.getX() / 2;
+        }
+        return (tile.getX() - 1) * (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) / 2 + (MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDELONG.amount);
+    }
+
+    private void printInfo(String map[][],int x,int y,Tile tile){
+        if(isFogOfWar(tile) == false){
+            ArrayList<String> texts = new ArrayList<>();
+            fillTextsForTilePrint(texts, tile);
+            int textDistance = MapEnum.HEXSIDESHORT.amount / texts.size(),distance = MapEnum.HEXSIDESHORT.amount * 3 / texts.size();
+            if(tile.getCivilization() != null)
+                printCivilizationChar(map, x, y, distance, tile);
+            for (int i = 0; i < texts.size(); i++) {
+                distance += textDistance;
+                if(texts.get(i) != null)
+                    printInfoTile(map, distance, texts.get(i), x, y);
+            }
+        }
+    }
+    private boolean isFogOfWar(Tile tile){
+        return (getVisibility(tile) == TileVisibility.FOGOFWAR);
+    }
+    private void printCivilizationChar(String map[][],int x,int y,int textDistance,Tile tile){
+        map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
+    }
+    private void fillTextsForTilePrint(ArrayList<String> texts,Tile tile){
+        if(getVisibility(tile) == TileVisibility.VISIBLE){
+            addVisibleTypeTexts(tile, texts);
+        }
+        else{
+            addRevealedTypeTexts(tile, texts);
+        }
+        texts.add("T: " + tile.getTerrain().name());
+    }
+    private void addVisibleTypeTexts(Tile tile,ArrayList<String> texts){
+        if(tile.getFeature() != null)texts.add("F: " + tile.getFeature().getFeatureType().name());else{texts.add(null);}
+        if(tile.getResource() != null)texts.add("R: " + tile.getResource().getResourceType().name());else{texts.add(null);}
+        if(tile.getImprovement() != null)texts.add("I: " + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
+        if(tile.getBuilding() != null)texts.add("B: " + tile.getBuilding().getBuildingType().name());else{texts.add(null);}
+    }
+    private void addRevealedTypeTexts(Tile tile,ArrayList<String> texts){
+        if(playerTurn.getRevealedFeatures().get(tile) != null)texts.add("F: " + playerTurn.getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
+        if(playerTurn.getRevealedResources().get(tile) != null)texts.add("R: " + playerTurn.getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
+        if(playerTurn.getRevealedImprovements().get(tile) != null)texts.add("I: " + playerTurn.getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
+        if(playerTurn.getRevealedBuildings().get(tile) != null)texts.add("B: " + playerTurn.getRevealedBuildings().get(tile).getBuildingType().name());else{texts.add(null);}
+    }
+    private void printInfoTile(String map[][],int textDistance,String infoString,int x,int y){
+        nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  infoString.length() / 2 + 1,infoString.length(), y + textDistance);
+        map[y + textDistance][x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  infoString.length() / 2 + 1] = infoString;
+    }
+    //print map finish
+    
     public void generateMap(int mapX, int mapY){ // map[x][y]
         Tile currentTile = new Tile();
         Random randomSeed = new Random();
@@ -280,17 +331,18 @@ public class GameController {
                     Resource resource =getARandomResource();
                     tile.setResource(resource);
                 }
-                tile.setTileVisibility(TileVisibility.FOGOFWAR);
                 this.tiles.add(tile);
             }
         }
         setRivers(this.tiles);
         this.seedsForTiles.put(MapSeed, this.tiles);
     }
+
     public void setRivers(ArrayList<Tile> tiles){
 
 
     }
+
     public Resource getARandomResource(){
         int pickResource = new Random().nextInt(ResourceType.values().length);
         return new Resource(ResourceType.values()[pickResource]);
@@ -305,6 +357,7 @@ public class GameController {
         int pickFeature = new Random().nextInt(FeatureType.values().length);
         return new Feature(FeatureType.values()[pickFeature]);
     }
+
     public void SetSettler(int playersCount){
         for (int i = 0; i < playersCount; i++) {
             Unit settler = new Unit(null, null, null, UnitType.Settler);
@@ -317,6 +370,7 @@ public class GameController {
             this.civilizations.add(civilization);
         }
     }
+
     public boolean checkAvailabilityOfTile(int mapX, int mapY, int testX, int testY, int valueX, int valueY){
         if(valueX == testX && valueY == testY)
             return false;
@@ -381,37 +435,27 @@ public class GameController {
     private TileVisibility getVisibility(Tile tile){
         if(playerTurn.getSeenBy().get(tile) == -1)return TileVisibility.FOGOFWAR;
         if(playerTurn.getSeenBy().get(tile) == 0)return TileVisibility.REVEALED;
-        return TileVisibility.REVEALED;
+        return TileVisibility.VISIBLE;
     }
 
-    private ArrayList<Tile> getSurroundings(Tile tile){
-        if(tile.getX() % 2 == 0){
-            ArrayList <Tile> surroundings = new ArrayList<>(){
-                {
-                    add(getTile(tile.getX() , tile.getY() +1));
-                    add(getTile(tile.getX() , tile.getY() -1));
-                    add(getTile(tile.getX()+1 , tile.getY() -1));
-                    add(getTile(tile.getX()-1 , tile.getY() -1));
-                    add(getTile(tile.getX()+1 , tile.getY()));
-                    add(getTile(tile.getX()-1 , tile.getY()));
-                }
-            };return surroundings;
-        }
-        else{
-            ArrayList <Tile> surroundings = new ArrayList<>(){
-                {
-                    add(getTile(tile.getX() , tile.getY() +1));
-                    add(getTile(tile.getX() , tile.getY() -1));
-                    add(getTile(tile.getX()+1 , tile.getY() +1));
-                    add(getTile(tile.getX()-1 , tile.getY() +1));
-                    add(getTile(tile.getX()+1 , tile.getY()));
-                    add(getTile(tile.getX()-1 , tile.getY()));
-                }
-            };return surroundings;
-        }
+    private ArrayList<Tile> getSurroundings(Tile tile){ //Be careful some tiles might be null!
+        int first,second;
+        if(tile.getX() % 2 == 0){first = -1;second = 0;}else{first = 0;second = 1;}
+        ArrayList <Tile> surroundings = new ArrayList<>(){
+            {
+                add(getTile(tile.getX() , tile.getY() +1)); //index 0 is down
+                add(getTile(tile.getX() , tile.getY() -1)); //index 1 is up
+                add(getTile(tile.getX()+1 , tile.getY() + first)); //index 2 is up right
+                add(getTile(tile.getX()-1 , tile.getY() + first)); //index 3 is up left
+                add(getTile(tile.getX()+1 , tile.getY() + second)); //index 4 is down right
+                add(getTile(tile.getX()-1 , tile.getY() + second)); //index 5 is down left
+            }
+        };
+        return surroundings;
     }
-
-
+    private Tile getDirectionTile(Tile tile,Direction direction){
+        return getSurroundings(tile).get(direction.ordinal());
+    }
     public Tile getTile(int x , int y){
         for (Tile key:tiles) {
             if(key.getX() == x && key.getY() == y)return key;

@@ -20,7 +20,6 @@ public class Tile {
     private Resource resource;
     private River river;
     private TerrainType terrain;
-    private TileVisibility tileVisibility;
     private Improvement improvement;
     private Civilization civilization;
     
@@ -82,14 +81,6 @@ public class Tile {
 
     public void setImprovement(Improvement improvement) {
         this.improvement = improvement;
-    }
-
-    public TileVisibility getTileVisibility() {
-        return tileVisibility;
-    }
-
-    public void setTileVisibility(TileVisibility tileVisibility) {
-        this.tileVisibility = tileVisibility;
     }
 
     public int getMpCost() {
