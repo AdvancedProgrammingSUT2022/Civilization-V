@@ -8,5 +8,8 @@ public class Regex {
     public final String showMenu = "menu show-current";
     public final String enterMenu = "menu enter (?<menu>\\S+)";
     public final String changePass = "profile change --password (?=.*--current (?<current>\\S+))(?=.*--new (?<new>\\S+))";
-    public final String startGame = "play game (--player(?<pn>\\d+) (?<username>))+";
+    public final String startGame = "^play game (?<playerData>.+)$";
+    public final String printMap = "print map";
+    public final String nextTurn = "next turn";
+    public final String getPlayerName = "get player name";
 }

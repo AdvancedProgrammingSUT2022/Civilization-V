@@ -1,9 +1,13 @@
 package View.PreGameView;
 
+import Controller.GameController.GameController;
 import Controller.PreGameController.LoginMenuController;
 import Controller.PreGameController.MainMenuController;
+import Model.User;
+import View.GameView.Game;
 import View.Menu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -21,6 +25,15 @@ public class MainMenuView extends Menu {
         if(output.equals("done!")){
             ProfileMenuView profileMenuView = new ProfileMenuView();
             profileMenuView.run();
+        }
+    };
+    private final Consumer<Matcher> enterGame = matcher -> {
+        String output;
+        ArrayList<User> players = new ArrayList<>();
+        System.out.println(output = mainMenuController.gameStart(matcher , players));
+        if(output.equals("game has started!")){
+            Game game = new Game(players);
+            game.run();
         }
     };
 
@@ -45,6 +58,7 @@ public class MainMenuView extends Menu {
         commandsMap.put(regex.logout,logout);
         commandsMap.put(regex.showMenu,this.showMenu);
         commandsMap.put(regex.enterMenu,enterMenu);
+        commandsMap.put(regex.startGame,this.enterGame);
         return commandsMap;
     }
 }

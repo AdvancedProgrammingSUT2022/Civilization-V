@@ -1,21 +1,10 @@
-import Controller.GameController.GameController;
-import Model.Enums.MapEnum;
-import Model.Units.Unit;
-
+import Controller.PreGameController.LoginMenuController;
+import View.PreGameView.LoginMenuView;
 
 public class Main {
 
     public static void main(String[] args) {
-        GameController gameController = new GameController();
-        gameController.generateMap(MapEnum.MAPWIDTH.amount , MapEnum.MAPHEIGHT.amount);
-        gameController.gameInit(2);
-        gameController.playerTurn = gameController.civilizations.get(0);
-            for (Unit key:gameController.civilizations.get(0).getUnits()) {
-                System.out.println(key.getTile().getY() + "   " + key.getTile().getX());
-            }
-            for (Unit key:gameController.civilizations.get(1).getUnits()) {
-                System.out.println(key.getTile().getY() + "   " + key.getTile().getX());
-            }
-        System.out.println(gameController.printMap());
+        LoginMenuView loginMenuView = new LoginMenuView();
+        loginMenuView.run();
     }
 }

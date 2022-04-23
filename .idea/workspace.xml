@@ -2,156 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51cd30a4-2b75-41b2-8a05-affc28f51494" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyMainType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$10.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$100.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$101.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$102.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$103.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$104.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$105.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$106.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$107.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$108.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$109.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$11.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$110.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$111.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$112.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$113.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$114.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$115.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$116.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$117.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$118.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$119.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$12.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$120.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$121.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$122.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$123.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$124.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$125.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$126.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$127.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$128.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$129.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$13.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$130.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$131.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$132.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$133.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$134.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$135.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$136.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$14.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$15.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$16.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$17.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$18.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$19.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$20.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$21.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$22.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$23.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$24.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$25.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$26.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$27.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$28.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$29.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$3.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$30.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$31.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$32.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$33.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$34.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$35.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$36.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$37.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$38.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$39.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$4.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$40.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$41.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$42.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$43.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$44.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$45.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$46.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$47.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$48.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$49.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$5.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$50.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$51.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$52.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$53.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$54.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$55.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$56.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$57.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$58.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$59.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$6.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$60.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$61.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$62.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$63.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$64.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$65.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$66.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$67.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$68.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$69.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$7.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$70.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$71.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$72.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$73.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$74.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$75.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$76.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$77.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$78.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$79.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$8.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$80.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$81.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$82.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$83.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$84.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$85.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$86.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$87.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$88.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$89.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$9.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$90.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$91.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$92.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$93.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$94.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$95.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$96.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$97.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$98.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType$99.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Civilization/src/Controller/GameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Controller/GameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/Controller/PreGameController/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Controller/PreGameController/MainMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Civilization/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/Model/CivlizationRelated/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Model/CivlizationRelated/Civilization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/Model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Model/Units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/View/PreGameView/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/View/PreGameView/MainMenuView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Civilization/src/View/PreGameView/Regex.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/View/PreGameView/Regex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$2.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/CivlizationRelated/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/CivlizationRelated/Civilization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Technology/TechnologyType.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/View/PreGameView/Regex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/View/PreGameView/Regex.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +81,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Civilization/src/Main.java</url>
-          <line>8</line>
+          <line>31</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
