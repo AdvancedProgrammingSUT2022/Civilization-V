@@ -26,8 +26,6 @@ import java.util.regex.Matcher;
 
 public class GameController {
     //make these private!
-    private int mapX;
-    private int mapY;
     public ArrayList<Civilization> civilizations = new ArrayList<>();
     public Civilization playerTurn;
     private ArrayList<Tile> tiles = new ArrayList<>();
@@ -312,8 +310,6 @@ public class GameController {
 
 
     public void generateMap(int mapX, int mapY){ // map[x][y]
-        this.mapY = mapY;
-        this.mapX = mapX;
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
         this.random = new Random(MapSeed);
@@ -331,8 +327,7 @@ public class GameController {
                     if(testMountain < 2 && mountainCount < mapY / 2) {
                         terrainType = TerrainType.Mountain;
                         mountainCount++;
-                    }
-                    else{
+                    } else{
                         while(Objects.equals(terrainType , TerrainType.Ocean) || Objects.equals(terrainType, TerrainType.Mountain)) {
                             terrainType = getARandomTerrainType();
                         }
@@ -390,19 +385,27 @@ public class GameController {
 
     private void setRiversIntoOcean(Tile OceanTile, int mapX, int mapY){
         if(OceanTile.getX() % 2 == 1){
-            if(OceanTile.getX() + 1 < mapX && OceanTile.getY() - 1 > 0)
-                setRiverTile(getTile(OceanTile.getX() + 1, OceanTile.getY() - 1), getTile(OceanTile.getX(), OceanTile.getY() - 1));
-            else if(OceanTile.getX() - 1 > 0 && OceanTile.getY() - 1 > 0)
-                setRiverTile(getTile(OceanTile.getX() - 1, OceanTile.getY()), getTile(OceanTile.getX() - 1, OceanTile.getY() - 1));
+            if(OceanTile.getX() + 1 < mapX && OceanTile.getY() - 1 > 0) {
+                if(!getTile(OceanTile.getX() + 1, OceanTile.getY() - 1).checkType(TerrainType.Ocean) && !getTile(OceanTile.getX(), OceanTile.getY() - 1).checkType(TerrainType.Ocean))
+                    setRiverTile(getTile(OceanTile.getX() + 1, OceanTile.getY() - 1), getTile(OceanTile.getX(), OceanTile.getY() - 1));
+            } else if(OceanTile.getX() - 1 > 0 && OceanTile.getY() - 1 > 0) {
+                if(!getTile(OceanTile.getX() - 1, OceanTile.getY()).checkType(TerrainType.Ocean) && !getTile(OceanTile.getX() - 1, OceanTile.getY() - 1).checkType(TerrainType.Ocean))
+                    setRiverTile(getTile(OceanTile.getX() - 1, OceanTile.getY()), getTile(OceanTile.getX() - 1, OceanTile.getY() - 1));
+            }
         } else {
-            if(OceanTile.getX() - 1 > 0 && OceanTile.getY() - 1 > 0)
-                setRiverTile(getTile(OceanTile.getX() - 1, OceanTile.getY()), getTile(OceanTile.getX(), OceanTile.getY() - 1));
-            else if(OceanTile.getY() + 1 < mapY && OceanTile.getX() - 1 > 0)
-                setRiverTile(getTile(OceanTile.getX(), OceanTile.getY() + 1), getTile(OceanTile.getX() - 1, OceanTile.getY() + 1));
-            else if(OceanTile.getX() + 1 < mapX && OceanTile.getY() + 1 < mapY)
-                setRiverTile(getTile(OceanTile.getX() + 1, OceanTile.getY()), getTile(OceanTile.getX() + 1, OceanTile.getY() + 1));
+            if(OceanTile.getX() - 1 > 0 && OceanTile.getY() - 1 > 0){
+                if(!getTile(OceanTile.getX() - 1, OceanTile.getY()).checkType(TerrainType.Ocean) && !getTile(OceanTile.getX(), OceanTile.getY() - 1).checkType(TerrainType.Ocean))
+                    setRiverTile(getTile(OceanTile.getX() - 1, OceanTile.getY()), getTile(OceanTile.getX(), OceanTile.getY() - 1));
+            } else if(OceanTile.getY() + 1 < mapY && OceanTile.getX() - 1 > 0) {
+                if(!getTile(OceanTile.getX(), OceanTile.getY() + 1).checkType(TerrainType.Ocean) && !getTile(OceanTile.getX() - 1, OceanTile.getY() + 1).checkType(TerrainType.Ocean))
+                    setRiverTile(getTile(OceanTile.getX(), OceanTile.getY() + 1), getTile(OceanTile.getX() - 1, OceanTile.getY() + 1));
+            } else if(OceanTile.getX() + 1 < mapX && OceanTile.getY() + 1 < mapY) {
+                if(!getTile(OceanTile.getX() + 1, OceanTile.getY()).checkType(TerrainType.Ocean) && !getTile(OceanTile.getX() + 1, OceanTile.getY() + 1).checkType(TerrainType.Ocean))
+                    setRiverTile(getTile(OceanTile.getX() + 1, OceanTile.getY()), getTile(OceanTile.getX() + 1, OceanTile.getY() + 1));
+            }
         }
     }
+
 
 
     private void setRiverTile(Tile tile1, Tile tile2){
