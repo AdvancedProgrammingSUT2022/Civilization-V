@@ -17,5 +17,6 @@ public class Main {
                 System.out.println(key.getTile().getY() + "   " + key.getTile().getX());
             }
         System.out.println(gameController.printMap());
+        gameController.getTile(1, 1);
     }
 }

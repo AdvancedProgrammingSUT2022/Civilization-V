@@ -12,4 +12,11 @@ public class River {
     public River(ArrayList<Tile> adjacentTiles){
         this.adjacentTiles = adjacentTiles;
     }
+    public Tile otherTile(Tile tile){
+        for (int i = 0; i < adjacentTiles.size(); i++) {
+            if(adjacentTiles.get(i).equals(tile) == false)
+                return adjacentTiles.get(i);
+        }
+        return null;
+    }
 }

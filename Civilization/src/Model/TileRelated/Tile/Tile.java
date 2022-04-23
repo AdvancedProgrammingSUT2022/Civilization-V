@@ -1,6 +1,8 @@
 package Model.TileRelated.Tile;
 import java.util.ArrayList;
 
+import javax.sound.sampled.ReverbType;
+
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
@@ -18,7 +20,7 @@ public class Tile {
     private ArrayList<Unit> units = new ArrayList<>();
     private Feature feature;
     private Resource resource;
-    private River river;
+    private ArrayList<River> rivers = new ArrayList<>();
     private TerrainType terrain;
     private Improvement improvement;
     private Civilization civilization;
@@ -116,17 +118,14 @@ public class Tile {
         return 0;
     }
 
-
-    public River getRiver() {
-        return river;
-    }
-
-    public void setRiver(River river) {
-        this.river = river;
-    }
-
     public boolean checkType(TerrainType terrainType){
         return this.terrain == terrainType;
+    } 
+    public void addRiver(River river){
+        rivers.add(river);
+    }
+    public ArrayList<River> getRivers(){
+        return rivers;
     }
 
 }
