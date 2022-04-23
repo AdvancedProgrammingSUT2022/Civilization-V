@@ -447,7 +447,6 @@ public class GameController {
                 }
                 for (int j = 0; j <availableSurroundings.size() ; j++) {
                     if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain)){
-
                         availableSurroundings.remove(availableSurroundings.get(j));
                         j--;
                     }
