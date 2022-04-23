@@ -18,7 +18,7 @@ public class Main {
         //LoginMenuView loginMenuView = new LoginMenuView();
         //loginMenuView.run();
         gameController.generateMap(10, 10);
-        gameController.BeginningSettlersAndWarriors(2);
+//        gameController.BeginningSettlersAndWarriors(2);
         System.out.println(gameController.printMap());
 
 

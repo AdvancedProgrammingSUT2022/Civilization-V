@@ -19,12 +19,16 @@ import Model.Units.NonCombat.Settler;
 import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+
+import java.lang.invoke.VarHandle;
 import java.util.*;
 import java.util.regex.Matcher;
 
 public class GameController {
+    private int mapX;
+    private int mapY;
     private ArrayList<Civilization> civilizations = new ArrayList<>();
-    public Civilization playerTurn;
+    public Civilization playerTurn = new Civilization();
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Unit selectedUnit;
     private LinkedHashMap<Integer, ArrayList<Tile>> seedsForTiles = new LinkedHashMap<Integer, ArrayList<Tile>>();
@@ -256,8 +260,6 @@ public class GameController {
         }
         
     }
-    private int mapX;
-    private int mapY;
 
     public void generateMap(int mapX, int mapY){ // map[x][y]
         this.mapX = mapX;
@@ -308,7 +310,9 @@ public class GameController {
         while(setRiver > 0){
             int randomTileIndex = (int)(Math.random() * doesNotHaveRiver.size());
             Random random = new Random();
-            int setRandom = random.nextInt( getSurroundings(doesNotHaveRiver.get(randomTileIndex)).size());
+            int setRandom = random.nextInt( 6);
+            while(getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom) == null)
+                setRandom = random.nextInt( 6);
             setRiverTile(doesNotHaveRiver.get(randomTileIndex), getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom));
             for(Tile value : doesNotHaveRiver){
                 if(Objects.equals(value, getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom))){
@@ -361,32 +365,45 @@ public class GameController {
         return new Feature(FeatureType.values()[pickFeature]);
     }
 
-    public void BeginningSettlersAndWarriors(int playersCount){
+    public void gameInit(int playersCount){
         int count = 0;
         while(count < playersCount) {
             for (Tile value : this.tiles) {
                 boolean availability = true;
-                if (Objects.equals(value.getUnits(), null)) {
+                boolean isOcean = Objects.equals(value.getTerrain(), TerrainType.Ocean);
+                boolean isMountain = Objects.equals(value.getTerrain(), TerrainType.Mountain);
+                if (!isMountain && !isOcean && Objects.equals(value.getUnits(), null)) {
                     for (Tile value1 : getSurroundings(value)) {
-                        if (!Objects.equals(value1.getUnits(), null)) {
+                        if (value1 != null &&!Objects.equals(value1.getUnits(), null)) {
                             availability = false;
                             break;
                         }
-                        if (availability) {
-                            Random random = new Random();
-                            Unit settler = new Unit(null, null, value, UnitType.Settler);
-                            Unit warrior = new Unit(null, null, getSurroundings(value).get(random.nextInt(getSurroundings(value).size())), UnitType.Warrior);
-                            ArrayList<Unit> firsUnits = new ArrayList<Unit>();
-                            firsUnits.add(settler);
-                            firsUnits.add(warrior);
-                            value.setUnits(firsUnits);
-                            count++;
+                    }
+                }
+                if (availability) {
+                    // assign user
+                    Civilization civilization = new Civilization();
+                    Random random = new Random();
+                    Unit settler = new Unit(civilization, null, value, UnitType.Settler);
+                    Unit warrior = new Unit(civilization, null, null, UnitType.Warrior);;
+                    for(Tile tile : getSurroundings(value)){
+                        if(!Objects.equals(tile, null) && !Objects.equals(tile.getTerrain(), TerrainType.Ocean) && !Objects.equals(value.getTerrain(), TerrainType.Mountain)){
+                            warrior.setTile(tile);
+                            break;
                         }
                     }
+                    civilization.addUnit(settler);
+                    civilization.addUnit(warrior);
+                    this.units.add(settler);
+                    this.units.add(warrior);
+                    this.civilizations.add(civilization);
+                    count++;
                 }
             }
         }
     }
+
+
 
 
     public void test(){
@@ -440,33 +457,20 @@ public class GameController {
         return TileVisibility.REVEALED;
     }
 
-    private ArrayList<Tile> getSurroundings(Tile tile){
-        if(tile.getX() % 2 == 0){
-            ArrayList <Tile> surroundings = new ArrayList<>(){
-                {
-                    add(getTile(tile.getX() , tile.getY() +1));
-                    add(getTile(tile.getX() , tile.getY() -1));
-                    add(getTile(tile.getX()+1 , tile.getY() -1));
-                    add(getTile(tile.getX()-1 , tile.getY() -1));
-                    add(getTile(tile.getX()+1 , tile.getY()));
-                    add(getTile(tile.getX()-1 , tile.getY()));
-                }
-            };
-            return surroundings;
-        }
-        else {
-            ArrayList<Tile> surroundings = new ArrayList<>() {
-                {
-                    add(getTile(tile.getX(), tile.getY() + 1));
-                    add(getTile(tile.getX(), tile.getY() - 1));
-                    add(getTile(tile.getX() + 1, tile.getY() + 1));
-                    add(getTile(tile.getX() - 1, tile.getY() + 1));
-                    add(getTile(tile.getX() + 1, tile.getY()));
-                    add(getTile(tile.getX() - 1, tile.getY()));
-                }
-            };
-            return surroundings;
-        }
+    private ArrayList<Tile> getSurroundings(Tile tile){ //Be careful some tiles might be null!
+        int first,second;
+        if(tile.getX() % 2 == 0){first = -1;second = 0;}else{first = 0;second = 1;}
+        ArrayList <Tile> surroundings = new ArrayList<>(){
+            {
+                add(getTile(tile.getX() , tile.getY() +1)); //index 0 is down
+                add(getTile(tile.getX() , tile.getY() -1)); //index 1 is up
+                add(getTile(tile.getX()+1 , tile.getY() + first)); //index 2 is up right
+                add(getTile(tile.getX()-1 , tile.getY() + first)); //index 3 is up left
+                add(getTile(tile.getX()+1 , tile.getY() + second)); //index 4 is down right
+                add(getTile(tile.getX()-1 , tile.getY() + second)); //index 5 is down left
+            }
+        };
+        return surroundings;
     }
 
 
