@@ -35,153 +35,153 @@ public class GameController {
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private Random random = new Random();
 
-    public void generateRandomMap(int civilizationCount,int countTile){
-        Civilization first = new Civilization();
-        Civilization second = new Civilization();
-        Civilization third = new Civilization();
-        civilizations.add(first);
-        civilizations.add(second);
-        civilizations.add(third);
-        Tile a = new Tile();
-        a.setX(0);
-        a.setY(0);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Mountain);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(1);
-        a.setY(0);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Hill);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(2);
-        a.setY(0);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(3);
-        a.setY(0);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(4);
-        a.setY(0);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(0);
-        a.setY(1);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(1);
-        a.setY(1);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Mountain);
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(2);
-        a.setY(1);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Mountain);
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(3);
-        a.setY(1);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert); 
-        a.setCivilization(second);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(0);
-        a.setY(2);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setTerrain(TerrainType.Grassland);
-        a.setCivilization(first);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(1);
-        a.setY(2);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Hill);
-        a.setCivilization(second);
-        a.setFeature(new Feature(FeatureType.Jungle));
-        a.setResource(new Resource(ResourceType.Bananas));
-        tiles.add(a);
-        a = new Tile();
-        a.setX(2);
-        a.setY(2);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setFeature(new Feature(FeatureType.Forest));
-        a.setTerrain(TerrainType.Desert);
-        a.setCivilization(third);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(3);
-        a.setY(2);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setResource(new Resource(ResourceType.Bananas));
-        a.setCivilization(third);
-        tiles.add(a);
-        a = new Tile();
-        a.setX(4);
-        a.setY(2);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setCivilization(third);
-        a.setResource(new Resource(ResourceType.Bananas));
-        tiles.add(a);
-        a = new Tile();
-        a.setX(4);
-        a.setY(1);
-        a.setBuilding(new Building(BuildingType.Armory));
-        a.setImprovement(new Improvement(ImprovementType.Camp));
-        a.setTerrain(TerrainType.Desert);
-        a.setCivilization(third);
-        tiles.add(a);
-    }
+//    public void generateRandomMap(int civilizationCount,int countTile){
+//        Civilization first = new Civilization();
+//        Civilization second = new Civilization();
+//        Civilization third = new Civilization();
+//        civilizations.add(first);
+//        civilizations.add(second);
+//        civilizations.add(third);
+//        Tile a = new Tile();
+//        a.setX(0);
+//        a.setY(0);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Mountain);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(1);
+//        a.setY(0);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Hill);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(2);
+//        a.setY(0);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(3);
+//        a.setY(0);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(4);
+//        a.setY(0);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(0);
+//        a.setY(1);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(1);
+//        a.setY(1);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Mountain);
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(2);
+//        a.setY(1);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Mountain);
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(3);
+//        a.setY(1);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setCivilization(second);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(0);
+//        a.setY(2);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setTerrain(TerrainType.Grassland);
+//        a.setCivilization(first);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(1);
+//        a.setY(2);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Hill);
+//        a.setCivilization(second);
+//        a.setFeature(new Feature(FeatureType.Jungle));
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(2);
+//        a.setY(2);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setFeature(new Feature(FeatureType.Forest));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setCivilization(third);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(3);
+//        a.setY(2);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        a.setCivilization(third);
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(4);
+//        a.setY(2);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setCivilization(third);
+//        a.setResource(new Resource(ResourceType.Bananas));
+//        tiles.add(a);
+//        a = new Tile();
+//        a.setX(4);
+//        a.setY(1);
+//        a.setBuilding(new Building(BuildingType.Armory));
+//        a.setImprovement(new Improvement(ImprovementType.Camp));
+//        a.setTerrain(TerrainType.Desert);
+//        a.setCivilization(third);
+//        tiles.add(a);
+//    }
     //print map start
     public String printMap(){
         String[][] map = new String[MapEnum.MAPHEIGHT.amount * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount + 1][MapEnum.MAPWIDTH.amount * (MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount) + MapEnum.HEXSIDESHORT.amount];
@@ -316,11 +316,8 @@ public class GameController {
         this.mapX = mapX;
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
-<<<<<<< HEAD
-        Random random = new Random(MapSeed);
-=======
         this.random = new Random(MapSeed);
->>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
+        int mountainCount = 0;
         for (int i = 0; i < mapY; i++) {
             for (int j = 0; j < mapX; j++) {
                 Tile tile = new Tile();
@@ -330,8 +327,17 @@ public class GameController {
                     tile.setTerrain(TerrainType.Ocean);
                 } else {
                     TerrainType terrainType = getARandomTerrainType();
+                    int testMountain = random.nextInt(10);
+                    if(testMountain < 2 && mountainCount < mapY / 2) {
+                        terrainType = TerrainType.Mountain;
+                        mountainCount++;
+                    }
+                    else{
+                        while(Objects.equals(terrainType , TerrainType.Ocean) || Objects.equals(terrainType, TerrainType.Mountain)) {
+                            terrainType = getARandomTerrainType();
+                        }
+                    }
                     tile.setTerrain(terrainType);
-
                     if (!tile.checkType(TerrainType.Snow) && !tile.checkType(TerrainType.Mountain) && !tile.checkType(TerrainType.Ocean) && !tile.checkType(TerrainType.Tundra)) {
                         Resource resource = getARandomResource();
                         Feature feature = getARandomFeature();
@@ -424,10 +430,7 @@ public class GameController {
     }
 
     public void gameInit(int playersCount){
-<<<<<<< HEAD
-=======
         ArrayList<Tile> availableMapTiles = new ArrayList<>(tiles);
->>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
         for (int i = 0; i < playersCount ; i++) {
             Tile settlerDeploy = new Tile();
             Tile warriorDeploy = new Tile();
@@ -435,20 +438,6 @@ public class GameController {
             seenByInit(civilization.getSeenBy());
             this.civilizations.add(civilization);
             outer:
-<<<<<<< HEAD
-            for (Tile center:tiles) {
-                if(center.getY() == 0 || center.getY() == mapY - 1 || center.getX() == 0 || center.getX()  == mapX - 1)  continue ;
-                if(center.getTerrain().equals(TerrainType.Mountain)|| center.getTerrain().equals(TerrainType.Ocean)) continue;
-                ArrayList <Tile> availableSurroundings = getSurroundings(center);
-                inner:
-                for (Tile surrounding:availableSurroundings) {
-                    if(surrounding == null || surrounding.getUnits() != null) continue outer;
-                }
-                for (int j = 0; j <availableSurroundings.size() ; j++) {
-                    if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain) ||
-                            availableSurroundings.get(j).getY() == 0 || availableSurroundings.get(j).getY() == mapY - 1 ||
-                            availableSurroundings.get(j).getX() == 0 || availableSurroundings.get(j).getX() == mapX - 1){
-=======
             while (availableMapTiles.size() != 0) {
                 Tile center = availableMapTiles.get(random.nextInt(availableMapTiles.size()));
                 if(center.getTerrain().equals(TerrainType.Mountain) || center.getTerrain().equals(TerrainType.Ocean))continue;
@@ -461,21 +450,11 @@ public class GameController {
                 }
                 for (int j = 0; j <availableSurroundings.size() ; j++) {
                     if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain)){
->>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
+
                         availableSurroundings.remove(availableSurroundings.get(j));
                         j--;
                     }
                 }
-<<<<<<< HEAD
-                Random random = new Random();
-                if(availableSurroundings.size() > 1) {
-                    int index = random.nextInt(availableSurroundings.size());
-                    warriorDeploy = availableSurroundings.get(index);
-                    settlerDeploy = center;
-                    break;
-                }
-
-=======
                 if(availableSurroundings.size() == 0){
                     availableMapTiles.remove(center);
                     continue outer;
@@ -484,7 +463,7 @@ public class GameController {
                 warriorDeploy = availableSurroundings.get(index);
                 settlerDeploy = center;
                 break outer;
->>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
+
             }
             makeUnit(UnitType.Settler,civilization,null,settlerDeploy);
             makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
@@ -501,18 +480,11 @@ public class GameController {
         changeVision(tile,civilization.getSeenBy(),1,2);
     }
 
-    public void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
-        Unit unit = new Unit(civilization,city,tile,unitType);
-        civilization.addUnit(unit);
-        units.add(unit);
-        //city.units.add(unit);
-        changeVision(tile,civilization.getSeenBy(),1,2);
-    }
 
 
     public void seenByInit(HashMap<Tile,Integer> seenBy){
         for (Tile key:tiles) {
-            seenBy.put(key,1);
+            seenBy.put(key,-1);
         }
     }
 
