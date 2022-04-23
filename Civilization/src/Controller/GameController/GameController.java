@@ -32,7 +32,9 @@ public class GameController {
     private LinkedHashMap<Integer, ArrayList<Civilization>> seedForCivilization = new LinkedHashMap<Integer, ArrayList<Civilization>>();
     private LinkedHashMap<Integer, ArrayList<Unit>> seedForUnits = new LinkedHashMap<Integer, ArrayList<Unit>>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
-    
+    private int mapX;
+    private int mapY;
+
     public void generateRandomMap(int civilizationCount,int countTile){
         Civilization first = new Civilization();
         Civilization second = new Civilization();
@@ -257,8 +259,6 @@ public class GameController {
         }
         
     }
-    private int mapX;
-    private int mapY;
 
     public void generateMap(int mapX, int mapY){ // map[x][y]
         this.mapX = mapX;
