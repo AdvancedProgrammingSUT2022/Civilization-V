@@ -7,6 +7,7 @@ import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
+import Model.TileRelated.Feature.River;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Resource.Resource;
@@ -15,6 +16,7 @@ import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.NonCombat.Settler;
+import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import java.util.*;
@@ -203,7 +205,8 @@ public class GameController {
             map[y][i] = "";          
         }
     }
-       public void createHexagon(Tile tile,String map[][]){
+
+    public void createHexagon(Tile tile,String map[][]){
         int x,y;
         if(tile.getX() % 2 == 0){
             x = (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) * tile.getX() / 2;
@@ -253,9 +256,12 @@ public class GameController {
         }
         
     }
+    private int mapX;
+    private int mapY;
 
     public void generateMap(int mapX, int mapY){ // map[x][y]
-        Tile currentTile = new Tile();
+        this.mapX = mapX;
+        this.mapY = mapY;
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
         Random random = new Random(MapSeed);
@@ -284,54 +290,104 @@ public class GameController {
                 this.tiles.add(tile);
             }
         }
-        setRivers(this.tiles);
+        setRivers(mapX, mapY);
         this.seedsForTiles.put(MapSeed, this.tiles);
     }
-    public void setRivers(ArrayList<Tile> tiles){
 
-
+    private void setRivers(int mapX, int mapY){
+        for(Tile value : this.tiles){
+            if(value.checkType(TerrainType.Ocean)) setRiversIntoOcean(value, mapX, mapY);
+        }
+        ArrayList<Tile> doesNotHaveRiver = new ArrayList<Tile>();
+        int riverCount = 0;
+        for(Tile value : this.tiles){
+            if(value.getRiver() == null) doesNotHaveRiver.add(value);
+            else riverCount++;
+        }
+        int setRiver = (mapX*mapY) / 3 - riverCount;
+        while(setRiver > 0){
+            int randomTileIndex = (int)(Math.random() * doesNotHaveRiver.size());
+            Random random = new Random();
+            int setRandom = random.nextInt( getSurroundings(doesNotHaveRiver.get(randomTileIndex)).size());
+            setRiverTile(doesNotHaveRiver.get(randomTileIndex), getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom));
+            for(Tile value : doesNotHaveRiver){
+                if(Objects.equals(value, getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom))){
+                    doesNotHaveRiver.remove(getSurroundings(doesNotHaveRiver.get(randomTileIndex)));
+                    break;
+                }
+            }
+            doesNotHaveRiver.remove(randomTileIndex);
+            setRiver--;
+        }
     }
-    public Resource getARandomResource(){
+
+    private void setRiversIntoOcean(Tile OceanTile, int mapX, int mapY){
+        if(OceanTile.getX() % 2 == 1){
+            if(OceanTile.getX() + 1 < mapX && OceanTile.getY() - 1 > 0)
+                setRiverTile(getTile(OceanTile.getX() + 1, OceanTile.getY() - 1), getTile(OceanTile.getX(), OceanTile.getY() - 1));
+            else if(OceanTile.getX() - 1 > 0 && OceanTile.getY() - 1 > 0)
+                setRiverTile(getTile(OceanTile.getX() - 1, OceanTile.getY()), getTile(OceanTile.getX() - 1, OceanTile.getY() - 1));
+        } else {
+            if(OceanTile.getX() - 1 > 0 && OceanTile.getY() - 1 > 0)
+                setRiverTile(getTile(OceanTile.getX() - 1, OceanTile.getY()), getTile(OceanTile.getX(), OceanTile.getY() - 1));
+            else if(OceanTile.getY() + 1 < mapY && OceanTile.getX() - 1 > 0)
+                setRiverTile(getTile(OceanTile.getX(), OceanTile.getY() + 1), getTile(OceanTile.getX() - 1, OceanTile.getY() + 1));
+            else if(OceanTile.getX() + 1 < mapX && OceanTile.getY() + 1 < mapY)
+                setRiverTile(getTile(OceanTile.getX() + 1, OceanTile.getY()), getTile(OceanTile.getX() + 1, OceanTile.getY() + 1));
+        }
+    }
+
+    private void setRiverTile(Tile tile1, Tile tile2){
+        ArrayList<Tile> adjacentTiles = new ArrayList<Tile>();
+        adjacentTiles.add(tile1);
+        adjacentTiles.add(tile2);
+        River river = new River(adjacentTiles);
+        tile1.setRiver(river);
+        tile2.setRiver(river);
+    }
+
+    private Resource getARandomResource(){
         int pickResource = new Random().nextInt(ResourceType.values().length);
         return new Resource(ResourceType.values()[pickResource]);
     }
 
-    public TerrainType getARandomTerrainType(){
+    private TerrainType getARandomTerrainType(){
         int pickTerrain = new Random().nextInt(TerrainType.values().length);
         return TerrainType.values()[pickTerrain];
     }
 
-    public Feature getARandomFeature(){
+    private Feature getARandomFeature(){
         int pickFeature = new Random().nextInt(FeatureType.values().length);
         return new Feature(FeatureType.values()[pickFeature]);
     }
-    public void SetSettler(int playersCount){
-        for (int i = 0; i < playersCount; i++) {
-            Unit settler = new Unit(null, null, null, UnitType.Settler);
-            Unit warrior= new Unit(null, null, null, UnitType.Warrior);
-            ArrayList<Unit> thisPlayerFirstUnits = new ArrayList<Unit>();
-            thisPlayerFirstUnits.add(settler);
-            thisPlayerFirstUnits.add(warrior);
-            Civilization civilization = new Civilization();
-            civilization.setUnits(thisPlayerFirstUnits);
-            this.civilizations.add(civilization);
+
+    public void BeginningSettlersAndWarriors(int playersCount){
+        int count = 0;
+        while(count < playersCount) {
+            for (Tile value : this.tiles) {
+                boolean availability = true;
+                if (Objects.equals(value.getUnits(), null)) {
+                    for (Tile value1 : getSurroundings(value)) {
+                        if (!Objects.equals(value1.getUnits(), null)) {
+                            availability = false;
+                            break;
+                        }
+                        if (availability) {
+                            Random random = new Random();
+                            Unit settler = new Unit(null, null, value, UnitType.Settler);
+                            Unit warrior = new Unit(null, null, getSurroundings(value).get(random.nextInt(getSurroundings(value).size())), UnitType.Warrior);
+                            ArrayList<Unit> firsUnits = new ArrayList<Unit>();
+                            firsUnits.add(settler);
+                            firsUnits.add(warrior);
+                            value.setUnits(firsUnits);
+                            count++;
+                        }
+                    }
+                }
+            }
         }
     }
-    public boolean checkAvailabilityOfTile(int mapX, int mapY, int testX, int testY, int valueX, int valueY){
-        if(valueX == testX && valueY == testY)
-            return false;
-        else if(valueX == testX && (valueY + 1 == testY || (valueY > 0 && valueY - 1 == testY)))
-            return false;
-        else if(valueY == testY && (valueX + 1 == testX || (valueX > 0 && valueX - 1 == testX)))
-            return false;
-        else if(valueX - 1 == testX && (valueY - 1 == testY || valueY + 1 == testY))
-            return false;
-        else if(valueX + 1 == testX && (valueY - 1 == testY || valueY + 1 == testY))
-            return false;
-        else if(valueY - 1 == testY && (valueX - 1 == testX || valueX + 1 == testX))
-            return false;
-        else return valueY + 1 != testY || (valueX - 1 != testX && valueX + 1 != testX);
-    }
+
 
     public void test(){
         seenByInit(playerTurn.getSeenBy());
@@ -395,19 +451,21 @@ public class GameController {
                     add(getTile(tile.getX()+1 , tile.getY()));
                     add(getTile(tile.getX()-1 , tile.getY()));
                 }
-            };return surroundings;
+            };
+            return surroundings;
         }
-        else{
-            ArrayList <Tile> surroundings = new ArrayList<>(){
+        else {
+            ArrayList<Tile> surroundings = new ArrayList<>() {
                 {
-                    add(getTile(tile.getX() , tile.getY() +1));
-                    add(getTile(tile.getX() , tile.getY() -1));
-                    add(getTile(tile.getX()+1 , tile.getY() +1));
-                    add(getTile(tile.getX()-1 , tile.getY() +1));
-                    add(getTile(tile.getX()+1 , tile.getY()));
-                    add(getTile(tile.getX()-1 , tile.getY()));
+                    add(getTile(tile.getX(), tile.getY() + 1));
+                    add(getTile(tile.getX(), tile.getY() - 1));
+                    add(getTile(tile.getX() + 1, tile.getY() + 1));
+                    add(getTile(tile.getX() - 1, tile.getY() + 1));
+                    add(getTile(tile.getX() + 1, tile.getY()));
+                    add(getTile(tile.getX() - 1, tile.getY()));
                 }
-            };return surroundings;
+            };
+            return surroundings;
         }
     }
 
