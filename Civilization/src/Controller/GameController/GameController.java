@@ -1,5 +1,6 @@
 package Controller.GameController;
 
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
 import Model.Enums.Direction;
@@ -29,10 +30,8 @@ public class GameController {
     public Civilization playerTurn;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Unit selectedUnit;
-    private LinkedHashMap<Integer, ArrayList<Tile>> seedsForTiles = new LinkedHashMap<Integer, ArrayList<Tile>>();
-    private LinkedHashMap<Integer, ArrayList<Civilization>> seedForCivilization = new LinkedHashMap<Integer, ArrayList<Civilization>>();
-    private LinkedHashMap<Integer, ArrayList<Unit>> seedForUnits = new LinkedHashMap<Integer, ArrayList<Unit>>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
+    private Random random = new Random();
 
     public void generateRandomMap(int civilizationCount,int countTile){
         Civilization first = new Civilization();
@@ -199,7 +198,6 @@ public class GameController {
             if(i != array.length - 1)
                 returnString += "\n";
         }
-        System.out.println(getVisibility(tiles.get(0)));
         return returnString;
     }
     public void blankMap(String map[][]){
@@ -314,9 +312,9 @@ public class GameController {
     public void generateMap(int mapX, int mapY){ // map[x][y]
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
-        Random random = new Random(MapSeed);
-        for (int i = 0; i < mapX; i++) {
-            for (int j = 0; j < mapY; j++) {
+        this.random = new Random(MapSeed);
+        for (int i = 0; i < mapY; i++) {
+            for (int j = 0; j < mapX; j++) {
                 Tile tile = new Tile();
                 tile.setX(j);
                 tile.setY(i);
@@ -340,7 +338,6 @@ public class GameController {
             }
         }
         setRivers(mapX, mapY);
-        this.seedsForTiles.put(MapSeed, this.tiles);
     }
 
     private void setRivers(int mapX, int mapY){
@@ -414,48 +411,57 @@ public class GameController {
     }
 
     public void gameInit(int playersCount){
-        int count = 0;
-        while(count < playersCount) {
-            for (Tile value : this.tiles) {
-                boolean availability = true;
-                boolean isOcean = Objects.equals(value.getTerrain(), TerrainType.Ocean);
-                boolean isMountain = Objects.equals(value.getTerrain(), TerrainType.Mountain);
-                if (!isMountain && !isOcean && Objects.equals(value.getUnits(), null)) {
-                    for (Tile value1 : getSurroundings(value)) {
-                        if (value1 != null && !Objects.equals(value1.getUnits(), null)) {
-                            availability = false;
-                            break;
-                        }
+        ArrayList<Tile> availableMapTiles = new ArrayList<>(tiles);
+        for (int i = 0; i < playersCount ; i++) {
+            Tile settlerDeploy = new Tile();
+            Tile warriorDeploy = new Tile();
+            Civilization civilization = new Civilization();
+            seenByInit(civilization.getSeenBy());
+            this.civilizations.add(civilization);
+            outer:
+            while (availableMapTiles.size() != 0) {
+                Tile center = availableMapTiles.get(random.nextInt(availableMapTiles.size()));
+                if(center.getTerrain().equals(TerrainType.Mountain) || center.getTerrain().equals(TerrainType.Ocean))continue;
+                ArrayList <Tile> availableSurroundings = getSurroundings(center);
+                for (Tile surrounding:availableSurroundings) {
+                    if(surrounding == null || surrounding.getUnits().size() != 0){
+                        availableMapTiles.remove(center);
+                        continue outer;
                     }
                 }
-                if (availability) {
-                    // assign user
-                    Civilization civilization = new Civilization();
-                    seenByInit(civilization.getSeenBy());
-                    Random random = new Random();
-                    Unit settler = new Unit(civilization, null, value, UnitType.Settler);
-                    Unit warrior = new Unit(civilization, null, null, UnitType.Warrior);;
-                    for(Tile tile : getSurroundings(value)){
-                        if(!Objects.equals(tile, null) && !Objects.equals(tile.getTerrain(), TerrainType.Ocean) && !Objects.equals(value.getTerrain(), TerrainType.Mountain)){
-                            warrior.setTile(tile);
-                            break;
-                        }
+                for (int j = 0; j <availableSurroundings.size() ; j++) {
+                    if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain)){
+                        availableSurroundings.remove(availableSurroundings.get(j));
+                        j--;
                     }
-                    civilization.addUnit(settler);
-                    civilization.addUnit(warrior);
-                    this.units.add(settler);
-                    this.units.add(warrior);
-                    this.civilizations.add(civilization);
-                    count++;
                 }
+                if(availableSurroundings.size() == 0){
+                    availableMapTiles.remove(center);
+                    continue outer;
+                }
+                int index = random.nextInt(availableSurroundings.size());
+                warriorDeploy = availableSurroundings.get(index);
+                settlerDeploy = center;
+                break outer;
             }
+            makeUnit(UnitType.Settler,civilization,null,settlerDeploy);
+            makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
         }
     }
+    
 
+    private void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
+        Unit unit = new Unit(civilization,city,tile,unitType);
+        tile.getUnits().add(unit);
+        civilization.addUnit(unit);
+        units.add(unit);
+        //city.units.add(unit);
+        changeVision(tile,civilization.getSeenBy(),1,2);
+    }
 
     public void seenByInit(HashMap<Tile,Integer> seenBy){
         for (Tile key:tiles) {
-            seenBy.put(key,-1);
+            seenBy.put(key,1);
         }
     }
 
@@ -469,7 +475,6 @@ public class GameController {
             }
         }
     }
-    
 
     private HashMap<Tile , Integer> findVisibles(Tile tile , int cycleCount , HashMap<Tile , Integer> visibles){
         if(cycleCount == 0)visibles.put(tile , 0);

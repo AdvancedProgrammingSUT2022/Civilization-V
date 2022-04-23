@@ -15,7 +15,7 @@ public class Tile {
     private int y;
     private int mpCost;
     private Building building;
-    private ArrayList<Unit> units;
+    private ArrayList<Unit> units = new ArrayList<>();
     private Feature feature;
     private Resource resource;
     private River river;
