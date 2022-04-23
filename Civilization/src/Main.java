@@ -1,23 +1,26 @@
-import Controller.GameController.GameController;
-import Model.Enums.MapEnum;
 
-import Model.Units.Unit;
-
+import View.PreGameView.LoginMenuView;
 
 public class Main {
 
     public static void main(String[] args) {
-        GameController gameController = new GameController();
-        gameController.generateMap(MapEnum.MAPWIDTH.amount , MapEnum.MAPHEIGHT.amount);
-        gameController.gameInit(2);
-        gameController.playerTurn = gameController.civilizations.get(0);
-        for (Unit key:gameController.civilizations.get(0).getUnits()) {
-            System.out.println(key.getTile().getY() + "   " + key.getTile().getX());
-        }
-        for (Unit key:gameController.civilizations.get(1).getUnits()) {
-            System.out.println(key.getTile().getY() + "   " + key.getTile().getX());
-        }
-        System.out.println(gameController.printMap());
-        gameController.getTile(1, 1);
+        LoginMenuView loginMenuView = new LoginMenuView();
+        loginMenuView.run();
     }
 }
+
+//    user create --username nima --password nimo --nickname enigma
+//        user create --username sero --password hart --nickname serr
+//        user create --username arash --password aa --nickname mio
+//        user login --username nima --password nimo
+//        menu enter Main_Menu
+
+////3 player mode
+//        play game --player1 sero --player2 nima --player3 arash
+////2 player mode
+//        play game --player1 nima --player2 sero
+
+////gamePlay commands
+////print map
+////next turn
+////get player name
