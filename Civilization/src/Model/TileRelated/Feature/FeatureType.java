@@ -28,8 +28,8 @@ public enum FeatureType {
         Resource Sugar = new Resource(ResourceType.Sugar);
         add(Sugar);
     }}),
-    Oasis(3, 0, 1, -33, 1, null),
-    Rivers(0, 0, 1, 0, 0/* I IIIIIII*/, null);
+    Oasis(3, 0, 1, -33, 1, null);
+//    Rivers(0, 0, 1, 0, 0/* I IIIIIII*/, null);
     public final int Food;
     public final int production;
     public final int Gold;

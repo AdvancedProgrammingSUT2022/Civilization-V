@@ -1,5 +1,6 @@
 package Controller.GameController;
 
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
 import Model.Enums.Direction;
@@ -25,6 +26,8 @@ import java.util.regex.Matcher;
 
 public class GameController {
     //make these private!
+    private int mapX;
+    private int mapY;
     public ArrayList<Civilization> civilizations = new ArrayList<>();
     public Civilization playerTurn;
     private ArrayList<Tile> tiles = new ArrayList<>();
@@ -312,29 +315,36 @@ public class GameController {
 
 
     public void generateMap(int mapX, int mapY){ // map[x][y]
+        this.mapY = mapY;
+        this.mapX = mapX;
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
         Random random = new Random(MapSeed);
-        for (int i = 0; i < mapX; i++) {
-            for (int j = 0; j < mapY; j++) {
+        for (int i = 0; i < mapY; i++) {
+            for (int j = 0; j < mapX; j++) {
                 Tile tile = new Tile();
                 tile.setX(j);
                 tile.setY(i);
-                TerrainType terrainType = getARandomTerrainType();
-                tile.setTerrain(terrainType);
-                if(!tile.checkType(TerrainType.Snow) && !tile.checkType(TerrainType.Mountain) && !tile.checkType(TerrainType.Ocean) && !tile.checkType(TerrainType.Tundra)){
-                    Resource resource = getARandomResource();
-                    Feature feature = getARandomFeature();
-                    int test = random.nextInt(10);
-                    if (test < 3) tile.setFeature(feature);
-                    else if (test > 7) tile.setResource(resource);
-                    else {
-                        tile.setFeature(feature);
+                if( i== 0 || j == 0 || j == mapX - 1 || i == mapY - 1){
+                    tile.setTerrain(TerrainType.Ocean);
+                } else {
+                    TerrainType terrainType = getARandomTerrainType();
+                    tile.setTerrain(terrainType);
+
+                    if (!tile.checkType(TerrainType.Snow) && !tile.checkType(TerrainType.Mountain) && !tile.checkType(TerrainType.Ocean) && !tile.checkType(TerrainType.Tundra)) {
+                        Resource resource = getARandomResource();
+                        Feature feature = getARandomFeature();
+                        int test = random.nextInt(10);
+                        if (test < 3) tile.setFeature(feature);
+                        else if (test > 7) tile.setResource(resource);
+                        else {
+                            tile.setFeature(feature);
+                            tile.setResource(resource);
+                        }
+                    } else if (tile.checkType(TerrainType.Snow) || tile.checkType(TerrainType.Tundra)) {
+                        Resource resource = getARandomResource();
                         tile.setResource(resource);
                     }
-                } else if(tile.checkType(TerrainType.Snow) || tile.checkType(TerrainType.Tundra)){
-                    Resource resource =getARandomResource();
-                    tile.setResource(resource);
                 }
                 this.tiles.add(tile);
             }
@@ -414,42 +424,50 @@ public class GameController {
     }
 
     public void gameInit(int playersCount){
-        int count = 0;
-        while(count < playersCount) {
-            for (Tile value : this.tiles) {
-                boolean availability = true;
-                boolean isOcean = Objects.equals(value.getTerrain(), TerrainType.Ocean);
-                boolean isMountain = Objects.equals(value.getTerrain(), TerrainType.Mountain);
-                if (!isMountain && !isOcean && Objects.equals(value.getUnits(), null)) {
-                    for (Tile value1 : getSurroundings(value)) {
-                        if (value1 != null && !Objects.equals(value1.getUnits(), null)) {
-                            availability = false;
-                            break;
-                        }
+        for (int i = 0; i < playersCount ; i++) {
+            Tile settlerDeploy = new Tile();
+            Tile warriorDeploy = new Tile();
+            Civilization civilization = new Civilization();
+            seenByInit(civilization.getSeenBy());
+            this.civilizations.add(civilization);
+            outer:
+            for (Tile center:tiles) {
+                if(center.getY() == 0 || center.getY() == mapY - 1 || center.getX() == 0 || center.getX()  == mapX - 1)  continue ;
+                if(center.getTerrain().equals(TerrainType.Mountain)|| center.getTerrain().equals(TerrainType.Ocean)) continue;
+                ArrayList <Tile> availableSurroundings = getSurroundings(center);
+                inner:
+                for (Tile surrounding:availableSurroundings) {
+                    if(surrounding == null || surrounding.getUnits() != null) continue outer;
+                }
+                for (int j = 0; j <availableSurroundings.size() ; j++) {
+                    if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain) ||
+                            availableSurroundings.get(j).getY() == 0 || availableSurroundings.get(j).getY() == mapY - 1 ||
+                            availableSurroundings.get(j).getX() == 0 || availableSurroundings.get(j).getX() == mapX - 1){
+                        availableSurroundings.remove(availableSurroundings.get(j));
+                        j--;
                     }
                 }
-                if (availability) {
-                    // assign user
-                    Civilization civilization = new Civilization();
-                    seenByInit(civilization.getSeenBy());
-                    Random random = new Random();
-                    Unit settler = new Unit(civilization, null, value, UnitType.Settler);
-                    Unit warrior = new Unit(civilization, null, null, UnitType.Warrior);;
-                    for(Tile tile : getSurroundings(value)){
-                        if(!Objects.equals(tile, null) && !Objects.equals(tile.getTerrain(), TerrainType.Ocean) && !Objects.equals(value.getTerrain(), TerrainType.Mountain)){
-                            warrior.setTile(tile);
-                            break;
-                        }
-                    }
-                    civilization.addUnit(settler);
-                    civilization.addUnit(warrior);
-                    this.units.add(settler);
-                    this.units.add(warrior);
-                    this.civilizations.add(civilization);
-                    count++;
+                Random random = new Random();
+                if(availableSurroundings.size() > 1) {
+                    int index = random.nextInt(availableSurroundings.size());
+                    warriorDeploy = availableSurroundings.get(index);
+                    settlerDeploy = center;
+                    break;
                 }
+
             }
+            makeUnit(UnitType.Settler,civilization,null,settlerDeploy);
+            makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
         }
+    }
+
+
+    public void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
+        Unit unit = new Unit(civilization,city,tile,unitType);
+        civilization.addUnit(unit);
+        units.add(unit);
+        //city.units.add(unit);
+        changeVision(tile,civilization.getSeenBy(),1,2);
     }
 
 
