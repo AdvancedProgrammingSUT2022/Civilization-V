@@ -18,9 +18,8 @@ public class Main {
         //LoginMenuView loginMenuView = new LoginMenuView();
         //loginMenuView.run();
         gameController.generateMap(10, 10);
-        gameController.BeginningSettlersAndWarriors(2);
+        gameController.gameInit(2);
+        gameController.playerTurn = gameController.civilizations.get(0);
         System.out.println(gameController.printMap());
-
-
     }
 }

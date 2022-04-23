@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51cd30a4-2b75-41b2-8a05-affc28f51494" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/Controller/GameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Controller/GameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/Model/CivlizationRelated/Civilization.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Model/CivlizationRelated/Civilization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/Model/Units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Model/Units/Unit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,19 +46,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="project-group-24" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="project-group-24" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -72,6 +63,7 @@
       <workItem from="1650597944171" duration="131000" />
       <workItem from="1650598103797" duration="15735000" />
       <workItem from="1650631888780" duration="116000" />
+      <workItem from="1650704435623" duration="6984000" />
     </task>
     <servers />
   </component>

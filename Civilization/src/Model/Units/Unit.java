@@ -1,4 +1,5 @@
 package Model.Units;
+import Controller.GameController.GameController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Tile.Tile;
@@ -16,6 +17,7 @@ public class Unit {
 
     public Unit(Civilization civilization, City city, Tile tile, UnitType unitType) {
         this.civilization = civilization;
+        this.civilization.addUnit(this);
         this.city = city;
         this.tile = tile;
         this.unitType = unitType;
