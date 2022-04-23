@@ -32,10 +32,8 @@ public class GameController {
     public Civilization playerTurn;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Unit selectedUnit;
-    private LinkedHashMap<Integer, ArrayList<Tile>> seedsForTiles = new LinkedHashMap<Integer, ArrayList<Tile>>();
-    private LinkedHashMap<Integer, ArrayList<Civilization>> seedForCivilization = new LinkedHashMap<Integer, ArrayList<Civilization>>();
-    private LinkedHashMap<Integer, ArrayList<Unit>> seedForUnits = new LinkedHashMap<Integer, ArrayList<Unit>>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
+    private Random random = new Random();
 
     public void generateRandomMap(int civilizationCount,int countTile){
         Civilization first = new Civilization();
@@ -202,7 +200,6 @@ public class GameController {
             if(i != array.length - 1)
                 returnString += "\n";
         }
-        System.out.println(getVisibility(tiles.get(0)));
         return returnString;
     }
     public void blankMap(String map[][]){
@@ -319,7 +316,11 @@ public class GameController {
         this.mapX = mapX;
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
+<<<<<<< HEAD
         Random random = new Random(MapSeed);
+=======
+        this.random = new Random(MapSeed);
+>>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
         for (int i = 0; i < mapY; i++) {
             for (int j = 0; j < mapX; j++) {
                 Tile tile = new Tile();
@@ -350,7 +351,6 @@ public class GameController {
             }
         }
         setRivers(mapX, mapY);
-        this.seedsForTiles.put(MapSeed, this.tiles);
     }
 
     private void setRivers(int mapX, int mapY){
@@ -424,6 +424,10 @@ public class GameController {
     }
 
     public void gameInit(int playersCount){
+<<<<<<< HEAD
+=======
+        ArrayList<Tile> availableMapTiles = new ArrayList<>(tiles);
+>>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
         for (int i = 0; i < playersCount ; i++) {
             Tile settlerDeploy = new Tile();
             Tile warriorDeploy = new Tile();
@@ -431,6 +435,7 @@ public class GameController {
             seenByInit(civilization.getSeenBy());
             this.civilizations.add(civilization);
             outer:
+<<<<<<< HEAD
             for (Tile center:tiles) {
                 if(center.getY() == 0 || center.getY() == mapY - 1 || center.getX() == 0 || center.getX()  == mapX - 1)  continue ;
                 if(center.getTerrain().equals(TerrainType.Mountain)|| center.getTerrain().equals(TerrainType.Ocean)) continue;
@@ -443,10 +448,25 @@ public class GameController {
                     if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain) ||
                             availableSurroundings.get(j).getY() == 0 || availableSurroundings.get(j).getY() == mapY - 1 ||
                             availableSurroundings.get(j).getX() == 0 || availableSurroundings.get(j).getX() == mapX - 1){
+=======
+            while (availableMapTiles.size() != 0) {
+                Tile center = availableMapTiles.get(random.nextInt(availableMapTiles.size()));
+                if(center.getTerrain().equals(TerrainType.Mountain) || center.getTerrain().equals(TerrainType.Ocean))continue;
+                ArrayList <Tile> availableSurroundings = getSurroundings(center);
+                for (Tile surrounding:availableSurroundings) {
+                    if(surrounding == null || surrounding.getUnits().size() != 0){
+                        availableMapTiles.remove(center);
+                        continue outer;
+                    }
+                }
+                for (int j = 0; j <availableSurroundings.size() ; j++) {
+                    if(availableSurroundings.get(j).getTerrain().equals(TerrainType.Ocean) || availableSurroundings.get(j).getTerrain().equals(TerrainType.Mountain)){
+>>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
                         availableSurroundings.remove(availableSurroundings.get(j));
                         j--;
                     }
                 }
+<<<<<<< HEAD
                 Random random = new Random();
                 if(availableSurroundings.size() > 1) {
                     int index = random.nextInt(availableSurroundings.size());
@@ -455,12 +475,31 @@ public class GameController {
                     break;
                 }
 
+=======
+                if(availableSurroundings.size() == 0){
+                    availableMapTiles.remove(center);
+                    continue outer;
+                }
+                int index = random.nextInt(availableSurroundings.size());
+                warriorDeploy = availableSurroundings.get(index);
+                settlerDeploy = center;
+                break outer;
+>>>>>>> f7d80bdd35fb3dc30136a8a6865eb6d3c3a8362a
             }
             makeUnit(UnitType.Settler,civilization,null,settlerDeploy);
             makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
         }
     }
+    
 
+    private void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
+        Unit unit = new Unit(civilization,city,tile,unitType);
+        tile.getUnits().add(unit);
+        civilization.addUnit(unit);
+        units.add(unit);
+        //city.units.add(unit);
+        changeVision(tile,civilization.getSeenBy(),1,2);
+    }
 
     public void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
         Unit unit = new Unit(civilization,city,tile,unitType);
@@ -473,7 +512,7 @@ public class GameController {
 
     public void seenByInit(HashMap<Tile,Integer> seenBy){
         for (Tile key:tiles) {
-            seenBy.put(key,-1);
+            seenBy.put(key,1);
         }
     }
 
@@ -487,7 +526,6 @@ public class GameController {
             }
         }
     }
-    
 
     private HashMap<Tile , Integer> findVisibles(Tile tile , int cycleCount , HashMap<Tile , Integer> visibles){
         if(cycleCount == 0)visibles.put(tile , 0);
