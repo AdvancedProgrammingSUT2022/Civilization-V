@@ -1,5 +1,4 @@
 package Model.Units;
-import Controller.GameController.GameController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Tile.Tile;
@@ -20,9 +19,33 @@ public class Unit {
         this.civilization.addUnit(this);
         this.city = city;
         this.tile = tile;
+        this.setUnitType(unitType);
+        this.setUnitStateType(UnitStateType.NORMAL);
+        this.setMovementsLeft(unitType.movement);
+    }
+
+    public int getMovementsLeft() {
+        return movementsLeft;
+    }
+
+    public void setMovementsLeft(int movementsLeft) {
+        this.movementsLeft = movementsLeft;
+    }
+
+    public UnitStateType getUnitStateType() {
+        return unitStateType;
+    }
+
+    public void setUnitStateType(UnitStateType unitStateType) {
+        this.unitStateType = unitStateType;
+    }
+
+    public UnitType getUnitType() {
+        return unitType;
+    }
+
+    public void setUnitType(UnitType unitType) {
         this.unitType = unitType;
-        this.unitStateType = UnitStateType.NORMAL;
-        this.movementsLeft = unitType.movement;
     }
 
     public void setAlerted(){
