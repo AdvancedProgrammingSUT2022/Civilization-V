@@ -16,7 +16,16 @@ import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -355,6 +364,7 @@ public class GameController {
             makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
         }
         playerTurn = civilizations.get(0);
+        saveUsersInformation();
     }
 
 
@@ -499,4 +509,22 @@ public class GameController {
     public void updateCurrentTechnologyProject(){
 
     }
+
+    public void saveUsersInformation(){
+        ArrayList<User> users = new ArrayList<User>();
+        for(Civilization civilization : this.civilizations){
+            users.add(civilization.getUser());
+        }
+        String fileName = "./src/main/resources/UserDatabase.json";
+        Path path = Paths.get(fileName);
+        try (Writer writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)){
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(users, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
