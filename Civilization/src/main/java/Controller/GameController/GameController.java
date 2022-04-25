@@ -485,10 +485,7 @@ public class GameController {
 
     public String nextTurn(){
         int turnIndex = civilizations.indexOf(playerTurn);
-        if(turnIndex == civilizations.size() - 1)
-        {
-            turnIndex = 0;
-        }
+        if(turnIndex == civilizations.size() - 1){turnIndex = 0;}
         else turnIndex++;
         playerTurn = civilizations.get(turnIndex);
         restoreUnitMovementLeft();
@@ -545,13 +542,13 @@ public class GameController {
             if(unit.getPath().size() == 0)
                 break;
         }
-        if (unit.getPath().size() > 0)
+        if (unit.getPath().size() > 0){
             if(movingUnits.contains(unit) != true)
                 movingUnits.add(unit);
+        }
         else
             if(movingUnits.contains(unit))
                 movingUnits.remove(unit);
-            
     }
 
     public String selectUnit(Matcher matcher){
