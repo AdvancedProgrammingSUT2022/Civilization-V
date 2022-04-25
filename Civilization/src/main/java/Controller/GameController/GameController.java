@@ -38,6 +38,7 @@ public class GameController {
     private Unit selectedUnit;
     private final ArrayList<Unit> units = new ArrayList<Unit>();
     private Random random = new Random();
+    private Graph initialGraph ;
 
     public Civilization getPlayerTurn() {
         return playerTurn;
@@ -328,6 +329,7 @@ public class GameController {
         generateMap(MapEnum.MAPWIDTH.amount , MapEnum.MAPHEIGHT.amount);
         int playersCount = players.size();
         ArrayList<Tile> availableMapTiles = new ArrayList<>(tiles);
+        initialGraph = Movement.graphInit();
         for (int i = 0; i < playersCount ; i++) {
             Tile settlerDeploy = new Tile();
             Tile warriorDeploy = new Tile();
@@ -475,7 +477,6 @@ public class GameController {
         playerTurn = civilizations.get(turnIndex);
         return "next player turn!";
     }
-
 
     public String move(Matcher matcher){
         return "";

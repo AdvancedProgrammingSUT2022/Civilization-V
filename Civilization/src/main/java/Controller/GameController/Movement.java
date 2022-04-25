@@ -10,8 +10,6 @@ import Model.TileRelated.Tile.Tile;
 import java.util.*;
 
 public class Movement {
-    public static Node nodeA;
-    public static Node nodeE;
     public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
         source.setDistance(0);
 
@@ -84,7 +82,7 @@ public class Movement {
         int mp = destination.getTerrain().movementCost;
         if(destination.getFeature() != null)
             mp += destination.getFeature().mpCost;
-        if(origin.getTerrain().equals(TerrainType.Hill) && origin.getTerrain().equals(TerrainType.Hill))mp --;
+        if(origin.getTerrain().equals(TerrainType.Hill) && destination.getTerrain().equals(TerrainType.Hill))mp --;
         return mp;
     }
 }

@@ -12,4 +12,6 @@ public class Regex {
     public final String printMap = "print map";
     public final String nextTurn = "next turn";
     public final String getPlayerName = "get player name";
+    public final String selectUnit = "select unit (?<position>\\d+)";
+    public final String moveUnit = "move unit --origin (?<origin>\\d+) --destination (?<destination>\\d+)";
 }

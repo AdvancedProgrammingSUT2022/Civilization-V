@@ -1,9 +1,12 @@
 package Model.Units;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.Movement.Node;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitStateType;
 import Model.Units.TypeEnums.UnitType;
+
+import java.util.LinkedList;
 
 public class Unit {
     protected Civilization civilization;
@@ -13,6 +16,7 @@ public class Unit {
     protected UnitType unitType;
     protected UnitStateType unitStateType;
     protected int maxDamage;
+    protected LinkedList<Node> path;
 
     public Unit(Civilization civilization, City city, Tile tile, UnitType unitType) {
         this.civilization = civilization;
