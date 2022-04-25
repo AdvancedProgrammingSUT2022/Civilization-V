@@ -1,4 +1,7 @@
 
+import Controller.GameController.GameController;
+import Controller.GameController.Movement;
+import Model.Movement.Graph;
 import View.PreGameView.LoginMenuView;
 
 public class Main {

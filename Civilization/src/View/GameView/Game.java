@@ -13,7 +13,10 @@ import java.util.regex.Matcher;
 public class Game extends Menu{
     GameController gameController = new GameController();
 
-    private final Consumer<Matcher> printMap = matcher -> System.out.println(gameController.printMap());
+    private final Consumer<Matcher> printMap = matcher -> {
+        System.out.println(gameController.printMap());
+        gameController.Test();
+    };
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
 
