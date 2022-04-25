@@ -81,7 +81,7 @@ public enum TerrainType {
     }}),
     Mountain(0, 0, 0, 25, null, null),
     Ocean(0, 0, 0, 25, null, null),
-    Plains(1, 1, 0, -33, new ArrayList<Feature>(){{
+    Plains(1, 1, 0, -33, 1 , new ArrayList<Feature>(){{
         Feature Forest = new Feature(FeatureType.Forest);
         Feature Jungle = new Feature(FeatureType.Jungle);
         add(Forest);

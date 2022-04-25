@@ -5,6 +5,8 @@ import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
 import Model.Enums.Direction;
 import Model.Enums.MapEnum;
+import Model.Movement.Graph;
+import Model.Movement.Node;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Feature.River;
@@ -30,12 +32,11 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 public class GameController {
-    //make these private!
-    private ArrayList<Civilization> civilizations = new ArrayList<>();
+    private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private Civilization playerTurn;
-    private ArrayList<Tile> tiles = new ArrayList<>();
+    private static ArrayList<Tile> tiles = new ArrayList<>();
     private Unit selectedUnit;
-    private ArrayList<Unit> units = new ArrayList<Unit>();
+    private final ArrayList<Unit> units = new ArrayList<Unit>();
     private Random random = new Random();
 
     public Civilization getPlayerTurn() {
@@ -425,7 +426,7 @@ public class GameController {
         return TileVisibility.VISIBLE;
     }
 
-    private ArrayList<Tile> getSurroundings(Tile tile){ //Be careful some tiles might be null!
+    public static ArrayList<Tile> getSurroundings(Tile tile){ //Be careful some tiles might be null!
         int first,second;
         if(tile.getX() % 2 == 0){first = -1;second = 0;}else{first = 0;second = 1;}
         ArrayList <Tile> surroundings = new ArrayList<>(){
@@ -460,7 +461,7 @@ public class GameController {
     private Tile getDirectionTile(Tile tile,Direction direction){
         return getSurroundings(tile).get(direction.ordinal());
     }
-    public Tile getTile(int x , int y){
+    public static Tile getTile(int x , int y){
         for (Tile key:tiles) {
             if(key.getX() == x && key.getY() == y)return key;
         }
@@ -474,6 +475,7 @@ public class GameController {
         playerTurn = civilizations.get(turnIndex);
         return "next player turn!";
     }
+
 
     public String move(Matcher matcher){
         return "";

@@ -2,30 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51cd30a4-2b75-41b2-8a05-affc28f51494" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/View/GameView/Game.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Civilization/src/Model/Movement/Graph.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Civilization/src/Model/Movement/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/Movement.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Movement/Graph.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Movement/Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/Controller/GameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Controller/GameController/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/Controller/PreGameController/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Controller/PreGameController/MainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/Model/Enums/MapEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/Model/Enums/MapEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/View/GameView/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/View/GameView/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/View/PreGameView/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/View/PreGameView/MainMenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Civilization/src/View/PreGameView/Regex.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/View/PreGameView/Regex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/main/java/Controller/GameController/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/main/java/Controller/GameController/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/main/java/Controller/GameController/Movement.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/main/java/Controller/GameController/Movement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/main/java/Model/TileRelated/Feature/FeatureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/main/java/Model/TileRelated/Feature/FeatureType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/main/java/Model/TileRelated/Terraine/TerrainType.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/main/java/Model/TileRelated/Terraine/TerrainType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Civilization/src/main/java/View/GameView/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/Civilization/src/main/java/View/GameView/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/GameController/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Controller/PreGameController/MainMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Controller/PreGameController/MainMenuController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/CivlizationRelated/Civilization.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/CivlizationRelated/Civilization.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/TileRelated/Feature/FeatureType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/TileRelated/Feature/FeatureType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/TileRelated/Tile/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/TileRelated/Tile/Tile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/Units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/Units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/View/PreGameView/MainMenuView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/View/PreGameView/MainMenuView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/View/PreGameView/Regex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/View/PreGameView/Regex.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/Model/TileRelated/Terraine/TerrainType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/Model/TileRelated/Terraine/TerrainType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/project-group-24/View/GameView/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/project-group-24/View/GameView/Game.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,7 +57,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Civilization" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
   </component>
   <component name="RunManager">
@@ -79,10 +86,23 @@
       <workItem from="1650598103797" duration="15735000" />
       <workItem from="1650631888780" duration="116000" />
       <workItem from="1650704435623" duration="7907000" />
+      <workItem from="1650875606896" duration="11065000" />
+      <workItem from="1650891457977" duration="553000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
