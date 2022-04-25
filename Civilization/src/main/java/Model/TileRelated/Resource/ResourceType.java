@@ -157,5 +157,8 @@ public enum ResourceType {
         this.requiredTechnology = requiredTechnology;
         this.mainType = mainType;
     }
+    public ArrayList<FeatureType> getCanBeFoundOnFeatures(){
+        return getCanBeFoundOnFeatures();
+    }
 
 }

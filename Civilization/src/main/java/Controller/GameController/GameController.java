@@ -219,6 +219,7 @@ public class GameController {
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
         this.random = new Random(MapSeed);
+        Random random1 = new Random();
         int mountainCount = 0;
         for (int i = 0; i < mapY; i++) {
             for (int j = 0; j < mapX; j++) {
@@ -230,7 +231,7 @@ public class GameController {
                 } else {
                     TerrainType terrainType = getARandomTerrainType();
                     int testMountain = random.nextInt(10);
-                    if(testMountain < 2 && mountainCount < mapY / 2) {
+                    if(testMountain < 1 && mountainCount < mapY / 2) {
                         terrainType = TerrainType.Mountain;
                         mountainCount++;
                     } else{
@@ -239,22 +240,23 @@ public class GameController {
                         }
                     }
                     tile.setTerrain(terrainType);
-                    if (!tile.checkType(TerrainType.Snow) && !tile.checkType(TerrainType.Mountain) && !tile.checkType(TerrainType.Ocean) && !tile.checkType(TerrainType.Tundra)) {
-                        Resource resource = getARandomResource();
-                        Feature feature = getARandomFeature();
-                        int test = random.nextInt(10);
-                        if (test < 3) tile.setFeature(feature);
-                        else if (test > 7) tile.setResource(resource);
-                        else {
-                            tile.setFeature(feature);
+                    if (!tile.checkType(TerrainType.Mountain) && !tile.checkType(TerrainType.Ocean)) {
+                        if(terrainType.getPossibleResources() != null) {
+                            int test = random.nextInt(terrainType.getPossibleResources().size());
+                            Resource resource = new Resource(terrainType.getPossibleResources().get(test).getResourceType());
                             tile.setResource(resource);
+                            if(terrainType.getPossibleFeatures() != null) {
+                                for(Feature featureTest : terrainType.getPossibleFeatures()){
+                                    if(featureTest.getFeatureType().getPossibleResources() != null && featureTest.getFeatureType().getPossibleResources().contains(resource)){
+                                        Feature feature = new Feature(featureTest.getFeatureType());
+                                        tile.setFeature(feature);
+                                    }
+                                }
+                            }
                         }
-                    } else if (tile.checkType(TerrainType.Snow) || tile.checkType(TerrainType.Tundra)) {
-                        Resource resource = getARandomResource();
-                        tile.setResource(resource);
                     }
                 }
-                tiles.add(tile);
+                this.tiles.add(tile);
             }
         }
         setRivers(mapX, mapY);

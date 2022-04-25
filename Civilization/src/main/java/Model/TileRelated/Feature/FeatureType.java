@@ -53,6 +53,9 @@ public enum FeatureType {
         this.combatModifier = combatModifier;
         this.possibleResources = possibleResources;
     }
+    public ArrayList<Resource> getPossibleResources(){
+        return this.possibleResources;
+    }
 
 }
 

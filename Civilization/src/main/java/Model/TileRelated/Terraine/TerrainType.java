@@ -154,4 +154,11 @@ public enum TerrainType {
         this.possibleFeatures = possibleFeatures;
         this.possibleResources = possibleResources;
     }
+    public ArrayList<Resource> getPossibleResources(){
+        return this.possibleResources;
+    }
+    
+    public ArrayList<Feature> getPossibleFeatures(){
+        return this.possibleFeatures;
+    }
 }
