@@ -15,6 +15,7 @@ import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.User;
@@ -50,6 +51,8 @@ public class GameController {
         for (int i = 0; i < tiles.size(); i++) {
             fillTileInfo(tiles.get(i), map);
         }
+        if(selectedUnit != null)
+        System.out.println(selectedUnit.getUnitType());
         return printArray(map);
     }
     public String printArray(String array[][]){
@@ -478,11 +481,7 @@ public class GameController {
         return "next player turn!";
     }
 
-    public String move(Matcher matcher){
-        return "";
-    }
-
-    public String moveUnit(){
+    public String moveUnit(Matcher matcher){
         return "";
     }
 
@@ -490,8 +489,25 @@ public class GameController {
         return "";
     }
 
-    public String selectUnit(){
-        return "";
+    public String selectUnit(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        boolean isCombatUnit = true;
+        if(matcher.group("type").equals("civil"))isCombatUnit = false;
+        if(x > MapEnum.MAPWIDTH.amount -1 || y > MapEnum.MAPHEIGHT.amount -1)return "invalid coordinates";
+        ArrayList<Unit> tileUnits;
+        if((tileUnits = getTile(x , y).getUnits()) == null)return "no units on this tile";
+        for (Unit unit:tileUnits) {
+            if(unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit){
+                selectedUnit = unit;
+                return "unit selected";
+            }
+            else if(!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit){
+                selectedUnit = unit;
+                return "unit selected";
+            }
+        }
+        return "unit not found";
     }
 
     public String assignTerrainState(Tile terrain){
