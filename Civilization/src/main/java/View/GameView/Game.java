@@ -16,7 +16,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> printMap = matcher -> System.out.println(gameController.printMap());
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
-    private final Consumer<Matcher> moveUnits = matcher ->
+    //private final Consumer<Matcher> moveUnits = matche;
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);

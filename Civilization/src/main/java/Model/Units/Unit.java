@@ -5,8 +5,8 @@ import Model.Movement.Node;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitStateType;
 import Model.Units.TypeEnums.UnitType;
-
 import java.util.LinkedList;
+import java.util.List;
 
 public class Unit {
     protected Civilization civilization;
@@ -16,7 +16,7 @@ public class Unit {
     protected UnitType unitType;
     protected UnitStateType unitStateType;
     protected int maxDamage;
-    protected LinkedList<Node> path;
+    protected List<Node> path = new LinkedList<>();
 
     public Unit(Civilization civilization, City city, Tile tile, UnitType unitType) {
         this.civilization = civilization;
@@ -26,16 +26,28 @@ public class Unit {
         this.setUnitType(unitType);
         this.setUnitStateType(UnitStateType.NORMAL);
         this.setMovementsLeft(unitType.movement);
+        movementsLeft = this.unitType.movement;
     }
 
     public int getMovementsLeft() {
         return movementsLeft;
     }
-
+    public Civilization getCivilization(){
+        return civilization;
+    }
+    
     public void setMovementsLeft(int movementsLeft) {
         this.movementsLeft = movementsLeft;
     }
-
+    public void restoreMovementLeft(){
+        this.movementsLeft = this.unitType.movement;
+    }
+    public void addMovementsLeft(int movementsLeft) {
+        this.movementsLeft += movementsLeft;
+    }
+    public Node getNextMoveNode(){
+        return path.get(0);
+    }
     public UnitStateType getUnitStateType() {
         return unitStateType;
     }
@@ -74,5 +86,17 @@ public class Unit {
 
     public void specialAbility(){
 
+    }
+
+    public List<Node> getPath(){
+        return path;
+    }
+
+    public void setPath(List<Node> path){
+        this.path = path; 
+    }
+
+    public void addNodeToPath(Node node){
+        path.add(node);
     }
 }

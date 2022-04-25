@@ -7,6 +7,13 @@ import java.util.Set;
 
 public class Graph {
     private Set<Node> nodes = new HashSet<>();
+    
+    public Graph(Graph graph) {
+        this.nodes = graph.nodes;
+    }
+
+    public Graph() {
+    }
 
     public void addNode(Node nodeA) {
         nodes.add(nodeA);

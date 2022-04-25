@@ -21,7 +21,6 @@ import Model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +37,8 @@ public class GameController {
     private Unit selectedUnit;
     private final ArrayList<Unit> units = new ArrayList<Unit>();
     private Random random = new Random();
-    private Graph initialGraph ;
+    private Graph initialGraph;
+    private ArrayList<Unit> movingUnits = new ArrayList<>();
 
     public Civilization getPlayerTurn() {
         return playerTurn;
@@ -88,6 +88,14 @@ public class GameController {
         int y = NonConventionalCoordinatesY(tile);
         createHex(map, getBackGroundColor(tile), Color.ANSI_RESET, x, y,tile);
         printInfo(map, x, y, tile);
+    }
+
+    private Boolean hasRiverBetween(Tile one,Tile two){
+        for (River river : one.getRivers()) {
+            if(river.otherTile(one) == two)
+                return true;
+        }
+        return false;
     }
 
     private void createHex(String map[][],String backgroundColor,String reset,int x,int y,Tile tile){
@@ -241,19 +249,19 @@ public class GameController {
                         tile.setResource(resource);
                     }
                 }
-                this.tiles.add(tile);
+                tiles.add(tile);
             }
         }
         setRivers(mapX, mapY);
     }
 
     private void setRivers(int mapX, int mapY){
-        for(Tile value : this.tiles){
+        for(Tile value : tiles){
             if(value.checkType(TerrainType.Ocean)) setRiversIntoOcean(value, mapX, mapY);
         }
         ArrayList<Tile> doesNotHaveRiver = new ArrayList<Tile>();
         int riverCount = 0;
-        for(Tile value : this.tiles){
+        for(Tile value : tiles){
             if(value.getRivers().size() == 0) doesNotHaveRiver.add(value);
             else riverCount++;
         }
@@ -472,18 +480,57 @@ public class GameController {
 
     public String nextTurn(){
         int turnIndex = civilizations.indexOf(playerTurn);
-        if(turnIndex == civilizations.size() - 1)turnIndex = 0;
+        if(turnIndex == civilizations.size() - 1)
+        {
+            turnIndex = 0;
+        }
         else turnIndex++;
         playerTurn = civilizations.get(turnIndex);
+        restoreUnitMovementLeft();
         return "next player turn!";
     }
-
+    public void restoreUnitMovementLeft(){
+        for (Unit unit : playerTurn.getUnits()) {
+            if(this.playerTurn == unit.getCivilization()){
+                unit.restoreMovementLeft();
+                if(this.movingUnits.contains(unit))
+                    moveUnit(unit);
+            }
+        }
+    }
     public String move(Matcher matcher){
         return "";
     }
+    public String initMoveUnit(Tile origin , Tile destination){
+        if(destination.getTerrain().equals(TerrainType.Ocean) || 
+           destination.getTerrain().equals(TerrainType.Ocean) || 
+           destination.getFeature().getFeatureType().equals(FeatureType.Ice)){
+            return "destination is invalid.";   
+        }
+        Graph graphCopy = new Graph(initialGraph);
+        graphCopy = Movement.calculateShortestPathFromSource(graphCopy,new Node(origin));
+        selectedUnit.setPath(graphCopy.getNode(destination).getShortestPath());
+        selectedUnit.getPath().remove(0);
+        selectedUnit.addNodeToPath(new Node(destination));
+        moveUnit(selectedUnit);
+        return "moving...";
+    }
 
-    public String moveUnit(){
-        return "";
+    public void moveUnit(Unit unit){
+        while (unit.getMovementsLeft() > 0) {
+            changeVision(unit.getTile(), playerTurn.getSeenBy(), -1, 2);
+            if(hasRiverBetween(unit.getTile(), unit.getNextMoveNode().getTile()))
+                unit.setMovementsLeft(0);
+            else{
+                unit.addMovementsLeft(-unit.getNextMoveNode().getTile().getMpCost());
+                if(unit.getMovementsLeft() < 0)
+                    unit.setMovementsLeft(0);
+            }
+            unit.setTile(unit.getNextMoveNode().getTile());
+            changeVision(unit.getTile(), playerTurn.getSeenBy(), 1, 2);
+        }
+        if(unit.getPath().size() > 0)
+            movingUnits.add(unit);
     }
 
     public String attack(Tile terrain){
@@ -528,6 +575,4 @@ public class GameController {
         }
 
     }
-
-
 }
