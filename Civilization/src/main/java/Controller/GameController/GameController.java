@@ -562,13 +562,9 @@ public class GameController {
         ArrayList<Unit> tileUnits;
         if((tileUnits = getTile(x , y).getUnits()) == null)return "no units on this tile";
         for (Unit unit:tileUnits) {
-            if(unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit){
+            if((unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit) || (!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit)){
                 if(unit.getCivilization() != playerTurn)return "selected unit does not belong to your civilization!";
-                selectedUnit = unit;
-                return "unit selected";
-            }
-            else if(!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit){
-                if(unit.getCivilization() != playerTurn)return "selected unit does not belong to your civilization!";
+                if(unit.getMovementsLeft() == 0)return "no movement left";
                 selectedUnit = unit;
                 return "unit selected";
             }
