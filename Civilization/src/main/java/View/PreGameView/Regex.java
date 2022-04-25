@@ -9,9 +9,10 @@ public class Regex {
     public final String enterMenu = "menu enter (?<menu>\\S+)";
     public final String changePass = "profile change --password (?=.*--current (?<current>\\S+))(?=.*--new (?<new>\\S+))";
     public final String startGame = "^play game (?<playerData>.+)$";
+    //game
     public final String printMap = "print map";
     public final String nextTurn = "next turn";
     public final String getPlayerName = "get player name";
-    public final String selectUnit = "select unit (?<position>\\d+)";
-    public final String moveUnit = "move unit --origin (?<origin>\\d+) --destination (?<destination>\\d+)";
+    public final String selectUnit = "select (?<type>(combat)||(civil)) unit (?<y>\\d+) (?<x>\\d+)";
+    public final String moveUnit = "move unit to (?<destinationY>\\d+) (?<destinationX>\\d+)";
 }

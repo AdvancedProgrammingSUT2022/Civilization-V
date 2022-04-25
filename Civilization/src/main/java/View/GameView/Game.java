@@ -16,7 +16,8 @@ public class Game extends Menu{
     private final Consumer<Matcher> printMap = matcher -> System.out.println(gameController.printMap());
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
-    //private final Consumer<Matcher> moveUnits = matche;
+    private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
+    private final Consumer<Matcher> selectUnit = matcher -> System.out.println(gameController.selectUnit(matcher));
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -29,6 +30,8 @@ public class Game extends Menu{
         commandsMap.put(regex.printMap,this.printMap);
         commandsMap.put(regex.nextTurn,this.nextTurn);
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
+        commandsMap.put(regex.selectUnit,this.selectUnit);
+        commandsMap.put(regex.moveUnit,this.moveUnit);
         return commandsMap;
     }
 }

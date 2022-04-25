@@ -15,6 +15,7 @@ import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.User;
@@ -50,6 +51,8 @@ public class GameController {
         for (int i = 0; i < tiles.size(); i++) {
             fillTileInfo(tiles.get(i), map);
         }
+        if(selectedUnit != null)
+        System.out.println(selectedUnit.getUnitType());
         return printArray(map);
     }
     public String printArray(String array[][]){
@@ -393,7 +396,7 @@ public class GameController {
 
     public void seenByInit(HashMap<Tile,Integer> seenBy){
         for (Tile key:tiles) {
-            seenBy.put(key,-1);
+            seenBy.put(key,1);
         }
     }
 
@@ -498,47 +501,65 @@ public class GameController {
             }
         }
     }
-    public String move(Matcher matcher){
-        return "";
-    }
-    public String initMoveUnit(Tile origin , Tile destination){
-        if(destination.getTerrain().equals(TerrainType.Ocean) || 
-           destination.getTerrain().equals(TerrainType.Ocean) || 
-           destination.getFeature().getFeatureType().equals(FeatureType.Ice)){
+
+    public String initMoveUnit(Matcher matcher){
+        if(selectedUnit == null)return "no selected unit";
+        int dx = Integer.parseInt(matcher.group("destinationX"));
+        int dy = Integer.parseInt(matcher.group("destinationY"));
+        if(dx > MapEnum.MAPWIDTH.amount-1 || dy > MapEnum.MAPWIDTH.amount -1)return "invalid coordinates";
+        Tile destination = getTile(dx , dy);
+        Tile origin = selectedUnit.getTile();
+        if(destination.getTerrain().equals(TerrainType.Ocean) ||
+           destination.getTerrain().equals(TerrainType.Ocean) ||
+                (destination.getFeature() != null && destination.getFeature().getFeatureType().equals(FeatureType.Ice))){
             return "destination is invalid.";   
         }
         Graph graphCopy = new Graph(initialGraph);
-        graphCopy = Movement.calculateShortestPathFromSource(graphCopy,new Node(origin));
+        graphCopy = Movement.calculateShortestPathFromSource(graphCopy,graphCopy.getNode(origin));
         selectedUnit.setPath(graphCopy.getNode(destination).getShortestPath());
         selectedUnit.getPath().remove(0);
-        selectedUnit.addNodeToPath(new Node(destination));
+        selectedUnit.addNodeToPath(graphCopy.getNode(destination));
         moveUnit(selectedUnit);
+        selectedUnit = null;
         return "moving...";
     }
 
-    public void moveUnit(Unit unit){
+    public void moveUnit(Unit unit) {
         while (unit.getMovementsLeft() > 0) {
             changeVision(unit.getTile(), playerTurn.getSeenBy(), -1, 2);
-            if(hasRiverBetween(unit.getTile(), unit.getNextMoveNode().getTile()))
+            if (hasRiverBetween(unit.getTile(), unit.getNextMoveNode().getTile()))
                 unit.setMovementsLeft(0);
-            else{
+            else {
                 unit.addMovementsLeft(-unit.getNextMoveNode().getTile().getMpCost());
-                if(unit.getMovementsLeft() < 0)
+                if (unit.getMovementsLeft() < 0)
                     unit.setMovementsLeft(0);
             }
             unit.setTile(unit.getNextMoveNode().getTile());
             changeVision(unit.getTile(), playerTurn.getSeenBy(), 1, 2);
         }
-        if(unit.getPath().size() > 0)
+        if (unit.getPath().size() > 0)
             movingUnits.add(unit);
     }
 
-    public String attack(Tile terrain){
-        return "";
-    }
-
-    public String selectUnit(){
-        return "";
+    public String selectUnit(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        boolean isCombatUnit = true;
+        if(matcher.group("type").equals("civil"))isCombatUnit = false;
+        if(x > MapEnum.MAPWIDTH.amount -1 || y > MapEnum.MAPHEIGHT.amount -1)return "invalid coordinates";
+        ArrayList<Unit> tileUnits;
+        if((tileUnits = getTile(x , y).getUnits()) == null)return "no units on this tile";
+        for (Unit unit:tileUnits) {
+            if(unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit){
+                selectedUnit = unit;
+                return "unit selected";
+            }
+            else if(!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit){
+                selectedUnit = unit;
+                return "unit selected";
+            }
+        }
+        return "unit not found";
     }
 
     public String assignTerrainState(Tile terrain){
