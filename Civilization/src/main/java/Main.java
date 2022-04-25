@@ -11,18 +11,15 @@ public class Main {
         loginMenuView.run();
     }
 }
-
-//    user create --username nima --password nimo --nickname enigma
-//        user create --username sero --password hart --nickname serr
-//        user create --username arash --password aa --nickname mio
-//        user login --username nima --password nimo
-//        menu enter Main_Menu
-
-////3 player mode
-//        play game --player1 sero --player2 nima --player3 arash
-////2 player mode
-//        play game --player1 nima --player2 sero
-
+/*
+user create --username nima --password nimo --nickname enigma
+user create --username sero --password hart --nickname serr
+user create --username arash --password aa --nickname mio
+user login --username nima --password nimo
+menu enter Main_Menu
+play game --player1 nima --player2 sero
+print map
+*/
 ////gamePlay commands
 ////print map
 ////next turn

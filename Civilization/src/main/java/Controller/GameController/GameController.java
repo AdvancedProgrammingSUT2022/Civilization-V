@@ -194,8 +194,9 @@ public class GameController {
     private void addVisibleTypeTexts(Tile tile,ArrayList<String> texts){
         if(tile.getFeature() != null)texts.add("F:" + tile.getFeature().getFeatureType().name());else{texts.add(null);}
         if(tile.getResource() != null)texts.add("R:" + tile.getResource().getResourceType().name());else{texts.add(null);}
-        if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
-        if(tile.getBuilding() != null)texts.add("B:" + tile.getBuilding().getBuildingType().name());else{texts.add(null);}
+        //if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
+        texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
+        //if(tile.getBuilding() != null)texts.add("B:" + tile.getBuilding().getBuildingType().name());else{texts.add(null);}
         if(tile.getUnits().size() == 1){texts.add("U:" + tile.getUnits().get(0).getUnitType().name());}else{texts.add(null);}
         if(tile.getUnits().size() == 2){texts.add("U:" + tile.getUnits().get(1).getUnitType().name());}else{texts.add(null);}
     }
@@ -203,8 +204,9 @@ public class GameController {
         texts.add("REVEALED");
         if(playerTurn.getRevealedFeatures().get(tile) != null)texts.add("F:" + playerTurn.getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
         if(playerTurn.getRevealedResources().get(tile) != null)texts.add("R:" + playerTurn.getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
-        if(playerTurn.getRevealedImprovements().get(tile) != null)texts.add("I:" + playerTurn.getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
-        if(playerTurn.getRevealedBuildings().get(tile) != null)texts.add("B:" + playerTurn.getRevealedBuildings().get(tile).getBuildingType().name());else{texts.add(null);}
+        //if(playerTurn.getRevealedImprovements().get(tile) != null)texts.add("I:" + playerTurn.getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
+        texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
+       // if(playerTurn.getRevealedBuildings().get(tile) != null)texts.add("B:" + playerTurn.getRevealedBuildings().get(tile).getBuildingType().name());else{texts.add(null);}
     }
     private void printInfoTile(String map[][],int textDistance,String infoString,int x,int y){
         nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  infoString.length() / 2 + 1,infoString.length(), y + textDistance);
@@ -396,7 +398,7 @@ public class GameController {
 
     public void seenByInit(HashMap<Tile,Integer> seenBy){
         for (Tile key:tiles) {
-            seenBy.put(key,1);
+            seenBy.put(key,-1);
         }
     }
 
@@ -510,7 +512,7 @@ public class GameController {
         Tile destination = getTile(dx , dy);
         Tile origin = selectedUnit.getTile();
         if(destination.getTerrain().equals(TerrainType.Ocean) ||
-           destination.getTerrain().equals(TerrainType.Ocean) ||
+           destination.getTerrain().equals(TerrainType.Mountain) ||
                 (destination.getFeature() != null && destination.getFeature().getFeatureType().equals(FeatureType.Ice))){
             return "destination is invalid.";   
         }
@@ -530,15 +532,26 @@ public class GameController {
             if (hasRiverBetween(unit.getTile(), unit.getNextMoveNode().getTile()))
                 unit.setMovementsLeft(0);
             else {
-                unit.addMovementsLeft(-unit.getNextMoveNode().getTile().getMpCost());
+                
+                unit.addMovementsLeft(-(Movement.calculateDistance(unit.getTile(), unit.getNextMoveNode().getTile())));
                 if (unit.getMovementsLeft() < 0)
                     unit.setMovementsLeft(0);
             }
+            unit.getTile().getUnits().remove(unit);
             unit.setTile(unit.getNextMoveNode().getTile());
+            unit.getTile().addUnit(unit);
+            unit.getPath().remove(0);
             changeVision(unit.getTile(), playerTurn.getSeenBy(), 1, 2);
+            if(unit.getPath().size() == 0)
+                break;
         }
         if (unit.getPath().size() > 0)
-            movingUnits.add(unit);
+            if(movingUnits.contains(unit) != true)
+                movingUnits.add(unit);
+        else
+            if(movingUnits.contains(unit))
+                movingUnits.remove(unit);
+            
     }
 
     public String selectUnit(Matcher matcher){
@@ -551,16 +564,19 @@ public class GameController {
         if((tileUnits = getTile(x , y).getUnits()) == null)return "no units on this tile";
         for (Unit unit:tileUnits) {
             if(unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit){
+                if(unit.getCivilization() != playerTurn)return "selected unit does not belong to your civilization!";
                 selectedUnit = unit;
                 return "unit selected";
             }
             else if(!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit){
+                if(unit.getCivilization() != playerTurn)return "selected unit does not belong to your civilization!";
                 selectedUnit = unit;
                 return "unit selected";
             }
         }
         return "unit not found";
     }
+
 
     public String assignTerrainState(Tile terrain){
         return "";

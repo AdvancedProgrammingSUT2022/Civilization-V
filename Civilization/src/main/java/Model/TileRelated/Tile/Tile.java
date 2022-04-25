@@ -28,7 +28,9 @@ public class Tile {
     public int getX() {
         return x;
     }
-
+    public void addUnit(Unit unit){
+        units.add(unit);
+    }
     public Civilization getCivilization() {
         return civilization;
     }

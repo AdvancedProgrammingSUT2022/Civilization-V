@@ -63,6 +63,8 @@ public class Movement {
         Graph graph = new Graph();
         for (int j = 1; j < MapEnum.MAPHEIGHT.amount -1 ; j++) {
             for (int i = 1; i < MapEnum.MAPWIDTH.amount - 1; i++) {
+                if(GameController.getTile(i, j).getTerrain().equals(TerrainType.Mountain) || 
+                GameController.getTile(i, j).getTerrain().equals(TerrainType.Ocean))continue;
                 Node node = new Node(GameController.getTile(i, j));
                 graph.addNode(node);
             }
@@ -71,14 +73,14 @@ public class Movement {
             for (Tile surrounding: GameController.getSurroundings(thisNode.getTile())) {
                 if(surrounding == null || surrounding.getTerrain().equals(TerrainType.Ocean)
                         || surrounding.getTerrain().equals(TerrainType.Mountain) ||
-                        (surrounding.getFeature() != null && surrounding.getFeature().equals(FeatureType.Ice)))continue;
+                        (surrounding.getFeature() != null && surrounding.getFeature().getFeatureType().equals(FeatureType.Ice)))continue;
                 thisNode.addDestination(graph.getNode(surrounding),calculateDistance(thisNode.getTile(),surrounding));
             }
         }
         return graph;
     }
 
-    private static int calculateDistance(Tile origin, Tile destination){
+    public static int calculateDistance(Tile origin, Tile destination){
         int mp = destination.getTerrain().movementCost;
         if(destination.getFeature() != null)
             mp += destination.getFeature().mpCost;
