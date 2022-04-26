@@ -1,9 +1,6 @@
 package Controller.GameController.MapControllers;
 
 import java.util.ArrayList;
-
-import javax.management.modelmbean.ModelMBeanAttributeInfo;
-
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
