@@ -1,6 +1,6 @@
 package View.PreGameView;
 import Controller.PreGameController.ProfileMenuController;
-import View.Menu;
+import View.Menu.Menu;
 
 import java.util.HashMap;
 import java.util.function.Consumer;

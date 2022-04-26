@@ -3,8 +3,8 @@ package Controller.PreGameController;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import Controller.Controller;
-import Model.User;
+import Controller.Controller.Controller;
+import Model.User.User;
 
 public class LoginMenuController extends Controller{
     private static ArrayList<User> users = new ArrayList<>();

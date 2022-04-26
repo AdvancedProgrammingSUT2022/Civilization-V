@@ -1,5 +1,4 @@
 package Controller.GameController;
-
 import Model.Enums.MapEnum;
 import Model.Movement.Graph;
 import Model.Movement.Node;
@@ -9,8 +8,17 @@ import Model.TileRelated.Tile.Tile;
 
 import java.util.*;
 
+import Controller.GameController.MapControllers.MapFunctions;
+
 public class Movement {
-    public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
+    private static Movement movement;
+    private Movement(){}
+    public static Movement getInstance(){
+        if(movement == null)
+            movement = new Movement();
+        return movement;
+    }
+    public Graph calculateShortestPathFromSource(Graph graph, Node source) {
         source.setDistance(0);
 
         Set<Node> settledNodes = new HashSet<>();
@@ -35,7 +43,7 @@ public class Movement {
         return graph;
     }
 
-    private static Node getLowestDistanceNode(Set < Node > unsettledNodes) {
+    private Node getLowestDistanceNode(Set < Node > unsettledNodes) {
         Node lowestDistanceNode = null;
         int lowestDistance = Integer.MAX_VALUE;
         for (Node node: unsettledNodes) {
@@ -48,8 +56,7 @@ public class Movement {
         return lowestDistanceNode;
     }
 
-    private static void calculateMinimumDistance(Node evaluationNode,
-                                                 Integer edgeWeigh, Node sourceNode) {
+    private void calculateMinimumDistance(Node evaluationNode,Integer edgeWeigh, Node sourceNode) {
         Integer sourceDistance = sourceNode.getDistance();
         if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
             evaluationNode.setDistance(sourceDistance + edgeWeigh);
@@ -59,18 +66,18 @@ public class Movement {
         }
     }
 
-    public static Graph graphInit(){
+    public Graph graphInit(){
         Graph graph = new Graph();
         for (int j = 1; j < MapEnum.MAPHEIGHT.amount -1 ; j++) {
             for (int i = 1; i < MapEnum.MAPWIDTH.amount - 1; i++) {
-                if(GameController.getTile(i, j).getTerrain().equals(TerrainType.Mountain) || 
-                GameController.getTile(i, j).getTerrain().equals(TerrainType.Ocean))continue;
-                Node node = new Node(GameController.getTile(i, j));
+                if(MapFunctions.getInstance().getTile(i, j).getTerrain().equals(TerrainType.Mountain) || 
+                MapFunctions.getInstance().getTile(i, j).getTerrain().equals(TerrainType.Ocean))continue;
+                Node node = new Node(MapFunctions.getInstance().getTile(i, j));
                 graph.addNode(node);
             }
         }
         for (Node thisNode:graph.getNodes()){
-            for (Tile surrounding: GameController.getSurroundings(thisNode.getTile())) {
+            for (Tile surrounding: MapFunctions.getInstance().getSurroundings(thisNode.getTile())) {
                 if(surrounding == null || surrounding.getTerrain().equals(TerrainType.Ocean)
                         || surrounding.getTerrain().equals(TerrainType.Mountain) ||
                         (surrounding.getFeature() != null && surrounding.getFeature().getFeatureType().equals(FeatureType.Ice)))continue;
@@ -80,7 +87,7 @@ public class Movement {
         return graph;
     }
 
-    public static int calculateDistance(Tile origin, Tile destination){
+    public int calculateDistance(Tile origin, Tile destination){
         int mp = destination.getTerrain().movementCost;
         if(destination.getFeature() != null)
             mp += destination.getFeature().mpCost;

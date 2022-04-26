@@ -4,11 +4,11 @@ import java.util.HashMap;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Improvement.Improvement;
-import Model.User;
 import Model.Technology.Technology;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
+import Model.User.User;
 
 public class Civilization {
     private User user;

@@ -1,9 +1,10 @@
 package Controller.PreGameController;
 
-import Controller.Controller;
-import Model.User;
+import Model.User.User;
 
 import java.util.regex.Matcher;
+
+import Controller.Controller.Controller;
 
 public class ProfileMenuController extends Controller{
     public String changeNickname(Matcher matcher){

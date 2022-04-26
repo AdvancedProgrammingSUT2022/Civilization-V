@@ -5,8 +5,14 @@ import Model.Movement.Node;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitStateType;
 import Model.Units.TypeEnums.UnitType;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import Controller.GameController.GameController;
+import Controller.GameController.Movement;
+import Controller.GameController.MapControllers.MapPrinter;
+import Controller.GameController.MapControllers.TileVisibilityController;
 
 public class Unit {
     protected Civilization civilization;
@@ -29,6 +35,33 @@ public class Unit {
         movementsLeft = this.unitType.movement;
     }
 
+    public void moveUnit() {
+        while (getMovementsLeft() > 0) {
+            TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), -1, 2);
+            if (MapPrinter.getInstance().hasRiverBetween(getTile(), getNextMoveNode().getTile()))
+                setMovementsLeft(0);
+            else {
+                
+                addMovementsLeft(-(Movement.getInstance().calculateDistance(getTile(),getNextMoveNode().getTile())));
+                if (getMovementsLeft() < 0)
+                    setMovementsLeft(0);
+            }
+            getTile().getUnits().remove(this);
+            setTile(getNextMoveNode().getTile());
+            getTile().addUnit(this);
+            getPath().remove(0);
+            TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), 1, 2);
+            if(getPath().size() == 0)
+                break;
+        }
+        if (getPath().size() > 0){
+            if(GameController.getInstance().getMap().getMovingUnits().contains(this) != true)
+                GameController.getInstance().getMap().getMovingUnits().add(this);
+        }
+        else
+            if(GameController.getInstance().getMap().getMovingUnits().contains(this))
+            GameController.getInstance().getMap().getMovingUnits().remove(this);
+    }
     public int getMovementsLeft() {
         return movementsLeft;
     }

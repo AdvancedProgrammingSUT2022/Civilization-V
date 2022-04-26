@@ -1,11 +1,8 @@
 package View.PreGameView;
-
 import Controller.PreGameController.LoginMenuController;
-import Controller.PreGameController.MainMenuController;
-import View.Menu;
+import View.Menu.Menu;
 
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 

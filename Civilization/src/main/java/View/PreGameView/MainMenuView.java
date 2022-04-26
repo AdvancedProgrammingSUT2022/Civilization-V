@@ -1,11 +1,8 @@
 package View.PreGameView;
-
-import Controller.GameController.GameController;
-import Controller.PreGameController.LoginMenuController;
 import Controller.PreGameController.MainMenuController;
-import Model.User;
+import Model.User.User;
 import View.GameView.Game;
-import View.Menu;
+import View.Menu.Menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;

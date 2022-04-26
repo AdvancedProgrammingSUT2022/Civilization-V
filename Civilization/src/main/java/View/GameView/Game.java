@@ -1,8 +1,8 @@
 package View.GameView;
 
 import Controller.GameController.GameController;
-import Model.User;
-import View.Menu;
+import Model.User.User;
+import View.Menu.Menu;
 import View.PreGameView.Regex;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
 public class Game extends Menu{
-    GameController gameController = new GameController();
+    GameController gameController = GameController.getInstance();
 
     private final Consumer<Matcher> printMap = matcher -> System.out.println(gameController.printMap());
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
