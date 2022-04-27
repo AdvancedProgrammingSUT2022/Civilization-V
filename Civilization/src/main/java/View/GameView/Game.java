@@ -18,6 +18,25 @@ public class Game extends Menu{
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
     private final Consumer<Matcher> selectUnit = matcher -> System.out.println(gameController.selectUnit(matcher));
+    private final Consumer<Matcher> info = matcher -> System.out.println();
+    private final Consumer<Matcher> selectCity = matcher -> System.out.println();
+    private final Consumer<Matcher> showMap = matcher -> System.out.println();
+    private final Consumer<Matcher> moveMap = matcher -> System.out.println();
+    private final Consumer<Matcher> build = matcher -> System.out.println();
+    private final Consumer<Matcher> sleep = matcher -> System.out.println();
+    private final Consumer<Matcher> alert = matcher -> System.out.println();
+    private final Consumer<Matcher> fortify = matcher -> System.out.println();
+    private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println();
+    private final Consumer<Matcher> garrison = matcher -> System.out.println();
+    private final Consumer<Matcher> setup = matcher -> System.out.println();
+    private final Consumer<Matcher> attack = matcher -> System.out.println();
+    private final Consumer<Matcher> foundCity = matcher -> System.out.println();
+    private final Consumer<Matcher> cancel = matcher -> System.out.println();
+    private final Consumer<Matcher> wake = matcher -> System.out.println();
+    private final Consumer<Matcher> delete = matcher -> System.out.println();
+    private final Consumer<Matcher> removeObjects = matcher -> System.out.println();
+    private final Consumer<Matcher> repair = matcher -> System.out.println();
+
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -32,6 +51,24 @@ public class Game extends Menu{
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
         commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
+        commandsMap.put(regex.info,info);
+        commandsMap.put(regex.selectCity,selectCity);
+        commandsMap.put(regex.showMap,showMap);
+        commandsMap.put(regex.moveMap,moveMap);
+        commandsMap.put(regex.build,build);
+        commandsMap.put(regex.sleep,sleep);
+        commandsMap.put(regex.alert,alert);
+        commandsMap.put(regex.fortify,fortify);
+        commandsMap.put(regex.fortifyHeal,fortifyHeal);
+        commandsMap.put(regex.garrison,garrison);
+        commandsMap.put(regex.setup,setup);
+        commandsMap.put(regex.attack,attack);
+        commandsMap.put(regex.foundCity,foundCity);
+        commandsMap.put(regex.cancel,cancel);
+        commandsMap.put(regex.wake,wake);
+        commandsMap.put(regex.delete,delete);
+        commandsMap.put(regex.removeObjects,removeObjects);
+        commandsMap.put(regex.repair,repair);
         return commandsMap;
     }
 }

@@ -13,6 +13,24 @@ public class Regex {
     public final String printMap = "print map";
     public final String nextTurn = "next turn";
     public final String getPlayerName = "get player name";
-    public final String selectUnit = "select (?<type>(combat)||(civil)) unit (?<y>\\d+) (?<x>\\d+)";
-    public final String moveUnit = "move unit to (?<destinationY>\\d+) (?<destinationX>\\d+)";
+    public final String selectUnit = "select unit (?=.*--type (?<type>(combat)|(civil)))(?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String moveUnit = "move unit to (?=.*--y (?<destinationY>\\d+))(?=.*--x (?<destinationX>\\d+))";
+    public final String info = "show info (?<type>RESEARCH|UNITS|CITIES|DIPLOMACY|VICTORY|DEMOGRAPHICS|NOTIFICATIONS|MILITARY|ECONOMIC|DIPLOMATIC|DEALS)";
+    public final String selectCity = "select city (--name (?<name>\\S+))|((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))";
+    public final String showMap = "show map ((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))|(--cityName (?<cityName>\\S+))";
+    public final String moveMap  = "move map (?=.*--direction (?<direction>RIGHT|LEFT|UP|DOWN))(?=.*--amount (?<amount>\\d+))";
+    public final String build = "unit build (?<building>\\S+)";
+    public final String sleep = "unit sleep";
+    public final String alert = "unit alert";
+    public final String fortify = "unit fortify$";
+    public final String fortifyHeal = "unit fortify heal";
+    public final String garrison = "unit garrison";
+    public final String setup = "unit set up";
+    public final String attack = "unit attack (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String foundCity = "unit found city";
+    public final String cancel = "unit cancel";
+    public final String wake = "wake unit";
+    public final String delete = "delete unit";
+    public final String removeObjects = "unit remove (?<object>jungle|route)";
+    public final String repair = "unit repair tile";
 }
