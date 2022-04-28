@@ -11,6 +11,7 @@ import Model.Movement.Graph;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.NonCombat.NonCombat;
 import Model.Units.NonCombat.Settler;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
@@ -87,9 +88,11 @@ public class UnitController {
         return "moving...";
     }
 
-    public String checkAndBuildCity(Unit selectedUnit) {
+    public String checkAndBuildCity() {
+        Unit selectedUnit = GameController.getInstance().getSelectedUnit();
+        if(selectedUnit == null) return "no unit is selected";
         if(selectedUnit.getUnitType() == UnitType.Settler){
-            Settler settler = (Settler) selectedUnit;
+            Settler settler = (Settler) ((NonCombat) selectedUnit);
             if(selectedUnit.getTile().getCivilization() != selectedUnit.getCivilization()){
                 for (Tile surrounding : MapFunctions.getInstance().getSurroundings(selectedUnit.getTile()))  {
                     if(surrounding.getCivilization() != null && surrounding.getCivilization() != selectedUnit.getCivilization()){
@@ -103,10 +106,13 @@ public class UnitController {
                         }
                     }
                 }
-                settler.buildCity(settler);
+                settler.buildCity();
+                settler.getTile().getUnits().remove(settler);
+                settler.getCivilization().getUnits().remove(settler);
+                GameMap.getInstance().getUnits().remove(settler);
                 return "your new city is built";
             } return "this tile belongs to another civilization";
-        } return "you can just build new city with settler";
+        } return "you can only build new city with settler";
     }
 
     private int getXFromMatcher(Matcher matcher){

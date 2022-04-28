@@ -19,7 +19,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
     private final Consumer<Matcher> selectUnit = matcher -> System.out.println(gameController.selectUnit(matcher));
     private final Consumer<Matcher> info = matcher -> System.out.println();
-    private final Consumer<Matcher> selectCity = matcher -> System.out.println();
+//    private final Consumer<Matcher> selectCity = matcher -> System.out.println();
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
     private final Consumer<Matcher> moveMap = matcher -> System.out.println();
     private final Consumer<Matcher> build = matcher -> System.out.println();
@@ -30,7 +30,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> garrison = matcher -> System.out.println();
     private final Consumer<Matcher> setup = matcher -> System.out.println();
     private final Consumer<Matcher> attack = matcher -> System.out.println();
-    private final Consumer<Matcher> foundCity = matcher -> System.out.println();
+    private final Consumer<Matcher> foundCity = matcher -> System.out.println(gameController.foundCity());
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();
     private final Consumer<Matcher> delete = matcher -> System.out.println();
@@ -49,10 +49,10 @@ public class Game extends Menu{
         commandsMap.put(regex.printMap,this.printMap);
         commandsMap.put(regex.nextTurn,this.nextTurn);
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
-        commandsMap.put(regex.selectUnit,this.selectUnit);
+//        commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
         commandsMap.put(regex.info,info);
-        commandsMap.put(regex.selectCity,selectCity);
+//        commandsMap.put(regex.selectCity,selectCity);
         commandsMap.put(regex.showMap,showMap);
         commandsMap.put(regex.moveMap,moveMap);
         commandsMap.put(regex.build,build);

@@ -44,6 +44,9 @@ public class GameController{
         else turnIndex++;
         playerTurn = this.map.getCivilizations().get(turnIndex);
     }
+    public String foundCity(){
+       return UnitController.getInstance().checkAndBuildCity();
+    }
     private void restoreMovementLefts(){
         UnitController.getInstance().restoreUnitMovementLeft();
     }

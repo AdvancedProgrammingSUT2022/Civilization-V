@@ -16,7 +16,7 @@ menu enter Main_Menu
 play game --player1 nima --player2 sero
 print map
 */
-////gamePlay commands
-////print map
-////next turn
-////get player name
+//gamePlay commands
+//print map
+//next turn
+//get player name
