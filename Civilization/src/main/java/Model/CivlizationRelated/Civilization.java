@@ -83,7 +83,7 @@ public class Civilization {
     public void addUnit(Unit unit){
         units.add(unit);
     }
-    public void addGole(int gold){
+    public void addGold(int gold){
         this.gold += gold;
     }
     public int calculateHappiness(){
@@ -150,5 +150,9 @@ public class Civilization {
     }
     public Technology getTechnology(){
         return null;
+    }
+
+    public void addCity(City city) {
+        this.cities.add(city);
     }
 }

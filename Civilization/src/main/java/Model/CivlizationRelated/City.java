@@ -9,6 +9,8 @@ import Model.Units.Unit;
 public class City {
     private Civilization civilization;
     private int hitPoint = 20;
+    private int gold;
+    private int science;
     private int foodProductionRate;
     private int population;
     private ArrayList<Building> building;
@@ -17,6 +19,21 @@ public class City {
     private ArrayList<Unit> units;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
+
+    public City() {
+        this.civilization = new Civilization();
+        this.population = 0;
+        this.gold = 0;
+        this.science = 0;
+        this.foodProductionRate = 0;
+        this.building = new ArrayList<Building>();
+        this.cityTiles = new ArrayList<Tile>();
+        this.garrisonUnits = new ArrayList<Unit>();
+        this.units = new ArrayList<Unit>();
+        this.citizens = new ArrayList<Citizen>();
+        this.improvements = new ArrayList<Improvement>();
+
+    }
     public void feedPopulation(){
 
     }
@@ -105,5 +122,9 @@ public class City {
     }
     public void attackEnemyUnit(Unit unit){
 
+    }
+
+    public void addCityTiles(Tile tile) {
+        this.cityTiles.add(tile);
     }
 }

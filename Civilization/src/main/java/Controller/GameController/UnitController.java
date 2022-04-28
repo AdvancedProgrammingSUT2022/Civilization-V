@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import Controller.GameController.MapControllers.MapFunctions;
+import Model.CivlizationRelated.City;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.NonCombat.Settler;
+import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.Units.TypeEnums.MainType;
 
@@ -83,6 +86,29 @@ public class UnitController {
         GameController.getInstance().setSelectedUnit(null);
         return "moving...";
     }
+
+    public String checkAndBuildCity(Unit selectedUnit) {
+        if(selectedUnit.getUnitType() == UnitType.Settler){
+            Settler settler = (Settler) selectedUnit;
+            if(selectedUnit.getTile().getCivilization() != selectedUnit.getCivilization()){
+                for (Tile surrounding : MapFunctions.getInstance().getSurroundings(selectedUnit.getTile()))  {
+                    if(surrounding.getCivilization() != null && surrounding.getCivilization() != selectedUnit.getCivilization()){
+                        return "these tiles belong two another civilization";
+                    }
+                }
+                for(City city : selectedUnit.getCivilization().getCities()){
+                    for(Tile tile : city.getCityTiles()){
+                        if(tile != null && tile == selectedUnit.getTile()){
+                            return "these Tile belongs to another city";
+                        }
+                    }
+                }
+                settler.buildCity(settler);
+                return "your new city is built";
+            } return "this tile belongs to another civilization";
+        } return "you can just build new city with settler";
+    }
+
     private int getXFromMatcher(Matcher matcher){
         return Integer.parseInt(matcher.group("destinationX"));
     }
