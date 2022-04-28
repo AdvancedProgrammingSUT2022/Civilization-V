@@ -11,6 +11,7 @@ import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
+import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
@@ -111,13 +112,17 @@ public class UnitController {
                             }
                         }
                     }
-                ((Settler) selectedUnit).buildCity();
-                selectedUnit.getTile().getUnits().remove(selectedUnit);
-                selectedUnit.getCivilization().getUnits().remove(selectedUnit);
-                GameMap.getInstance().getUnits().remove(selectedUnit);
+                BuildCity(((Settler) selectedUnit));
                 return "your new city is built";
             } return "this tile belongs to another civilization";
         } return "you can only build new city with settler";
+    }
+
+    private void BuildCity(Settler settler){
+        settler.buildCity();
+        settler.getTile().getUnits().remove(settler);
+        settler.getCivilization().getUnits().remove(settler);
+        GameMap.getInstance().getUnits().remove(settler);
     }
 
     public void makeUnit(UnitType unitType, Civilization civilization , Tile tile){
