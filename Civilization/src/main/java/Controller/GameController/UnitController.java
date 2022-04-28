@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import Controller.GameController.MapControllers.MapFunctions;
+import Controller.GameController.MapControllers.MapGenerator;
+import Controller.GameController.MapControllers.TileVisibilityController;
 import Model.CivlizationRelated.City;
+import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.NonCombat.NonCombat;
 import Model.Units.NonCombat.Settler;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
@@ -87,13 +91,15 @@ public class UnitController {
         return "moving...";
     }
 
-    public String checkAndBuildCity(Unit selectedUnit) {
+    public String checkAndBuildCity() {
+        Unit selectedUnit = GameController.getInstance().getSelectedUnit();
+        if(selectedUnit == null)return "no unit is selected";
         if(selectedUnit.getUnitType() == UnitType.Settler){
             Settler settler = (Settler) selectedUnit;
             if(selectedUnit.getTile().getCivilization() != selectedUnit.getCivilization()){
                 for (Tile surrounding : MapFunctions.getInstance().getSurroundings(selectedUnit.getTile()))  {
                     if(surrounding.getCivilization() != null && surrounding.getCivilization() != selectedUnit.getCivilization()){
-                        return "these tiles belong two another civilization";
+                        return "these tiles belong to another civilization";
                     }
                 }
                 for(City city : selectedUnit.getCivilization().getCities()){
@@ -103,10 +109,22 @@ public class UnitController {
                         }
                     }
                 }
-                settler.buildCity(settler);
+                settler.buildCity();
+                settler.getTile().getUnits().remove(settler);
+                settler.getCivilization().getUnits().remove(settler);
+                GameMap.getInstance().getUnits().remove(settler);
                 return "your new city is built";
             } return "this tile belongs to another civilization";
-        } return "you can just build new city with settler";
+        } return "you can only build new city with settler";
+    }
+
+    public void makeUnit(UnitType unitType, Civilization civilization , Tile tile){
+        Unit unit = new Unit(civilization,tile,unitType);
+        civilization.addUnit(unit);
+        tile.getUnits().add(unit);
+        tile.setCivilization(civilization);
+        GameMap.getInstance().getUnits().add(unit);
+        TileVisibilityController.getInstance().changeVision(tile,civilization.getSeenBy(),1,2);
     }
 
     private int getXFromMatcher(Matcher matcher){

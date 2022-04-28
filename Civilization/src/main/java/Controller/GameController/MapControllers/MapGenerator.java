@@ -6,6 +6,7 @@ import java.util.Random;
 
 import Controller.GameController.GameController;
 import Controller.GameController.Movement;
+import Controller.GameController.UnitController;
 import Controller.SavingDataController.UserDataController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
@@ -176,20 +177,10 @@ public class MapGenerator {
                 settlerDeploy = center;
                 break outer;
             }
-            makeUnit(UnitType.Settler,civilization,null,settlerDeploy);
-            makeUnit(UnitType.Warrior,civilization,null,warriorDeploy);
+            UnitController.getInstance().makeUnit(UnitType.Settler,civilization,settlerDeploy);
+            UnitController.getInstance().makeUnit(UnitType.Warrior,civilization,warriorDeploy);
         }
         GameController.getInstance().setPlayerTurn(GameMap.getInstance().getCivilizations().get(0));
         UserDataController.getInstance().saveUsersInformation();
-    }
-
-    private void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
-        Unit unit = new Unit(civilization,city,tile,unitType);
-        civilization.addUnit(unit);
-        tile.getUnits().add(unit);
-        tile.setCivilization(civilization);
-        GameMap.getInstance().getUnits().add(unit);
-        //city.units.add(unit);
-        TileVisibilityController.getInstance().changeVision(tile,civilization.getSeenBy(),1,2);
     }
 }

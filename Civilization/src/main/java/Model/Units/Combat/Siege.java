@@ -5,8 +5,8 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 
 public class Siege extends Ranged {
-    public Siege(Civilization civilization, City city, Tile tile, UnitType unitType) {
-        super(civilization, city, tile, unitType);
+    public Siege(Civilization civilization, Tile tile, UnitType unitType) {
+        super(civilization, tile, unitType);
         //TODO Auto-generated constructor stub
     }
     protected boolean preAttackDone;

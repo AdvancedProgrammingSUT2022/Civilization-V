@@ -1,6 +1,7 @@
 package View.GameView;
 
 import Controller.GameController.GameController;
+import Controller.GameController.UnitController;
 import Model.User.User;
 import View.Menu.Menu;
 import View.PreGameView.Regex;
@@ -17,7 +18,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
-    private final Consumer<Matcher> selectUnit = matcher -> System.out.println(gameController.selectUnit(matcher));
+    private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
     private final Consumer<Matcher> info = matcher -> System.out.println();
     private final Consumer<Matcher> selectCity = matcher -> System.out.println();
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
@@ -30,7 +31,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> garrison = matcher -> System.out.println();
     private final Consumer<Matcher> setup = matcher -> System.out.println();
     private final Consumer<Matcher> attack = matcher -> System.out.println();
-    private final Consumer<Matcher> foundCity = matcher -> System.out.println();
+    private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity());
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();
     private final Consumer<Matcher> delete = matcher -> System.out.println();

@@ -7,8 +7,8 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 
 public class Worker extends NonCombat{
-    public Worker(Civilization civilization, City city, Tile tile) {
-        super(civilization, city, tile,UnitType.Worker);
+    public Worker(Civilization civilization, Tile tile) {
+        super(civilization, tile,UnitType.Worker);
     }
     private Improvement improvement;
     

@@ -24,10 +24,10 @@ public class Unit {
     protected int maxDamage;
     protected List<Node> path = new LinkedList<>();
 
-    public Unit(Civilization civilization, City city, Tile tile, UnitType unitType) {
+    public Unit(Civilization civilization, Tile tile, UnitType unitType) {
         this.civilization = civilization;
         this.civilization.addUnit(this);
-        this.city = city;
+        //this.city = city;
         this.tile = tile;
         this.setUnitType(unitType);
         this.setUnitStateType(UnitStateType.NORMAL);

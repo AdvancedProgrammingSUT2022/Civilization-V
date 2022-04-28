@@ -6,8 +6,8 @@ import Model.Units.TypeEnums.UnitType;
 
 public class Ranged extends Combat {
     
-    public Ranged(Civilization civilization, City city, Tile tile, UnitType unitType) {
-        super(civilization, city, tile, unitType);
+    public Ranged(Civilization civilization, Tile tile, UnitType unitType) {
+        super(civilization, tile, unitType);
         //TODO Auto-generated constructor stub
     }
 
