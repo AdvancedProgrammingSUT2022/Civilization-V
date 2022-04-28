@@ -12,7 +12,7 @@ import Model.User.User;
 
 public class Civilization {
     private User user;
-    private ArrayList<City> cities;
+    private ArrayList<City> cities = new ArrayList<>();
     private int population;
     private int gold;
     private int goldProductionRatePerRound;

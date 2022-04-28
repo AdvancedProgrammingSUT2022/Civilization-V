@@ -56,9 +56,6 @@ public class GameController{
     public void gameInit(ArrayList<User> players) {
         MapGenerator.getInstance().gameInit(players);
     }
-    public String selectUnit(Matcher matcher) {
-        return UnitController.getInstance().selectUnit(matcher);
-    }
     public String initMoveUnit(Matcher matcher) {
         return UnitController.getInstance().initMoveUnit(matcher); 
     }

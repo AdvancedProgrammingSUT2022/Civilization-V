@@ -10,8 +10,8 @@ public class Combat extends Unit {
 
     
 
-    public Combat(Civilization civilization, City city, Tile tile, UnitType unitType) {
-        super(civilization, city, tile, unitType);
+    public Combat(Civilization civilization, Tile tile, UnitType unitType) {
+        super(civilization, tile, unitType);
         //TODO Auto-generated constructor stub
     }
 

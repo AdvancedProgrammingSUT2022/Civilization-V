@@ -10,8 +10,8 @@ import Model.Units.TypeEnums.UnitType;
 
 public class NonCombat extends Unit {
     
-    public NonCombat(Civilization civilization, City city, Tile tile, UnitType unitType) {
-        super(civilization, city, tile, unitType);
+    public NonCombat(Civilization civilization, Tile tile, UnitType unitType) {
+        super(civilization, tile, unitType);
         //TODO Auto-generated constructor stub
     }
 
