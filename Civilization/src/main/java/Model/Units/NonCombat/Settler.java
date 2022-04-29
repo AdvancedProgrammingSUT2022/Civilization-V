@@ -28,9 +28,7 @@ public class Settler extends NonCombat {
         }
         this.civilization.addCity(city);
         if(this.civilization.getCities().size() == 1) { // make palace for first city
-            Building Castle = new Building(BuildingType.Castle);
-            city.addBuilding(Castle);
-            this.civilization.addRevealBuilding(this.tile, Castle);
+            city.setCapital(true);
         }
     }
     public int calculateProductionAfterBuildingCity(){

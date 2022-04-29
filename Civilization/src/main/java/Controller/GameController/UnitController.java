@@ -95,7 +95,7 @@ public class UnitController {
         for(BuildingType buildingType : GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt()){
             System.out.println(buildingType.name());
             if(buildingType.name().equals(chosenBuildingType)){
-                if(buildingType.getCost() > GameController.getInstance().getSelectedCity().getGold()) return "cost of this building is more than amount of your city's gold";
+                //////////////////////if(buildingType.getCost() > GameController.getInstance().getSelectedCity().getGold()) return "cost of this building is more than amount of your city's gold";
                 // array  of buildings
                 // handle turn
                 buildBuilding(buildingType);
@@ -108,8 +108,8 @@ public class UnitController {
     private void buildBuilding(BuildingType buildingType){
         Building building = new Building(buildingType);
         GameController.getInstance().getSelectedCity().addBuilding(building);
-        int newCityGold = GameController.getInstance().getSelectedCity().getGold() - buildingType.getCost();
-        GameController.getInstance().getSelectedCity().setGold(newCityGold);
+        ////int newCityGold = GameController.getInstance().getSelectedCity().getGold() - buildingType.getCost();
+        ////GameController.getInstance().getSelectedCity().setGold(newCityGold);
     }
     // --------create Units--------------------
 

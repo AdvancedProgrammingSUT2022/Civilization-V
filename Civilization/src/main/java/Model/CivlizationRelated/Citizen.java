@@ -4,19 +4,9 @@ import Model.TileRelated.Tile.Tile;
 public class Citizen {
     private City city;
     private Tile tile;
-    private boolean hasWork;
-    public Citizen(City city) {
+
+    public Citizen(City city){
         this.city = city;
-        this.tile = new Tile();
-        this.hasWork = false;
-    }
-
-    public boolean isHasWork() {
-        return hasWork;
-    }
-
-    public void setHasWork(boolean hasWork) {
-        this.hasWork = hasWork;
     }
     public City getCity() {
         return city;
@@ -30,5 +20,5 @@ public class Citizen {
     public void setTile(Tile tile) {
         this.tile = tile;
     }
-    
+
 }
