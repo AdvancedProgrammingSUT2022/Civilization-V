@@ -1,5 +1,6 @@
 package View.GameView;
 
+import Controller.GameController.CityController;
 import Controller.GameController.GameController;
 import Controller.GameController.UnitController;
 import Model.User.User;
@@ -20,7 +21,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
     private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
     private final Consumer<Matcher> info = matcher -> System.out.println();
-    private final Consumer<Matcher> selectCity = matcher -> System.out.println(UnitController.getInstance().selectCity(matcher));
+    private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
     private final Consumer<Matcher> moveMap = matcher -> System.out.println();
     private final Consumer<Matcher> build = matcher -> System.out.println(UnitController.getInstance().chooseBuilding(matcher));
@@ -38,6 +39,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> delete = matcher -> System.out.println();
     private final Consumer<Matcher> removeObjects = matcher -> System.out.println();
     private final Consumer<Matcher> repair = matcher -> System.out.println();
+    private final Consumer<Matcher> buyTile = matcher -> System.out.println(CityController.getInstance().buyTile(matcher));
 
 
     public Game(ArrayList<User> players){
@@ -72,6 +74,7 @@ public class Game extends Menu{
         commandsMap.put(regex.delete,delete);
         commandsMap.put(regex.removeObjects,removeObjects);
         commandsMap.put(regex.repair,repair);
+        commandsMap.put(regex.buyTile,buyTile);
         return commandsMap;
     }
 }

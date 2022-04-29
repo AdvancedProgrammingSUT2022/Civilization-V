@@ -18,8 +18,7 @@ public class Settler extends NonCombat {
         super(civilization, tile,UnitType.Settler);
     }
     public void buildCity(){
-        City city = new City();
-        city.setCivilization(this.civilization);
+        City city = new City(civilization);
         city.addCityTiles(this.tile);
         this.tile.setCivilization(civilization);
         for (Tile tile : MapFunctions.getInstance().getSurroundings(this.tile)) {
@@ -29,6 +28,9 @@ public class Settler extends NonCombat {
         this.civilization.addCity(city);
         if(this.civilization.getCities().size() == 1) { // make palace for first city
             city.setCapital(true);
+            city.calculateProduction();
+            city.calculateGold();
+            city.calculateFood();
         }
     }
     public int calculateProductionAfterBuildingCity(){

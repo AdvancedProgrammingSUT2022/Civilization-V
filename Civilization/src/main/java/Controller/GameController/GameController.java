@@ -1,6 +1,8 @@
 package Controller.GameController;
+import Controller.GameController.MapControllers.MapFunctions;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.User.User;
 import Model.Units.Unit;
@@ -45,6 +47,7 @@ public class GameController{
     public String nextTurn(){
         changePlayer();
         restoreMovementLefts();
+        CityController.getInstance().calculateProducts();
         return "next player turn!";
     }
     private void changePlayer(){
@@ -53,10 +56,17 @@ public class GameController{
         else turnIndex++;
         playerTurn = this.map.getCivilizations().get(turnIndex);
     }
+
     private void restoreMovementLefts(){
         UnitController.getInstance().restoreUnitMovementLeft();
     }
     public String printMap(){
+        if(selectedCity != null ){
+            System.out.println(selectedCity.getPopulation());
+            System.out.println(selectedCity.getGoldPerTurn());
+            System.out.println(selectedCity.getFoodPerTurn());
+            System.out.println(selectedCity.getProductionPerTurn());
+        }
         return this.map.printMap();
     }
     public void gameInit(ArrayList<User> players) {

@@ -34,4 +34,5 @@ public class Regex {
     public final String delete = "delete unit";
     public final String removeObjects = "unit remove (?<object>jungle|route)";
     public final String repair = "unit repair tile";
+    public final String buyTile = "buy tile (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
 }

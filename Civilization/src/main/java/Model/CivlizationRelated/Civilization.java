@@ -17,7 +17,7 @@ public class Civilization {
     private int gold;
     private int goldPerTurn;
     private int happiness;
-    private ArrayList<Tile> tiles;
+    private ArrayList<Tile> tiles = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
@@ -65,8 +65,8 @@ public class Civilization {
     public int getGold() {
         return gold;
     }
-    public void setGold(int gold) {
-        this.gold = gold;
+    public void changeGold(int gold) {
+        this.gold += gold;
     }
     public int getHappiness() {
         return happiness;
@@ -139,10 +139,4 @@ public class Civilization {
         this.cities.add(city);
     }
 
-    private void calculateGoldPerTurn(){
-        goldPerTurn = 0;
-        for (City city:cities) {
-            goldPerTurn += city.getGoldPerTurn();
-        }
-    }
 }

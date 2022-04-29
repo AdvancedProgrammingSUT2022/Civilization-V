@@ -1,8 +1,10 @@
 package Model.CivlizationRelated;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
+import Controller.GameController.MapControllers.MapGenerator;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Improvement.Improvement;
@@ -28,11 +30,9 @@ public class City {
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
 
-    public City() {
-        this.civilization = new Civilization();
+    public City(Civilization civilization) {
+        this.civilization = civilization;
         this.population = 1;
-        this.productionPerTurn ++;
-        this.sciencePerTurn ++;
         this.buildings = new ArrayList<Building>();
         this.cityTiles = new ArrayList<Tile>();
         this.garrisonUnits = new ArrayList<Unit>();
@@ -42,15 +42,19 @@ public class City {
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
+        calculateProduction();
+        calculateGold();
+        calculateFood();
     }
 
-    private void calculateFood(){
+    public void calculateFood(){
         foodPerTurn = 0;
         for (Citizen citizen:citizens) {
             foodPerTurn -= 2;
             if(citizen.getTile() == null)continue;
             foodPerTurn += citizen.getTile().calculateFood();
         }
+        storedFood += foodPerTurn;
     }
 
     public ArrayList<BuildingType> getBuildingTypesCanBeBuilt(){
@@ -60,7 +64,7 @@ public class City {
         this.BuildingTypesCanBeBuilt.add(buildingType);
     }
 
-    private void calculateProduction(){
+    public void calculateProduction(){
         if(isCapital)productionPerTurn = 3;
         else productionPerTurn = 0;
         for (Citizen citizen:citizens) {
@@ -72,11 +76,15 @@ public class City {
         }
     }
 
+    public int getProductionPerTurn() {
+        return productionPerTurn;
+    }
+
     public void addBuilding(Building building){
         buildings.add(building);
     }
 
-    private void calculateGold(){
+    public void calculateGold(){
         if(isCapital)goldPerTurn = 3;
         else goldPerTurn = 0;
         for (Citizen citizen:citizens) {
@@ -125,13 +133,22 @@ public class City {
         }
     }
 
+    public String buyTile(Tile tile){
+        if(!findCitySurroundings().contains(tile))return "you can't buy this tile";
+        if(this.civilization.getGold() < 50)return "you don't have enough gold";
+        this.civilization.changeGold(-50);
+        cityTiles.add(tile);
+        this.civilization.getTiles().add(tile);
+        return "done!";
+    }
+
     public ArrayList<Tile> findCitySurroundings(){
         ArrayList <Tile> surroundings = new ArrayList<>();
         for (Tile cityTile:cityTiles) {
             for (Tile surrounding:MapFunctions.getInstance().getSurroundings(cityTile)) {
-                if(surrounding != null && !surrounding.getTerrain().equals(TerrainType.Ocean) &&
-                        !surrounding.getTerrain().equals(TerrainType.Mountain) && !surroundings.contains(cityTile)){
-                    surroundings.add(cityTile);
+                if(surrounding != null && !surrounding.getTerrain().equals(TerrainType.Ocean) && !cityTiles.contains(surrounding) &&
+                        !surrounding.getTerrain().equals(TerrainType.Mountain) && !surroundings.contains(surrounding)){
+                    surroundings.add(surrounding);
                 }
             }
         }
