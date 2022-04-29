@@ -109,7 +109,8 @@ public class UnitController {
                         }
                     }
                 }
-                settler.buildCity();
+                City city = settler.buildCity();
+                city.setCapital(true);
                 settler.getTile().getUnits().remove(settler);
                 settler.getCivilization().getUnits().remove(settler);
                 GameMap.getInstance().getUnits().remove(settler);

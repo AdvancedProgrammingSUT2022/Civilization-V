@@ -13,9 +13,8 @@ import Model.User.User;
 public class Civilization {
     private User user;
     private ArrayList<City> cities;
-    private int population;
     private int gold;
-    private int goldProductionRatePerRound;
+    private int goldPerTurn;
     private int happiness;
     private ArrayList<Tile> tiles;
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
@@ -29,18 +28,18 @@ public class Civilization {
     private Technology currentResearchProject;
     private ArrayList<DiplomaticTie> diplomaticTies; 
     private ArrayList<String> notifHistory;
-    public int getPopulation() {
-        return population;
-    }
+
     public HashMap<Tile, Building> getRevealedBuildings() {
         return revealedBuildings;
     }
+
     public void setRevealedBuildings(HashMap<Tile, Building> revealedBuildings) {
         this.revealedBuildings = revealedBuildings;
     }
     public HashMap<Tile, Resource> getRevealedResources() {
         return revealedResources;
     }
+
     public void setRevealedResources(HashMap<Tile, Resource> revealedResources) {
         this.revealedResources = revealedResources;
     }
@@ -58,9 +57,6 @@ public class Civilization {
     }
     public HashMap<Tile, Integer> getSeenBy() {
         return seenBy;
-    }
-    public void setSeenBy(HashMap<Tile, Integer> seenBy) {
-        this.seenBy = seenBy;
     }
     public int getGold() {
         return gold;
@@ -86,26 +82,12 @@ public class Civilization {
     public void addGold(int gold){
         this.gold += gold;
     }
-    public int calculateHappiness(){
-        return 0;
-    }
-    public int calculateGoldIncome(){
-        return 0;
-    }
-    public int getGoldProductionRatePerRound() {
-        return goldProductionRatePerRound;
-    }
-    public void setGoldProductionRatePerRound(int goldProductionRatePerRound) {
-        this.goldProductionRatePerRound = goldProductionRatePerRound;
-    }
+
     public ArrayList<DiplomaticTie> getDiplomaticTies() {
         return diplomaticTies;
     }
     public void setDiplomaticTies(ArrayList<DiplomaticTie> diplomaticTies) {
         this.diplomaticTies = diplomaticTies;
-    }
-    public void setPopulation(int population) {
-        this.population = population;
     }
 
     public User getUser() {
@@ -116,9 +98,6 @@ public class Civilization {
     }
     public ArrayList<City> getCities() {
         return cities;
-    }
-    public void setCities(ArrayList<City> cities) {
-        this.cities = cities;
     }
     public ArrayList<Tile> getTiles() {
         return tiles;
@@ -154,5 +133,12 @@ public class Civilization {
 
     public void addCity(City city) {
         this.cities.add(city);
+    }
+
+    private void calculateGoldPerTurn(){
+        goldPerTurn = 0;
+        for (City city:cities) {
+            goldPerTurn += city.getGoldPerTurn();
+        }
     }
 }

@@ -15,7 +15,7 @@ public class Settler extends NonCombat {
     public Settler(Civilization civilization, Tile tile) {
         super(civilization, tile,UnitType.Settler);
     }
-    public void buildCity(){
+    public City buildCity(){
         City city = new City();
         city.setCivilization(this.civilization);
         city.addCityTiles(this.tile);
@@ -23,6 +23,7 @@ public class Settler extends NonCombat {
             city.addCityTiles(tile);
         }
         this.civilization.addCity(city);
+        return city;
     }
     public int calculateProductionAfterBuildingCity(){
         return 0;

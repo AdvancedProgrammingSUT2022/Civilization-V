@@ -2,6 +2,7 @@ package Model.TileRelated.Resource;
 
 public class Resource {
     private ResourceType resourceType;
+    private boolean isAvailable = false;
 
     public Resource(ResourceType resourceType) {
         this.setResourceType(resourceType);
@@ -14,5 +15,12 @@ public class Resource {
     public void setResourceType(ResourceType resourceType) {
         this.resourceType = resourceType;
     }
-   
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 }

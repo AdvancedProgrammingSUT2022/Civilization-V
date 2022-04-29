@@ -1,4 +1,5 @@
 package Controller.GameController;
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.User.User;
@@ -10,6 +11,7 @@ import java.util.regex.Matcher;
 public class GameController{
     private Civilization playerTurn;
     private Unit selectedUnit;
+    private City selectedCity;
     private static GameController gameController; 
     private GameMap map = GameMap.getInstance();
     private GameController(){}

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public enum ImprovementType {
 
     // workerImprovements
-    Camp(null, 0, new ArrayList<Resource>(){{
+    Camp("", 0, new ArrayList<Resource>(){{
         Resource Furs = new Resource(ResourceType.Furs);
         Resource Ivory = new Resource(ResourceType.Ivory);
         Resource Deer = new Resource(ResourceType.Deer);
@@ -47,7 +47,7 @@ public enum ImprovementType {
                 Feature  Forest = new Feature(FeatureType.Forest);
                 add(Forest);
             }}, null),
-    Mine("food", 1, new ArrayList<Resource>(){{
+    Mine("production", 1, new ArrayList<Resource>(){{
         Resource Gem = new Resource(ResourceType.Gems);
         Resource GoldResource = new Resource(ResourceType.GoldResource);
         Resource Silver = new Resource(ResourceType.Silver);
@@ -79,7 +79,7 @@ public enum ImprovementType {
         add(Snow);
         add(Hill);
     }}),
-    Pasture(null, 0, new ArrayList<Resource>(){{
+    Pasture("", 0, new ArrayList<Resource>(){{
         Resource Horse = new Resource(ResourceType.Horses);
         Resource Cattle = new Resource(ResourceType.Cattle);
         Resource Sheep = new Resource(ResourceType.Sheep);
@@ -98,7 +98,7 @@ public enum ImprovementType {
         add(Tundra);
         add(Hill);
     }}),
-    Plantation(null, 0, new ArrayList<Resource>(){{
+    Plantation("", 0, new ArrayList<Resource>(){{
         Resource Bananas = new Resource(ResourceType.Bananas);
         Resource Cotton = new Resource(ResourceType.Cotton);
         Resource Dyes = new Resource(ResourceType.Dyes);
@@ -130,7 +130,7 @@ public enum ImprovementType {
         add(Grassland);
         add(Tundra);
     }}),
-    Quarry(null, 0, new ArrayList<Resource>(){{
+    Quarry("", 0, new ArrayList<Resource>(){{
         Resource Marble = new Resource(ResourceType.Marble);
         add(Marble);
     }}, new Technology(TechnologyType.Masonry), null, new ArrayList<Terrain>(){{
@@ -171,13 +171,13 @@ public enum ImprovementType {
     }});
 
     public final int TileYields;
-    public final String name;
+    public final String product;
     public final ArrayList<Resource> ImprovesThisResources;
     public final Technology PrerequisiteTechnology;
     public final ArrayList<Feature> FeaturesCanBeBuiltOn;
     public final ArrayList<Terrain> TerrainCanBeBuiltOn;
-    ImprovementType(String name, int tileYields, ArrayList<Resource> improvesThisResources, Technology prerequisiteTechnology, ArrayList<Feature> featuresCanBeBuiltOn, ArrayList<Terrain> terrainCanBeBuiltOn) {
-        this.name = name;
+    ImprovementType(String product, int tileYields, ArrayList<Resource> improvesThisResources, Technology prerequisiteTechnology, ArrayList<Feature> featuresCanBeBuiltOn, ArrayList<Terrain> terrainCanBeBuiltOn) {
+        this.product = product;
         this.TileYields = tileYields;
         ImprovesThisResources = improvesThisResources;
         PrerequisiteTechnology = prerequisiteTechnology;

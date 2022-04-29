@@ -4,6 +4,10 @@ import Model.TileRelated.Tile.Tile;
 public class Citizen {
     private City city;
     private Tile tile;
+
+    public Citizen(City city){
+        this.city = city;
+    }
     public City getCity() {
         return city;
     }
@@ -16,5 +20,5 @@ public class Citizen {
     public void setTile(Tile tile) {
         this.tile = tile;
     }
-    
+
 }

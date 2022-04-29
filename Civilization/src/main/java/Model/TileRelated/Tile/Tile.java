@@ -1,5 +1,7 @@
 package Model.TileRelated.Tile;
 import java.util.ArrayList;
+
+import Model.CivlizationRelated.Citizen;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
@@ -13,6 +15,7 @@ public class Tile {
     private int x;
     private int y;
     private int mpCost;
+    private Citizen citizen;
     private Building building;
     private ArrayList<Unit> units = new ArrayList<>();
     private Feature feature;
@@ -111,7 +114,14 @@ public class Tile {
     public void setY(int y) {
         this.y = y;
     }
-    
+
+    public Citizen getCitizen() {
+        return citizen;
+    }
+
+    public void setCitizen(Citizen citizen) {
+        this.citizen = citizen;
+    }
 
     public int calculateMp(){
         return 0;
@@ -125,6 +135,38 @@ public class Tile {
     }
     public ArrayList<River> getRivers(){
         return rivers;
+    }
+
+    public int calculateFood(){
+        int FoodAmount = terrain.food;
+        if(feature != null){
+            FoodAmount += feature.getFeatureType().Food;
+        }
+        if(improvement != null && improvement.getImprovementType().product.equals("food"))
+            FoodAmount += improvement.getImprovementType().TileYields;
+        return FoodAmount;
+    }
+
+    public int calculateProduction(){
+        int Production = terrain.production;
+        if(feature != null) {
+            Production += feature.getFeatureType().production;
+        }
+        if(improvement != null && improvement.getImprovementType().product.equals("Production"))
+            Production += improvement.getImprovementType().TileYields;
+        if(resource.getResourceType().production != 0 && resource.isAvailable())
+            Production += resource.getResourceType().production;
+        return Production;
+    }
+
+    public int calculateGold(){
+        int Gold = terrain.gold;
+        if(feature != null) {
+            Gold += feature.getFeatureType().Gold;
+        }
+        if(improvement != null && improvement.getImprovementType().product.equals("Gold"))
+            Gold += improvement.getImprovementType().TileYields;
+        return Gold;
     }
 
 }
