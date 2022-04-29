@@ -19,7 +19,8 @@ public class Regex {
     public final String selectCity = "select city ((--name (?<name>\\S+))|((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))))";
     public final String showMap = "show map ((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))|(--cityName (?<cityName>\\S+))";
     public final String moveMap  = "move map (?=.*--direction (?<direction>RIGHT|LEFT|UP|DOWN))(?=.*--amount (?<amount>\\d+))";
-    public final String build = "unit build (?<building>\\S+)";
+    public final String build = "unit build (?<buildingType>\\S+)"; // choose I put here
+    public final String showValidBuilding = "show valid buildings"; // I put here
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";

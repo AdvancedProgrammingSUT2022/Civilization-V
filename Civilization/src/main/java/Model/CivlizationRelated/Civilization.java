@@ -38,6 +38,9 @@ public class Civilization {
     public void setRevealedBuildings(HashMap<Tile, Building> revealedBuildings) {
         this.revealedBuildings = revealedBuildings;
     }
+    public void addRevealBuilding(Tile tile, Building building){
+        this.revealedBuildings.put(tile, building);
+    }
     public HashMap<Tile, Resource> getRevealedResources() {
         return revealedResources;
     }

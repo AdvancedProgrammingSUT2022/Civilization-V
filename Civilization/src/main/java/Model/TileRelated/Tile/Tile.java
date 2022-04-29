@@ -1,5 +1,7 @@
 package Model.TileRelated.Tile;
 import java.util.ArrayList;
+
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
@@ -21,7 +23,7 @@ public class Tile {
     private TerrainType terrain;
     private Improvement improvement;
     private Civilization civilization;
-    
+
     public int getX() {
         return x;
     }

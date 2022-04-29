@@ -2,6 +2,7 @@ package Model.CivlizationRelated;
 import java.util.ArrayList;
 
 import Model.TileRelated.Building.Building;
+import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
@@ -13,7 +14,8 @@ public class City {
     private int science;
     private int foodProductionRate;
     private int population;
-    private ArrayList<Building> building;
+    private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
+    private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
     private ArrayList<Unit> garrisonUnits;
     private ArrayList<Unit> units;
@@ -26,16 +28,22 @@ public class City {
         this.gold = 0;
         this.science = 0;
         this.foodProductionRate = 0;
-        this.building = new ArrayList<Building>();
+        this.buildings = new ArrayList<Building>();
         this.cityTiles = new ArrayList<Tile>();
         this.garrisonUnits = new ArrayList<Unit>();
         this.units = new ArrayList<Unit>();
         this.citizens = new ArrayList<Citizen>();
         this.improvements = new ArrayList<Improvement>();
-
+        this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
     }
     public void feedPopulation(){
 
+    }
+    public ArrayList<BuildingType> getBuildingTypesCanBeBuilt(){
+        return this.BuildingTypesCanBeBuilt;
+    }
+    public void addCanBeBuiltBuildingType(BuildingType buildingType){
+        this.BuildingTypesCanBeBuilt.add(buildingType);
     }
     
     public Civilization getCivilization() {
@@ -54,12 +62,16 @@ public class City {
         this.units = units;
     }
 
-    public ArrayList<Building> getBuilding() {
-        return building;
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void addBuilding(Building building){
+        this.buildings.add(building);
     }
 
     public void setBuilding(ArrayList<Building> building) {
-        this.building = building;
+        this.buildings = building;
     }
 
     public int getPopulation() {

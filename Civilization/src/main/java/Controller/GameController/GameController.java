@@ -1,4 +1,5 @@
 package Controller.GameController;
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.User.User;
@@ -10,6 +11,7 @@ import java.util.regex.Matcher;
 public class GameController{
     private Civilization playerTurn;
     private Unit selectedUnit;
+    private City selectedCity;
     private static GameController gameController; 
     private GameMap map = GameMap.getInstance();
     private GameController(){}
@@ -33,6 +35,13 @@ public class GameController{
     public void setSelectedUnit(Unit selectedUnit){
         this.selectedUnit = selectedUnit;
     }
+    public City getSelectedCity() {
+        return selectedCity;
+    }
+
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
+    }
     public String nextTurn(){
         changePlayer();
         restoreMovementLefts();
@@ -43,9 +52,6 @@ public class GameController{
         if(turnIndex == this.map.getCivilizations().size() - 1){turnIndex = 0;}
         else turnIndex++;
         playerTurn = this.map.getCivilizations().get(turnIndex);
-    }
-    public String foundCity(){
-       return UnitController.getInstance().checkAndBuildCity();
     }
     private void restoreMovementLefts(){
         UnitController.getInstance().restoreUnitMovementLeft();

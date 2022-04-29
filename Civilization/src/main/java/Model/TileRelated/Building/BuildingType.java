@@ -227,4 +227,11 @@ public enum BuildingType implements BuildingNotes{
         this.buildingMainType = buildingMainType;
     }
 
+    public Technology getTechnologyRequired() {
+        return technologyRequired;
+    }
+
+    public BuildingMainType getBuildingMainType() {
+        return buildingMainType;
+    }
 }

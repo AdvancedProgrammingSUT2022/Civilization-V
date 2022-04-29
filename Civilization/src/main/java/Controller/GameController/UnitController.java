@@ -1,6 +1,8 @@
 package Controller.GameController;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 import Controller.GameController.MapControllers.MapFunctions;
@@ -11,7 +13,9 @@ import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
+import Model.Technology.Technology;
 import Model.TileRelated.Building.Building;
+import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
@@ -20,6 +24,9 @@ import Model.Units.NonCombat.Settler;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.Units.TypeEnums.MainType;
+import View.GameView.Game;
+
+import javax.naming.InitialContext;
 
 public class UnitController {
     private static UnitController unitController;
@@ -29,6 +36,79 @@ public class UnitController {
             unitController = new UnitController();
         return unitController;
     }
+
+    public String selectCity(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        if(x > MapEnum.MAPWIDTH.amount -1 || y > MapEnum.MAPHEIGHT.amount -1) return "invalid coordinates";
+        Civilization civilization;
+        if(( civilization = MapFunctions.getInstance().getTile(x, y).getCivilization()) == null) return "this tile does not belong to anyone";
+        if(civilization != GameController.getInstance().getPlayerTurn()) return "this tile does not belong to your civilization";
+        ArrayList<City> playerCities = GameController.getInstance().getPlayerTurn().getCities();
+        if(playerCities == null) return "no cities on your civilization";
+        for(City city : playerCities){
+            if(Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))){
+                GameController.getInstance().setSelectedCity(city);
+                return "city selected";
+            }
+        }
+        return "city not found";
+    }
+    // ----Build Building--------------------------
+    public String showValidBuildingTypes() {
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        BuildingType[] buildingTypes = BuildingType.values();
+        for(BuildingType buildingType : buildingTypes){
+            if(hasRequiredTechnology(buildingType)){
+                GameController.getInstance().getSelectedCity().addCanBeBuiltBuildingType(buildingType);
+            }
+        }
+        removeBuiltBuildings(GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt());
+        if(GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt() == null) return "this city can not build building now";
+        return GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt().toString();
+    }
+
+    private void removeBuiltBuildings(ArrayList<BuildingType> validBuildingTypes){
+        ArrayList<Building> buildingsInCity;
+        if((buildingsInCity = GameController.getInstance().getSelectedCity().getBuildings()) != null){
+            for (Building building : buildingsInCity) {
+                validBuildingTypes.remove(building.getBuildingType());
+            }
+        }
+    }
+
+    private boolean hasRequiredTechnology(BuildingType buildingType){
+        Technology requiredTechnology = buildingType.getTechnologyRequired();
+        ArrayList<Technology> validTechnologies;
+        if((validTechnologies = GameController.getInstance().getSelectedCity().getCivilization().getTechnologies()) == null) return false;
+        for(Technology technology : validTechnologies){
+            if(Objects.equals(technology, requiredTechnology)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String chooseBuilding(Matcher matcher){
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        String chosenBuildingType = matcher.group("buildingType");
+        for(BuildingType buildingType : GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt()){
+            System.out.println(buildingType.name());
+            if(buildingType.name().equals(chosenBuildingType)){
+                buildBuilding(buildingType);
+                return "construction of your new building has begun";
+            }
+        }
+        return "not a valid building type";
+    }
+
+    private void buildBuilding(BuildingType buildingType){
+        Building building = new Building(buildingType);
+        GameController.getInstance().getSelectedCity().addBuilding(building);
+        // how put turns for build building
+    }
+    // ------------------------------
+
 
     public String selectUnit(Matcher matcher){
         int x = Integer.parseInt(matcher.group("x"));
