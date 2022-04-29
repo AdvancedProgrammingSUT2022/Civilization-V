@@ -234,4 +234,8 @@ public enum BuildingType implements BuildingNotes{
     public BuildingMainType getBuildingMainType() {
         return buildingMainType;
     }
+
+    public int getCost() {
+        return Cost;
+    }
 }

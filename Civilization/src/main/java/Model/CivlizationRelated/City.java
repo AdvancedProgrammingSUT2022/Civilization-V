@@ -45,6 +45,13 @@ public class City {
     public void addCanBeBuiltBuildingType(BuildingType buildingType){
         this.BuildingTypesCanBeBuilt.add(buildingType);
     }
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
     
     public Civilization getCivilization() {
         return civilization;
