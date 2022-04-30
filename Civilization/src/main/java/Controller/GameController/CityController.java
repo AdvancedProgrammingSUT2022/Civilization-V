@@ -160,8 +160,13 @@ public class CityController {
 
     public String cancelBuilding(){
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
-        return "complete this method Arash";
-        // complete this method
+        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()){
+            if(cityEntry.getKey() == GameController.getInstance().getSelectedCity()){
+                GameMap.getInstance().getBuildingsAreBuilding().remove(cityEntry);
+                return "your construction has stopped";
+            }
+        }
+        return "this method is not complete";
     }
 
 
