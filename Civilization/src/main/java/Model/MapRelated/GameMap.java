@@ -2,6 +2,7 @@ package Model.MapRelated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 import Controller.GameController.MapControllers.MapPrinter;
@@ -20,7 +21,7 @@ public class GameMap {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
-    private HashMap<City, BuildingType> buildingsAreBuilding = new HashMap<City, BuildingType>();
+    private HashMap<City, Object[]> buildingsAreBuilding = new HashMap<City, Object[]>();
     private Random random = new Random();
     private static GameMap map;
     private GameMap(){
@@ -30,12 +31,15 @@ public class GameMap {
             map = new GameMap();
         return map;
     }
-    public HashMap<City, BuildingType> getBuildingsAreBuilding() {
+    public HashMap<City, Object[]> getBuildingsAreBuilding() {
         return buildingsAreBuilding;
     }
 
-    public void addBuildingIsBuilding(City city, BuildingType buildingType){
-        buildingsAreBuilding.put(city, buildingType);
+    public void addBuildingIsBuilding(City city, BuildingType buildingType, int moneyRemaining){
+        Object[] BuildingWithLeftRemainingCost = new Object[2];
+        BuildingWithLeftRemainingCost[0] = buildingType.name();
+        BuildingWithLeftRemainingCost[1] = moneyRemaining;
+        buildingsAreBuilding.put(city, BuildingWithLeftRemainingCost);
     }
 
     public ArrayList<Building> getBuiltBuildings() {

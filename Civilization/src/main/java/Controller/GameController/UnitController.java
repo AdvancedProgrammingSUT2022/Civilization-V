@@ -38,13 +38,6 @@ public class UnitController {
         return unitController;
     }
 
-    // ----Build Building--------------------------
-
-    // --------create Units--------------------
-
-    // ----------------------------------------
-
-
     public String selectUnit(Matcher matcher){
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));

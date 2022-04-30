@@ -4,6 +4,8 @@ import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
+import Model.TileRelated.Building.Building;
+import Model.TileRelated.Building.BuildingType;
 import Model.User.User;
 import Model.Units.Unit;
 import Controller.GameController.MapControllers.MapGenerator;
@@ -47,8 +49,21 @@ public class GameController{
     public String nextTurn(){
         changePlayer();
         restoreMovementLefts();
+        // reducingTurnOfTheBuildings();
         CityController.getInstance().calculateProducts();
         return "next player turn!";
+    }
+
+    public void reducingTurnOfTheBuildings(){
+        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()) {
+            // money remaining
+            // if money remaining <= 0 : {
+            // build building
+            // then delete from buildings are building
+            // then remove from this hashMap that city
+            // then add to build buildings
+            // }
+        }
     }
     private void changePlayer(){
         int turnIndex = this.map.getCivilizations().indexOf(playerTurn);

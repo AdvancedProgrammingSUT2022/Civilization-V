@@ -8,6 +8,7 @@ import View.Menu.Menu;
 import View.PreGameView.Regex;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -24,8 +25,10 @@ public class Game extends Menu{
     private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
     private final Consumer<Matcher> moveMap = matcher -> System.out.println();
-    private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher));
-    private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // I put here
+    private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher)); // Arash changes
+    private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // Arash changes
+    private final Consumer<Matcher> nowOrPerTurns = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurns(matcher)); // Arash changes
+    private final Consumer<Matcher> cancelBuilding = matcher -> System.out.println(CityController.getInstance().cancelBuilding());  // Arash changes
     private final Consumer<Matcher> sleep = matcher -> System.out.println();
     private final Consumer<Matcher> alert = matcher -> System.out.println();
     private final Consumer<Matcher> fortify = matcher -> System.out.println();
@@ -61,6 +64,8 @@ public class Game extends Menu{
         commandsMap.put(regex.moveMap,moveMap);
         commandsMap.put(regex.build,build);
         commandsMap.put(regex.showValidBuilding, showValidBuildings);
+        commandsMap.put(regex.nowOrPerTurns, nowOrPerTurns);
+        commandsMap.put(regex.cancelBuilding, cancelBuilding);
         commandsMap.put(regex.sleep,sleep);
         commandsMap.put(regex.alert,alert);
         commandsMap.put(regex.fortify,fortify);
