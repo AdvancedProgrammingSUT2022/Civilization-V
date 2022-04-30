@@ -132,7 +132,7 @@ public class CityController {
             }
         }
         if(this.selectedBuildingType == null) return "no selected building type";
-        String buildNowOrPerTurns = matcher.group("typeOFPay");
+        String buildNowOrPerTurns = matcher.group("typeOfPay");
         return buildNowOrPerTurns.equals("per turns") ? buildPerTurns() : buildNow();
     }
     private String buildNow(){
