@@ -31,6 +31,15 @@ public class GameMap {
             map = new GameMap();
         return map;
     }
+
+    public Tile getATile(int x, int y){
+        for(Tile tile : tiles){
+            if(tile.getX() == x && tile.getY() == y){
+                return tile;
+            }
+        }
+        return null;
+    }
     public HashMap<City, Object[]> getBuildingsAreBuilding() {
         return buildingsAreBuilding;
     }

@@ -15,6 +15,8 @@ import Model.MapRelated.GameMap;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Resource.ResourceType;
+import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
@@ -29,49 +31,85 @@ public class MapGenerator {
             mapGenerator = new MapGenerator();
         return mapGenerator;
     }
-    public void generateMap(int mapX, int mapY){ // map[x][y]
-        Random randomSeed = new Random();
-        int MapSeed = randomSeed.nextInt(1000);
-        GameMap.getInstance().setRandom(new Random(MapSeed));
-        int mountainCount = 0;
-        for (int i = 0; i < mapY; i++) {
-            for (int j = 0; j < mapX; j++) {
+
+    private void setFeatures(int mapX, int mapY, int mapSeed){
+        for(int i = 1; i < mapY - 1; i++){
+            for(int j = 1; j < mapX - 1; j++){
+                Tile tile = GameMap.getInstance().getATile(j ,i);
+                if(tile.getTerrain().getPossibleFeatures() != null){
+                    Feature feature;
+                    int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleFeatures().size());
+                    feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index).getFeatureType());
+                    tile.setFeature(feature);
+                }
+            }
+        }
+    }
+    private void setResources(int mapX, int mapY, int mapSeed){
+        for(int i = 1; i < mapY - 1; i++){
+            for(int j = 1; j < mapX - 1; j++){
+                Tile tile = GameMap.getInstance().getATile(j ,i);
+                if(tile.getFeature() != null && tile.getFeature().getFeatureType().getPossibleResources() != null){
+                    int index = new Random(mapSeed).nextInt(tile.getFeature().getFeatureType().getPossibleResources().size());
+                    Resource resource = new Resource(tile.getFeature().getFeatureType().getPossibleResources().get(index).getResourceType());
+                    tile.setResource(resource);
+                }
+                if(tile.getTerrain().getPossibleResources() != null) {
+                    int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleResources().size());
+                    Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index).getResourceType());
+                    tile.setResource(resource);
+                }
+            }
+        }
+    }
+    private void setTerrainTypes(int mapX, int mapY, int mapSeed){
+        for(int i = 1; i < mapY - 1; i++){
+            for (int j = 1; j < mapX - 1; j++) {
+                Tile tile = GameMap.getInstance().getATile(j ,i);
+                TerrainType terrainType = getARandomTerrainType();
+                while(Objects.equals(terrainType , TerrainType.Ocean) || Objects.equals(terrainType, TerrainType.Mountain)) {
+                    terrainType = getARandomTerrainType();
+                }
+                tile.setTerrain(terrainType);
+            }
+        }
+    }
+
+    private void setMountains(int mapX, int mapY, int mapSeed){
+        int mountainCount = mapX /2 ;
+        for (int i = 1; i < mapY; i++) {
+            for (int j = 1; j < mapX; j++) {
+                if(mountainCount == 0) break;
+                int random = new Random(mapSeed).nextInt(1000);
+                if(random % ( mapY - 2 ) == (mapY - 3)){
+                    GameMap.getInstance().getATile(j, i).setTerrain(TerrainType.Mountain);
+                    mountainCount--;
+                }
+            }
+        }
+    }
+    private void setOceans(int mapX, int mapY){
+        for(int i = 0; i < mapY; i++){
+            for(int j = 0; j < mapX; j++){
                 Tile tile = new Tile();
                 tile.setX(j);
                 tile.setY(i);
                 if( i== 0 || j == 0 || j == mapX - 1 || i == mapY - 1){
                     tile.setTerrain(TerrainType.Ocean);
-                } else {
-                    TerrainType terrainType = getARandomTerrainType();
-                    int testMountain = GameMap.getInstance().getRandom().nextInt(10);
-                    if(testMountain < 1 && mountainCount < mapY / 2) {
-                        terrainType = TerrainType.Mountain;
-                        mountainCount++;
-                    } else{
-                        while(Objects.equals(terrainType , TerrainType.Ocean) || Objects.equals(terrainType, TerrainType.Mountain)) {
-                            terrainType = getARandomTerrainType();
-                        }
-                    }
-                    tile.setTerrain(terrainType);
-                    if (!tile.checkType(TerrainType.Mountain) && !tile.checkType(TerrainType.Ocean)) {
-                        if(terrainType.getPossibleResources() != null) {
-                            int test = GameMap.getInstance().getRandom().nextInt(terrainType.getPossibleResources().size());
-                            Resource resource = new Resource(terrainType.getPossibleResources().get(test).getResourceType());
-                            tile.setResource(resource);
-                            if(terrainType.getPossibleFeatures() != null) {
-                                for(Feature featureTest : terrainType.getPossibleFeatures()){
-                                    if(featureTest.getFeatureType().getPossibleResources() != null && featureTest.getFeatureType().getPossibleResources().contains(resource)){
-                                        Feature feature = new Feature(featureTest.getFeatureType());
-                                        tile.setFeature(feature);
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
                 GameMap.getInstance().getTiles().add(tile);
             }
         }
+    }
+    public void generateMap(int mapX, int mapY){ // map[x][y]
+        Random randomSeed = new Random();
+        int MapSeed = randomSeed.nextInt(1000);
+        GameMap.getInstance().setRandom(new Random(MapSeed));
+        setOceans(mapX, mapY);
+        setTerrainTypes(mapX, mapY, MapSeed);
+        setMountains(mapX, mapY, MapSeed);
+        setFeatures(mapX, mapY, MapSeed);
+        setResources(mapX, mapY, MapSeed);
         setRivers(mapX, mapY);
     }
 
@@ -137,6 +175,11 @@ public class MapGenerator {
     private TerrainType getARandomTerrainType(){
         int pickTerrain = GameMap.getInstance().getRandom().nextInt(TerrainType.values().length);
         return TerrainType.values()[pickTerrain];
+    }
+
+    private ResourceType getARandomResourceType(){
+        int pickTerrain = GameMap.getInstance().getRandom().nextInt(ResourceType.values().length);
+        return ResourceType.values()[pickTerrain];
     }
 
     public void gameInit(ArrayList<User> players){
