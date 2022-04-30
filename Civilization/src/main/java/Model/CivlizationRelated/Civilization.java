@@ -128,6 +128,7 @@ public class Civilization {
         return units;
     }
 
+
     public Technology getCurrentResearchProject() {
         return currentResearchProject;
     }

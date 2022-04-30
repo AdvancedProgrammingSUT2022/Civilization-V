@@ -9,7 +9,10 @@ import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitType;
+import Model.Units.Unit;
 import View.GameView.Game;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.regex.Matcher;
 public class CityController {
     private static CityController cityController;
     private BuildingType selectedBuildingType;
+    private UnitType selectedUnitType;
     private CityController(){};
 
     public static CityController getInstance() {
@@ -74,13 +78,13 @@ public class CityController {
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
         BuildingType[] buildingTypes = BuildingType.values();
         for(BuildingType buildingType : buildingTypes){
-            if(hasRequiredTechnology(buildingType)){
+            if(hasRequiredTechnologyForBuilding(buildingType)){
                 GameController.getInstance().getSelectedCity().addCanBeBuiltBuildingType(buildingType);
             }
         }
         removeBuiltBuildings(GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt());
         if(GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt() == null) return "this city can not build building now";
-        String returnString  = "your valid building are:" + GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt().toString();
+        String returnString  = "your valid buildings are:" + GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt().toString();
         String returnString1 = "";
         for(Map.Entry<City, Object[]> cityBuildingTypeEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()){
             if(cityBuildingTypeEntry.getKey() == GameController.getInstance().getSelectedCity()){
@@ -100,14 +104,13 @@ public class CityController {
         }
     }
 
-    private boolean hasRequiredTechnology(BuildingType buildingType){
+    private boolean hasRequiredTechnologyForBuilding(BuildingType buildingType){
         Technology requiredTechnology = buildingType.getTechnologyRequired();
+        if(requiredTechnology == null) return true;
         ArrayList<Technology> validTechnologies;
         if((validTechnologies = GameController.getInstance().getSelectedCity().getCivilization().getTechnologies()) == null) return false;
         for(Technology technology : validTechnologies){
-            if(Objects.equals(technology, requiredTechnology)){
-                return true;
-            }
+            if(Objects.equals(technology, requiredTechnology)) return true;
         }
         return false;
     }
@@ -163,11 +166,125 @@ public class CityController {
         for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()){
             if(cityEntry.getKey() == GameController.getInstance().getSelectedCity()){
                 GameMap.getInstance().getBuildingsAreBuilding().remove(cityEntry);
-                return "your construction has stopped";
+                return "your construction of building is canceled";
             }
         }
-        return "this method is not complete";
+        return "your city is not building any Buildings";
+        // TODO create stop method
+    }
+    // --------- build units ------------------------------
+
+    public String showValidUnits(){
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        UnitType[] unitTypes = UnitType.values();
+        for (UnitType unitType : unitTypes) {
+            if(hasRequiredTechnologyForUnit(unitType) && hasRequiredResourcesForUnit(unitType)) {
+                GameController.getInstance().getSelectedCity().addUnitsToCanBeBuilt(unitType);
+            }
+        }
+        removeBuiltUnits(GameController.getInstance().getSelectedCity().getUnitsCanBeBuilt());
+        if(GameController.getInstance().getSelectedCity().getUnitsCanBeBuilt() == null) return "this city can not build units now";
+        String returnString  = "your valid units are:" + GameController.getInstance().getSelectedCity().getUnitsCanBeBuilt().toString();
+        String returnString1 = "";
+        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getUnitsUnderConstruction().entrySet()){
+            if(GameController.getInstance().getSelectedCity() == cityEntry.getKey()){
+                returnString1 = "\nand your city is building:" + cityEntry.getValue()[0] + " now.\nso you can not build a building per turns,\nunless you cancel building";
+                break;
+            }
+        }
+        return returnString + (returnString1 == "" ? "\nyour city is not build a unit right now" : returnString1);
     }
 
+    private void removeBuiltUnits(ArrayList<UnitType> validUnitTypes){
+        ArrayList<Unit> UnitsInCity;
+        if((UnitsInCity = GameController.getInstance().getSelectedCity().getUnits()) != null){
+            for (Unit unit : UnitsInCity) {
+                validUnitTypes.remove(unit.getUnitType());
+            }
+        }
+    }
 
+    public String chooseUnitType(Matcher matcher){
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        String chosenUnitType = matcher.group("unitType");
+        for(UnitType unitType : GameController.getInstance().getSelectedCity().getUnitsCanBeBuilt()){
+            if(unitType.name().equals(chosenUnitType)){
+                this.selectedUnitType = unitType;
+                return "your unit type is selected. build per turns ? or build now ?";
+            }
+        }
+        return "not a valid unit type";
+    }
+
+    public String buildNowOrPerTurnsForUnit(Matcher matcher){
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        for(Map.Entry<City, Object[]> cityUnitTypeEntry : GameMap.getInstance().getUnitsUnderConstruction().entrySet()){
+            if(cityUnitTypeEntry.getKey() == GameController.getInstance().getSelectedCity()){
+                return "\nand your city is building:" + cityUnitTypeEntry.getValue()[0] + " now.\nso you can not build a unit per turns,\nunless you cancel construction of unit";
+            }
+        }
+        if(this.selectedUnitType == null) return "no selected unit type";
+        String buildNowOrPerTurns = matcher.group("typeOfPay");
+        return buildNowOrPerTurns.equals("per turns") ? buildUnitPerTurns() : buildUnitNow();
+    }
+
+    private String buildUnitPerTurns(){
+        if(GameController.getInstance().getSelectedCity().getProductionPerTurn() <= 0) return "you can not pay for this unit";
+        int moneyRemaining = this.selectedUnitType.cost;
+        GameMap.getInstance().addUnitISUnderConstruction(GameController.getInstance().getSelectedCity(), this.selectedUnitType, moneyRemaining);
+        this.selectedBuildingType = null;
+        return "construction of your new building has begun";
+    }
+
+    private String buildUnitNow(){
+        if(GameController.getInstance().getSelectedCity().getCivilization().getGold() < this.selectedUnitType.cost) return "you don not have enough gold";
+        buildUnit();
+        this.selectedUnitType = null;
+        return "your new unit is built";
+    }
+
+    private void buildUnit(){
+        Civilization civilization = GameController.getInstance().getSelectedCity().getCivilization();
+        Tile tile = GameController.getInstance().getSelectedCity().getCityTiles().get(0);
+        Unit unit = new Unit(civilization , tile, this.selectedUnitType);
+        GameController.getInstance().getSelectedCity().addUnit(unit);
+        GameMap.getInstance().addUnit(unit);
+        int newGoldAmount = GameController.getInstance().getSelectedCity().getCivilization().getGold() - this.selectedUnitType.cost;
+        GameController.getInstance().getSelectedCity().getCivilization().setGold(newGoldAmount);
+    }
+
+    public String cancelBuildingUnit(){
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getUnitsUnderConstruction().entrySet()){
+            if(cityEntry.getKey() == GameController.getInstance().getSelectedCity()){
+                GameMap.getInstance().getUnitsUnderConstruction().remove(cityEntry);
+                return "your construction of unit is canceled";
+            }
+        }
+        return "your city is not building any units";
+        // TODO create stop method
+    }
+
+    private boolean hasRequiredTechnologyForUnit(UnitType unitType){
+        Technology requiredTechnology = new Technology(unitType.technologyRequired);
+        if(requiredTechnology == null) return true;
+        ArrayList<Technology> validTechnologies;
+        if((validTechnologies = GameController.getInstance().getSelectedCity().getCivilization().getTechnologies()) == null) return false;
+        for (Technology technology : validTechnologies) {
+            if(Objects.equals(technology, requiredTechnology)) return true;
+        }
+        return false;
+    }
+
+    private boolean hasRequiredResourcesForUnit(UnitType unitType){
+        Resource requiredResource = new Resource(unitType.resourcesRequired);
+        if(requiredResource == null) return true;
+        ArrayList<Resource> validResources;
+        if((validResources = GameController.getInstance().getSelectedCity().getCivilization().getResources()) == null) return false;
+        for (Resource resource : validResources) {
+            if(Objects.equals(resource, requiredResource)) return true;
+        }
+        return false;
+    }
+    // ---------------------------------------------------
 }

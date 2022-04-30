@@ -6,9 +6,12 @@ import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
+import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 import Model.Units.Unit;
 import Controller.GameController.MapControllers.MapGenerator;
+import View.GameView.Game;
+
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -50,10 +53,27 @@ public class GameController{
         changePlayer();
         restoreMovementLefts();
         reducingTurnOfTheBuildings();
+        reducingTurnOfTheUnits();
         CityController.getInstance().calculateProducts();
         return "next player turn!";
     }
+    public void reducingTurnOfTheUnits(){
+        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getUnitsUnderConstruction().entrySet()){
+            int remainingMoney;
+            if((remainingMoney = (int) cityEntry.getValue()[1] - cityEntry.getKey().getProductionPerTurn()) <= 0) {
+                Unit unit = new Unit(cityEntry.getKey().getCivilization(), cityEntry.getKey().getCityTiles().get(0), (UnitType) cityEntry.getValue()[1]);
+                cityEntry.getKey().addUnit(unit);
+                GameMap.getInstance().addUnit(unit);
+                cityEntry.getKey().getCivilization().addUnit(unit);
+                GameMap.getInstance().getUnitsUnderConstruction().remove(cityEntry);
+            } else{
+                cityEntry.getValue()[1] = remainingMoney;
+            }
+            // TODO set production of cities
+            // TODO how many turns left by dividing remaining money to production per turn
+        }
 
+    }
     public void reducingTurnOfTheBuildings(){
         for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()) {
             int remainingMoney;
@@ -66,6 +86,7 @@ public class GameController{
                 cityEntry.getValue()[1] = remainingMoney;
             }
             // TODO set production of cities
+            // TODO how many turns left by dividing remaining money to production per turn
         }
     }
     private void changePlayer(){

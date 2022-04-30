@@ -3,6 +3,7 @@ package View.GameView;
 import Controller.GameController.CityController;
 import Controller.GameController.GameController;
 import Controller.GameController.UnitController;
+import Model.CivlizationRelated.City;
 import Model.User.User;
 import View.Menu.Menu;
 import View.PreGameView.Regex;
@@ -29,6 +30,10 @@ public class Game extends Menu{
     private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // Arash changes
     private final Consumer<Matcher> nowOrPerTurns = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurns(matcher)); // Arash changes
     private final Consumer<Matcher> cancelBuilding = matcher -> System.out.println(CityController.getInstance().cancelBuilding());  // Arash changes
+    private final Consumer<Matcher> showValidUnits = matcher -> System.out.println(CityController.getInstance().showValidUnits()); // Arash changes build unit
+    private final Consumer<Matcher> BuildUnit = matcher -> System.out.println(CityController.getInstance().chooseUnitType(matcher)); // Arash changes build unit
+    private final Consumer<Matcher> typeOFPayForUnit = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurnsForUnit(matcher)); // Arash changes build unit
+    private final Consumer<Matcher> cancelBuildUnit = matcher -> System.out.println(CityController.getInstance().cancelBuildingUnit()); // Arash changes build unit
     private final Consumer<Matcher> sleep = matcher -> System.out.println();
     private final Consumer<Matcher> alert = matcher -> System.out.println();
     private final Consumer<Matcher> fortify = matcher -> System.out.println();
@@ -62,10 +67,14 @@ public class Game extends Menu{
         commandsMap.put(regex.selectCity,selectCity);
         commandsMap.put(regex.showMap,showMap);
         commandsMap.put(regex.moveMap,moveMap);
-        commandsMap.put(regex.build,build);
-        commandsMap.put(regex.showValidBuilding, showValidBuildings);
-        commandsMap.put(regex.nowOrPerTurns, nowOrPerTurns);
-        commandsMap.put(regex.cancelBuilding, cancelBuilding);
+        commandsMap.put(regex.build,build); // Arash changes
+        commandsMap.put(regex.showValidBuilding, showValidBuildings); // Arash changes
+        commandsMap.put(regex.typeOfPayForBuilding, nowOrPerTurns); // Arash changes
+        commandsMap.put(regex.cancelBuilding, cancelBuilding); // Arash changes
+        commandsMap.put(regex.showValidUnits, showValidUnits); // Arash changes
+        commandsMap.put(regex.buildUnit, BuildUnit); // Arash changes
+        commandsMap.put(regex.typeOfPayForUnit, typeOFPayForUnit); // Arash changes
+        commandsMap.put(regex.cancelBuildUnit, cancelBuildUnit); // Arash changes
         commandsMap.put(regex.sleep,sleep);
         commandsMap.put(regex.alert,alert);
         commandsMap.put(regex.fortify,fortify);

@@ -12,16 +12,19 @@ import Model.Movement.Graph;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 
 public class GameMap {
     private Graph initialGraph;
     private ArrayList<Unit> movingUnits = new ArrayList<>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
+    private HashMap<City, Object[]> unitsUnderConstruction = new HashMap<City, Object[]>();
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
     private HashMap<City, Object[]> buildingsAreBuilding = new HashMap<City, Object[]>();
+
     private Random random = new Random();
     private static GameMap map;
     private GameMap(){
@@ -40,6 +43,18 @@ public class GameMap {
         }
         return null;
     }
+
+    public HashMap<City, Object[]> getUnitsUnderConstruction() {
+        return unitsUnderConstruction;
+    }
+
+    public void addUnitISUnderConstruction(City city, UnitType unitType, int moneyRemaining){
+        Object[] UnitWithRemainingMoney = new Object[2];
+        UnitWithRemainingMoney[0] = unitType.name();
+        UnitWithRemainingMoney[1] = moneyRemaining;
+        unitsUnderConstruction.put(city, UnitWithRemainingMoney);
+    }
+
     public HashMap<City, Object[]> getBuildingsAreBuilding() {
         return buildingsAreBuilding;
     }
@@ -77,6 +92,9 @@ public class GameMap {
     }
     public ArrayList<Unit> getUnits() {
         return units;
+    }
+    public void addUnit(Unit unit){
+        this.units.add(unit);
     }
     public ArrayList<Unit> getMovingUnits() {
         return movingUnits;

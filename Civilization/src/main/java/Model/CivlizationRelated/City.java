@@ -10,6 +10,7 @@ import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 
 public class City {
@@ -26,6 +27,7 @@ public class City {
     private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
     private ArrayList<Unit> garrisonUnits;
+    private ArrayList<UnitType> unitsCanBeBuilt;
     private ArrayList<Unit> units;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
@@ -37,6 +39,7 @@ public class City {
         this.cityTiles = new ArrayList<Tile>();
         this.garrisonUnits = new ArrayList<Unit>();
         this.units = new ArrayList<Unit>();
+        this.unitsCanBeBuilt = new ArrayList<UnitType>();
         this.citizens = new ArrayList<Citizen>();
         this.improvements = new ArrayList<Improvement>();
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
@@ -63,7 +66,12 @@ public class City {
     public void addCanBeBuiltBuildingType(BuildingType buildingType){
         this.BuildingTypesCanBeBuilt.add(buildingType);
     }
-
+    public ArrayList<UnitType> getUnitsCanBeBuilt(){
+        return this.unitsCanBeBuilt;
+    }
+    public void addUnitsToCanBeBuilt(UnitType unitType){
+        this.unitsCanBeBuilt.add(unitType);
+    }
     public void calculateProduction(){
         if(isCapital)productionPerTurn = 3;
         else productionPerTurn = 0;
@@ -157,6 +165,10 @@ public class City {
 
     public ArrayList<Building> getBuildings() {
         return buildings;
+    }
+
+    public void addUnit(Unit unit){
+        this.units.add(unit);
     }
 
     public void setCapital(boolean capital) {
