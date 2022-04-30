@@ -1,6 +1,7 @@
 package Controller.GameController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -38,62 +39,7 @@ public class UnitController {
     }
 
     // ----Build Building--------------------------
-    public String showValidBuildingTypes() {
-        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
-        BuildingType[] buildingTypes = BuildingType.values();
-        for(BuildingType buildingType : buildingTypes){
-            if(hasRequiredTechnology(buildingType)){
-                GameController.getInstance().getSelectedCity().addCanBeBuiltBuildingType(buildingType);
-            }
-        }
-        removeBuiltBuildings(GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt());
-        if(GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt() == null) return "this city can not build building now";
-        return GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt().toString();
-    }
 
-    private void removeBuiltBuildings(ArrayList<BuildingType> validBuildingTypes){
-        ArrayList<Building> buildingsInCity;
-        if((buildingsInCity = GameController.getInstance().getSelectedCity().getBuildings()) != null){
-            for (Building building : buildingsInCity) {
-                validBuildingTypes.remove(building.getBuildingType());
-            }
-        }
-    }
-
-    private boolean hasRequiredTechnology(BuildingType buildingType){
-        Technology requiredTechnology = buildingType.getTechnologyRequired();
-        ArrayList<Technology> validTechnologies;
-        if((validTechnologies = GameController.getInstance().getSelectedCity().getCivilization().getTechnologies()) == null) return false;
-        for(Technology technology : validTechnologies){
-            if(Objects.equals(technology, requiredTechnology)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String chooseBuilding(Matcher matcher){
-        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
-        String chosenBuildingType = matcher.group("buildingType");
-        for(BuildingType buildingType : GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt()){
-            System.out.println(buildingType.name());
-            if(buildingType.name().equals(chosenBuildingType)){
-                //////////////////////if(buildingType.getCost() > GameController.getInstance().getSelectedCity().getGold()) return "cost of this building is more than amount of your city's gold";
-                // array  of buildings
-                // handle turn
-                buildBuilding(buildingType);
-                return "construction of your new building has begun";
-            }
-        }
-        return "not a valid building type";
-    }
-
-    private void buildBuilding(BuildingType buildingType){
-        Building building = new Building(buildingType);
-        GameController.getInstance().getSelectedCity().addBuilding(building);
-        ////int newCityGold = GameController.getInstance().getSelectedCity().getGold() - buildingType.getCost();
-        ////GameController.getInstance().getSelectedCity().setGold(newCityGold);
-    }
     // --------create Units--------------------
 
     // ----------------------------------------

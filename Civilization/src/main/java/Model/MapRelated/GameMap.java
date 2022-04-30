@@ -1,11 +1,15 @@
 package Model.MapRelated;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import Controller.GameController.MapControllers.MapPrinter;
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
+import Model.TileRelated.Building.Building;
+import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 
@@ -15,6 +19,8 @@ public class GameMap {
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
+    private ArrayList<Building> builtBuildings = new ArrayList<Building>();
+    private HashMap<City, BuildingType> buildingsAreBuilding = new HashMap<City, BuildingType>();
     private Random random = new Random();
     private static GameMap map;
     private GameMap(){
@@ -23,6 +29,20 @@ public class GameMap {
         if(map == null) 
             map = new GameMap();
         return map;
+    }
+    public HashMap<City, BuildingType> getBuildingsAreBuilding() {
+        return buildingsAreBuilding;
+    }
+
+    public void addBuildingIsBuilding(City city, BuildingType buildingType){
+        buildingsAreBuilding.put(city, buildingType);
+    }
+
+    public ArrayList<Building> getBuiltBuildings() {
+        return builtBuildings;
+    }
+    public void addBuiltBuilding(Building building){
+        this.builtBuildings.add(building);
     }
     public Graph getInitialGraph() {
         return initialGraph;

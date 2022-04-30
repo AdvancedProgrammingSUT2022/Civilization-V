@@ -65,6 +65,9 @@ public class Civilization {
     public int getGold() {
         return gold;
     }
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
     public void changeGold(int gold) {
         this.gold += gold;
     }
@@ -138,5 +141,7 @@ public class Civilization {
     public void addCity(City city) {
         this.cities.add(city);
     }
+
+
 
 }

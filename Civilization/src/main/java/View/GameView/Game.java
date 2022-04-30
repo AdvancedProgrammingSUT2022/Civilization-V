@@ -24,8 +24,8 @@ public class Game extends Menu{
     private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
     private final Consumer<Matcher> moveMap = matcher -> System.out.println();
-    private final Consumer<Matcher> build = matcher -> System.out.println(UnitController.getInstance().chooseBuilding(matcher));
-    private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(UnitController.getInstance().showValidBuildingTypes()); // I put here
+    private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher));
+    private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // I put here
     private final Consumer<Matcher> sleep = matcher -> System.out.println();
     private final Consumer<Matcher> alert = matcher -> System.out.println();
     private final Consumer<Matcher> fortify = matcher -> System.out.println();
