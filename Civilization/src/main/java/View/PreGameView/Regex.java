@@ -41,4 +41,6 @@ public class Regex {
     public final String removeObjects = "unit remove (?<object>jungle|route)";
     public final String repair = "unit repair tile";
     public final String buyTile = "buy tile (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String assignCitizen = "assign citizen (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String removeCitizen = "remove citizen from (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
 }

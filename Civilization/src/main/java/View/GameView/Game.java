@@ -48,7 +48,8 @@ public class Game extends Menu{
     private final Consumer<Matcher> removeObjects = matcher -> System.out.println();
     private final Consumer<Matcher> repair = matcher -> System.out.println();
     private final Consumer<Matcher> buyTile = matcher -> System.out.println(CityController.getInstance().buyTile(matcher));
-
+    private final Consumer<Matcher> assignCitizen = matcher -> System.out.println(CityController.getInstance().assignCitizen(matcher));
+    private final Consumer<Matcher> removeCitizen = matcher -> System.out.println(CityController.getInstance().removeCitizen(matcher));
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -89,6 +90,8 @@ public class Game extends Menu{
         commandsMap.put(regex.removeObjects,removeObjects);
         commandsMap.put(regex.repair,repair);
         commandsMap.put(regex.buyTile,buyTile);
+        commandsMap.put(regex.assignCitizen,assignCitizen);
+        commandsMap.put(regex.removeCitizen,removeCitizen);
         return commandsMap;
     }
 }

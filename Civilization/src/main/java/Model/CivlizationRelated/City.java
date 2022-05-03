@@ -7,6 +7,7 @@ import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapGenerator;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
@@ -45,13 +46,11 @@ public class City {
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
-        calculateProduction();
-        calculateGold();
-        calculateFood();
     }
 
     public void calculateFood(){
         foodPerTurn = 0;
+        foodPerTurn += cityTiles.get(0).calculateFood();
         for (Citizen citizen:citizens) {
             foodPerTurn -= 2;
             if(citizen.getTile() == null)continue;
@@ -75,6 +74,7 @@ public class City {
     public void calculateProduction(){
         if(isCapital)productionPerTurn = 3;
         else productionPerTurn = 0;
+        productionPerTurn += cityTiles.get(0).calculateProduction();
         for (Citizen citizen:citizens) {
             if(citizen.getTile() == null){
                 productionPerTurn ++;
@@ -95,6 +95,7 @@ public class City {
     public void calculateGold(){
         if(isCapital)goldPerTurn = 3;
         else goldPerTurn = 0;
+        goldPerTurn += cityTiles.get(0).calculateGold();
         for (Citizen citizen:citizens) {
             if(citizen.getTile() == null)continue;
             goldPerTurn += citizen.getTile().calculateGold();
@@ -104,15 +105,22 @@ public class City {
         }
     }
 
+    public void calculateSciencePerTurn(){
+        sciencePerTurn = population;
+    }
+
     public String assignCitizen(Tile tile){
         if(!cityTiles.contains(tile))return "this tile doesnt belong to you";
+        if(tile.equals(cityTiles.get(0))) return "cant work on cityCenter";
+        if(tile.getCitizen() != null) return "tile has citizen";
         for (Citizen citizen:citizens) {
-            if(citizen.getTile() != null){
+            if(citizen.getTile() == null){
                 citizen.setTile(tile);
                 tile.setCitizen(citizen);
                 calculateFood();
                 calculateProduction();
                 calculateGold();
+                if(tile.getFeature() != null)System.out.println(tile.getFeature().getFeatureType().name());
                 return "done";
             }
         }
@@ -129,8 +137,61 @@ public class City {
         return "done";
     }
 
+    public void calculateBuildingBonuses(){
+        for (Building building:buildings) {
+            if(building.getBuildingType().equals(BuildingType.Granary)){
+                foodPerTurn += 2;
+            }
+            else if(building.getBuildingType().equals(BuildingType.Library)){
+                sciencePerTurn += population/2 ;
+            }
+            else if(building.getBuildingType().equals(BuildingType.WaterMill)){
+                foodPerTurn += 2;
+            }
+            else if(building.getBuildingType().equals(BuildingType.Market)){
+                goldPerTurn += goldPerTurn/4;
+            }
+            else if(building.getBuildingType().equals(BuildingType.Mint)){
+                for (Tile tile:cityTiles) {
+                    if(tile.calculateGold() != 0)goldPerTurn += 3;
+                }
+            }
+            else if(building.getBuildingType().equals(BuildingType.University)){
+                for (Tile tile:cityTiles) {
+                    if(tile.getFeature().getFeatureType().equals(FeatureType.Forest) && tile.getCitizen() != null)sciencePerTurn +=2;
+                }
+                sciencePerTurn += sciencePerTurn/2;
+            }
+            else if(building.getBuildingType().equals(BuildingType.Bank)){
+                goldPerTurn += goldPerTurn/4;
+            }
+            else if(building.getBuildingType().equals(BuildingType.PublicSchool)){
+                sciencePerTurn += sciencePerTurn/2;
+            }
+            else if(building.getBuildingType().equals(BuildingType.SatrapsCourt)){
+                goldPerTurn += goldPerTurn/4;
+            }
+            else if(building.getBuildingType().equals(BuildingType.StockExchange)){
+                goldPerTurn += goldPerTurn/3;
+            }
+            else if(building.getBuildingType().equals(BuildingType.Factory)){
+                productionPerTurn += productionPerTurn/2 ;
+            }
+            else if(building.getBuildingType().equals(BuildingType.Windmill)){
+                if(!cityTiles.get(0).getTerrain().equals(TerrainType.Hill))productionPerTurn += (15*productionPerTurn)/100 ;
+            }
+        }
+    }
+
     public void populationGrowth(){
-        if(storedFood > Math.pow(2,population)){
+        int neededFood = (int)Math.pow(2,population);
+        for (Building building:buildings) {
+            if(building.getBuildingType().equals(BuildingType.Hospital)){
+                neededFood /= 2;
+                break;
+            }
+        }
+        if(storedFood > neededFood){
             population ++;
             Citizen citizen = new Citizen(this);
             citizens.add(citizen);
@@ -147,6 +208,7 @@ public class City {
         this.civilization.changeGold(-50);
         cityTiles.add(tile);
         this.civilization.getTiles().add(tile);
+        tile.setCivilization(this.civilization);
         return "done!";
     }
 

@@ -13,10 +13,10 @@ import Model.User.User;
 public class Civilization {
     private User user;
     private ArrayList<City> cities = new ArrayList<>();
-    private int population;
     private int gold;
     private int goldPerTurn;
-    private int happiness;
+    private int sciencePerTurn;
+    private int happiness = 10;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
@@ -97,6 +97,18 @@ public class Civilization {
         this.diplomaticTies = diplomaticTies;
     }
 
+    public int getGoldPerTurn() {
+        return goldPerTurn;
+    }
+
+    public int getSciencePerTurn() {
+        return sciencePerTurn;
+    }
+
+    public void setSciencePerTurn(int sciencePerTurn) {
+        this.sciencePerTurn = sciencePerTurn;
+    }
+
     public User getUser() {
         return user;
     }
@@ -127,8 +139,15 @@ public class Civilization {
     public ArrayList<Unit> getUnits() {
         return units;
     }
-
-
+    public void setGoldPerTurn(int goldPerTurn){
+        this.goldPerTurn = goldPerTurn;
+    }
+    public void changeGoldPerTurn(int goldPerTurn){
+        this.goldPerTurn += goldPerTurn;
+    }
+    public void changeSciencePerTurn(int sciencePerTurn){
+        this.sciencePerTurn += sciencePerTurn;
+    }
     public Technology getCurrentResearchProject() {
         return currentResearchProject;
     }
