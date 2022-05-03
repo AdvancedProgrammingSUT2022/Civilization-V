@@ -57,9 +57,9 @@ public class CityController {
         if((city = GameController.getInstance().getSelectedCity()) == null) return "no city is selected";
         StringBuilder output = new StringBuilder();
         output.append("\n");
-        output.append("Food : ").append((city.getFoodPerTurn() > 0 ? "+" : city.getFoodPerTurn() == 0 ? "" : "-") + city.getFoodPerTurn() + "\n");
-        output.append("Gold : ").append((city.getGoldPerTurn() > 0 ? "+" : city.getGoldPerTurn() == 0 ? "" : "-") + city.getGoldPerTurn() + "\n");
-        output.append("Production : ").append((city.getProductionPerTurn() > 0 ? "+" : city.getProductionPerTurn() == 0 ? "" : "-") + city.getProductionPerTurn() + "\n");
+        output.append("Food : ").append((city.getFoodPerTurn() > 0 ? "+" : "") + city.getFoodPerTurn() + "\n");
+        output.append("Gold : ").append((city.getGoldPerTurn() > 0 ? "+" : "") + city.getGoldPerTurn() + "\n");
+        output.append("Production : ").append((city.getProductionPerTurn() > 0 ? "+" : "" ) + city.getProductionPerTurn() + "\n");
         output.append("Science : ").append(/*getScience*/"\n");
         output.append("population growth turns : ").append(/*population growth turns*/"\n");
         output.append("turns until city's border increases : ");
