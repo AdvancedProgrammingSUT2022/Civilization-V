@@ -9,6 +9,8 @@ import Controller.GameController.MapControllers.MapPrinter;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
+import Model.Technology.Technology;
+import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Tile.Tile;
@@ -24,6 +26,7 @@ public class GameMap {
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
     private HashMap<City, Object[]> buildingsAreBuilding = new HashMap<City, Object[]>();
+    HashMap<Civilization, Object[]> ResearchingTechnologies = new HashMap<Civilization, Object[]>();
 
     private Random random = new Random();
     private static GameMap map;
@@ -42,6 +45,17 @@ public class GameMap {
             }
         }
         return null;
+    }
+
+    public HashMap<Civilization, Object[]> getSearchingTechnologies() {
+        return ResearchingTechnologies;
+    }
+
+    public void addTechnologyToResearchingTechnologies(Civilization civilization, TechnologyType technologyType, int turn){
+        Object[] TechnologyAndRemainingTURN = new Object[2];
+        TechnologyAndRemainingTURN[0] = technologyType.name();
+        TechnologyAndRemainingTURN[1] = turn;
+        ResearchingTechnologies.put(civilization, TechnologyAndRemainingTURN);
     }
 
     public HashMap<City, Object[]> getUnitsUnderConstruction() {

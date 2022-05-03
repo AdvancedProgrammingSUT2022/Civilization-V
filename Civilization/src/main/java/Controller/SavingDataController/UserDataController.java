@@ -1,5 +1,6 @@
 package Controller.SavingDataController;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +24,8 @@ public class UserDataController {
             userDataController = new UserDataController();
         return userDataController;
     }
-    public void saveUsersInformation(){
+
+    public void saveGame(){
         ArrayList<User> users = new ArrayList<User>();
         for(Civilization civilization : GameMap.getInstance().getCivilizations()){
             users.add(civilization.getUser());
@@ -36,6 +38,5 @@ public class UserDataController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -1,9 +1,11 @@
 package View.GameView;
 
 import Controller.GameController.CityController;
+import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
 import Controller.GameController.UnitController;
 import Model.CivlizationRelated.City;
+import Model.CivlizationRelated.Civilization;
 import Model.User.User;
 import View.Menu.Menu;
 import View.PreGameView.Regex;
@@ -34,6 +36,8 @@ public class Game extends Menu{
     private final Consumer<Matcher> BuildUnit = matcher -> System.out.println(CityController.getInstance().chooseUnitType(matcher)); // Arash changes build unit
     private final Consumer<Matcher> typeOFPayForUnit = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurnsForUnit(matcher)); // Arash changes build unit
     private final Consumer<Matcher> cancelBuildUnit = matcher -> System.out.println(CityController.getInstance().cancelBuildingUnit()); // Arash changes build unit
+    private final Consumer<Matcher> chooseTechnology = matcher -> System.out.println(CivilizationController.getInstance().chooseTechnologyMenu()); // Arash changes technology
+    private final Consumer<Matcher> studyTechnology = matcher -> System.out.println(CivilizationController.getInstance().createTechnologyForStudy(matcher)); // Arash changes technology
     private final Consumer<Matcher> sleep = matcher -> System.out.println();
     private final Consumer<Matcher> alert = matcher -> System.out.println();
     private final Consumer<Matcher> fortify = matcher -> System.out.println();
@@ -75,6 +79,8 @@ public class Game extends Menu{
         commandsMap.put(regex.buildUnit, BuildUnit); // Arash changes
         commandsMap.put(regex.typeOfPayForUnit, typeOFPayForUnit); // Arash changes
         commandsMap.put(regex.cancelBuildUnit, cancelBuildUnit); // Arash changes
+        commandsMap.put(regex.chooseTechnologyMenu, chooseTechnology); // Arash changes
+        commandsMap.put(regex.studyTechnology, studyTechnology); // Arash changes
         commandsMap.put(regex.sleep,sleep);
         commandsMap.put(regex.alert,alert);
         commandsMap.put(regex.fortify,fortify);

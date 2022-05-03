@@ -1,10 +1,14 @@
 
+import Controller.SavingDataController.UserDataController;
 import View.PreGameView.LoginMenuView;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         LoginMenuView loginMenuView = new LoginMenuView();
         loginMenuView.run();
+        UserDataController.getInstance().saveGame();
     }
 }
 /*

@@ -24,9 +24,12 @@ public class Regex {
     public final String typeOfPayForBuilding = "building type of pay (?<typeOfPay>(now)|(per turns))"; // Arash changes 3
     public final String cancelBuilding = "cancel build building";// Arash changes 4
     public final String showValidUnits = "show valid units"; // Arash changes unit 1
-    public final String buildUnit = "build unit (?<UnitType>\\S+)"; // Arash changes unit 2
+    public final String buildUnit = "build unit (?<unitType>\\S+)"; // Arash changes unit 2
     public final String typeOfPayForUnit = "unit type of pay (?<typeOfPay>(now)|(per turns))"; // Arash changes unit 3
     public final String cancelBuildUnit = "cancel build unit"; // Arash changes unit 4
+    public final String chooseTechnologyMenu = "show valid Technologies"; // Arash changes technology 1
+    public final String studyTechnology = "study (?<technologyType>\\S+)"; // ASRash changes technology 3
+    public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";

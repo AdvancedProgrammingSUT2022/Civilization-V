@@ -5,4 +5,8 @@ public class Technology {
     public Technology(TechnologyType technologyType){
         this.technologyType = technologyType;
     }
+
+    public TechnologyType getTechnologyType() {
+        return technologyType;
+    }
 }

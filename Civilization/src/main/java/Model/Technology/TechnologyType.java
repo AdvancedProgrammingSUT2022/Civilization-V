@@ -8,8 +8,8 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.AnimalHusbandry);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
+            return "";
             // Farm
         }
     },
@@ -20,10 +20,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.TheWheel);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // horses
             // pasture
+            return "";
         }
     },
     Masonry(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -31,10 +31,15 @@ public enum TechnologyType implements Unlocks{
     }}, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Construction);
     }}){
-        // Mine
-        // delete marsh
-        // Walls
-        // rock
+        @Override
+        public String Unlock() {
+            // Mine
+            // delete marsh
+            // Walls
+            // rock
+            return "";
+        }
+
     },
     Mining(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Agriculture);
@@ -42,10 +47,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.BronzeWorking);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // delete Marsh
             // delete Forest
+            return "";
         }
     },
     Pottery(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -55,9 +60,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Writing);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Granary
+            return "";
         }
     },
     Trapping(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -66,10 +71,10 @@ public enum TechnologyType implements Unlocks{
         add(CivilService);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // TradingPost
             // Camp
+            return "";
         }
     },
     Archery(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -78,9 +83,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Mathematics);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Archer
+            return "";
         }
     },
     TheWheel(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -90,12 +95,12 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Mathematics);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // chariot
             // Archer
             // Water Mill
             // Build a Road
+            return "";
         }
     },
     BronzeWorking(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -104,11 +109,11 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.IronWorking);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Spearman
             // Barracks
             // delete Jungle
+            return "";
         }
     },
     Writing(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -117,9 +122,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Philosophy);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Library
+            return "";
         }
     },
     Calendar(70, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
@@ -128,9 +133,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Theology);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // plantation
+            return "";
         }
     },
     Construction(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
@@ -139,10 +144,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Engineering);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Colosseum
             // Bridges over rivers
+            return "";
         }
     },
     HorsebackRiding(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
@@ -151,11 +156,11 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Chivalry);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // HorseMan
             // Stable
             // Circus
+            return "";
         }
     },
     IronWorking(150, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
@@ -164,12 +169,12 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.MetalCasting);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Swordsman
             // Legion
             // Armory
             // Iron
+            return "";
         }
     },
     Mathematics(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
@@ -180,10 +185,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Engineering);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Catapult
             // Courthouse
+            return "";
         }
     },
     Philosophy(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
@@ -193,10 +198,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.CivilService);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // BurialTomb
             // Temple
+            return "";
         }
     },
     Chivalry(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -207,12 +212,12 @@ public enum TechnologyType implements Unlocks{
         add(Banking);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // knight
             // Camel
             // Archer
             // Castle
+            return "";
         }
     },
     CivilService(400, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -222,9 +227,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Chivalry);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Pikeman
+            return "";
         }
     },
     Currency(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -233,9 +238,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Chivalry);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Market
+            return "";
         }
     },
     Education(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -245,9 +250,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Banking);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // University
+            return "";
         }
     },
     Engineering(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -258,9 +263,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Physics);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // nothing
+            return "";
         }
     },
     Machinery(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -269,10 +274,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.PrintingPress);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Crossbowman,
             // 1.2 faster road movement
+            return "";
         }
     },
     MetalCasting(240, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -282,10 +287,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Steel);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Forge
             // Workshop
+            return "";
         }
     },
     Physics(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -296,9 +301,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Gunpowder);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Trebuchet
+            return "";
         }
     },
     Steel(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -307,9 +312,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Gunpowder);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Longswordsman
+            return "";
         }
     },
     Theology(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
@@ -319,9 +324,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Education);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Monastery Garden
+            return "";
         }
     },
 
@@ -331,9 +336,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.ScientificTheory);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // nothing
+            return "";
         }
     },
     Archaeology(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -342,9 +347,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Biology);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Museum
+            return "";
         }
     },
     Banking(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -354,9 +359,9 @@ public enum TechnologyType implements Unlocks{
         add(Economics);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Satrap's Court, Bank
+            return "";
         }
     },
     Chemistry(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -366,9 +371,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Fertilizer);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // IronWorking
+            return "";
         }
     },
     Economics(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -378,9 +383,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.MilitaryScience);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Windmill
+            return "";
         }
     },
     Fertilizer(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -389,9 +394,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Dynamite);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Farms without Fresh Water yield increased by 1
+            return "";
         }
     },
     Gunpowder(680, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -402,9 +407,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Metallurgy);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Musketman
+            return "";
         }
     },
     Metallurgy(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -413,9 +418,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Rifling);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Lancer
+            return "";
         }
     },
     MilitaryScience(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -425,10 +430,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.SteamPower);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Cavalry
             // MilitaryAcademy
+            return "";
         }
     },
     PrintingPress(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
@@ -438,16 +443,21 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Economics);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Theater
+            return "";
         }
     },
     Rifling(1425, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Metallurgy);
     }}, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Dynamite);
-    }}),
+    }}){
+        @Override
+        public String Unlock() {
+            return "";
+        }
+    },
     ScientificTheory(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Acoustics);
     }}, new ArrayList<TechnologyType>(){{
@@ -455,10 +465,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.SteamPower);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Public School
             // Coal
+            return "";
         }
     },
 
@@ -469,9 +479,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Electricity);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // nothing
+            return "";
         }
     },
     Combustion(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
@@ -480,10 +490,10 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Dynamite);
     }}, null){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Tank
             // Panzer
+            return "";
         }
     },
     Dynamite(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
@@ -493,9 +503,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Combustion);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Artillery
+            return null;
         }
     },
     Electricity(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
@@ -506,18 +516,18 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Radio);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Stock Exchange
+            return null;
         }
     },
     Radio(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Electricity);
     }}, null){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // BroadcastTower
+            return null;
         }
     },
     Railroad(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
@@ -526,9 +536,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Combustion);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Arsenal , Railroad
+            return null;
         }
     },
     ReplaceableParts(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
@@ -537,9 +547,9 @@ public enum TechnologyType implements Unlocks{
         add(TechnologyType.Combustion);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Anti-Tank, Gun, Infantry
+            return null;
         }
     },
     SteamPower(1680, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
@@ -551,18 +561,18 @@ public enum TechnologyType implements Unlocks{
         add(Railroad);
     }}){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Factory
+            return "";
         }
     },
     Telegraph(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Electricity);
     }}, null){
         @Override
-        public void Unlock() {
-            super.Unlock();
+        public String Unlock() {
             // Military Base
+            return "";
         }
     };
 

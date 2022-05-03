@@ -1,5 +1,6 @@
 package Controller.GameController.MapControllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -224,6 +225,6 @@ public class MapGenerator {
             UnitController.getInstance().makeUnit(UnitType.Warrior,civilization,warriorDeploy);
         }
         GameController.getInstance().setPlayerTurn(GameMap.getInstance().getCivilizations().get(0));
-        UserDataController.getInstance().saveUsersInformation();
+        UserDataController.getInstance().saveGame();
     }
 }

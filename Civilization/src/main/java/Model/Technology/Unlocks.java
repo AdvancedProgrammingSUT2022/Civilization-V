@@ -1,7 +1,10 @@
 package Model.Technology;
 
-public interface Unlocks {
-    default void Unlock(){
+import Model.CivlizationRelated.Civilization;
 
-    }
+public interface Unlocks {
+    public String Unlock();
+
+
+
 }

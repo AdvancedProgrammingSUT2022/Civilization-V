@@ -1,7 +1,6 @@
 package Controller.GameController;
 
 import Controller.GameController.MapControllers.MapFunctions;
-import Controller.GameController.MapControllers.MapGenerator;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
@@ -13,10 +12,8 @@ import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import View.GameView.Game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -49,10 +46,24 @@ public class CityController {
         for(City city : playerCities){
             if(Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))){
                 GameController.getInstance().setSelectedCity(city);
-                return "city selected";
+                return "city selected :" + cityOutput();
             }
         }
         return "city not found";
+    }
+
+    private String cityOutput(){
+        City city;
+        if((city = GameController.getInstance().getSelectedCity()) == null) return "no city is selected";
+        StringBuilder output = new StringBuilder();
+        output.append("\n");
+        output.append("Food : ").append((city.getFoodPerTurn() > 0 ? "+" : city.getFoodPerTurn() == 0 ? "" : "-") + city.getFoodPerTurn() + "\n");
+        output.append("Gold : ").append((city.getGoldPerTurn() > 0 ? "+" : city.getGoldPerTurn() == 0 ? "" : "-") + city.getGoldPerTurn() + "\n");
+        output.append("Production : ").append((city.getProductionPerTurn() > 0 ? "+" : city.getProductionPerTurn() == 0 ? "" : "-") + city.getProductionPerTurn() + "\n");
+        output.append("Science : ").append(/*getScience*/"\n");
+        output.append("population growth turns : ").append(/*population growth turns*/"\n");
+        output.append("turns until city's border increases : ");
+        return output.toString();
     }
 
     public String buyTile(Matcher matcher){

@@ -1,6 +1,9 @@
 package Model.CivlizationRelated;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import Model.Technology.TechnologyMainType;
+import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Improvement.Improvement;
@@ -24,11 +27,20 @@ public class Civilization {
     private HashMap<Tile, Improvement> revealedImprovements = new HashMap<>();
     private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
     private ArrayList<Resource> resources;
-    private ArrayList<Technology> technologies;
+    private ArrayList<Technology> technologies = new ArrayList<Technology>();
+    private TechnologyType currentStudyingTechnology;
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private Technology currentResearchProject;
     private ArrayList<DiplomaticTie> diplomaticTies; 
     private ArrayList<String> notifHistory;
+
+    public void setCurrentStudyingTechnology(TechnologyType currentStudyingTechnology) {
+        this.currentStudyingTechnology = currentStudyingTechnology;
+    }
+
+    public TechnologyType getCurrentStudyingTechnology() {
+        return currentStudyingTechnology;
+    }
 
     public HashMap<Tile, Building> getRevealedBuildings() {
         return revealedBuildings;
@@ -128,7 +140,6 @@ public class Civilization {
         return units;
     }
 
-
     public Technology getCurrentResearchProject() {
         return currentResearchProject;
     }
@@ -137,6 +148,9 @@ public class Civilization {
     }
     public Technology getTechnology(){
         return null;
+    }
+    public void addTechnology(Technology technology){
+        this.technologies.add(technology);
     }
 
     public void addCity(City city) {

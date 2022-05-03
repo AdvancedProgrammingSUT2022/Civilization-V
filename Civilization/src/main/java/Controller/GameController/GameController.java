@@ -4,6 +4,8 @@ import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
+import Model.Technology.Technology;
+import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.Units.TypeEnums.UnitType;
@@ -55,7 +57,26 @@ public class GameController{
         reducingTurnOfTheBuildings();
         reducingTurnOfTheUnits();
         CityController.getInstance().calculateProducts();
+        reducingTurnOfTheTechnologies();
         return "next player turn!";
+    }
+    public void reducingTurnOfTheTechnologies(){
+        for(Map.Entry<Civilization, Object[]> technologyEntry : GameMap.getInstance().getSearchingTechnologies().entrySet()){
+            TechnologyType technologyType = null;
+            if((int) technologyEntry.getValue()[1] > 0){
+                technologyEntry.getValue()[1]  = (int) technologyEntry.getValue()[1] - 1;
+            }  else {
+                for (TechnologyType technologyType1 : TechnologyType.values()) {
+                    if (technologyEntry.getValue()[0].equals(technologyType1.name())) {
+                        technologyType = technologyType1;
+                    }
+                }
+                Technology technology = new Technology(technologyType);
+                technologyEntry.getKey().setCurrentStudyingTechnology(null);
+                technologyEntry.getKey().addTechnology(technology);
+                GameMap.getInstance().getSearchingTechnologies().remove(technologyEntry);
+            }
+        }
     }
     public void reducingTurnOfTheUnits(){
         for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getUnitsUnderConstruction().entrySet()){
