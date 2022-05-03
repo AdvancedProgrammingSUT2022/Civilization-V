@@ -47,6 +47,7 @@ public class CityController {
             if(Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))){
                 GameController.getInstance().setSelectedCity(city);
                 return "city selected :" + cityOutput();
+
             }
         }
         return "city not found";
@@ -75,12 +76,18 @@ public class CityController {
 
     public void calculateProducts(){
         for (Civilization civilization: GameMap.getInstance().getCivilizations()) {
+            civilization.setGoldPerTurn(0);
+            civilization.setSciencePerTurn(0);
             for (City city:civilization.getCities()) {
                 city.calculateProduction();
+                city.calculateSciencePerTurn();
                 city.calculateGold();
                 city.calculateFood();
-                civilization.changeGold(city.getGoldPerTurn());
                 city.populationGrowth();
+                city.calculateBuildingBonuses();
+                civilization.changeSciencePerTurn(city.getSciencePerTurn());
+                civilization.changeGold(city.getGoldPerTurn());
+                civilization.changeGold(city.getGoldPerTurn());
             }
         }
     }
@@ -298,4 +305,17 @@ public class CityController {
         return false;
     }
     // ---------------------------------------------------
+
+    public String assignCitizen(Matcher matcher){
+        if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
+        Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
+        if(tile == null)return "no such tile exists";
+        return GameController.getInstance().getSelectedCity().assignCitizen(tile);
+    }
+    public String removeCitizen(Matcher matcher){
+        if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
+        Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
+        if(tile == null)return "no such tile exists";
+        return GameController.getInstance().getSelectedCity().removeCitizenFromWork(tile);
+    }
 }
