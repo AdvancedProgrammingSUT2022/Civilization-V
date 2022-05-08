@@ -1,8 +1,6 @@
 package Controller.GameController;
-import Controller.GameController.MapControllers.MapFunctions;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
@@ -12,8 +10,6 @@ import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 import Model.Units.Unit;
 import Controller.GameController.MapControllers.MapGenerator;
-import View.GameView.Game;
-
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -53,11 +49,14 @@ public class GameController{
     }
     public String nextTurn(){
         changePlayer();
+        UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheBuildings();
         reducingTurnOfTheUnits();
         CityController.getInstance().calculateProducts();
         reducingTurnOfTheTechnologies();
+        selectedUnit = null;
+        selectedCity = null;
         return "next player turn!";
     }
     public void reducingTurnOfTheTechnologies(){
@@ -134,6 +133,12 @@ public class GameController{
     }
     public String initMoveUnit(Matcher matcher) {
         return UnitController.getInstance().initMoveUnit(matcher); 
+    }
+    public String foundCity(){
+        return UnitController.getInstance().checkAndBuildCity();
+    }
+    public String attack(Matcher matcher){
+        return UnitController.getInstance().combat(matcher);
     }
 
 }

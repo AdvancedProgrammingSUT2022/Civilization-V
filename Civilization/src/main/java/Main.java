@@ -1,8 +1,5 @@
-
 import Controller.SavingDataController.UserDataController;
 import View.PreGameView.LoginMenuView;
-
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args){
@@ -19,6 +16,9 @@ user login --username nima --password nimo
 menu enter Main_Menu
 play game --player1 nima --player2 sero
 print map
+select combat unit --y 1 --x 1
+move unit to --y 1 --x 1
+unit attack --y 1 --x 1
 */
 //gamePlay commands
 //print map

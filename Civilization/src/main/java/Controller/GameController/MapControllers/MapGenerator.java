@@ -21,6 +21,10 @@ import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
+import Model.Units.Combat.Combat;
+import Model.Units.Combat.Ranged;
+import Model.Units.Combat.Siege;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 
@@ -226,5 +230,6 @@ public class MapGenerator {
         }
         GameController.getInstance().setPlayerTurn(GameMap.getInstance().getCivilizations().get(0));
         UserDataController.getInstance().saveGame();
+
     }
 }

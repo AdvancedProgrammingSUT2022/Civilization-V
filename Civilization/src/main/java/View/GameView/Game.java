@@ -1,17 +1,12 @@
 package View.GameView;
-
 import Controller.GameController.CityController;
 import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
 import Controller.GameController.UnitController;
-import Model.CivlizationRelated.City;
-import Model.CivlizationRelated.Civilization;
 import Model.User.User;
 import View.Menu.Menu;
 import View.PreGameView.Regex;
-
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -44,8 +39,8 @@ public class Game extends Menu{
     private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println();
     private final Consumer<Matcher> garrison = matcher -> System.out.println();
     private final Consumer<Matcher> setup = matcher -> System.out.println();
-    private final Consumer<Matcher> attack = matcher -> System.out.println();
     private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity());
+    private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();
     private final Consumer<Matcher> delete = matcher -> System.out.println();
@@ -54,6 +49,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> buyTile = matcher -> System.out.println(CityController.getInstance().buyTile(matcher));
     private final Consumer<Matcher> assignCitizen = matcher -> System.out.println(CityController.getInstance().assignCitizen(matcher));
     private final Consumer<Matcher> removeCitizen = matcher -> System.out.println(CityController.getInstance().removeCitizen(matcher));
+    private final Consumer<Matcher> siegePreAttack = matcher -> System.out.println(UnitController.getInstance().siegePreAttack());
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -98,6 +94,7 @@ public class Game extends Menu{
         commandsMap.put(regex.buyTile,buyTile);
         commandsMap.put(regex.assignCitizen,assignCitizen);
         commandsMap.put(regex.removeCitizen,removeCitizen);
+        commandsMap.put(regex.siegePreAttack,siegePreAttack);
         return commandsMap;
     }
 }

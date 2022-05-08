@@ -30,6 +30,7 @@ public class Regex {
     public final String chooseTechnologyMenu = "show valid Technologies"; // Arash changes technology 1
     public final String studyTechnology = "study (?<technologyType>\\S+)"; // ASRash changes technology 3
     public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
+
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";
@@ -46,4 +47,5 @@ public class Regex {
     public final String buyTile = "buy tile (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String assignCitizen = "assign citizen (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String removeCitizen = "remove citizen from (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String siegePreAttack = "do siege pre attack";
 }

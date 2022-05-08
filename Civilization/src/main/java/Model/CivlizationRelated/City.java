@@ -18,17 +18,18 @@ public class City {
     private Civilization civilization;
     boolean isCapital = false;
     private int storedFood;
-    private int hitPoint = 20;
     private int goldPerTurn;
     private int sciencePerTurn;
     private int foodPerTurn;
     private int productionPerTurn;
+    private double hitPoint = 20;
+    private double strength = 15;
     private int population;
     private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
     private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
-    private ArrayList<Unit> garrisonUnits;
     private ArrayList<UnitType> unitsCanBeBuilt;
+    private Unit garrisonUnit;
     private ArrayList<Unit> units;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
@@ -38,7 +39,7 @@ public class City {
         this.population = 1;
         this.buildings = new ArrayList<Building>();
         this.cityTiles = new ArrayList<Tile>();
-        this.garrisonUnits = new ArrayList<Unit>();
+        this.garrisonUnit = new Unit();
         this.units = new ArrayList<Unit>();
         this.unitsCanBeBuilt = new ArrayList<UnitType>();
         this.citizens = new ArrayList<Citizen>();
@@ -57,6 +58,12 @@ public class City {
             foodPerTurn += citizen.getTile().calculateFood();
         }
         storedFood += foodPerTurn;
+    }
+    public Unit getGarrisonUnit() {
+        return garrisonUnit;
+    }
+    public void setGarrisonUnit(Unit garrisonUnit) {
+        this.garrisonUnit = garrisonUnit;
     }
 
     public ArrayList<BuildingType> getBuildingTypesCanBeBuilt(){
@@ -244,7 +251,13 @@ public class City {
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
     }
-
+    public double calculateMaxCityDamage(){
+        double maxDamage = strength;
+        if(garrisonUnit != null)    
+            maxDamage *= 120.0/100.0;
+        maxDamage += population * 0.5;
+        return maxDamage;
+    }
     public ArrayList<Unit> getUnits() {
         return units;
     }
@@ -253,9 +266,6 @@ public class City {
         return cityTiles;
     }
 
-    public int getHitPoint() {
-        return hitPoint;
-    }
 
     public int getGoldPerTurn() {
         return goldPerTurn;
@@ -273,10 +283,6 @@ public class City {
         return buildings;
     }
 
-    public ArrayList<Unit> getGarrisonUnits() {
-        return garrisonUnits;
-    }
-
     public ArrayList<Citizen> getCitizens() {
         return citizens;
     }
@@ -284,8 +290,11 @@ public class City {
     public ArrayList<Improvement> getImprovements() {
         return improvements;
     }
+    public double getHitPoint() {
+        return hitPoint;
+    }
 
-    public void setHitPoint(int hitPoint) {
+    public void setHitPoint(double hitPoint) {
         this.hitPoint = hitPoint;
     }
 
@@ -295,6 +304,9 @@ public class City {
 
     public void setSciencePerTurn(int sciencePerTurn) {
         this.sciencePerTurn += sciencePerTurn;
+    }
+    public void changeHitPoint(double hitPoint) {
+        this.hitPoint = hitPoint;
     }
 
     public int getFoodPerTurn() {
@@ -307,10 +319,6 @@ public class City {
 
     public void setCityTiles(ArrayList<Tile> cityTiles) {
         this.cityTiles = cityTiles;
-    }
-
-    public void setGarrisonUnits(ArrayList<Unit> garrisonUnits) {
-        this.garrisonUnits = garrisonUnits;
     }
 
     public void setCitizens(ArrayList<Citizen> citizens) {
