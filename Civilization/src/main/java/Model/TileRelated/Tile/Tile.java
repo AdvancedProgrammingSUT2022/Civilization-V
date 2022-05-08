@@ -1,5 +1,7 @@
 package Model.TileRelated.Tile;
 import java.util.ArrayList;
+
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
@@ -8,6 +10,8 @@ import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.Units.Unit;
+import Model.Units.Combat.Combat;
+import Model.Units.TypeEnums.MainType;
 
 public class Tile {
     private int x;
@@ -21,9 +25,23 @@ public class Tile {
     private TerrainType terrain;
     private Improvement improvement;
     private Civilization civilization;
+    private City city;
+    private boolean isCapital;
     
     public int getX() {
         return x;
+    }
+    public boolean isCapital() {
+        return isCapital;
+    }
+    public void setCapital(boolean isCapital) {
+        this.isCapital = isCapital;
+    }
+    public City getCity() {
+        return city;
+    }
+    public void setCity(City city) {
+        this.city = city;
     }
     public void addUnit(Unit unit){
         units.add(unit);
@@ -96,14 +114,6 @@ public class Tile {
         return y;
     }
 
-    public boolean hasCombatUnit(){
-        return true;
-    }
-
-    public boolean hasNonCombatUnit(){
-        return true;
-    }
-
     public void setX(int x) {
         this.x = x;
     }
@@ -111,8 +121,6 @@ public class Tile {
     public void setY(int y) {
         this.y = y;
     }
-    
-
     public int calculateMp(){
         return 0;
     }
@@ -125,6 +133,16 @@ public class Tile {
     }
     public ArrayList<River> getRivers(){
         return rivers;
+    }
+    public Combat getCombatUnitOnTile(){
+        for(int i = 0;i < this.getUnits().size();i++){
+            if(this.getUnits().get(i) != null){
+                if(this.getUnits().get(i) != null && this.getUnits().get(i).getUnitType().mainType != MainType.NONCOMBAT){
+                    return (Combat) this.getUnits().get(i);
+                }
+            }
+        }
+        return null;
     }
 
 }

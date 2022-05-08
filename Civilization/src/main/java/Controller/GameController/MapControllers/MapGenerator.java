@@ -17,6 +17,10 @@ import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
+import Model.Units.Combat.Combat;
+import Model.Units.Combat.Ranged;
+import Model.Units.Combat.Siege;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 
@@ -184,10 +188,17 @@ public class MapGenerator {
     }
 
     private void makeUnit(UnitType unitType, Civilization civilization , City city, Tile tile){
-        Unit unit = new Unit(civilization,city,tile,unitType);
+        Unit unit;
+        if(unitType.mainType == MainType.NONCOMBAT)
+            unit = new Unit(civilization, city, tile, unitType);
+        else if(unitType.mainType == MainType.NONRANGED) 
+            unit = new Combat(civilization,city,tile,unitType);
+        else if(unitType.mainType == MainType.RANGED)
+            unit = new Ranged(civilization, city, tile, unitType);
+        else
+            unit = new Siege(civilization, city, tile, unitType);
         civilization.addUnit(unit);
         tile.getUnits().add(unit);
-        tile.setCivilization(civilization);
         GameMap.getInstance().getUnits().add(unit);
         //city.units.add(unit);
         TileVisibilityController.getInstance().changeVision(tile,civilization.getSeenBy(),1,2);

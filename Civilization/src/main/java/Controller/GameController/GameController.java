@@ -35,7 +35,9 @@ public class GameController{
     }
     public String nextTurn(){
         changePlayer();
+        UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
+        selectedUnit = null;
         return "next player turn!";
     }
     private void changePlayer(){
@@ -58,6 +60,12 @@ public class GameController{
     }
     public String initMoveUnit(Matcher matcher) {
         return UnitController.getInstance().initMoveUnit(matcher); 
+    }
+    public String foundCity(){
+        return UnitController.getInstance().checkAndBuildCity(selectedUnit);
+    }
+    public String attack(Matcher matcher){
+        return UnitController.getInstance().combat(matcher);
     }
 
 }

@@ -8,14 +8,15 @@ import Model.Units.Unit;
 
 public class City {
     private Civilization civilization;
-    private int hitPoint = 20;
+    private double hitPoint = 20;
+    private double strength = 15;
     private int gold;
     private int science;
     private int foodProductionRate;
     private int population;
     private ArrayList<Building> building;
     private ArrayList<Tile> cityTiles;
-    private ArrayList<Unit> garrisonUnits;
+    private Unit garrisonUnit;
     private ArrayList<Unit> units;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
@@ -28,11 +29,17 @@ public class City {
         this.foodProductionRate = 0;
         this.building = new ArrayList<Building>();
         this.cityTiles = new ArrayList<Tile>();
-        this.garrisonUnits = new ArrayList<Unit>();
+        this.garrisonUnit = new Unit();
         this.units = new ArrayList<Unit>();
         this.citizens = new ArrayList<Citizen>();
         this.improvements = new ArrayList<Improvement>();
 
+    }
+    public Unit getGarrisonUnit() {
+        return garrisonUnit;
+    }
+    public void setGarrisonUnit(Unit garrisonUnit) {
+        this.garrisonUnit = garrisonUnit;
     }
     public void feedPopulation(){
 
@@ -45,7 +52,13 @@ public class City {
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
     }
-
+    public double calculateMaxCityDamage(){
+        double maxDamage = strength;
+        if(garrisonUnit != null)    
+            maxDamage *= 120.0/100.0;
+        maxDamage += population * 0.5;
+        return maxDamage;
+    }
     public ArrayList<Unit> getUnits() {
         return units;
     }
@@ -87,20 +100,15 @@ public class City {
         this.citizens = citizens;
     }
 
-    public int getHitPoint() {
+    public double getHitPoint() {
         return hitPoint;
     }
 
-    public void setHitPoint(int hitPoint) {
+    public void setHitPoint(double hitPoint) {
         this.hitPoint = hitPoint;
     }
-
-    public ArrayList<Unit> getGarrisonUnits() {
-        return garrisonUnits;
-    }
-
-    public void setGarrisonUnits(ArrayList<Unit> garrisonUnits) {
-        this.garrisonUnits = garrisonUnits;
+    public void changeHitPoint(double hitPoint) {
+        this.hitPoint = hitPoint;
     }
     public int getFoodProductionRate() {
         return foodProductionRate;

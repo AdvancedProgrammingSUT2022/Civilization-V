@@ -1,6 +1,7 @@
 package View.GameView;
 
 import Controller.GameController.GameController;
+import Controller.GameController.UnitController;
 import Model.User.User;
 import View.Menu.Menu;
 import View.PreGameView.Regex;
@@ -29,13 +30,14 @@ public class Game extends Menu{
     private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println();
     private final Consumer<Matcher> garrison = matcher -> System.out.println();
     private final Consumer<Matcher> setup = matcher -> System.out.println();
-    private final Consumer<Matcher> attack = matcher -> System.out.println();
-    private final Consumer<Matcher> foundCity = matcher -> System.out.println();
+    private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
+    private final Consumer<Matcher> foundCity = matcher -> System.out.println(gameController.foundCity());
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();
     private final Consumer<Matcher> delete = matcher -> System.out.println();
     private final Consumer<Matcher> removeObjects = matcher -> System.out.println();
     private final Consumer<Matcher> repair = matcher -> System.out.println();
+    private final Consumer<Matcher> siegePreAttack = matcher -> System.out.println(UnitController.getInstance().siegePreAttack());
 
 
     public Game(ArrayList<User> players){
@@ -69,6 +71,7 @@ public class Game extends Menu{
         commandsMap.put(regex.delete,delete);
         commandsMap.put(regex.removeObjects,removeObjects);
         commandsMap.put(regex.repair,repair);
+        commandsMap.put(regex.siegePreAttack,siegePreAttack);
         return commandsMap;
     }
 }

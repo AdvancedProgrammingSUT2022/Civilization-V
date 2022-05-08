@@ -1,10 +1,8 @@
 package Controller.GameController.MapControllers;
-
 import Model.TileRelated.Tile.Tile;
-
 import java.util.ArrayList;
-
 import Controller.GameController.GameController;
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
 import Model.Enums.Direction;
@@ -12,8 +10,9 @@ import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Terraine.TerrainType;
-
 import Model.TileRelated.Tile.TileVisibility;
+import Model.Units.Combat.Combat;
+import Model.Units.TypeEnums.MainType;
 
 public class MapPrinter {
     private static MapPrinter mapPrinter;
@@ -29,8 +28,6 @@ public class MapPrinter {
         for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
             fillTileInfo(GameMap.getInstance().getTiles().get(i), printMap);
         }
-        if(GameController.getInstance().getSelectedUnit() != null)
-        System.out.println(GameController.getInstance().getSelectedUnit().getUnitType());
         return printArray(printMap);
     }
     public String printArray(String array[][]){
@@ -57,7 +54,11 @@ public class MapPrinter {
         char returnChar = (char)(asciiA + GameMap.getInstance().getCivilizations().indexOf(civilization));
         return Character.toString(returnChar);
     }
-
+    private String assignCharToCity(City city){
+        int asciiA = (int)'A';
+        char returnChar = (char)(asciiA + city.getCivilization().getCities().indexOf(city));
+        return Character.toString(returnChar);
+    }
     public void nullify(String map[][],int startIndex,int length,int y){
         for (int i = startIndex; i < startIndex + length; i++) {
             map[y][i] = "";
@@ -94,12 +95,11 @@ public class MapPrinter {
 
     private void printInfo(String map[][],int x,int y,Tile tile){
         if(isFogOfWar(tile) == false){
-            
             ArrayList<String> texts = new ArrayList<>();
             fillTextsForTilePrint(texts, tile);
             int textDistance = MapEnum.HEXSIDESHORT.amount / texts.size(),distance = MapEnum.HEXSIDESHORT.amount * 3 / texts.size();
             if(tile.getCivilization() != null)
-                printCivilizationChar(map, x, y, distance, tile);
+                printCivilizationAndCityChar(map, x, y, distance, tile);
             for (int i = 0; i < texts.size(); i++) {
                 distance += textDistance;
                 if(texts.get(i) != null)
@@ -110,8 +110,12 @@ public class MapPrinter {
     private boolean isFogOfWar(Tile tile){
         return (getVisibility(tile) == TileVisibility.FOGOFWAR);
     }
-    private void printCivilizationChar(String map[][],int x,int y,int textDistance,Tile tile){
+    private void printCivilizationAndCityChar(String map[][],int x,int y,int textDistance,Tile tile){
         map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
+        if(tile.getCity() != null){
+            nullify(map,1 + x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2, ("->" + assignCharToCity(tile.getCity())).length(), y + textDistance);
+            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] += "->" + assignCharToCity(tile.getCity());
+        }
     }
     private void fillTextsForTilePrint(ArrayList<String> texts,Tile tile){
         if(getVisibility(tile) == TileVisibility.VISIBLE){
@@ -128,8 +132,15 @@ public class MapPrinter {
         //if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
         //if(tile.getBuilding() != null)texts.add("B:" + tile.getBuilding().getBuildingType().name());else{texts.add(null);}
-        if(tile.getUnits().size() == 1){texts.add("U:" + tile.getUnits().get(0).getUnitType().name());}else{texts.add(null);}
-        if(tile.getUnits().size() == 2){texts.add("U2:" + tile.getUnits().get(1).getUnitType().name());}else{texts.add(null);}
+        printUnitInfo(tile, texts, 0);
+        printUnitInfo(tile, texts, 1);
+    }
+    private void printUnitInfo(Tile tile,ArrayList<String> texts,int index){
+        if(tile.getUnits().size() == index + 1 && tile.getUnits().get(index).getUnitType().mainType != MainType.NONCOMBAT){
+            Combat combat = (Combat)tile.getUnits().get(index);
+            texts.add("U:" + combat.getUnitType().name() + " " + String.format("%.2f",combat.getHitPoints()) + " " + assignCharToCivilization(combat.getCivilization()));
+        }
+        else if(tile.getUnits().size() == index + 1){texts.add("U:" + tile.getUnits().get(index).getUnitType().name() + " " + assignCharToCivilization(tile.getUnits().get(index).getCivilization()));}else{texts.add(null);}
     }
     private void addRevealedTypeTexts(Tile tile,ArrayList<String> texts){
         texts.add("REVEALED");

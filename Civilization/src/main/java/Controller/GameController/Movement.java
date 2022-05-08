@@ -5,6 +5,7 @@ import Model.Movement.Node;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.TypeEnums.UnitType;
 
 import java.util.*;
 
@@ -81,14 +82,16 @@ public class Movement {
                 if(surrounding == null || surrounding.getTerrain().equals(TerrainType.Ocean)
                         || surrounding.getTerrain().equals(TerrainType.Mountain) ||
                         (surrounding.getFeature() != null && surrounding.getFeature().getFeatureType().equals(FeatureType.Ice)))continue;
-                thisNode.addDestination(graph.getNode(surrounding),calculateDistance(thisNode.getTile(),surrounding));
+                thisNode.addDestination(graph.getNode(surrounding),calculateDistance(thisNode.getTile(),surrounding,UnitType.AntiTankGun));
             }
         }
         return graph;
     }
 
-    public int calculateDistance(Tile origin, Tile destination){
-        int mp = destination.getTerrain().movementCost;
+    public int calculateDistance(Tile origin, Tile destination,UnitType unitType){
+        int mp = 0;
+        if(unitType != UnitType.Scout)
+            mp += destination.getTerrain().movementCost;
         if(destination.getFeature() != null)
             mp += destination.getFeature().mpCost;
         if(origin.getTerrain().equals(TerrainType.Hill) && destination.getTerrain().equals(TerrainType.Hill))mp --;

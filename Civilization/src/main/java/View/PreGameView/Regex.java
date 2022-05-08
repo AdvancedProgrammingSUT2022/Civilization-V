@@ -13,13 +13,14 @@ public class Regex {
     public final String printMap = "print map";
     public final String nextTurn = "next turn";
     public final String getPlayerName = "get player name";
-    public final String selectUnit = "select unit (?=.*--type (?<type>(combat)|(civil)))(?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String selectUnit = "select (?<type>(combat)|(civil)) unit (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String moveUnit = "move unit to (?=.*--y (?<destinationY>\\d+))(?=.*--x (?<destinationX>\\d+))";
     public final String info = "show info (?<type>RESEARCH|UNITS|CITIES|DIPLOMACY|VICTORY|DEMOGRAPHICS|NOTIFICATIONS|MILITARY|ECONOMIC|DIPLOMATIC|DEALS)";
-    public final String selectCity = "select city (--name (?<name>\\S+))|((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))";
+    public final String selectCity = "select city ((--name (?<name>\\S+))|((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))))";
     public final String showMap = "show map ((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))|(--cityName (?<cityName>\\S+))";
     public final String moveMap  = "move map (?=.*--direction (?<direction>RIGHT|LEFT|UP|DOWN))(?=.*--amount (?<amount>\\d+))";
-    public final String build = "unit build (?<building>\\S+)";
+    public final String build = "unit build (?<buildingType>\\S+)"; // Arash changes
+    public final String showValidBuilding = "show valid buildings"; // I put here
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";
@@ -33,4 +34,7 @@ public class Regex {
     public final String delete = "delete unit";
     public final String removeObjects = "unit remove (?<object>jungle|route)";
     public final String repair = "unit repair tile";
+    public final String buyTile = "buy tile (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String assignCitizen = "assign citizen (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
+    public final String siegePreAttack = "do siege pre attack";
 }

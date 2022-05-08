@@ -21,7 +21,7 @@ public class Unit {
     protected int movementsLeft;
     protected UnitType unitType;
     protected UnitStateType unitStateType;
-    protected int maxDamage;
+    protected double maxDamage;
     protected List<Node> path = new LinkedList<>();
 
     public Unit(Civilization civilization, City city, Tile tile, UnitType unitType) {
@@ -34,6 +34,9 @@ public class Unit {
         this.setMovementsLeft(unitType.movement);
         movementsLeft = this.unitType.movement;
     }
+    public Unit(){
+
+    }
 
     public void moveUnit() {
         while (getMovementsLeft() > 0) {
@@ -41,8 +44,7 @@ public class Unit {
             if (MapPrinter.getInstance().hasRiverBetween(getTile(), getNextMoveNode().getTile()))
                 setMovementsLeft(0);
             else {
-                
-                addMovementsLeft(-(Movement.getInstance().calculateDistance(getTile(),getNextMoveNode().getTile())));
+                addMovementsLeft(-(Movement.getInstance().calculateDistance(getTile(),getNextMoveNode().getTile(),unitType)));
                 if (getMovementsLeft() < 0)
                     setMovementsLeft(0);
             }
@@ -62,13 +64,30 @@ public class Unit {
             if(GameController.getInstance().getMap().getMovingUnits().contains(this))
             GameController.getInstance().getMap().getMovingUnits().remove(this);
     }
+    public void updateData(){
+
+    }
     public int getMovementsLeft() {
         return movementsLeft;
     }
     public Civilization getCivilization(){
         return civilization;
     }
-    
+    public void setCivilization(Civilization civilization){
+        this.civilization = civilization;
+    }
+    public void sleep(){
+        unitStateType = UnitStateType.SLEEP;
+    }
+    public void fortify(){
+        unitStateType = UnitStateType.FORTIFIED;
+    }
+    public void alert(){
+        unitStateType = UnitStateType.ALERT;
+    }
+    public void fortifyUntilHealed(){
+        unitStateType = UnitStateType.FORTIFYUNTILHEALED;
+    }
     public void setMovementsLeft(int movementsLeft) {
         this.movementsLeft = movementsLeft;
     }
