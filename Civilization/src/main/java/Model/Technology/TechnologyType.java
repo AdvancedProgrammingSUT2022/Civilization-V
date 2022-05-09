@@ -579,12 +579,12 @@ public enum TechnologyType implements Unlocks{
     public final int cost;
     public final TechnologyMainType technologyMainType;
     public final ArrayList<TechnologyType> PrerequisiteTechs;
-    public final ArrayList<TechnologyType> leadsToTechs;
+    public final ArrayList<TechnologyType> LeadsToTechs;
 
     TechnologyType(int cost, TechnologyMainType technologyMainType, ArrayList<TechnologyType> prerequisiteTechs, ArrayList<TechnologyType> leadsToTechs) {
         this.cost = cost;
         this.technologyMainType = technologyMainType;
         PrerequisiteTechs = prerequisiteTechs;
-        this.leadsToTechs = leadsToTechs;
+        LeadsToTechs = leadsToTechs;
     }
 }

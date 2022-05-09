@@ -1,6 +1,7 @@
 package Model.CivlizationRelated;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import Model.Technology.TechnologyMainType;
 import Model.Technology.TechnologyType;
@@ -28,18 +29,26 @@ public class Civilization {
     private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies = new ArrayList<Technology>();
-    private TechnologyType currentStudyingTechnology;
     private ArrayList<Unit> units = new ArrayList<Unit>();
-    private Technology currentResearchProject;
+    private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
+    private TechnologyType currentResearchProject;
+    private int researchTurns = 0;
     private ArrayList<DiplomaticTie> diplomaticTies; 
     private ArrayList<String> notifHistory;
 
-    public void setCurrentStudyingTechnology(TechnologyType currentStudyingTechnology) {
-        this.currentStudyingTechnology = currentStudyingTechnology;
+    public LinkedHashMap<TechnologyType, Integer> getResearchProjects() {
+        return researchProjects;
     }
 
-    public TechnologyType getCurrentStudyingTechnology() {
-        return currentStudyingTechnology;
+    public void addResearchProject(TechnologyType technologyType, int turn){
+        this.researchProjects.put(technologyType, turn);
+    }
+    public void setResearchTurns(int researchTurns) {
+        this.researchTurns = researchTurns;
+    }
+
+    public int getResearchTurns() {
+        return researchTurns;
     }
 
     public HashMap<Tile, Building> getRevealedBuildings() {
@@ -160,10 +169,10 @@ public class Civilization {
     public void changeSciencePerTurn(int sciencePerTurn){
         this.sciencePerTurn += sciencePerTurn;
     }
-    public Technology getCurrentResearchProject() {
+    public TechnologyType getCurrentResearchProject() {
         return currentResearchProject;
     }
-    public void setCurrentResearchProject(Technology currentResearchProject) {
+    public void setCurrentResearchProject(TechnologyType currentResearchProject) {
         this.currentResearchProject = currentResearchProject;
     }
     public Technology getTechnology(){

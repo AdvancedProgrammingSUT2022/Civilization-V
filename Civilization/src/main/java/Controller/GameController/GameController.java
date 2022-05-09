@@ -59,25 +59,19 @@ public class GameController{
         return "next player turn!";
     }
     public void reducingTurnOfTheTechnologies(){
-        for(Map.Entry<Civilization, Object[]> technologyEntry : GameMap.getInstance().getSearchingTechnologies().entrySet()){
-            TechnologyType technologyType = null;
-            if((int) technologyEntry.getValue()[1] > 0){
-                technologyEntry.getValue()[1]  = (int) technologyEntry.getValue()[1] - 1;
-            }  else {
-                for (TechnologyType technologyType1 : TechnologyType.values()) {
-                    if (technologyEntry.getValue()[0].equals(technologyType1.name())) {
-                        technologyType = technologyType1;
-                    }
-                }
+        if(getPlayerTurn().getCurrentResearchProject() != null){
+            int turn = GameController.getInstance().playerTurn.getResearchTurns() - 1;
+            getPlayerTurn().setResearchTurns(turn);
+            TechnologyType technologyType = getPlayerTurn().getCurrentResearchProject();
+            if(turn <= 0){
                 Technology technology = new Technology(technologyType);
-                technologyEntry.getKey().setCurrentStudyingTechnology(null);
-                technologyEntry.getKey().addTechnology(technology);
-                GameMap.getInstance().getSearchingTechnologies().remove(technologyEntry);
+                getPlayerTurn().addTechnology(technology);
+                getPlayerTurn().setCurrentResearchProject(null);
             }
         }
     }
     public void reducingTurnOfTheUnitsAndBuildings(){
-        if(GameController.getInstance().getPlayerTurn().getCities() != null){
+        if(getPlayerTurn().getCities() != null){
             for(City city : GameController.getInstance().getPlayerTurn().getCities()){
                 reducingTurnOFUnits(city);
                 reducingTurnOfTheBuildings(city);

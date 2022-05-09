@@ -24,8 +24,6 @@ public class GameMap {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
-    HashMap<Civilization, Object[]> ResearchingTechnologies = new HashMap<Civilization, Object[]>();
-
     private Random random = new Random();
     private static GameMap map;
     private GameMap(){
@@ -44,18 +42,6 @@ public class GameMap {
         }
         return null;
     }
-
-    public HashMap<Civilization, Object[]> getSearchingTechnologies() {
-        return ResearchingTechnologies;
-    }
-
-    public void addTechnologyToResearchingTechnologies(Civilization civilization, TechnologyType technologyType, int turn){
-        Object[] TechnologyAndRemainingTURN = new Object[2];
-        TechnologyAndRemainingTURN[0] = technologyType.name();
-        TechnologyAndRemainingTURN[1] = turn;
-        ResearchingTechnologies.put(civilization, TechnologyAndRemainingTURN);
-    }
-
 
     public ArrayList<Building> getBuiltBuildings() {
         return builtBuildings;
