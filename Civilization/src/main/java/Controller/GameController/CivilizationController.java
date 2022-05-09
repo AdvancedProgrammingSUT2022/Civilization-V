@@ -4,6 +4,8 @@ import Model.CivlizationRelated.City;
 import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
+import Model.Units.Unit;
+import View.GameView.Game;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -121,4 +123,58 @@ public class CivilizationController {
 //    private String keepScienceOfTechnology(Technology technology){
 //
 //    }
+
+
+    public String Info(){
+        StringBuilder output = new StringBuilder();
+        output.append("------------- INFO PANEL -------------\n");
+        researchInfo(output);
+        unitsPanel(output);
+        citiesPanel(output);
+        // units panel
+        // cities panel
+        // demographic panel
+        // notification history
+        // military overview
+        // economic overview
+        return output.toString();
+    }
+
+    private void researchInfo(StringBuilder stringBuilder){
+        stringBuilder.append("---RESEARCH PROJECT---\n");
+        TechnologyType technologyType;
+        if((technologyType = GameController.getInstance().getPlayerTurn().getCurrentStudyingTechnology() )== null) stringBuilder.append("no research project");
+        else {
+            stringBuilder.append("name : " + technologyType.name());
+            if(technologyType.leadsToTechs != null){
+                stringBuilder.append(" leads to ---> ");
+                for(TechnologyType leadsToTech : technologyType.leadsToTechs){
+                    stringBuilder.append(leadsToTech.name() + " ,");
+                }
+            }
+        }
+        stringBuilder.append("\n");
+    }
+
+    private void unitsPanel(StringBuilder stringBuilder){
+        stringBuilder.append("---UNITS LIST---\n");
+        if(GameController.getInstance().getPlayerTurn().getUnits() != null){
+            stringBuilder.append("NAME | STATE\n");
+            for(Unit unit : GameController.getInstance().getPlayerTurn().getUnits()){
+                stringBuilder.append(unit.getUnitType().name() + " | " + unit.getUnitStateType().name() + "\n");
+            }
+        } stringBuilder.append("no units\n");
+    }
+
+    private void citiesPanel(StringBuilder stringBuilder){
+        stringBuilder.append("---CITIES LIST---\n");
+        if(GameController.getInstance().getPlayerTurn().getCities() != null){
+            stringBuilder.append("CITIZENS | NAME | STRENGTH\n");
+            for(City city : GameController.getInstance().getPlayerTurn().getCities()){
+                stringBuilder.append(city.getCitizens().size() + " | " + city.getName() + " | " + city.get)
+            }
+        } stringBuilder.append("no cities\n");
+
+    }
+
 }

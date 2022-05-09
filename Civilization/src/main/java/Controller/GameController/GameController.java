@@ -88,11 +88,9 @@ public class GameController{
                 GameMap.getInstance().getUnitsUnderConstruction().remove(cityEntry);
             } else{
                 cityEntry.getValue()[1] = remainingMoney;
+                cityEntry.getValue()[2] = (int) cityEntry.getValue()[2] - 1;
             }
-            // TODO set production of cities
-            // TODO how many turns left by dividing remaining money to production per turn
         }
-
     }
     public void reducingTurnOfTheBuildings(){
         for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()) {
@@ -104,9 +102,8 @@ public class GameController{
                 GameMap.getInstance().getBuildingsAreBuilding().remove(cityEntry);
             } else{
                 cityEntry.getValue()[1] = remainingMoney;
+                cityEntry.getValue()[2] = (int) cityEntry.getValue()[2] - 1;
             }
-            // TODO set production of cities
-            // TODO how many turns left by dividing remaining money to production per turn
         }
     }
     private void changePlayer(){
@@ -133,9 +130,6 @@ public class GameController{
     }
     public String initMoveUnit(Matcher matcher) {
         return UnitController.getInstance().initMoveUnit(matcher); 
-    }
-    public String foundCity(){
-        return UnitController.getInstance().checkAndBuildCity();
     }
     public String attack(Matcher matcher){
         return UnitController.getInstance().combat(matcher);

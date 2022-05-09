@@ -97,7 +97,7 @@ public class UnitController {
         return "moving...";
     }
 
-    public String checkAndBuildCity() {
+    public String checkAndBuildCity(Matcher matcher) {
         Unit selectedUnit = GameController.getInstance().getSelectedUnit();
         if (selectedUnit == null) return "no unit is selected";
         if (selectedUnit.getUnitType() == UnitType.Settler) {
@@ -117,14 +117,15 @@ public class UnitController {
                             }
                         }
                     }
-                BuildCity(((Settler) selectedUnit));
+                String cityName = matcher.group("cityName");
+                BuildCity(((Settler) selectedUnit), cityName);
                 return "your new city is built";
             } return "this tile belongs to another civilization";
         } return "you can only build new city with settler";
     }
 
-    private void BuildCity(Settler settler){
-        settler.buildCity();
+    private void BuildCity(Settler settler, String cityName){
+        settler.buildCity(cityName);
         settler.getTile().getUnits().remove(settler);
         settler.getCivilization().getUnits().remove(settler);
         GameMap.getInstance().getUnits().remove(settler);

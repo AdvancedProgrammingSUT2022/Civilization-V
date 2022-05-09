@@ -15,6 +15,7 @@ import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 
 public class City {
+    private String name;
     private Civilization civilization;
     boolean isCapital = false;
     private int storedFood;
@@ -47,6 +48,14 @@ public class City {
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void calculateFood(){

@@ -63,9 +63,10 @@ public class GameMap {
     }
 
     public void addUnitISUnderConstruction(City city, UnitType unitType, int moneyRemaining){
-        Object[] UnitWithRemainingMoney = new Object[2];
+        Object[] UnitWithRemainingMoney = new Object[3];
         UnitWithRemainingMoney[0] = unitType.name();
         UnitWithRemainingMoney[1] = moneyRemaining;
+        UnitWithRemainingMoney[2] = moneyRemaining / city.getProductionPerTurn();
         unitsUnderConstruction.put(city, UnitWithRemainingMoney);
     }
 
@@ -74,9 +75,10 @@ public class GameMap {
     }
 
     public void addBuildingIsBuilding(City city, BuildingType buildingType, int moneyRemaining){
-        Object[] BuildingWithLeftRemainingCost = new Object[2];
+        Object[] BuildingWithLeftRemainingCost = new Object[3];
         BuildingWithLeftRemainingCost[0] = buildingType.name();
         BuildingWithLeftRemainingCost[1] = moneyRemaining;
+        BuildingWithLeftRemainingCost[2] = moneyRemaining / city.getProductionPerTurn();
         buildingsAreBuilding.put(city, BuildingWithLeftRemainingCost);
     }
 

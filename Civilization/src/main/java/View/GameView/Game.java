@@ -39,7 +39,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println();
     private final Consumer<Matcher> garrison = matcher -> System.out.println();
     private final Consumer<Matcher> setup = matcher -> System.out.println();
-    private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity());
+    private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity(matcher));
     private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();

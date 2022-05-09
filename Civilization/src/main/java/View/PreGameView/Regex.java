@@ -38,7 +38,7 @@ public class Regex {
     public final String garrison = "unit garrison";
     public final String setup = "unit set up";
     public final String attack = "unit attack (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
-    public final String foundCity = "unit found city";
+    public final String foundCity = "unit found city (?<cityName>\\S+)";
     public final String cancel = "unit cancel";
     public final String wake = "wake unit";
     public final String delete = "delete unit";
