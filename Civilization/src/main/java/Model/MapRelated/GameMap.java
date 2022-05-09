@@ -21,11 +21,9 @@ public class GameMap {
     private Graph initialGraph;
     private ArrayList<Unit> movingUnits = new ArrayList<>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
-    private HashMap<City, Object[]> unitsUnderConstruction = new HashMap<City, Object[]>();
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
-    private HashMap<City, Object[]> buildingsAreBuilding = new HashMap<City, Object[]>();
     HashMap<Civilization, Object[]> ResearchingTechnologies = new HashMap<Civilization, Object[]>();
 
     private Random random = new Random();
@@ -58,29 +56,6 @@ public class GameMap {
         ResearchingTechnologies.put(civilization, TechnologyAndRemainingTURN);
     }
 
-    public HashMap<City, Object[]> getUnitsUnderConstruction() {
-        return unitsUnderConstruction;
-    }
-
-    public void addUnitISUnderConstruction(City city, UnitType unitType, int moneyRemaining){
-        Object[] UnitWithRemainingMoney = new Object[3];
-        UnitWithRemainingMoney[0] = unitType.name();
-        UnitWithRemainingMoney[1] = moneyRemaining;
-        UnitWithRemainingMoney[2] = moneyRemaining / city.getProductionPerTurn();
-        unitsUnderConstruction.put(city, UnitWithRemainingMoney);
-    }
-
-    public HashMap<City, Object[]> getBuildingsAreBuilding() {
-        return buildingsAreBuilding;
-    }
-
-    public void addBuildingIsBuilding(City city, BuildingType buildingType, int moneyRemaining){
-        Object[] BuildingWithLeftRemainingCost = new Object[3];
-        BuildingWithLeftRemainingCost[0] = buildingType.name();
-        BuildingWithLeftRemainingCost[1] = moneyRemaining;
-        BuildingWithLeftRemainingCost[2] = moneyRemaining / city.getProductionPerTurn();
-        buildingsAreBuilding.put(city, BuildingWithLeftRemainingCost);
-    }
 
     public ArrayList<Building> getBuiltBuildings() {
         return builtBuildings;

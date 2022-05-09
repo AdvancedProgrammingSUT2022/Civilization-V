@@ -51,8 +51,7 @@ public class GameController{
         changePlayer();
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
-        reducingTurnOfTheBuildings();
-        reducingTurnOfTheUnits();
+        reducingTurnOfTheUnitsAndBuildings();
         CityController.getInstance().calculateProducts();
         reducingTurnOfTheTechnologies();
         selectedUnit = null;
@@ -77,33 +76,39 @@ public class GameController{
             }
         }
     }
-    public void reducingTurnOfTheUnits(){
-        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getUnitsUnderConstruction().entrySet()){
-            int remainingMoney;
-            if((remainingMoney = (int) cityEntry.getValue()[1] - cityEntry.getKey().getProductionPerTurn()) <= 0) {
-                Unit unit = new Unit(cityEntry.getKey().getCivilization(), cityEntry.getKey().getCityTiles().get(0), (UnitType) cityEntry.getValue()[1]);
-                cityEntry.getKey().addUnit(unit);
-                GameMap.getInstance().addUnit(unit);
-                cityEntry.getKey().getCivilization().addUnit(unit);
-                GameMap.getInstance().getUnitsUnderConstruction().remove(cityEntry);
-            } else{
-                cityEntry.getValue()[1] = remainingMoney;
-                cityEntry.getValue()[2] = (int) cityEntry.getValue()[2] - 1;
+    public void reducingTurnOfTheUnitsAndBuildings(){
+        if(GameController.getInstance().getPlayerTurn().getCities() != null){
+            for(City city : GameController.getInstance().getPlayerTurn().getCities()){
+                reducingTurnOFUnits(city);
+                reducingTurnOfTheBuildings(city);
             }
         }
     }
-    public void reducingTurnOfTheBuildings(){
-        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()) {
-            int remainingMoney;
-            if((remainingMoney = (int) cityEntry.getValue()[1] - cityEntry.getKey().getProductionPerTurn()) <= 0){
-                Building building = new Building((BuildingType) cityEntry.getValue()[0]);
-                cityEntry.getKey().addBuilding(building);
-                GameMap.getInstance().addBuiltBuilding(building);
-                GameMap.getInstance().getBuildingsAreBuilding().remove(cityEntry);
-            } else{
-                cityEntry.getValue()[1] = remainingMoney;
-                cityEntry.getValue()[2] = (int) cityEntry.getValue()[2] - 1;
-            }
+    private void reducingTurnOFUnits(City city){
+        if(city.getUnderConstructionUnit() != null && city.getUnitTurn() != 0){
+            int turn = city.getUnitTurn() - 1;
+            city.setUnitTurn(turn);
+        }
+        if(city.getUnderConstructionUnit() != null && city.getUnitTurn() == 0){
+            Unit unit = new Unit();
+            unit.setUnitType(city.getUnderConstructionUnit());
+            city.addUnit(unit);
+            GameMap.getInstance().addUnit(unit);
+            city.setUnderConstructionUnit(null);
+            city.setUnitTurn(0);
+        }
+    }
+    public void reducingTurnOfTheBuildings(City city){
+        if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() != 0){
+            int turn = city.getBuildingTurn() - 1;
+            city.setBuildingTurn(turn);
+        }
+        if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() == 0){
+            Building building = new Building(city.getUnderConstructionBuilding());
+            city.addBuilding(building);
+            GameMap.getInstance().addBuiltBuilding(building);
+            city.setUnderConstructionBuilding(null);
+            city.setBuildingTurn(0);
         }
     }
     private void changePlayer(){

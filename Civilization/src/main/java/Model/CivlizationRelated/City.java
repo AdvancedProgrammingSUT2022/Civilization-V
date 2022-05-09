@@ -26,6 +26,10 @@ public class City {
     private double hitPoint = 20;
     private double strength = 15;
     private int population;
+    private BuildingType underConstructionBuilding;
+    private int BuildingTurn = 0;
+    private UnitType underConstructionUnit;
+    private int UnitTurn = 0;
     private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
     private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
@@ -48,6 +52,46 @@ public class City {
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
+    }
+
+    public void setBuildingTypesCanBeBuilt(ArrayList<BuildingType> buildingTypesCanBeBuilt) {
+        BuildingTypesCanBeBuilt = buildingTypesCanBeBuilt;
+    }
+
+    public void setUnitsCanBeBuilt(ArrayList<UnitType> unitsCanBeBuilt) {
+        this.unitsCanBeBuilt = unitsCanBeBuilt;
+    }
+
+    public void setUnitTurn(int unitTurn) {
+        UnitTurn = unitTurn;
+    }
+
+    public int getUnitTurn() {
+        return UnitTurn;
+    }
+
+    public int getBuildingTurn() {
+        return BuildingTurn;
+    }
+
+    public void setBuildingTurn(int buildingTurn) {
+        BuildingTurn = buildingTurn;
+    }
+
+    public void setUnderConstructionUnit(UnitType underConstructionUnit) {
+        this.underConstructionUnit = underConstructionUnit;
+    }
+
+    public UnitType getUnderConstructionUnit() {
+        return underConstructionUnit;
+    }
+
+    public BuildingType getUnderConstructionBuilding() {
+        return underConstructionBuilding;
+    }
+
+    public void setUnderConstructionBuilding(BuildingType underConstructionBuilding) {
+        this.underConstructionBuilding = underConstructionBuilding;
     }
 
     public void setName(String name){
@@ -340,5 +384,9 @@ public class City {
 
     public void addCityTiles(Tile tile) {
         this.cityTiles.add(tile);
+    }
+
+    public double getStrength() {
+        return strength;
     }
 }

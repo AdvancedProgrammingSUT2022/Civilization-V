@@ -131,8 +131,6 @@ public class CivilizationController {
         researchInfo(output);
         unitsPanel(output);
         citiesPanel(output);
-        // units panel
-        // cities panel
         // demographic panel
         // notification history
         // military overview
@@ -171,9 +169,15 @@ public class CivilizationController {
         if(GameController.getInstance().getPlayerTurn().getCities() != null){
             stringBuilder.append("CITIZENS | NAME | STRENGTH\n");
             for(City city : GameController.getInstance().getPlayerTurn().getCities()){
-                stringBuilder.append(city.getCitizens().size() + " | " + city.getName() + " | " + city.get)
+                stringBuilder.append(city.getCitizens().size() + " | " + city.getName() + " | " + city.getStrength() + "\n");
             }
         } stringBuilder.append("no cities\n");
+    }
+
+    private void demographicPanel(StringBuilder stringBuilder){
+
+
+
 
     }
 
