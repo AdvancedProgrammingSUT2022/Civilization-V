@@ -68,7 +68,7 @@ public enum TechnologyType implements Unlocks{
     Trapping(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
         add(TechnologyType.AnimalHusbandry);
     }}, new ArrayList<TechnologyType>(){{
-        add(CivilService);
+        add(TechnologyType.CivilService);
     }}){
         @Override
         public String Unlock() {
@@ -557,8 +557,8 @@ public enum TechnologyType implements Unlocks{
         add(MilitaryScience);
     }}, new ArrayList<TechnologyType>(){{
         add(TechnologyType.Electricity);
-        add(ReplaceableParts);
-        add(Railroad);
+        add(TechnologyType.ReplaceableParts);
+        add(TechnologyType.Railroad);
     }}){
         @Override
         public String Unlock() {

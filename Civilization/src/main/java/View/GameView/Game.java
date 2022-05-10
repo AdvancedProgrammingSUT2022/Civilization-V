@@ -34,6 +34,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> chooseTechnology = matcher -> System.out.println(CivilizationController.getInstance().chooseTechnologyMenu()); // Arash changes technology
     private final Consumer<Matcher> studyTechnology = matcher -> System.out.println(CivilizationController.getInstance().createTechnologyForStudy(matcher)); // Arash changes technology
     private final Consumer<Matcher> changeResearchProject = matcher -> System.out.println(CivilizationController.getInstance().changeStudyingTechnology(matcher)); // Arash changes technology
+    private final Consumer<Matcher> cancelResearchProject = matcher -> System.out.println(CivilizationController.getInstance().cancelResearchProject());// Arash changes technology
     private final Consumer<Matcher> sleep = matcher -> System.out.println();
     private final Consumer<Matcher> alert = matcher -> System.out.println();
     private final Consumer<Matcher> fortify = matcher -> System.out.println();
@@ -79,6 +80,7 @@ public class Game extends Menu{
         commandsMap.put(regex.cancelBuildUnit, cancelBuildUnit); // Arash changes
         commandsMap.put(regex.chooseTechnologyMenu, chooseTechnology); // Arash changes
         commandsMap.put(regex.studyTechnology, studyTechnology); // Arash changes
+        commandsMap.put(regex.cancelResearchProject, cancelResearchProject); // Arash changes
         commandsMap.put(regex.changeResearchProject, changeResearchProject); // Arash changes
         commandsMap.put(regex.sleep,sleep);
         commandsMap.put(regex.alert,alert);

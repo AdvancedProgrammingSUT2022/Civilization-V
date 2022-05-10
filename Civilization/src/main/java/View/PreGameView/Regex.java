@@ -29,8 +29,8 @@ public class Regex {
     public final String cancelBuildUnit = "cancel build unit"; // Arash changes unit 4
     public final String chooseTechnologyMenu = "show valid Technologies"; // Arash changes technology 1
     public final String studyTechnology = "study (?<technologyType>\\S+)"; // ASRash changes technology 3
-    public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
-    public final String changeResearchProject = "change research project to (?<TechnologyType>)"; // ArashChanges technology 4
+    public final String cancelResearchProject = "cancel reseach project"; // Arash changes technology 2
+    public final String changeResearchProject = "change research project to (?<technologyType>)"; // ArashChanges technology 4
 
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
