@@ -10,6 +10,10 @@ import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.Combat.Ranged;
+import Model.Units.Combat.Siege;
+import Model.Units.NonCombat.NonCombat;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import View.GameView.Game;
@@ -107,10 +111,13 @@ public class CityController {
         if(buildingTypesCanBuilt.size() == 0) return "this city can not build building now";
         String returnString  = "your valid buildings are:" + buildingTypesCanBuilt.toString();
         String returnString1 = "";
-        BuildingType buildingType;
-        if((buildingType = GameController.getInstance().getSelectedCity().getUnderConstructionBuilding()) != null)
+        BuildingType buildingType = GameController.getInstance().getSelectedCity().getUnderConstructionBuilding();
+        UnitType unitType = GameController.getInstance().getSelectedCity().getUnderConstructionUnit();
+        if (unitType!= null && buildingType == null)
+            returnString1 = "\nand your city is building:" + unitType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
+        if (buildingType != null && unitType == null)
             returnString1 = "\nand your city is building:" + buildingType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
-        return returnString + (returnString1 == "" ? "\nyour city is not build a building right now" : returnString1);
+        return returnString + (returnString1 == "" ? "\nyour city is not build a unit or a building right now" : returnString1);
     }
 
     private void removeBuiltBuildings(ArrayList<BuildingType> validBuildingTypes){
@@ -209,11 +216,13 @@ public class CityController {
         GameController.getInstance().getSelectedCity().setUnitsCanBeBuilt(unitTypesCanBeBuilt);
         String returnString  = "your valid units are:" + unitTypesCanBeBuilt.toString();
         String returnString1 = "";
-        UnitType unitType;
-        if((unitType = GameController.getInstance().getSelectedCity().getUnderConstructionUnit()) != null){
+        BuildingType buildingType = GameController.getInstance().getSelectedCity().getUnderConstructionBuilding();
+        UnitType unitType = GameController.getInstance().getSelectedCity().getUnderConstructionUnit();
+        if (unitType!= null && buildingType == null)
             returnString1 = "\nand your city is building:" + unitType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
-        }
-        return returnString + (returnString1 == "" ? "\nyour city is not build a unit right now" : returnString1);
+        if (buildingType != null && unitType == null)
+            returnString1 = "\nand your city is building:" + buildingType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
+        return returnString + (returnString1 == "" ? "\nyour city is not build a unit or a building right now" : returnString1);
     }
 
     private void removeBuiltUnits(ArrayList<UnitType> validUnitTypes){
@@ -269,9 +278,23 @@ public class CityController {
     private void buildUnit(){
         Civilization civilization = GameController.getInstance().getSelectedCity().getCivilization();
         Tile tile = GameController.getInstance().getSelectedCity().getCityTiles().get(0);
-        Unit unit = new Unit(civilization , tile, this.selectedUnitType);
-        GameController.getInstance().getSelectedCity().addUnit(unit);
-        GameMap.getInstance().addUnit(unit);
+        if(this.selectedUnitType.mainType.equals(MainType.RANGED)){
+            Ranged ranged = new Ranged(GameController.getInstance().getPlayerTurn(), GameController.getInstance().getSelectedCity().getCityTiles().get(0), selectedUnitType);
+            GameController.getInstance().getSelectedCity().addUnit(ranged);
+            GameMap.getInstance().addUnit(ranged);
+        } else if(this.selectedUnitType.mainType.equals(MainType.SIEGE)){
+            Siege siege = new Siege(GameController.getInstance().getPlayerTurn(), GameController.getInstance().getSelectedCity().getCityTiles().get(0), selectedUnitType);
+            GameController.getInstance().getSelectedCity().addUnit(siege);
+            GameMap.getInstance().addUnit(siege);
+        } else if(this.selectedUnitType.mainType.equals(MainType.NONCOMBAT)){
+            NonCombat nonCombat = new NonCombat(GameController.getInstance().getPlayerTurn(), GameController.getInstance().getSelectedCity().getCityTiles().get(0), selectedUnitType);
+            GameController.getInstance().getSelectedCity().addUnit(nonCombat);
+            GameMap.getInstance().addUnit(nonCombat);
+        } else {
+            Unit unit = new Unit(civilization, tile, this.selectedUnitType);
+            GameController.getInstance().getSelectedCity().addUnit(unit);
+            GameMap.getInstance().addUnit(unit);
+        }
         int newGoldAmount = GameController.getInstance().getSelectedCity().getCivilization().getGold() - this.selectedUnitType.cost;
         GameController.getInstance().getSelectedCity().getCivilization().setGold(newGoldAmount);
     }

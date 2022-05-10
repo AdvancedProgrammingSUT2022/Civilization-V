@@ -6,9 +6,8 @@ import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.Units.TypeEnums.MainType;
+import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import Model.User.User;
-import View.GameView.Game;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -293,7 +292,11 @@ public class CivilizationController {
                 stringBuilder.append(i + 1 + " : " + cities.get(i).getName() + " | " + cities.get(i).getPopulation() + " | ");
                 stringBuilder.append(cities.get(i).getStrength() + " | " + cities.get(i).getFoodPerTurn() + " | ");
                 stringBuilder.append(cities.get(i).getProductionPerTurn() + " | ");
-//                stringBuilder.append(cities.get(i).) OBJECT UNDER CONSTRUCTION
+                if(cities.get(i).getUnderConstructionBuilding() != null){
+                    stringBuilder.append(cities.get(i).getUnderConstructionBuilding().name() + "\n");
+                } else if(cities.get(i).getUnderConstructionUnit() != null){
+                    stringBuilder.append(cities.get(i).getUnderConstructionUnit().name() + "\n");
+                } else stringBuilder.append("nothing\n");
             }
         } stringBuilder.append("no cities\n");
     }

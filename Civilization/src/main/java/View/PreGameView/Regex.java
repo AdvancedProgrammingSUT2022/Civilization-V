@@ -31,7 +31,7 @@ public class Regex {
     public final String studyTechnology = "study (?<technologyType>\\S+)"; // ASRash changes technology 3
     public final String cancelResearchProject = "cancel reseach project"; // Arash changes technology 2
     public final String changeResearchProject = "change research project to (?<technologyType>)"; // ArashChanges technology 4
-
+    
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";
