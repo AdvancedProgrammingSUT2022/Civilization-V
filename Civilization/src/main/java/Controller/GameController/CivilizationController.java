@@ -1,15 +1,17 @@
 package Controller.GameController;
 
 import Model.CivlizationRelated.City;
+import Model.CivlizationRelated.Civilization;
+import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.Unit;
+import Model.User.User;
 import View.GameView.Game;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.text.DecimalFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class CivilizationController {
@@ -180,16 +182,16 @@ public class CivilizationController {
         return "your research project has stopped";
     }
 
-    public String Info(){
+    public String InfoPanel(){
         StringBuilder output = new StringBuilder();
         output.append("------------- INFO PANEL -------------\n");
         researchInfo(output);
         unitsPanel(output);
         citiesPanel(output);
-        // demographic panel
+        demographicPanel(output);
+        militaryOverview(output);
+        economicOverview(output);
         // notification history
-        // military overview
-        // economic overview
         return output.toString();
     }
 
@@ -230,9 +232,36 @@ public class CivilizationController {
     }
 
     private void demographicPanel(StringBuilder stringBuilder){
+        DecimalFormat df = new DecimalFormat("0.00");
+        stringBuilder.append("---DEMOGRAPHIC---\n");
+        double average = rankingAndAverage();
+        stringBuilder.append("RANK : USERNAME | SCORE | SCIENCE | POPULATION | LAND | GOLD | AVERAGE\n");
+        ArrayList<Civilization> civilizations = GameMap.getInstance().getCivilizations();
+        for(int i = 0; i < civilizations.size(); i++){
+            stringBuilder.append(" " +i + 1 + " : " + civilizations.get(i).getUser().getUsername() + " | ");
+            stringBuilder.append(civilizations.get(i).getUserScore() + " | ");
+            stringBuilder.append(civilizations.get(i).getSciencePerTurn() + " | ");
+            int population = 0;
+            if(civilizations.get(i).getCities() != null){
+                for(City city : civilizations.get(i).getCities()){
+                    population += city.getPopulation();
+                }
+            }
+            stringBuilder.append(population + " | ");
+            stringBuilder.append(civilizations.get(i).getTiles().size() + " Square KM | ");
+            stringBuilder.append(civilizations.get(i).getGold() + " | ");
+            stringBuilder.append(df.format(average) + "\n");
+        }
+    }
 
-
-
+    private double rankingAndAverage() {
+        Comparator<Civilization> comparator = Comparator.comparing(Civilization::getUserScore);
+        GameMap.getInstance().getCivilizations().sort(comparator);
+        int sum = 0;
+        for(Civilization civilization : GameMap.getInstance().getCivilizations()){
+            sum += civilization.getUserScore();
+        }
+        return sum / GameMap.getInstance().getCivilizations().size();
     }
 
     private void notificationHistory(StringBuilder stringBuilder){
@@ -241,13 +270,32 @@ public class CivilizationController {
     }
 
     private void militaryOverview(StringBuilder stringBuilder){
-
-
+        stringBuilder.append("---MILITARY OVERVIEW---\n");
+        if(GameController.getInstance().getPlayerTurn().getUnits() != null){
+            stringBuilder.append("NUMBER: UNIT NAME\n");
+            ArrayList<Unit> units = GameController.getInstance().getPlayerTurn().getUnits();
+            int count = 0;
+            for (Unit unit : units) {
+                if(unit.getUnitType().mainType.equals(MainType.RANGED)){
+                    stringBuilder.append(" " + count + 1 + " : " + unit.getUnitType().name() +"\n");
+                    count++;
+                }
+            }
+        } stringBuilder.append("no military units\n");
     }
 
     private void economicOverview(StringBuilder stringBuilder){
-
-
+        stringBuilder.append("---ECONOMIC OVERVIEW---\n");
+        if(GameController.getInstance().getPlayerTurn().getCities() != null){
+            stringBuilder.append("NUMBER : NAME | POPULATION | STRENGTH | FOOD PER TURN | PRODUCTION PER TURN | OBJECT UNDER CONSTRUCTION\n");
+            ArrayList<City> cities = GameController.getInstance().getPlayerTurn().getCities();
+            for (int i = 0; i < cities.size(); i++) {
+                stringBuilder.append(i + 1 + " : " + cities.get(i).getName() + " | " + cities.get(i).getPopulation() + " | ");
+                stringBuilder.append(cities.get(i).getStrength() + " | " + cities.get(i).getFoodPerTurn() + " | ");
+                stringBuilder.append(cities.get(i).getProductionPerTurn() + " | ");
+//                stringBuilder.append(cities.get(i).) OBJECT UNDER CONSTRUCTION
+            }
+        } stringBuilder.append("no cities\n");
     }
 
 }

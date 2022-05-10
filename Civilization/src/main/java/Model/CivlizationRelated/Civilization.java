@@ -186,6 +186,10 @@ public class Civilization {
         this.cities.add(city);
     }
 
+    public int getUserScore(){
+        return user.getScore();
+    }
+
 
 
 }
