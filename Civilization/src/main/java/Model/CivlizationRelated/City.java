@@ -25,6 +25,7 @@ public class City {
     private double hitPoint = 20;
     private double strength = 15;
     private int population;
+    private UnitType unitUnderConstruction;
     private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
     private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
@@ -47,6 +48,7 @@ public class City {
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
+        civilization.changeHappiness(-1);
     }
 
     public void calculateFood(){
@@ -58,12 +60,21 @@ public class City {
             foodPerTurn += citizen.getTile().calculateFood();
         }
         storedFood += foodPerTurn;
+        if(unitUnderConstruction.equals(UnitType.Settler))storedFood = 0;
     }
     public Unit getGarrisonUnit() {
         return garrisonUnit;
     }
     public void setGarrisonUnit(Unit garrisonUnit) {
         this.garrisonUnit = garrisonUnit;
+    }
+
+    public UnitType getUnitUnderConstruction() {
+        return unitUnderConstruction;
+    }
+
+    public void setUnitUnderConstruction(UnitType unitUnderConstruction) {
+        this.unitUnderConstruction = unitUnderConstruction;
     }
 
     public ArrayList<BuildingType> getBuildingTypesCanBeBuilt(){
@@ -191,6 +202,7 @@ public class City {
     }
 
     public void populationGrowth(){
+        if(civilization.getHappiness()<= 0)return;
         int neededFood = (int)Math.pow(2,population);
         for (Building building:buildings) {
             if(building.getBuildingType().equals(BuildingType.Hospital)){
@@ -200,6 +212,7 @@ public class City {
         }
         if(storedFood > neededFood){
             population ++;
+            civilization.changeHappiness(-0.25);
             Citizen citizen = new Citizen(this);
             citizens.add(citizen);
             storedFood -= Math.pow(2,population);

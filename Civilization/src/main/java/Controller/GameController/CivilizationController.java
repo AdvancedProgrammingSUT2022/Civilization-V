@@ -86,6 +86,7 @@ public class CivilizationController {
         return leadsToTechnologies;
     }
 
+
     public String createTechnologyForStudy(Matcher matcher){
         if(GameController.getInstance().getPlayerTurn().getCurrentStudyingTechnology() != null) return "you are studying a technology right now";
         String chosenTechnologyType = matcher.group("technologyType");

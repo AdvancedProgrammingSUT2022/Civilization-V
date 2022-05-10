@@ -2,14 +2,12 @@ package Model.MapRelated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Random;
 
 import Controller.GameController.MapControllers.MapPrinter;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
-import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
@@ -25,8 +23,8 @@ public class GameMap {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
-    private HashMap<City, Object[]> buildingsAreBuilding = new HashMap<City, Object[]>();
-    HashMap<Civilization, Object[]> ResearchingTechnologies = new HashMap<Civilization, Object[]>();
+    private HashMap<City, Object[]> buildingsUnderConstruction = new HashMap<City, Object[]>();
+    private HashMap<Civilization, Object[]> ResearchingTechnologies = new HashMap<Civilization, Object[]>();
 
     private Random random = new Random();
     private static GameMap map;
@@ -69,15 +67,15 @@ public class GameMap {
         unitsUnderConstruction.put(city, UnitWithRemainingMoney);
     }
 
-    public HashMap<City, Object[]> getBuildingsAreBuilding() {
-        return buildingsAreBuilding;
+    public HashMap<City, Object[]> getBuildingsUnderConstruction() {
+        return buildingsUnderConstruction;
     }
 
-    public void addBuildingIsBuilding(City city, BuildingType buildingType, int moneyRemaining){
+    public void addUnderConstructionBuilding(City city, BuildingType buildingType, int moneyRemaining){
         Object[] BuildingWithLeftRemainingCost = new Object[2];
         BuildingWithLeftRemainingCost[0] = buildingType.name();
         BuildingWithLeftRemainingCost[1] = moneyRemaining;
-        buildingsAreBuilding.put(city, BuildingWithLeftRemainingCost);
+        buildingsUnderConstruction.put(city, BuildingWithLeftRemainingCost);
     }
 
     public ArrayList<Building> getBuiltBuildings() {

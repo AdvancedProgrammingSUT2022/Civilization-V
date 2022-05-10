@@ -116,6 +116,16 @@ public class MapGenerator {
         setFeatures(mapX, mapY, MapSeed);
         setResources(mapX, mapY, MapSeed);
         setRivers(mapX, mapY);
+        setWaterSideTiles(mapX , mapY);
+    }
+
+    private void setWaterSideTiles(int mapX, int mapY){
+        for (Tile tile:GameMap.getInstance().getTiles()) {
+            int x = tile.getX();
+            int y = tile.getY();
+            if(!tile.getRivers().isEmpty())tile.setHasRiverOrOcean(true);
+            if(x == 1 || y == 1 || x == mapX - 2 || y == mapY - 2)tile.setHasRiverOrOcean(true);
+        }
     }
 
     private void setRivers(int mapX, int mapY){

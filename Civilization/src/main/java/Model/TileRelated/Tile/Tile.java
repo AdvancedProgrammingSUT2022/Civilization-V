@@ -17,6 +17,7 @@ public class Tile {
     private int x;
     private int y;
     private int mpCost;
+    private boolean hasRiverOrOcean = false;
     private Citizen citizen;
     private Building building;
     private ArrayList<Unit> units = new ArrayList<>();
@@ -95,6 +96,14 @@ public class Tile {
         this.feature = feature;
     }
 
+    public boolean isHasRiverOrOcean() {
+        return hasRiverOrOcean;
+    }
+
+    public void setHasRiverOrOcean(boolean hasRiverOrOcean) {
+        this.hasRiverOrOcean = hasRiverOrOcean;
+    }
+
     public Improvement getImprovement() {
         return improvement;
     }
@@ -162,6 +171,8 @@ public class Tile {
         }
         if(improvement != null && improvement.getImprovementType().product.equals("food"))
             FoodAmount += improvement.getImprovementType().TileYields;
+        if(resource.getResourceType().Food != 0 && resource.isAvailable())
+            FoodAmount += resource.getResourceType().Food;
         return FoodAmount;
     }
 
@@ -178,12 +189,15 @@ public class Tile {
     }
 
     public int calculateGold(){
-        int Gold = terrain.gold;
+        int Gold = 0;
+        if(hasRiverOrOcean)Gold = 2;
         if(feature != null) {
             Gold += feature.getFeatureType().Gold;
         }
         if(improvement != null && improvement.getImprovementType().product.equals("Gold"))
             Gold += improvement.getImprovementType().TileYields;
+        if(resource.getResourceType().Gold != 0 && resource.isAvailable())
+            Gold += resource.getResourceType().Gold;
         return Gold;
     }
 

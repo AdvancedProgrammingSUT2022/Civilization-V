@@ -53,7 +53,7 @@ public class GameController{
         restoreMovementLefts();
         reducingTurnOfTheBuildings();
         reducingTurnOfTheUnits();
-        CityController.getInstance().calculateProducts();
+        CityController.getInstance().calculateProducts(playerTurn);
         reducingTurnOfTheTechnologies();
         selectedUnit = null;
         selectedCity = null;
@@ -86,6 +86,7 @@ public class GameController{
                 GameMap.getInstance().addUnit(unit);
                 cityEntry.getKey().getCivilization().addUnit(unit);
                 GameMap.getInstance().getUnitsUnderConstruction().remove(cityEntry);
+                cityEntry.getKey().setUnitUnderConstruction(null);
             } else{
                 cityEntry.getValue()[1] = remainingMoney;
             }
@@ -95,13 +96,13 @@ public class GameController{
 
     }
     public void reducingTurnOfTheBuildings(){
-        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsAreBuilding().entrySet()) {
+        for(Map.Entry<City, Object[]> cityEntry : GameMap.getInstance().getBuildingsUnderConstruction().entrySet()) {
             int remainingMoney;
             if((remainingMoney = (int) cityEntry.getValue()[1] - cityEntry.getKey().getProductionPerTurn()) <= 0){
                 Building building = new Building((BuildingType) cityEntry.getValue()[0]);
                 cityEntry.getKey().addBuilding(building);
                 GameMap.getInstance().addBuiltBuilding(building);
-                GameMap.getInstance().getBuildingsAreBuilding().remove(cityEntry);
+                GameMap.getInstance().getBuildingsUnderConstruction().remove(cityEntry);
             } else{
                 cityEntry.getValue()[1] = remainingMoney;
             }
