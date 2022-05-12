@@ -26,10 +26,14 @@ public class City {
     private double hitPoint = 20;
     private double strength = 15;
     private int population;
+
     private BuildingType underConstructionBuilding;
     private int BuildingTurn = 0;
     private UnitType underConstructionUnit;
     private int UnitTurn = 0;
+
+    private UnitType unitUnderConstruction;
+
     private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
     private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
@@ -52,6 +56,7 @@ public class City {
         this.BuildingTypesCanBeBuilt = new ArrayList<BuildingType>();
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
+        civilization.changeHappiness(-1);
     }
 
     public void setBuildingTypesCanBeBuilt(ArrayList<BuildingType> buildingTypesCanBeBuilt) {
@@ -111,12 +116,21 @@ public class City {
             foodPerTurn += citizen.getTile().calculateFood();
         }
         storedFood += foodPerTurn;
+        if(unitUnderConstruction != null && unitUnderConstruction.equals(UnitType.Settler))storedFood = 0;
     }
     public Unit getGarrisonUnit() {
         return garrisonUnit;
     }
     public void setGarrisonUnit(Unit garrisonUnit) {
         this.garrisonUnit = garrisonUnit;
+    }
+
+    public UnitType getUnitUnderConstruction() {
+        return unitUnderConstruction;
+    }
+
+    public void setUnitUnderConstruction(UnitType unitUnderConstruction) {
+        this.unitUnderConstruction = unitUnderConstruction;
     }
 
     public ArrayList<BuildingType> getBuildingTypesCanBeBuilt(){
@@ -170,8 +184,14 @@ public class City {
     }
 
     public String assignCitizen(Tile tile){
-        if(!cityTiles.contains(tile))return "this tile doesnt belong to you";
-        if(tile.equals(cityTiles.get(0))) return "cant work on cityCenter";
+        if(!cityTiles.contains(tile)){
+            this.civilization.addNotification("this tile doesn't belong to you");
+            return "this tile doesn't belong to you";
+        }
+        if(tile.equals(cityTiles.get(0))) {
+            this.civilization.addNotification("cant work on cityCenter");
+            return "cant work on cityCenter";
+        }
         if(tile.getCitizen() != null) return "tile has citizen";
         for (Citizen citizen:citizens) {
             if(citizen.getTile() == null){
@@ -181,19 +201,25 @@ public class City {
                 calculateProduction();
                 calculateGold();
                 if(tile.getFeature() != null)System.out.println(tile.getFeature().getFeatureType().name());
+                this.civilization.addNotification("done");
                 return "done";
             }
         }
+        this.civilization.addNotification("all citizens are on work");
         return "all citizens are on work";
     }
 
     public String removeCitizenFromWork(Tile tile){
-        if(tile.getCitizen() == null)return "no citizen works here";
+        if(tile.getCitizen() == null){
+            this.civilization.addNotification("no citizen works here");
+            return "no citizen works here";
+        }
         tile.getCitizen().setTile(null);
         calculateFood();
         calculateProduction();
         calculateGold();
         tile.setCitizen(null);
+        this.civilization.addNotification("done!");
         return "done";
     }
 
@@ -244,6 +270,7 @@ public class City {
     }
 
     public void populationGrowth(){
+        if(civilization.getHappiness()<= 0)return;
         int neededFood = (int)Math.pow(2,population);
         for (Building building:buildings) {
             if(building.getBuildingType().equals(BuildingType.Hospital)){
@@ -253,6 +280,7 @@ public class City {
         }
         if(storedFood > neededFood){
             population ++;
+            civilization.changeHappiness(-0.25);
             Citizen citizen = new Citizen(this);
             citizens.add(citizen);
             storedFood -= Math.pow(2,population);
@@ -263,12 +291,19 @@ public class City {
     }
 
     public String buyTile(Tile tile){
-        if(!findCitySurroundings().contains(tile))return "you can't buy this tile";
-        if(this.civilization.getGold() < 50)return "you don't have enough gold";
+        if(!findCitySurroundings().contains(tile)){
+            this.civilization.addNotification("you can't buy this tile");
+            return "you can't buy this tile";
+        }
+        if(this.civilization.getGold() < 50){
+            this.civilization.addNotification("you don't have enough gold");
+            return "you don't have enough gold";
+        }
         this.civilization.changeGold(-50);
         cityTiles.add(tile);
         this.civilization.getTiles().add(tile);
         tile.setCivilization(this.civilization);
+        this.civilization.addNotification("done!");
         return "done!";
     }
 

@@ -9,6 +9,7 @@ import Model.Technology.Technology;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Combat.Ranged;
 import Model.Units.Combat.Siege;
@@ -77,11 +78,12 @@ public class CityController {
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
         Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
         if(tile == null)return "no such tile exists";
+        City city = GameController.getInstance().getSelectedCity();
+        GameController.getInstance().getPlayerTurn().addNotification(city.getName() + "->buying Tile( y->" + tile.getY()+ ",x->"+ tile.getX() +") :");
         return GameController.getInstance().getSelectedCity().buyTile(tile);
     }
 
-    public void calculateProducts(){
-        for (Civilization civilization: GameMap.getInstance().getCivilizations()) {
+    public void calculateProducts(Civilization civilization){
             civilization.setGoldPerTurn(0);
             civilization.setSciencePerTurn(0);
             for (City city:civilization.getCities()) {
@@ -95,7 +97,7 @@ public class CityController {
                 civilization.changeGold(city.getGoldPerTurn());
                 civilization.changeGold(city.getGoldPerTurn());
             }
-        }
+            civilization.checkGoldRunningOut();
     }
 
     public String showValidBuildingTypes() {
@@ -162,11 +164,16 @@ public class CityController {
         return buildNowOrPerTurns.equals("per turns") ? buildPerTurns() : buildNow();
     }
     private String buildNow(){
-        if(GameController.getInstance().getSelectedCity().getCivilization().getGold() < this.selectedBuildingType.getCost()) return "you don not have enough gold";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" +"build building :");
+        if(GameController.getInstance().getSelectedCity().getCivilization().getGold() < this.selectedBuildingType.getCost()){
+            GameController.getInstance().getPlayerTurn().addNotification("you do not have enough gold");
+            return "you do not have enough gold";
+        }
         GameController.getInstance().getSelectedCity().setUnderConstructionUnit(this.selectedUnitType);
         buildBuildingNow();
         GameController.getInstance().getSelectedCity().setUnderConstructionBuilding(null);
         this.selectedBuildingType = null;
+        GameController.getInstance().getPlayerTurn().addNotification("your new building is built");
         return "your new building is built";
     }
 
@@ -179,7 +186,11 @@ public class CityController {
     }
 
     private String buildPerTurns(){
-        if(GameController.getInstance().getSelectedCity().getProductionPerTurn() <= 0) return "you can not pay for this building";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" +"build building :");
+        if(GameController.getInstance().getSelectedCity().getProductionPerTurn() <= 0) {
+            GameController.getInstance().getPlayerTurn().addNotification("you can not pay for this building");
+            return "you can not pay for this building";
+        }
         int turn = this.selectedBuildingType.getCost() / GameController.getInstance().getSelectedCity().getProductionPerTurn();
         GameController.getInstance().getSelectedCity().setBuildingTurn(turn);
         BuildingType buildingType =  this.selectedBuildingType;
@@ -188,17 +199,23 @@ public class CityController {
             Building building = new Building(buildingType);
             GameController.getInstance().getSelectedCity().addBuilding(building);
             GameMap.getInstance().addBuiltBuilding(building);
+            GameController.getInstance().getPlayerTurn().addNotification("your new building is built");
             return "your new building is built";
         }
+        GameController.getInstance().getPlayerTurn().addNotification("construction of your new building has begun");
         return "construction of your new building has begun";
     }
 
     public String cancelBuilding(){
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" +
+                GameController.getInstance().getSelectedCity().getName() + "->" + "cancel build building :");
         if(GameController.getInstance().getSelectedCity().getUnderConstructionBuilding() != null) {
             GameController.getInstance().getSelectedCity().setUnderConstructionBuilding(null);
+            GameController.getInstance().getPlayerTurn().addNotification("your construction of building is canceled");
             return "your construction of building is canceled";
         }
+        GameController.getInstance().getPlayerTurn().addNotification("your city is not build any buildings");
         return "your city is not building any Buildings";
     }
     // --------- build units ------------------------------
@@ -258,20 +275,30 @@ public class CityController {
     }
 
     private String buildUnitPerTurns(){
-        if(GameController.getInstance().getSelectedCity().getProductionPerTurn() <= 0) return "you can not pay for this unit";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" +"build unit :");
+        if(GameController.getInstance().getSelectedCity().getProductionPerTurn() <= 0) {
+            GameController.getInstance().getPlayerTurn().addNotification("you can not pay for this unit");
+            return "you can not pay for this unit";
+        }
         GameController.getInstance().getSelectedCity().setUnderConstructionUnit(this.selectedUnitType);
         int turn = this.selectedUnitType.cost / GameController.getInstance().getSelectedCity().getProductionPerTurn();
         if(turn ==0 ) return buildUnitNow();
         GameController.getInstance().getSelectedCity().setUnitTurn(turn);
         this.selectedUnitType = null;
+        GameController.getInstance().getPlayerTurn().addNotification("construction of your new building has begun");
         return "construction of your new building has begun";
     }
 
     private String buildUnitNow(){
-        if(GameController.getInstance().getSelectedCity().getCivilization().getGold() < this.selectedUnitType.cost) return "you don not have enough gold";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" +"build unit :");
+        if(GameController.getInstance().getSelectedCity().getCivilization().getGold() < this.selectedUnitType.cost) {
+            GameController.getInstance().getPlayerTurn().addNotification("you do not have enough gold");
+            return "you do not have enough gold";
+        }
         buildUnit();
         GameController.getInstance().getSelectedCity().setUnderConstructionUnit(null);
         this.selectedUnitType = null;
+        GameController.getInstance().getPlayerTurn().addNotification("your new unit is built");
         return "your new unit is built";
     }
 
@@ -295,16 +322,28 @@ public class CityController {
             GameController.getInstance().getSelectedCity().addUnit(unit);
             GameMap.getInstance().addUnit(unit);
         }
+        need();
         int newGoldAmount = GameController.getInstance().getSelectedCity().getCivilization().getGold() - this.selectedUnitType.cost;
         GameController.getInstance().getSelectedCity().getCivilization().setGold(newGoldAmount);
     }
 
+    private void need(){
+        if(selectedUnitType.resourcesRequired.equals(ResourceType.Horses)) GameController.getInstance().getPlayerTurn().changeCurrentHorses(-1);
+        else if (selectedUnitType.resourcesRequired.equals(ResourceType.Iron)) GameController.getInstance().getPlayerTurn().changeCurrentIron(-1);
+        else if(selectedUnitType.resourcesRequired.equals(ResourceType.Coal)) GameController.getInstance().getPlayerTurn().changeCurrentCoal(-1);
+    }
+
+
+
     public String cancelBuildingUnit(){
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" + GameController.getInstance().getSelectedCity().getName()+"->"+"cancel build unit :");
         if(GameController.getInstance().getSelectedCity().getUnderConstructionUnit() != null) {
             GameController.getInstance().getSelectedCity().setUnderConstructionUnit(null);
+            GameController.getInstance().getPlayerTurn().addNotification("your construction of unit is canceled");
             return "your construction of unit is canceled";
         }
+        GameController.getInstance().getPlayerTurn().addNotification("your city is not building any units");
         return "your city is not building any units";
     }
 
@@ -329,18 +368,92 @@ public class CityController {
         }
         return false;
     }
+
+    public String changeConstruction(Matcher matcher){
+        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
+        boolean hasUnitUnderConstruction = GameController.getInstance().getSelectedCity().getUnderConstructionUnit() == null;
+        boolean hasBuildingUnderConstruction = GameController.getInstance().getSelectedCity().getUnderConstructionBuilding() == null;
+        GameController.getInstance().getPlayerTurn().addNotification("turn : "+ GameController.getInstance().getTurn() + ")"+ "changing construction of city :");
+        if(hasUnitUnderConstruction && hasBuildingUnderConstruction) {
+            GameController.getInstance().getPlayerTurn().addNotification("your city has not any under construction object");
+            return "your city has not any under construction object";
+        }
+        String unitType = matcher.group("unitType");
+        String buildingType = matcher.group("buildingType");
+        if(unitType != null && buildingType == null) {
+            GameController.getInstance().getPlayerTurn().addNotification(changeConstructionToUnit(unitType));
+            return changeConstructionToUnit(unitType);
+        }
+        if(buildingType != null && unitType == null) {
+            GameController.getInstance().getPlayerTurn().addNotification(changeConstructionToBuilding(buildingType));
+            return changeConstructionToBuilding(buildingType);
+        }
+        GameController.getInstance().getPlayerTurn().addNotification("not a valid building type or unit type");
+        return "not a valid building type or unit type";
+    }
+
+    private String changeConstructionToUnit(String unitType){
+        for(UnitType unitType1 : UnitType.values()){
+            if(unitType1.name().equals(unitType)){
+                if(!hasRequiredResourcesForUnit(unitType1) && !hasRequiredTechnologyForUnit(unitType1)) return "you do not have requirements";
+                int turn = 0;
+                if(GameController.getInstance().getSelectedCity().getUnderConstructionBuilding() != null){
+                    GameController.getInstance().getSelectedCity().setUnitUnderConstruction(unitType1);
+                    turn = GameController.getInstance().getSelectedCity().getBuildingTurn();
+                    GameController.getInstance().getSelectedCity().setUnitTurn(turn);
+                    GameController.getInstance().getSelectedCity().setUnderConstructionBuilding(null);
+                } else if(GameController.getInstance().getSelectedCity().getUnderConstructionUnit() != null){
+                    GameController.getInstance().getSelectedCity().setUnitUnderConstruction(unitType1);
+                    turn = GameController.getInstance().getSelectedCity().getUnitTurn();
+                    GameController.getInstance().getSelectedCity().setUnitTurn(turn);
+                    GameController.getInstance().getSelectedCity().setUnitUnderConstruction(null);
+                }
+                return "your city construction is changed";
+            }
+        } return "not a valid unit type";
+    }
+
+    private String changeConstructionToBuilding(String buildingType){
+        for(BuildingType buildingType1 : BuildingType.values()){
+            if(buildingType1.name().equals(buildingType)){
+                if(!hasRequiredTechnologyForBuilding(buildingType1)) return "you do not have required technologies";
+                int turn = 0;
+                if(GameController.getInstance().getSelectedCity().getUnderConstructionBuilding() != null){
+                    GameController.getInstance().getSelectedCity().setUnderConstructionBuilding(buildingType1);
+                    turn = GameController.getInstance().getSelectedCity().getBuildingTurn();
+                    GameController.getInstance().getSelectedCity().setBuildingTurn(turn);
+                } else if(GameController.getInstance().getSelectedCity().getUnderConstructionUnit() != null){
+                    GameController.getInstance().getSelectedCity().setUnderConstructionBuilding(buildingType1);
+                    turn = GameController.getInstance().getSelectedCity().getUnitTurn();
+                    GameController.getInstance().getSelectedCity().setBuildingTurn(turn);
+                    GameController.getInstance().getSelectedCity().setUnitUnderConstruction(null);
+                }
+                return "your city construction is changed";
+            }
+        } return "not a valid building type";
+    }
+
     // ---------------------------------------------------
 
     public String assignCitizen(Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : "+ GameController.getInstance().getTurn() + ")"+ GameController.getInstance().getSelectedCity().getName() + "->assign work to citizen :");
         Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
-        if(tile == null)return "no such tile exists";
+        if(tile == null){
+            GameController.getInstance().getPlayerTurn().addNotification("no such tile exist");
+            return "no such tile exists";
+        }
         return GameController.getInstance().getSelectedCity().assignCitizen(tile);
     }
     public String removeCitizen(Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : "+ GameController.getInstance().getTurn() + ")"+ GameController.getInstance().getSelectedCity().getName() + "->remove citizen from work :");
         Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
-        if(tile == null)return "no such tile exists";
+        if(tile == null){
+            GameController.getInstance().getPlayerTurn().addNotification("no such tile exist");
+            return "no such tile exists";
+        }
         return GameController.getInstance().getSelectedCity().removeCitizenFromWork(tile);
     }
+
 }

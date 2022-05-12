@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 public class GameController{
+    private int turn = 1;
     private Civilization playerTurn;
     private Unit selectedUnit;
     private City selectedCity;
@@ -52,10 +53,11 @@ public class GameController{
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheUnitsAndBuildings();
-        CityController.getInstance().calculateProducts();
+        CityController.getInstance().calculateProducts(GameController.gameController.getPlayerTurn());
         reducingTurnOfTheTechnologies();
         selectedUnit = null;
         selectedCity = null;
+        if(playerTurn.equals(this.map.getCivilizations().get(0))) turn++;
         return "next player turn!";
     }
     public void reducingTurnOfTheTechnologies(){
@@ -134,4 +136,7 @@ public class GameController{
         return UnitController.getInstance().combat(matcher);
     }
 
+    public int getTurn() {
+        return turn;
+    }
 }

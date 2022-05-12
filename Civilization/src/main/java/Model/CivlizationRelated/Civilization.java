@@ -10,6 +10,7 @@ import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Improvement.Improvement;
 import Model.Technology.Technology;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 import Model.User.User;
@@ -20,7 +21,13 @@ public class Civilization {
     private int gold;
     private int goldPerTurn;
     private int sciencePerTurn;
-    private int happiness = 10;
+    private double happiness = 10;
+    private int totalCoal;
+    private int currentCoal;
+    private int totalHorses;
+    private int currentHorses;
+    private int totalIron;
+    private int currentIron;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
@@ -33,8 +40,23 @@ public class Civilization {
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
     private TechnologyType currentResearchProject;
     private int researchTurns = 0;
-    private ArrayList<DiplomaticTie> diplomaticTies; 
-    private ArrayList<String> notifHistory;
+    private ArrayList<DiplomaticTie> diplomaticTies;
+    private ArrayList<String> Notification = new ArrayList<>();
+    private HashMap<ResourceType,Boolean> luxuryRecourseIsFound = new HashMap<>();
+
+    public Civilization(){
+        luxuryRecourseIsFound.put(ResourceType.Cotton,false);
+        luxuryRecourseIsFound.put(ResourceType.Dyes,false);
+        luxuryRecourseIsFound.put(ResourceType.Furs,false);
+        luxuryRecourseIsFound.put(ResourceType.Gems,false);
+        luxuryRecourseIsFound.put(ResourceType.GoldResource,false);
+        luxuryRecourseIsFound.put(ResourceType.Incense,false);
+        luxuryRecourseIsFound.put(ResourceType.Ivory,false);
+        luxuryRecourseIsFound.put(ResourceType.Marble,false);
+        luxuryRecourseIsFound.put(ResourceType.Silver,false);
+        luxuryRecourseIsFound.put(ResourceType.Spices,false);
+        luxuryRecourseIsFound.put(ResourceType.Sugar,false);
+    }
 
     public LinkedHashMap<TechnologyType, Integer> getResearchProjects() {
         return researchProjects;
@@ -92,14 +114,17 @@ public class Civilization {
     public void changeGold(int gold) {
         this.gold += gold;
     }
-    public int getHappiness() {
+    public double getHappiness() {
         return happiness;
     }
-    public void setHappiness(int happiness) {
+    public void changeHappiness(double happiness) {
         this.happiness = happiness;
     }
-    public void addNotif(String notif){
-        notifHistory.add(notif);
+    public void addNotification(String notification){
+        Notification.add(notification);
+    }
+    public ArrayList<String> getNotification() {
+        return Notification;
     }
     public void addDiplomaticTie(DiplomaticTie diplomaticTie){
         diplomaticTies.add(diplomaticTie);
@@ -116,6 +141,12 @@ public class Civilization {
     }
     public void setDiplomaticTies(ArrayList<DiplomaticTie> diplomaticTies) {
         this.diplomaticTies = diplomaticTies;
+    }
+
+    public void checkGoldRunningOut(){
+        if(gold <= 0){
+            sciencePerTurn -= 2 ;
+        }
     }
 
     public int getGoldPerTurn() {
@@ -190,6 +221,51 @@ public class Civilization {
         return user.getScore();
     }
 
+    public int getTotalCoal() {
+        return totalCoal;
+    }
 
+    public int getCurrentCoal() {
+        return currentCoal;
+    }
 
+    public int getTotalHorses() {
+        return totalHorses;
+    }
+
+    public int getCurrentHorses() {
+        return currentHorses;
+    }
+
+    public int getTotalIron() {
+        return totalIron;
+    }
+
+    public int getCurrentIron() {
+        return currentIron;
+    }
+
+    public void changeTotalCoal(int totalCoal) {
+        this.totalCoal += totalCoal;
+    }
+
+    public void changeCurrentCoal(int currentCoal) {
+        this.currentCoal += currentCoal;
+    }
+
+    public void changeTotalHorses(int totalHorses) {
+        this.totalHorses += totalHorses;
+    }
+
+    public void changeCurrentHorses(int currentHorses) {
+        this.currentHorses += currentHorses;
+    }
+
+    public void changeTotalIron(int totalIron) {
+        this.totalIron += totalIron;
+    }
+
+    public void changeCurrentIron(int currentIron) {
+        this.currentIron += currentIron;
+    }
 }

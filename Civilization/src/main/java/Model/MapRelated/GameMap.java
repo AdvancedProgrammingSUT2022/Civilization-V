@@ -2,14 +2,12 @@ package Model.MapRelated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Random;
 
 import Controller.GameController.MapControllers.MapPrinter;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
-import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;

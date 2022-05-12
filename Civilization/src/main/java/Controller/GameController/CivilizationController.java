@@ -8,6 +8,7 @@ import Model.Technology.TechnologyType;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+import View.GameView.Game;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -91,24 +92,36 @@ public class CivilizationController {
         return leadsToTechnologies;
     }
 
+
     public String createTechnologyForStudy(Matcher matcher){
-        if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() != null) return "you are studying a technology right now";
+        GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" + "create research project:");
+        if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() != null){
+            GameController.getInstance().getPlayerTurn().addNotification("you are studying a technology right now");
+            return "you are studying a technology right now";
+        }
         String chosenTechnologyType = matcher.group("technologyType");
         for(TechnologyType technologyType : showLeadsToTechnologies()){
             if(Objects.equals(chosenTechnologyType, technologyType.name())){
                 int turn = calculateTechnologyTurns(technologyType);
                 GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
-                if(turn == -1) return "you do not have enough production";
+                if(turn == -1) {
+                    GameController.getInstance().getPlayerTurn().addNotification("you do not have enough production");
+                    return "you do not have enough production";
+                }
                 GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
                 if(turn == 0) {
                     Technology technology = new Technology(GameController.getInstance().getPlayerTurn().getCurrentResearchProject());
                     GameController.getInstance().getPlayerTurn().addTechnology(technology);
                     GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
+                    GameController.getInstance().getPlayerTurn().addNotification("your research project is finished");
                     return "your research project is finished";
+                } else {
+                    GameController.getInstance().getPlayerTurn().addNotification("your research project is started");
+                    return "your research project is started";
                 }
-                else return "your research project has started";
             }
         }
+        GameController.getInstance().getPlayerTurn().addNotification("not a valid technologyType");
         return "not a valid technology type";
     }
 
@@ -190,7 +203,7 @@ public class CivilizationController {
         demographicPanel(output);
         militaryOverview(output);
         economicOverview(output);
-        // notification history
+        notificationHistory(output);
         return output.toString();
     }
 
@@ -264,8 +277,14 @@ public class CivilizationController {
     }
 
     private void notificationHistory(StringBuilder stringBuilder){
-
-
+        stringBuilder.append("---NOTIFICATION HISTORY---\n");
+        ArrayList<String> notifications = GameController.getInstance().getPlayerTurn().getNotification();
+        if(notifications.size() == 0) stringBuilder.append("nothing\n");
+        else {
+            for (int i = 0; i <notifications.size() ; i++) {
+                stringBuilder.append(i + 1 + ": " + notifications.get(i) + "\n");
+            }
+        }
     }
 
     private void militaryOverview(StringBuilder stringBuilder){
