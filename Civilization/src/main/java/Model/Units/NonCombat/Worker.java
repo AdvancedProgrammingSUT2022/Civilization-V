@@ -1,8 +1,13 @@
 package Model.Units.NonCombat;
 
-import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.Technology.Technology;
+import Model.Technology.TechnologyType;
+import Model.TileRelated.Feature.Feature;
+import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
+import Model.TileRelated.Improvement.ImprovementType;
+import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 
@@ -10,19 +15,63 @@ public class Worker extends NonCombat{
     public Worker(Civilization civilization, Tile tile) {
         super(civilization, tile,UnitType.Worker);
     }
-    private Improvement improvement;
-    
-    public Improvement getImprovement() {
-        return improvement;
-    }
-    public void setImprovement(Improvement improvement) {
-        this.improvement = improvement;
-    }
-    public void queueImprovementBuilding(Improvement improvement,Civilization civilization){
-
-    }
-    @Override
-    public void updateDataAfterAction(City city){
-
+//    private Improvement improvement;
+//
+//    public Improvement getImprovement() {
+//        return improvement;
+//    }
+//    public void setImprovement(Improvement improvement) {
+//        this.improvement = improvement;
+//    }
+//    public void queueImprovementBuilding(Improvement improvement,Civilization civilization){
+//
+//    }
+//    @Override
+//    public void updateDataAfterAction(City city){
+//
+//    }
+    public String buildImprovement(ImprovementType improvement){
+        if(tile.getImprovement() == null)return"there is an improvement here!";
+        boolean hasTechnology = false;
+        boolean properFeature = false;
+        boolean properTerrain = false;
+        for (Technology technology:civilization.getTechnologies()) {
+            if(improvement.PrerequisiteTechnology.equals(technology))hasTechnology = true;
+        }
+        if(!hasTechnology)return "you don't have access to the required technology";
+        if(tile.getFeature() != null) {
+            for (Feature feature : improvement.FeaturesCanBeBuiltOn) {
+                if(feature.equals(tile.getFeature())){
+                    properFeature = true;
+                    break;
+                }
+            }
+            if(!properFeature)return "not a proper feature";
+        }
+        for (Terrain terrain : improvement.TerrainCanBeBuiltOn) {
+            if(terrain.getTerrainType().equals(tile.getTerrain())){
+                properTerrain = true;
+                break;
+            }
+        }
+        if(!properTerrain)return "not a proper Terrain";
+        int daysToComplete = improvement.constructionTime;
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Jungle)){
+            if(!civilization.hasTechnology(TechnologyType.BronzeWorking))return "you need BronzeWorking technology";
+            daysToComplete += 7;
+        }
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Forest)){
+            if(!civilization.hasTechnology(TechnologyType.Mining))return "you need mining technology";
+            daysToComplete += 4;
+        }
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Marsh)){
+            if(!civilization.hasTechnology(TechnologyType.Masonry))return "you need Masonry technology";
+            daysToComplete += 6;
+        }
+        Improvement newImprovement = new Improvement(improvement);
+        newImprovement.setTile(tile);
+        newImprovement.changeDaysToComplete(daysToComplete);
+        civilization.addImprovementUnderConstruction(newImprovement);
+        return "construction has been started!";
     }
 }

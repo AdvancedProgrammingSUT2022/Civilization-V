@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public enum ImprovementType {
 
     // workerImprovements
-    Camp("", 0, new ArrayList<Resource>(){{
+    Camp("",6, 0, new ArrayList<Resource>(){{
         Resource Furs = new Resource(ResourceType.Furs);
         Resource Ivory = new Resource(ResourceType.Ivory);
         Resource Deer = new Resource(ResourceType.Deer);
@@ -31,7 +31,7 @@ public enum ImprovementType {
         add(Plains);
         add(Hill);
     }}),
-    Farm("food", 1, new ArrayList<Resource>(){{
+    Farm("food",6, 1, new ArrayList<Resource>(){{
         Resource Wheat = new Resource(ResourceType.Wheat);
         add(Wheat);
     }}, new Technology(TechnologyType.Agriculture), null, new ArrayList<Terrain>(){{
@@ -42,12 +42,12 @@ public enum ImprovementType {
         add(Plains);
         add(Grassland);
     }}),
-    LumberMill("food", 1, null, new Technology(TechnologyType.Engineering),
+    LumberMill("food",6, 1, null, new Technology(TechnologyType.Engineering),
             new ArrayList<Feature>(){{
                 Feature  Forest = new Feature(FeatureType.Forest);
                 add(Forest);
             }}, null),
-    Mine("production", 1, new ArrayList<Resource>(){{
+    Mine("production",6, 1, new ArrayList<Resource>(){{
         Resource Gem = new Resource(ResourceType.Gems);
         Resource GoldResource = new Resource(ResourceType.GoldResource);
         Resource Silver = new Resource(ResourceType.Silver);
@@ -79,7 +79,7 @@ public enum ImprovementType {
         add(Snow);
         add(Hill);
     }}),
-    Pasture("", 0, new ArrayList<Resource>(){{
+    Pasture("",7, 0, new ArrayList<Resource>(){{
         Resource Horse = new Resource(ResourceType.Horses);
         Resource Cattle = new Resource(ResourceType.Cattle);
         Resource Sheep = new Resource(ResourceType.Sheep);
@@ -98,7 +98,7 @@ public enum ImprovementType {
         add(Tundra);
         add(Hill);
     }}),
-    Plantation("", 0, new ArrayList<Resource>(){{
+    Plantation("",5, 0, new ArrayList<Resource>(){{
         Resource Bananas = new Resource(ResourceType.Bananas);
         Resource Cotton = new Resource(ResourceType.Cotton);
         Resource Dyes = new Resource(ResourceType.Dyes);
@@ -130,7 +130,7 @@ public enum ImprovementType {
         add(Grassland);
         add(Tundra);
     }}),
-    Quarry("", 0, new ArrayList<Resource>(){{
+    Quarry("",7, 0, new ArrayList<Resource>(){{
         Resource Marble = new Resource(ResourceType.Marble);
         add(Marble);
     }}, new Technology(TechnologyType.Masonry), null, new ArrayList<Terrain>(){{
@@ -145,7 +145,7 @@ public enum ImprovementType {
         add(Tundra);
         add(Hill);
     }}),
-    TradingPost("Gold", 1, null, new Technology(TechnologyType.Trapping), null,
+    TradingPost("Gold",8, 1, null, new Technology(TechnologyType.Trapping), null,
             new ArrayList<Terrain>(){{
                 Terrain Plains = new Terrain(TerrainType.Plains);
                 Terrain Desert = new Terrain(TerrainType.Desert);
@@ -156,7 +156,7 @@ public enum ImprovementType {
                 add(Grassland);
                 add(Tundra);
             }}),
-    ManuFactory("Production", 2, null, new Technology(TechnologyType.Engineering),
+    ManuFactory("Production",7, 2, null, new Technology(TechnologyType.Engineering),
             null, new ArrayList<Terrain>(){{
         Terrain Plains = new Terrain(TerrainType.Plains);
         Terrain Desert = new Terrain(TerrainType.Desert);
@@ -170,14 +170,16 @@ public enum ImprovementType {
         add(Snow);
     }});
 
+    public final int constructionTime;
     public final int TileYields;
     public final String product;
     public final ArrayList<Resource> ImprovesThisResources;
     public final Technology PrerequisiteTechnology;
     public final ArrayList<Feature> FeaturesCanBeBuiltOn;
     public final ArrayList<Terrain> TerrainCanBeBuiltOn;
-    ImprovementType(String product, int tileYields, ArrayList<Resource> improvesThisResources, Technology prerequisiteTechnology, ArrayList<Feature> featuresCanBeBuiltOn, ArrayList<Terrain> terrainCanBeBuiltOn) {
+    ImprovementType(String product,int constructionTime , int tileYields, ArrayList<Resource> improvesThisResources, Technology prerequisiteTechnology, ArrayList<Feature> featuresCanBeBuiltOn, ArrayList<Terrain> terrainCanBeBuiltOn) {
         this.product = product;
+        this.constructionTime = constructionTime;
         this.TileYields = tileYields;
         ImprovesThisResources = improvesThisResources;
         PrerequisiteTechnology = prerequisiteTechnology;

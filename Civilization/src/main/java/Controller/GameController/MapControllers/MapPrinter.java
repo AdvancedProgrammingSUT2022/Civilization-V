@@ -129,7 +129,7 @@ public class MapPrinter {
     private void addVisibleTypeTexts(Tile tile,ArrayList<String> texts){
         if(tile.getFeature() != null)texts.add("F:" + tile.getFeature().getFeatureType().name());else{texts.add(null);}
         if(tile.getResource() != null)texts.add("R:" + tile.getResource().getResourceType().name());else{texts.add(null);}
-        //if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
+        if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
         //if(tile.getBuilding() != null)texts.add("B:" + tile.getBuilding().getBuildingType().name());else{texts.add(null);}
         printUnitInfo(tile, texts, 0);

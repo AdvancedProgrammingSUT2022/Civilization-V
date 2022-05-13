@@ -6,6 +6,8 @@ import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Improvement.Improvement;
+import Model.TileRelated.Resource.Resource;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 import Model.Units.Unit;
@@ -53,13 +55,29 @@ public class GameController{
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheUnitsAndBuildings();
-        CityController.getInstance().calculateProducts(GameController.gameController.getPlayerTurn());
+        CityController.getInstance().calculateProducts(playerTurn);
+        reduceTurnOfImprovements();
         reducingTurnOfTheTechnologies();
         selectedUnit = null;
         selectedCity = null;
         if(playerTurn.equals(this.map.getCivilizations().get(0))) turn++;
         return "next player turn!";
     }
+
+    public void reduceTurnOfImprovements(){
+        for (Improvement improvement:playerTurn.getImprovementsUnderConstruction()) {
+            improvement.changeDaysToComplete(-1);
+            if(improvement.getDaysToComplete() == 0){
+                if(improvement.getTile().getResource() != null) {
+                    for (Resource resource : improvement.getImprovementType().ImprovesThisResources) {
+                        if(improvement.getTile().getResource().equals(resource))resource.setAvailable(true);
+                    }
+                }
+                playerTurn.removeFromImprovementsUnderConstruction(improvement);
+            }
+        }
+    }
+
     public void reducingTurnOfTheTechnologies(){
         if(getPlayerTurn().getCurrentResearchProject() != null){
             int turn = GameController.getInstance().playerTurn.getResearchTurns() - 1;
