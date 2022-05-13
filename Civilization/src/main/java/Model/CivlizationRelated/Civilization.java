@@ -28,6 +28,7 @@ public class Civilization {
     private int totalIron;
     private int currentIron;
     private ArrayList<Tile> tiles = new ArrayList<>();
+    private ArrayList<Improvement> improvementsUnderConstruction = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
@@ -40,24 +41,29 @@ public class Civilization {
     private Technology currentResearchProject;
     private ArrayList<DiplomaticTie> diplomaticTies; 
     private ArrayList<String> notifHistory;
-    private HashMap<ResourceType,Boolean> luxuryRecourseIsFound = new HashMap<>();
-
-    public Civilization(){
-        luxuryRecourseIsFound.put(ResourceType.Cotton,false);
-        luxuryRecourseIsFound.put(ResourceType.Dyes,false);
-        luxuryRecourseIsFound.put(ResourceType.Furs,false);
-        luxuryRecourseIsFound.put(ResourceType.Gems,false);
-        luxuryRecourseIsFound.put(ResourceType.GoldResource,false);
-        luxuryRecourseIsFound.put(ResourceType.Incense,false);
-        luxuryRecourseIsFound.put(ResourceType.Ivory,false);
-        luxuryRecourseIsFound.put(ResourceType.Marble,false);
-        luxuryRecourseIsFound.put(ResourceType.Silver,false);
-        luxuryRecourseIsFound.put(ResourceType.Spices,false);
-        luxuryRecourseIsFound.put(ResourceType.Sugar,false);
-    }
+    private ArrayList<ResourceType> foundedLuxuryRecourses;
 
     public void setCurrentStudyingTechnology(TechnologyType currentStudyingTechnology) {
         this.currentStudyingTechnology = currentStudyingTechnology;
+    }
+
+    public ArrayList<Improvement> getImprovementsUnderConstruction() {
+        return improvementsUnderConstruction;
+    }
+
+    public void addImprovementUnderConstruction(Improvement improvement){
+        improvementsUnderConstruction.add(improvement);
+    }
+
+    public void removeFromImprovementsUnderConstruction(Improvement improvement){
+        improvementsUnderConstruction.remove(improvement);
+    }
+
+    public boolean hasTechnology(TechnologyType givenTechnology){
+        for (Technology technology:technologies) {
+            if(givenTechnology.equals(technology.getTechnologyType()))return true;
+        }
+        return false;
     }
 
     public TechnologyType getCurrentStudyingTechnology() {
@@ -193,9 +199,6 @@ public class Civilization {
     }
     public void setCurrentResearchProject(Technology currentResearchProject) {
         this.currentResearchProject = currentResearchProject;
-    }
-    public Technology getTechnology(){
-        return null;
     }
     public void addTechnology(Technology technology){
         this.technologies.add(technology);

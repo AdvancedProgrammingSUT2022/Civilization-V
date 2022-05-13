@@ -2,6 +2,7 @@ package View.GameView;
 import Controller.GameController.CityController;
 import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
+import Controller.GameController.MapControllers.CheatCode;
 import Controller.GameController.UnitController;
 import Model.User.User;
 import View.Menu.Menu;
@@ -50,6 +51,13 @@ public class Game extends Menu{
     private final Consumer<Matcher> assignCitizen = matcher -> System.out.println(CityController.getInstance().assignCitizen(matcher));
     private final Consumer<Matcher> removeCitizen = matcher -> System.out.println(CityController.getInstance().removeCitizen(matcher));
     private final Consumer<Matcher> siegePreAttack = matcher -> System.out.println(UnitController.getInstance().siegePreAttack());
+    private final Consumer<Matcher> buildImprovement = matcher -> System.out.println(UnitController.getInstance().buildImprovementMatcher(matcher));
+    private final Consumer<Matcher> cheatGoldIncrease = matcher -> System.out.println(CheatCode.getInstance().goldIncrease(matcher));
+    private final Consumer<Matcher> cheatHappinessIncrease = matcher -> System.out.println(CheatCode.getInstance().happinessIncrease(matcher));
+    private final Consumer<Matcher> cheatIncreaseCityHitPoint = matcher -> System.out.println(CheatCode.getInstance().increaseCityHitPoint(matcher));
+    private final Consumer<Matcher> cheatIncreaseCityStrength = matcher -> System.out.println(CheatCode.getInstance().increaseCityStrength(matcher));
+    private final Consumer<Matcher> increaseTurns = matcher -> System.out.println(CheatCode.getInstance().increaseTurns(matcher));
+    private final Consumer<Matcher> increaseStoredFood = matcher -> System.out.println(CheatCode.getInstance().increaseStoredFood(matcher));
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -95,6 +103,12 @@ public class Game extends Menu{
         commandsMap.put(regex.assignCitizen,assignCitizen);
         commandsMap.put(regex.removeCitizen,removeCitizen);
         commandsMap.put(regex.siegePreAttack,siegePreAttack);
+        commandsMap.put(regex.buildImprovement,buildImprovement);
+        commandsMap.put(regex.cheatGoldIncrease,cheatGoldIncrease);
+        commandsMap.put(regex.cheatHappinessIncrease,cheatHappinessIncrease);
+        commandsMap.put(regex.cheatIncreaseCityHitPoint,cheatIncreaseCityHitPoint);
+        commandsMap.put(regex.cheatIncreaseCityStrength,cheatIncreaseCityStrength);
+        commandsMap.put(regex.increaseTurns,increaseTurns);
         return commandsMap;
     }
 }

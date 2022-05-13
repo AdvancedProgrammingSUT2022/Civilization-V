@@ -14,10 +14,13 @@ import Model.Technology.Technology;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Feature.FeatureType;
+import Model.TileRelated.Improvement.Improvement;
+import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.NonCombat.NonCombat;
 import Model.Units.NonCombat.Settler;
+import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
@@ -449,6 +452,7 @@ public class UnitController {
             UnitController.getInstance().updateUnitDataAfterRound(unit);   
         }
     }
+
     public String siegePreAttack(){
         String errorMassege;
         if((errorMassege = siegePreAttackErrors()) != null)
@@ -462,5 +466,25 @@ public class UnitController {
         if(((Siege)GameController.getInstance().getSelectedUnit()).isPreAttackDone())
             return "pre attack already done";
         return null;
+    }
+
+    public String buildImprovementMatcher(Matcher matcher){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected != null && !selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        ImprovementType improvementType;
+        if(matcher.group("ImprovementType").equals("Camp"))improvementType = ImprovementType.Camp;
+        else if(matcher.group("ImprovementType").equals("Farm"))improvementType = ImprovementType.Farm;
+        else if(matcher.group("ImprovementType").equals("LumberMill"))improvementType = ImprovementType.LumberMill;
+        else if(matcher.group("ImprovementType").equals("Mine"))improvementType = ImprovementType.Mine;
+        else if(matcher.group("ImprovementType").equals("Pasture"))improvementType = ImprovementType.Pasture;
+        else if(matcher.group("ImprovementType").equals("Plantation"))improvementType = ImprovementType.Plantation;
+        else if(matcher.group("ImprovementType").equals("Quarry"))improvementType = ImprovementType.Quarry;
+        else if(matcher.group("ImprovementType").equals("TradingPost"))improvementType = ImprovementType.TradingPost;
+        else if(matcher.group("ImprovementType").equals("ManuFactory"))improvementType = ImprovementType.ManuFactory;
+        else return "not a valid improvement";
+        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
+        selected = new Worker(selected.getCivilization(), selected.getTile());
+        Worker worker = (Worker) selected;
+        return worker.buildImprovement(improvementType);
     }
 }

@@ -319,9 +319,15 @@ public class City {
         this.sciencePerTurn += sciencePerTurn;
     }
     public void changeHitPoint(double hitPoint) {
-        this.hitPoint = hitPoint;
+        this.hitPoint += hitPoint;
+    }
+    public void changeStrength(double strength){
+        this.strength += strength;
     }
 
+    public void changeStoredFood(int amount){
+        this.storedFood += amount;
+    }
     public int getFoodPerTurn() {
         return foodPerTurn;
     }
