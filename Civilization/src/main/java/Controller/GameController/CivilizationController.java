@@ -37,6 +37,7 @@ public class CivilizationController {
             output.append(number + ": ").append(technologyType.name() + "---> details :");
             output.append("Cost : ").append(technologyType.cost + "   ");
             output.append("Technology Main Type : ").append(technologyType.technologyMainType.name()).append("\n");
+            Technology technology = new Technology(technologyType);
             if(technologyType.LeadsToTechs != null){
                 output.append("leads to ---> {\n");
                 for(int i = 0; i < technologyType.LeadsToTechs.size(); i++){

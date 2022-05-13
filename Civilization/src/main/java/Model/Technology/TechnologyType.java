@@ -2,23 +2,24 @@ package Model.Technology;
 
 import java.util.ArrayList;
 
-public enum TechnologyType implements Unlocks{
-    Agriculture(20, TechnologyMainType.AncientEra, null, new ArrayList<TechnologyType>(){{
+public enum TechnologyType implements Unlocks {
+
+    Agriculture(20, TechnologyMainType.AncientEra, null, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Pottery);
         add(TechnologyType.AnimalHusbandry);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             return "";
             // Farm
         }
     },
-    AnimalHusbandry(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    AnimalHusbandry(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Agriculture);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Trapping);
         add(TechnologyType.TheWheel);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // horses
@@ -26,11 +27,11 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Masonry(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Masonry(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Mining);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Construction);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Mine
@@ -41,11 +42,11 @@ public enum TechnologyType implements Unlocks{
         }
 
     },
-    Mining(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Mining(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Agriculture);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.BronzeWorking);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // delete Marsh
@@ -53,23 +54,23 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Pottery(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Pottery(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(Agriculture);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Calendar);
         add(TechnologyType.Writing);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Granary
             return "";
         }
     },
-    Trapping(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Trapping(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.AnimalHusbandry);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.CivilService);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // TradingPost
@@ -77,23 +78,23 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Archery(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Archery(35, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Agriculture);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Mathematics);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Archer
             return "";
         }
     },
-    TheWheel(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    TheWheel(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.AnimalHusbandry);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.HorsebackRiding);
         add(TechnologyType.Mathematics);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // chariot
@@ -103,11 +104,11 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    BronzeWorking(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    BronzeWorking(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Mining);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.IronWorking);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Spearman
@@ -116,33 +117,33 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Writing(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Writing(55, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Pottery);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Philosophy);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Library
             return "";
         }
     },
-    Calendar(70, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>(){{
+    Calendar(70, TechnologyMainType.AncientEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Pottery);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Theology);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // plantation
             return "";
         }
     },
-    Construction(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
+    Construction(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Masonry);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Engineering);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Colosseum
@@ -150,11 +151,11 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    HorsebackRiding(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
+    HorsebackRiding(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.TheWheel);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Chivalry);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // HorseMan
@@ -163,11 +164,11 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    IronWorking(150, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
+    IronWorking(150, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.BronzeWorking);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.MetalCasting);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Swordsman
@@ -177,13 +178,13 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Mathematics(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
+    Mathematics(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.TheWheel);
         add(TechnologyType.Archery);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Currency);
         add(TechnologyType.Engineering);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Catapult
@@ -191,12 +192,12 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Philosophy(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>(){{
+    Philosophy(100, TechnologyMainType.ClassicalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Writing);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Theology);
         add(TechnologyType.CivilService);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // BurialTomb
@@ -204,13 +205,13 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Chivalry(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Chivalry(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.CivilService);
         add(TechnologyType.HorsebackRiding);
         add(TechnologyType.Currency);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(Banking);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // knight
@@ -220,59 +221,59 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    CivilService(400, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    CivilService(400, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Philosophy);
         add(TechnologyType.Trapping);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Chivalry);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Pikeman
             return "";
         }
     },
-    Currency(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Currency(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Mathematics);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Chivalry);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Market
             return "";
         }
     },
-    Education(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Education(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Theology);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Acoustics);
         add(TechnologyType.Banking);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // University
             return "";
         }
     },
-    Engineering(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Engineering(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Mathematics);
         add(TechnologyType.Construction);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Machinery);
         add(TechnologyType.Physics);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // nothing
             return "";
         }
     },
-    Machinery(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Machinery(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Engineering);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.PrintingPress);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Crossbowman,
@@ -280,12 +281,12 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    MetalCasting(240, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    MetalCasting(240, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.IronWorking);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Physics);
         add(TechnologyType.Steel);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Forge
@@ -293,36 +294,36 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Physics(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Physics(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Engineering);
         add(TechnologyType.MetalCasting);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.PrintingPress);
         add(TechnologyType.Gunpowder);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Trebuchet
             return "";
         }
     },
-    Steel(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Steel(440, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.MetalCasting);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Gunpowder);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Longswordsman
             return "";
         }
     },
-    Theology(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>(){{
+    Theology(250, TechnologyMainType.MedievalEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Calendar);
         add(TechnologyType.Philosophy);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Education);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Monastery Garden
@@ -330,105 +331,105 @@ public enum TechnologyType implements Unlocks{
         }
     },
 
-    Acoustics(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Acoustics(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Education);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.ScientificTheory);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // nothing
             return "";
         }
     },
-    Archaeology(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Archaeology(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Acoustics);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Biology);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Museum
             return "";
         }
     },
-    Banking(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Banking(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Education);
         add(TechnologyType.Chivalry);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(Economics);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Satrap's Court, Bank
             return "";
         }
     },
-    Chemistry(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Chemistry(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Gunpowder);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.MilitaryScience);
         add(TechnologyType.Fertilizer);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // IronWorking
             return "";
         }
     },
-    Economics(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Economics(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Banking);
         add(TechnologyType.PrintingPress);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.MilitaryScience);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Windmill
             return "";
         }
     },
-    Fertilizer(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Fertilizer(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Chemistry);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Dynamite);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Farms without Fresh Water yield increased by 1
             return "";
         }
     },
-    Gunpowder(680, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Gunpowder(680, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Physics);
         add(TechnologyType.Steel);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Chemistry);
         add(TechnologyType.Metallurgy);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Musketman
             return "";
         }
     },
-    Metallurgy(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Metallurgy(900, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Gunpowder);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Rifling);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Lancer
             return "";
         }
     },
-    MilitaryScience(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    MilitaryScience(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Economics);
         add(TechnologyType.Chemistry);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.SteamPower);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Cavalry
@@ -436,34 +437,34 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    PrintingPress(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    PrintingPress(650, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Machinery);
         add(TechnologyType.Physics);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Economics);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Theater
             return "";
         }
     },
-    Rifling(1425, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    Rifling(1425, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Metallurgy);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Dynamite);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             return "";
         }
     },
-    ScientificTheory(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>(){{
+    ScientificTheory(1300, TechnologyMainType.RenaissanceEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Acoustics);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Biology);
         add(TechnologyType.SteamPower);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Public School
@@ -472,23 +473,23 @@ public enum TechnologyType implements Unlocks{
         }
     },
 
-    Biology(1680, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Biology(1680, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Archaeology);
         add(TechnologyType.ScientificTheory);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Electricity);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // nothing
             return "";
         }
     },
-    Combustion(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Combustion(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.ReplaceableParts);
         add(TechnologyType.Railroad);
         add(TechnologyType.Dynamite);
-    }}, null){
+    }}, null) {
         @Override
         public String Unlock() {
             // Tank
@@ -496,79 +497,79 @@ public enum TechnologyType implements Unlocks{
             return "";
         }
     },
-    Dynamite(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Dynamite(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Fertilizer);
         add(TechnologyType.Rifling);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Combustion);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Artillery
             return null;
         }
     },
-    Electricity(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Electricity(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Biology);
         add(TechnologyType.SteamPower);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Telegraph);
         add(TechnologyType.Radio);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Stock Exchange
             return null;
         }
     },
-    Radio(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Radio(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Electricity);
-    }}, null){
+    }}, null) {
         @Override
         public String Unlock() {
             // BroadcastTower
             return null;
         }
     },
-    Railroad(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Railroad(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.SteamPower);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Combustion);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Arsenal , Railroad
             return null;
         }
     },
-    ReplaceableParts(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    ReplaceableParts(1900, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.SteamPower);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Combustion);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Anti-Tank, Gun, Infantry
             return null;
         }
     },
-    SteamPower(1680, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    SteamPower(1680, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.ScientificTheory);
         add(MilitaryScience);
-    }}, new ArrayList<TechnologyType>(){{
+    }}, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Electricity);
         add(TechnologyType.ReplaceableParts);
         add(TechnologyType.Railroad);
-    }}){
+    }}) {
         @Override
         public String Unlock() {
             // Factory
             return "";
         }
     },
-    Telegraph(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>(){{
+    Telegraph(2200, TechnologyMainType.IndustrialEra, new ArrayList<TechnologyType>() {{
         add(TechnologyType.Electricity);
-    }}, null){
+    }}, null) {
         @Override
         public String Unlock() {
             // Military Base
