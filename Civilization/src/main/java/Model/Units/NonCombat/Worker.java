@@ -8,14 +8,16 @@ import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Terraine.Terrain;
+import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 
-public class Worker extends NonCombat{
+public class Worker extends NonCombat {
     public Worker(Civilization civilization, Tile tile) {
-        super(civilization, tile,UnitType.Worker);
+        super(civilization, tile, UnitType.Worker);
     }
-//    private Improvement improvement;
+
+    //    private Improvement improvement;
 //
 //    public Improvement getImprovement() {
 //        return improvement;
@@ -31,30 +33,28 @@ public class Worker extends NonCombat{
 //
 //    }
     public String buildImprovement(ImprovementType improvement){
-        if(tile.getImprovement() == null)return"there is an improvement here!";
-        boolean hasTechnology = false;
+        if(tile.getImprovement() != null)return"there is an improvement here!";
         boolean properFeature = false;
         boolean properTerrain = false;
-        for (Technology technology:civilization.getTechnologies()) {
-            if(improvement.PrerequisiteTechnology.equals(technology))hasTechnology = true;
-        }
-        if(!hasTechnology)return "you don't have access to the required technology";
-        if(tile.getFeature() != null) {
-            for (Feature feature : improvement.FeaturesCanBeBuiltOn) {
-                if(feature.equals(tile.getFeature())){
+        if(!civilization.hasTechnology(improvement.PrerequisiteTechnology.getTechnologyType()))return "you don't have access to the required technology";
+        if(tile.getFeature() != null && improvement.FeaturesCanBeBuiltOn != null) {
+            for (FeatureType feature : improvement.FeaturesCanBeBuiltOn) {
+                if(feature.equals(tile.getFeature().getFeatureType())){
                     properFeature = true;
                     break;
                 }
             }
             if(!properFeature)return "not a proper feature";
         }
-        for (Terrain terrain : improvement.TerrainCanBeBuiltOn) {
-            if(terrain.getTerrainType().equals(tile.getTerrain())){
-                properTerrain = true;
-                break;
+        if(improvement.TerrainCanBeBuiltOn != null) {
+            for (TerrainType terrain : improvement.TerrainCanBeBuiltOn) {
+                if (terrain.equals(tile.getTerrain())) {
+                    properTerrain = true;
+                    break;
+                }
             }
+            if (!properTerrain) return "not a proper Terrain";
         }
-        if(!properTerrain)return "not a proper Terrain";
         int daysToComplete = improvement.constructionTime;
         if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Jungle)){
             if(!civilization.hasTechnology(TechnologyType.BronzeWorking))return "you need BronzeWorking technology";

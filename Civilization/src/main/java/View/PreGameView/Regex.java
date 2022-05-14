@@ -34,7 +34,7 @@ public class Regex {
     public final String changeCityConstruction = "change city construction to (building type (?<buildingType>\\S+)|unit type (?<unitType>\\S+))"; // Arash changes
     public final String showInfoPanel = "show info panel";
     public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
-    public final String buildImprovement = "build improvement (?<=ImprovementType>\\S+)";
+    public final String buildImprovement = "build improvement (?<ImprovementType>\\S+)";
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";

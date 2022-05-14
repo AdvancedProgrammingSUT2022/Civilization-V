@@ -8,6 +8,7 @@ import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Resource.ResourceType;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 import Model.Units.Unit;
@@ -69,8 +70,8 @@ public class GameController{
             improvement.changeDaysToComplete(-1);
             if(improvement.getDaysToComplete() == 0){
                 if(improvement.getTile().getResource() != null) {
-                    for (Resource resource : improvement.getImprovementType().ImprovesThisResources) {
-                        if(improvement.getTile().getResource().equals(resource))resource.setAvailable(true);
+                    for (ResourceType resource : improvement.getImprovementType().ImprovesThisResources) {
+                        if(improvement.getTile().getResource().getResourceType().equals(resource))improvement.getTile().getResource().setAvailable(true);
                     }
                 }
                 playerTurn.removeFromImprovementsUnderConstruction(improvement);
