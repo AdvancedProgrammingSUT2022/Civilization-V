@@ -133,6 +133,11 @@ public class CivilizationController {
             if(technologyType.name().equals(matcher.group("technologyType"))){
                 if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() == null) return "you have no research project to change it";
                 if(technologyType.name().equals(GameController.getInstance().getPlayerTurn().getCurrentResearchProject().name())) return "you already are studying this technology";
+                if(GameController.getInstance().getPlayerTurn().getTechnologies() != null) {
+                    for (Technology technology : GameController.getInstance().getPlayerTurn().getTechnologies()) {
+                        if(technology.getTechnologyType().equals(technologyType)) return "you have this technology";
+                    }
+                }
                 LinkedHashMap<TechnologyType, Integer> researchProjects;
                 if((researchProjects = GameController.getInstance().getPlayerTurn().getResearchProjects()).size() != 0){
                    if(continueResearch(researchProjects, technologyType) != null) return continueResearch(researchProjects, technologyType);

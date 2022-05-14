@@ -30,7 +30,7 @@ public class Regex {
     public final String chooseTechnologyMenu = "show valid technologies"; // Arash changes technology 1
     public final String studyTechnology = "study (?<technologyType>\\S+)"; // ASRash changes technology 3
     public final String cancelResearchProject = "cancel research project"; // Arash changes technology 2
-    public final String changeResearchProject = "change research project to (?<technologyType>)"; // ArashChanges technology 4
+    public final String changeResearchProject = "change research project to (?<technologyType>\\S+)"; // ArashChanges technology 4
     public final String changeCityConstruction = "change city construction to (building type (?<buildingType>\\S+)|unit type (?<unitType>\\S+))"; // Arash changes
     public final String showInfoPanel = "show info panel";
     public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
