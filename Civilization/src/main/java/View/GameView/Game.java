@@ -4,7 +4,6 @@ import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.CheatCode;
 import Controller.GameController.UnitController;
-import Model.CivlizationRelated.Civilization;
 import Model.User.User;
 import View.Menu.Menu;
 import View.PreGameView.Regex;

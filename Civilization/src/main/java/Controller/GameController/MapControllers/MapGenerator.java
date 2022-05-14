@@ -1,30 +1,19 @@
 package Controller.GameController.MapControllers;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-
 import Controller.GameController.GameController;
 import Controller.GameController.Movement;
 import Controller.GameController.UnitController;
 import Controller.SavingDataController.UserDataController;
-import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Resource.Resource;
-import Model.TileRelated.Resource.ResourceType;
-import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
-import Model.Units.Unit;
-import Model.Units.Combat.Combat;
-import Model.Units.Combat.Ranged;
-import Model.Units.Combat.Siege;
-import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 
@@ -190,11 +179,6 @@ public class MapGenerator {
     private TerrainType getARandomTerrainType(){
         int pickTerrain = GameMap.getInstance().getRandom().nextInt(TerrainType.values().length);
         return TerrainType.values()[pickTerrain];
-    }
-
-    private ResourceType getARandomResourceType(){
-        int pickTerrain = GameMap.getInstance().getRandom().nextInt(ResourceType.values().length);
-        return ResourceType.values()[pickTerrain];
     }
 
     public void gameInit(ArrayList<User> players){

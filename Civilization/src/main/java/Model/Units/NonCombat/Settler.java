@@ -1,15 +1,9 @@
 package Model.Units.NonCombat;
-
-
 import Controller.GameController.MapControllers.MapFunctions;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.MapRelated.GameMap;
-import Model.TileRelated.Building.Building;
-import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
-import Model.Units.Unit;
 
 public class Settler extends NonCombat {
 
@@ -29,6 +23,7 @@ public class Settler extends NonCombat {
         if(this.civilization.getCities().size() == 1) { // make palace for first city
             city.setCapital(true);
         }
+        this.tile.setCapital(true);
         city.setName(cityName);
         city.calculateProduction();
         city.calculateGold();

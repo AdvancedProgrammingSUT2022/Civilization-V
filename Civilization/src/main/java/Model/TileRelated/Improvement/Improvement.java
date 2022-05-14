@@ -1,6 +1,4 @@
 package Model.TileRelated.Improvement;
-
-import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;
 
 public class Improvement {

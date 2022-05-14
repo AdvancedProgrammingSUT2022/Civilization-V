@@ -17,6 +17,8 @@ menu enter Main_Menu
 play game --player1 nima --player2 sero
 print map
 select combat unit --y 1 --x 1
+select civil unit --y 1 --x 1
+unit found city name
 move unit to --y 1 --x 1
 unit attack --y 1 --x 1
 */

@@ -128,10 +128,10 @@ public class MapPrinter {
     }
     private void addVisibleTypeTexts(Tile tile,ArrayList<String> texts){
         if(tile.getFeature() != null)texts.add("F:" + tile.getFeature().getFeatureType().name());else{texts.add(null);}
+        if(tile.getCity() != null && tile.isCapital())texts.add(tile.getCity().getName());else{texts.add(null);}
         if(tile.getResource() != null)texts.add("R:" + tile.getResource().getResourceType().name());else{texts.add(null);}
         if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
-        //if(tile.getBuilding() != null)texts.add("B:" + tile.getBuilding().getBuildingType().name());else{texts.add(null);}
         printUnitInfo(tile, texts, 0);
         printUnitInfo(tile, texts, 1);
     }
@@ -146,9 +146,8 @@ public class MapPrinter {
         texts.add("REVEALED");
         if(GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile) != null)texts.add("F:" + GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
         if(GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile) != null)texts.add("R:" + GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
-        //if(playerTurn.getRevealedImprovements().get(tile) != null)texts.add("I:" + playerTurn.getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
+        if(GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile) != null)texts.add("I:" + GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
-       // if(playerTurn.getRevealedBuildings().get(tile) != null)texts.add("B:" + playerTurn.getRevealedBuildings().get(tile).getBuildingType().name());else{texts.add(null);}
     }
     private void printInfoTile(String map[][],int textDistance,String infoString,int x,int y){
         nullify(map, x + ((MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDESHORT.amount * 2) / 2) -  infoString.length() / 2 + 1,infoString.length(), y + textDistance);
