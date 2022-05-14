@@ -227,7 +227,9 @@ public class CivilizationController {
             for(Unit unit : GameController.getInstance().getPlayerTurn().getUnits()){
                 stringBuilder.append(unit.getUnitType().name() + " | " + unit.getUnitStateType().name() + "\n");
             }
-        } stringBuilder.append("no units\n");
+        } else {
+            stringBuilder.append("no units\n");
+        }
     }
 
     private void citiesPanel(StringBuilder stringBuilder){
@@ -237,14 +239,16 @@ public class CivilizationController {
             for(City city : GameController.getInstance().getPlayerTurn().getCities()){
                 stringBuilder.append(city.getCitizens().size() + " | " + city.getName() + " | " + city.getStrength() + "\n");
             }
-        } stringBuilder.append("no cities\n");
+        } else {
+            stringBuilder.append("no cities\n");
+        }
     }
 
     private void demographicPanel(StringBuilder stringBuilder){
         DecimalFormat df = new DecimalFormat("0.00");
         stringBuilder.append("---DEMOGRAPHIC---\n");
         double average = rankingAndAverage();
-        stringBuilder.append("RANK : USERNAME | SCORE | SCIENCE | POPULATION | LAND | GOLD | AVERAGE\n");
+        stringBuilder.append("RANK : USERNAME | SCORE | SCIENCE | POPULATION | LAND | GOLD | CURRENT RESEARCH PROJECT | AVERAGE\n");
         ArrayList<Civilization> civilizations = GameMap.getInstance().getCivilizations();
         for(int i = 0; i < civilizations.size(); i++){
             stringBuilder.append(" " +i + 1 + " : " + civilizations.get(i).getUser().getUsername() + " | ");
@@ -259,7 +263,8 @@ public class CivilizationController {
             stringBuilder.append(population + " | ");
             stringBuilder.append(civilizations.get(i).getTiles().size() + " Square KM | ");
             stringBuilder.append(civilizations.get(i).getGold() + " | ");
-            stringBuilder.append(df.format(average) + "\n");
+            stringBuilder.append(civilizations.get(i).getCurrentResearchProject() == null ? "nothing" : civilizations.get(i).getCurrentResearchProject().name());
+            stringBuilder.append(" | "+ df.format(average) + "\n");
         }
     }
 
@@ -296,7 +301,9 @@ public class CivilizationController {
                     count++;
                 }
             }
-        } stringBuilder.append("no military units\n");
+        } else {
+            stringBuilder.append("no military units\n");
+        }
     }
 
     private void economicOverview(StringBuilder stringBuilder){
@@ -314,7 +321,9 @@ public class CivilizationController {
                     stringBuilder.append(cities.get(i).getUnderConstructionUnit().name() + "\n");
                 } else stringBuilder.append("nothing\n");
             }
-        } stringBuilder.append("no cities\n");
+        } else {
+            stringBuilder.append("no cities\n");
+        }
     }
 
 }
