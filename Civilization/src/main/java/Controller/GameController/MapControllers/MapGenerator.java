@@ -35,7 +35,7 @@ public class MapGenerator {
                 if(tile.getTerrain().getPossibleFeatures() != null){
                     Feature feature;
                     int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleFeatures().size());
-                    feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index).getFeatureType());
+                    feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index));
                     tile.setFeature(feature);
                 }
             }
@@ -52,7 +52,7 @@ public class MapGenerator {
                 }
                 if(tile.getTerrain().getPossibleResources() != null) {
                     int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleResources().size());
-                    Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index).getResourceType());
+                    Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index));
                     tile.setResource(resource);
                 }
             }
