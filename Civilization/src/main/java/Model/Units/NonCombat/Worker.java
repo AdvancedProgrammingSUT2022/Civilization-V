@@ -30,48 +30,46 @@ public class Worker extends NonCombat{
 //    public void updateDataAfterAction(City city){
 //
 //    }
-    public String buildImprovement(ImprovementType improvement){
-        if(tile.getImprovement() == null)return"there is an improvement here!";
-        boolean hasTechnology = false;
-        boolean properFeature = false;
-        boolean properTerrain = false;
-        for (Technology technology:civilization.getTechnologies()) {
-            if(improvement.PrerequisiteTechnology.equals(technology))hasTechnology = true;
-        }
-        if(!hasTechnology)return "you don't have access to the required technology";
-        if(tile.getFeature() != null) {
-            for (Feature feature : improvement.FeaturesCanBeBuiltOn) {
-                if(feature.equals(tile.getFeature())){
-                    properFeature = true;
-                    break;
-                }
+public String buildImprovement(ImprovementType improvement){
+    if(tile.getImprovement() != null)return"there is an improvement here!";
+    boolean properFeature = false;
+    boolean properTerrain = false;
+    if(!civilization.hasTechnology(improvement.PrerequisiteTechnology.getTechnologyType()))return "you don't have access to the required technology";
+    if(tile.getFeature() != null && improvement.FeaturesCanBeBuiltOn != null) {
+        for (Feature feature : improvement.FeaturesCanBeBuiltOn) {
+            if(feature.equals(tile.getFeature())){
+                properFeature = true;
+                break;
             }
-            if(!properFeature)return "not a proper feature";
         }
+        if(!properFeature)return "not a proper feature";
+    }
+    if(improvement.TerrainCanBeBuiltOn != null) {
         for (Terrain terrain : improvement.TerrainCanBeBuiltOn) {
-            if(terrain.getTerrainType().equals(tile.getTerrain())){
+            if (terrain.getTerrainType().equals(tile.getTerrain())) {
                 properTerrain = true;
                 break;
             }
         }
-        if(!properTerrain)return "not a proper Terrain";
-        int daysToComplete = improvement.constructionTime;
-        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Jungle)){
-            if(!civilization.hasTechnology(TechnologyType.BronzeWorking))return "you need BronzeWorking technology";
-            daysToComplete += 7;
-        }
-        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Forest)){
-            if(!civilization.hasTechnology(TechnologyType.Mining))return "you need mining technology";
-            daysToComplete += 4;
-        }
-        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Marsh)){
-            if(!civilization.hasTechnology(TechnologyType.Masonry))return "you need Masonry technology";
-            daysToComplete += 6;
-        }
-        Improvement newImprovement = new Improvement(improvement);
-        newImprovement.setTile(tile);
-        newImprovement.changeDaysToComplete(daysToComplete);
-        civilization.addImprovementUnderConstruction(newImprovement);
-        return "construction has been started!";
+        if (!properTerrain) return "not a proper Terrain";
     }
+    int daysToComplete = improvement.constructionTime;
+    if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Jungle)){
+        if(!civilization.hasTechnology(TechnologyType.BronzeWorking))return "you need BronzeWorking technology";
+        daysToComplete += 7;
+    }
+    if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Forest)){
+        if(!civilization.hasTechnology(TechnologyType.Mining))return "you need mining technology";
+        daysToComplete += 4;
+    }
+    if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Marsh)){
+        if(!civilization.hasTechnology(TechnologyType.Masonry))return "you need Masonry technology";
+        daysToComplete += 6;
+    }
+    Improvement newImprovement = new Improvement(improvement);
+    newImprovement.setTile(tile);
+    newImprovement.changeDaysToComplete(daysToComplete);
+    civilization.addImprovementUnderConstruction(newImprovement);
+    return "construction has been started!";
+}
 }

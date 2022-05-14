@@ -37,13 +37,13 @@ public class CivilizationController {
             output.append(number + ": ").append(technologyType.name() + "---> details :");
             output.append("Cost : ").append(technologyType.cost + "   ");
             output.append("Technology Main Type : ").append(technologyType.technologyMainType.name()).append("\n");
-            if(technologyType.LeadsToTechs != null){
-                output.append("leads to ---> {\n");
-                for(int i = 0; i < technologyType.LeadsToTechs.size(); i++){
-                    output.append(technologyType.LeadsToTechs.get(i).name() + "\n");
-                }
-                output.append("}\n");
-            }
+//            if(technologyType.LeadsToTechs != null){
+//                output.append("leads to ---> {\n");
+//                for(int i = 0; i < technologyType.LeadsToTechs.size(); i++){
+//                    output.append(technologyType.LeadsToTechs.get(i).name() + "\n");
+//                }
+//                output.append("}\n");
+//            }
             number++;
         }
         output.append("}");
