@@ -11,7 +11,6 @@ public class Improvement {
     public Improvement(ImprovementType improvementType) {
         this.setImprovementType(improvementType);
     }
-
     public Tile getTile() {
         return tile;
     }
@@ -20,6 +19,7 @@ public class Improvement {
         this.tile = tile;
     }
 
+
     public boolean isRuined() {
         return ruined;
     }
@@ -27,6 +27,7 @@ public class Improvement {
     public void setRuined(boolean ruined) {
         this.ruined = ruined;
     }
+
 
     public int getDaysToComplete() {
         return daysToComplete;

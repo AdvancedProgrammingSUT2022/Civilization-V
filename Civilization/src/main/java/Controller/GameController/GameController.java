@@ -20,9 +20,16 @@ public class GameController{
     private Civilization playerTurn;
     private Unit selectedUnit;
     private City selectedCity;
+    private City selectedCityToAttack;
     private static GameController gameController; 
     private GameMap map = GameMap.getInstance();
     private GameController(){}
+    public City getSelectedCityToAttack() {
+        return selectedCityToAttack;
+    }
+    public void setSelectedCityToAttack(City selectdCityToAttack) {
+        this.selectedCityToAttack = selectdCityToAttack;
+    }
     public static GameController getInstance(){
         if(gameController == null)
             gameController = new GameController();
@@ -156,5 +163,8 @@ public class GameController{
 
     public int getTurn() {
         return turn;
+    }
+    public String deleteUnit(){
+        return UnitController.getInstance().removeUnitFromGame(selectedUnit);
     }
 }

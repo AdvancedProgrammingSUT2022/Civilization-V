@@ -53,6 +53,7 @@ public class Regex {
     public final String removeCitizen = "remove citizen from (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String siegePreAttack = "do siege pre attack";
 
+
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
     public final String cheatHappinessIncrease = "cheat increase happiness by (?<amount>-?\\d+)";
@@ -60,4 +61,8 @@ public class Regex {
     public final String cheatIncreaseCityStrength = "cheat increase strength by (?<amount>-?\\d+)";
     public final String increaseTurns = "cheat increase turns by (?<amount>-?\\d+)";
     public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
+
+    public final String pillage = "pillage";
+    public final String afterCityVictory = "(?<decision>destroy|annex)";
+
 }

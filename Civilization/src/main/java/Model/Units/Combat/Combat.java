@@ -1,6 +1,5 @@
 package Model.Units.Combat;
 import Controller.GameController.UnitController;
-import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
@@ -26,7 +25,10 @@ public class Combat extends Unit {
     public Combat(){
         super();
     }
-
+    public Combat(double hitPoints){
+        super();
+        this.hitPoints = hitPoints;
+    }
     public int getFortifiedTurnCount() {
         return fortifiedTurnCount;
     }
@@ -70,7 +72,10 @@ public class Combat extends Unit {
     }
 
     public double getMaxDamage(){
-        this.maxDamage = (this.unitType.combatStrength);
+        if(this instanceof Ranged)
+            this.maxDamage = ((Ranged)(this)).unitType.rangedCombatStrength;
+        else 
+            this.maxDamage = (this.unitType.combatStrength);
         return this.maxDamage;
     }
 

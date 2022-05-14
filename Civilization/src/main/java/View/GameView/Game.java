@@ -49,7 +49,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();
-    private final Consumer<Matcher> delete = matcher -> System.out.println();
+    private final Consumer<Matcher> delete = matcher -> System.out.println(GameController.getInstance().deleteUnit());
     private final Consumer<Matcher> removeObjects = matcher -> System.out.println();
     private final Consumer<Matcher> repair = matcher -> System.out.println();
     private final Consumer<Matcher> buyTile = matcher -> System.out.println(CityController.getInstance().buyTile(matcher));
@@ -63,6 +63,9 @@ public class Game extends Menu{
     private final Consumer<Matcher> cheatIncreaseCityStrength = matcher -> System.out.println(CheatCode.getInstance().increaseCityStrength(matcher));
     private final Consumer<Matcher> increaseTurns = matcher -> System.out.println(CheatCode.getInstance().increaseTurns(matcher));
     private final Consumer<Matcher> increaseStoredFood = matcher -> System.out.println(CheatCode.getInstance().increaseStoredFood(matcher));
+    private final Consumer<Matcher> pillage = matcher -> System.out.println(UnitController.getInstance().pillage());
+    private final Consumer<Matcher> afterCityVictory = matcher -> System.out.println(UnitController.getInstance().changesAfterCityVictory(matcher));
+
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -119,6 +122,8 @@ public class Game extends Menu{
         commandsMap.put(regex.cheatIncreaseCityStrength,cheatIncreaseCityStrength);
         commandsMap.put(regex.increaseTurns,increaseTurns);
         commandsMap.put(regex.increaseStoredFood,increaseStoredFood);
+        commandsMap.put(regex.pillage,pillage);
+        commandsMap.put(regex.afterCityVictory,afterCityVictory);
         return commandsMap;
     }
 }
