@@ -3,7 +3,7 @@ package Model.Enums;
 public enum MapEnum {
     LENGTH(4),
     MAPHEIGHT(5),
-    MAPWIDTH(10),
+    MAPWIDTH(6),
     HEXSIDELONG(9),
     HEXSIDESHORT(7);
     public final int amount;

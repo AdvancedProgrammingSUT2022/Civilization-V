@@ -19,7 +19,6 @@ public class Tile {
     private int mpCost;
     private boolean hasRiverOrOcean = false;
     private Citizen citizen;
-    private Building building;
     private ArrayList<Unit> units = new ArrayList<>();
     private Feature feature;
     private Resource resource;
@@ -32,6 +31,12 @@ public class Tile {
     
     public int getX() {
         return x;
+    }
+    
+    public void restoreTile(){
+        citizen = null;
+        resource = null;
+        improvement = null;
     }
     public boolean isCapital() {
         return isCapital;
@@ -54,14 +59,6 @@ public class Tile {
 
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
     }
 
     public ArrayList<Unit> getUnits() {
