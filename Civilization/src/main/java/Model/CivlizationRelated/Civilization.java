@@ -38,7 +38,6 @@ public class Civilization {
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies = new ArrayList<Technology>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
-
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
     private TechnologyType currentResearchProject;
     private int researchTurns = 0;

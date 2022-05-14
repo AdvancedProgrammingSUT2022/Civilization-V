@@ -104,9 +104,11 @@ public class UnitController {
         Unit selectedUnit = GameController.getInstance().getSelectedUnit();
         if (selectedUnit == null) return "no unit is selected";
         if (selectedUnit.getUnitType() == UnitType.Settler) {
+            Tile tile1 = selectedUnit.getTile();
+            tile1.getUnits().remove(selectedUnit);
             selectedUnit = new NonCombat(selectedUnit.getCivilization(), selectedUnit.getTile(), selectedUnit.getUnitType());
             selectedUnit = new Settler(selectedUnit.getCivilization(), selectedUnit.getTile());
-            if (selectedUnit.getTile().getCivilization() == selectedUnit.getCivilization() && selectedUnit.getCivilization() != null) {
+            if (selectedUnit.getTile().getCivilization() == selectedUnit.getCivilization() ) {
                 for (Tile surrounding : MapFunctions.getInstance().getSurroundings(selectedUnit.getTile())) {
                     if (surrounding.getCivilization() != null && surrounding.getCivilization() != selectedUnit.getCivilization()) {
                         return "these tiles belong to another civilization";
@@ -121,7 +123,7 @@ public class UnitController {
                         }
                     }
                 String cityName = matcher.group("cityName");
-                BuildCity(((Settler) selectedUnit), cityName);
+                BuildCity((Settler) selectedUnit, cityName);
                 return "your new city is built";
             } return "this tile belongs to another civilization";
         } return "you can only build new city with settler";
@@ -129,9 +131,7 @@ public class UnitController {
 
     private void BuildCity(Settler settler, String cityName){
         settler.buildCity(cityName);
-        settler.getTile().getUnits().remove(settler);
         settler.getCivilization().getUnits().remove(settler);
-        GameMap.getInstance().getUnits().remove(settler);
     }
 
     public void makeUnit(UnitType unitType, Civilization civilization , Tile tile){

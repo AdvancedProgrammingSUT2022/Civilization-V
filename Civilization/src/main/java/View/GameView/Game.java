@@ -63,6 +63,9 @@ public class Game extends Menu{
     private final Consumer<Matcher> cheatIncreaseCityStrength = matcher -> System.out.println(CheatCode.getInstance().increaseCityStrength(matcher));
     private final Consumer<Matcher> increaseTurns = matcher -> System.out.println(CheatCode.getInstance().increaseTurns(matcher));
     private final Consumer<Matcher> increaseStoredFood = matcher -> System.out.println(CheatCode.getInstance().increaseStoredFood(matcher));
+    private final Consumer<Matcher> unlockFirstHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockFirstHalfTechnologies());
+    private final Consumer<Matcher> unlockSecondHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockFirstHalfTechnologies());
+
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -119,6 +122,8 @@ public class Game extends Menu{
         commandsMap.put(regex.cheatIncreaseCityStrength,cheatIncreaseCityStrength);
         commandsMap.put(regex.increaseTurns,increaseTurns);
         commandsMap.put(regex.increaseStoredFood,increaseStoredFood);
+        commandsMap.put(regex.unlockFirstHalfOfTechnologies,unlockFirstHalfOfTechnologies);
+        commandsMap.put(regex.unlockSecondHalfOfTechnologies,unlockSecondHalfOfTechnologies);
         return commandsMap;
     }
 }

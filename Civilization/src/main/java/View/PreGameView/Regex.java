@@ -60,4 +60,6 @@ public class Regex {
     public final String cheatIncreaseCityStrength = "cheat increase strength by (?<amount>-?\\d+)";
     public final String increaseTurns = "cheat increase turns by (?<amount>-?\\d+)";
     public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
+    public final String unlockFirstHalfOfTechnologies = "unlock first half of technologies";
+    public final String unlockSecondHalfOfTechnologies = "unlock second half of technologies";
 }
