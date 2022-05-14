@@ -236,9 +236,9 @@ public class CityController {
         BuildingType buildingType = GameController.getInstance().getSelectedCity().getUnderConstructionBuilding();
         UnitType unitType = GameController.getInstance().getSelectedCity().getUnderConstructionUnit();
         if (unitType!= null && buildingType == null)
-            returnString1 = "\nand your city is building:" + unitType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
+            returnString1 = "\nand your city is building:" + unitType.name() + " now.\nso you can not build a unit per turns,\nunless you cancel construction";
         if (buildingType != null && unitType == null)
-            returnString1 = "\nand your city is building:" + buildingType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
+            returnString1 = "\nand your city is building:" + buildingType.name() + " now.\nso you can not build a building per turns,\nunless you cancel construction";
         return returnString + (returnString1 == "" ? "\nyour city is not build a unit or a building right now" : returnString1);
     }
 
@@ -285,8 +285,8 @@ public class CityController {
         if(turn ==0 ) return buildUnitNow();
         GameController.getInstance().getSelectedCity().setUnitTurn(turn);
         this.selectedUnitType = null;
-        GameController.getInstance().getPlayerTurn().addNotification("construction of your new building has begun");
-        return "construction of your new building has begun";
+        GameController.getInstance().getPlayerTurn().addNotification("construction of your new unit has begun");
+        return "construction of your new unit has begun";
     }
 
     private String buildUnitNow(){

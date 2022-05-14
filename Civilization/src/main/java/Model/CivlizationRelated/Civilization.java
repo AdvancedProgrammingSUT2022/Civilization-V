@@ -29,6 +29,7 @@ public class Civilization {
     private int totalIron;
     private int currentIron;
     private ArrayList<Tile> tiles = new ArrayList<>();
+    private ArrayList<Improvement> improvementsUnderConstruction = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
@@ -37,26 +38,15 @@ public class Civilization {
     private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies = new ArrayList<Technology>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
+
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
     private TechnologyType currentResearchProject;
     private int researchTurns = 0;
     private ArrayList<DiplomaticTie> diplomaticTies;
     private ArrayList<String> Notification = new ArrayList<>();
     private HashMap<ResourceType,Boolean> luxuryRecourseIsFound = new HashMap<>();
+    private ArrayList<ResourceType> foundedLuxuryRecourses;
 
-    public Civilization(){
-        luxuryRecourseIsFound.put(ResourceType.Cotton,false);
-        luxuryRecourseIsFound.put(ResourceType.Dyes,false);
-        luxuryRecourseIsFound.put(ResourceType.Furs,false);
-        luxuryRecourseIsFound.put(ResourceType.Gems,false);
-        luxuryRecourseIsFound.put(ResourceType.GoldResource,false);
-        luxuryRecourseIsFound.put(ResourceType.Incense,false);
-        luxuryRecourseIsFound.put(ResourceType.Ivory,false);
-        luxuryRecourseIsFound.put(ResourceType.Marble,false);
-        luxuryRecourseIsFound.put(ResourceType.Silver,false);
-        luxuryRecourseIsFound.put(ResourceType.Spices,false);
-        luxuryRecourseIsFound.put(ResourceType.Sugar,false);
-    }
 
     public LinkedHashMap<TechnologyType, Integer> getResearchProjects() {
         return researchProjects;
@@ -71,6 +61,25 @@ public class Civilization {
 
     public int getResearchTurns() {
         return researchTurns;
+    }
+
+    public ArrayList<Improvement> getImprovementsUnderConstruction(){
+        return improvementsUnderConstruction;
+    }
+
+    public void addImprovementUnderConstruction(Improvement improvement){
+        improvementsUnderConstruction.add(improvement);
+    }
+
+    public void removeFromImprovementsUnderConstruction(Improvement improvement){
+        improvementsUnderConstruction.remove(improvement);
+    }
+
+    public boolean hasTechnology(TechnologyType givenTechnology){
+        for (Technology technology:technologies) {
+            if(givenTechnology.equals(technology.getTechnologyType()))return true;
+        }
+        return false;
     }
 
     public HashMap<Tile, Building> getRevealedBuildings() {
@@ -205,9 +214,6 @@ public class Civilization {
     }
     public void setCurrentResearchProject(TechnologyType currentResearchProject) {
         this.currentResearchProject = currentResearchProject;
-    }
-    public Technology getTechnology(){
-        return null;
     }
     public void addTechnology(Technology technology){
         this.technologies.add(technology);

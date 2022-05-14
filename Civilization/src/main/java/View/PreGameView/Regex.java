@@ -33,6 +33,8 @@ public class Regex {
     public final String changeResearchProject = "change research project to (?<technologyType>)"; // ArashChanges technology 4
     public final String changeCityConstruction = "change city construction to (building type (?<buildingType>\\S+)|unit type (?<unitType>\\S+))"; // Arash changes
     public final String showInfoPanel = "show info panel";
+    public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
+    public final String buildImprovement = "build improvement (?<=ImprovementType>\\S+)";
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";
@@ -50,4 +52,12 @@ public class Regex {
     public final String assignCitizen = "assign citizen (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String removeCitizen = "remove citizen from (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String siegePreAttack = "do siege pre attack";
+
+    //cheat code
+    public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
+    public final String cheatHappinessIncrease = "cheat increase happiness by (?<amount>-?\\d+)";
+    public final String cheatIncreaseCityHitPoint = "cheat increase hitpoint by (?<amount>-?\\d+)";
+    public final String cheatIncreaseCityStrength = "cheat increase strength by (?<amount>-?\\d+)";
+    public final String increaseTurns = "cheat increase turns by (?<amount>-?\\d+)";
+    public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
 }
