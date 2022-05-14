@@ -1,39 +1,36 @@
 package Model.CivlizationRelated;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-
-import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
-import Controller.GameController.MapControllers.MapGenerator;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+import Model.Units.Combat.Combat;
+import Model.Units.Combat.Ranged;
 
 public class City {
     private String name;
     private Civilization civilization;
+    private Tile tile;
     boolean isCapital = false;
     private int storedFood;
     private int goldPerTurn;
     private int sciencePerTurn;
     private int foodPerTurn;
     private int productionPerTurn;
-    private double hitPoint = 20;
+    private double hitPoint = 3;
     private double strength = 15;
     private int population;
-
     private BuildingType underConstructionBuilding;
     private int BuildingTurn = 0;
     private UnitType underConstructionUnit;
     private int UnitTurn = 0;
-
     private UnitType unitUnderConstruction;
-
     private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
     private ArrayList<Building> buildings;
     private ArrayList<Tile> cityTiles;
@@ -42,13 +39,13 @@ public class City {
     private ArrayList<Unit> units;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
+    private boolean hasAttackLeft = true;
 
     public City(Civilization civilization) {
         this.civilization = civilization;
         this.population = 1;
         this.buildings = new ArrayList<Building>();
         this.cityTiles = new ArrayList<Tile>();
-        this.garrisonUnit = new Unit();
         this.units = new ArrayList<Unit>();
         this.unitsCanBeBuilt = new ArrayList<UnitType>();
         this.citizens = new ArrayList<Citizen>();
@@ -57,6 +54,22 @@ public class City {
         Citizen citizen = new Citizen(this);
         citizens.add(citizen);
         civilization.changeHappiness(-1);
+    }
+
+    public boolean isHasAttackLeft() {
+        return hasAttackLeft;
+    }
+
+    public void setHasAttackLeft(boolean hasAttackLeft) {
+        this.hasAttackLeft = hasAttackLeft;
+    }
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     public void setBuildingTypesCanBeBuilt(ArrayList<BuildingType> buildingTypesCanBeBuilt) {
@@ -429,5 +442,12 @@ public class City {
 
     public double getStrength() {
         return strength;
+    }
+
+    public double cityAttackDamage(Combat defender) {
+        double multiplyer = 1.5;
+        if(defender.getTile().getFeature().getFeatureType() == FeatureType.Jungle || defender.getTile().getTerrain() == TerrainType.Hill)
+            multiplyer -= 0.4;
+        return defender.cityAttackDamage(this) * multiplyer;
     }
 }

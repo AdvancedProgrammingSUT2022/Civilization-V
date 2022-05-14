@@ -23,11 +23,13 @@ public class Settler extends NonCombat {
         if(this.civilization.getCities().size() == 1) { // make palace for first city
             city.setCapital(true);
         }
+        tile.setCity(city);
         this.tile.setCapital(true);
         city.setName(cityName);
         city.calculateProduction();
         city.calculateGold();
         city.calculateFood();
+        city.setTile(this.tile);
     }
     public int calculateProductionAfterBuildingCity(){
         return 0;

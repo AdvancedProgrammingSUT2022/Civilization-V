@@ -1,15 +1,11 @@
 package Controller.GameController;
-
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.Units.TypeEnums.MainType;
-import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import View.GameView.Game;
-
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;

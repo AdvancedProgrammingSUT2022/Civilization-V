@@ -1,5 +1,9 @@
 package Model.Units.Combat;
+import java.util.Random;
+
 import Controller.GameController.UnitController;
+import Controller.GameController.MapControllers.TileVisibilityController;
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
@@ -8,7 +12,7 @@ import Model.Units.TypeEnums.UnitType;
 public class Combat extends Unit {
 
     protected int Xp;
-    protected double hitPoints = 10;
+    protected double hitPoints = 8;
     private int fortifiedTurnCount = 0;
     private boolean hasAttacked;
 
@@ -48,7 +52,9 @@ public class Combat extends Unit {
     public double getHitPoints() {
         return hitPoints;
     }
-
+    public double cityAttackDamage(City city){
+        return UnitController.getInstance().calculateDamageDeltToCity(this, city);
+    }
     public void setHitPoints(double hitPoints) {
         this.hitPoints = hitPoints;
     }
@@ -84,7 +90,9 @@ public class Combat extends Unit {
         nonCombatUnit.setCivilization(this.civilization);
         nonCombatUnit.getCivilization().getUnits().remove(nonCombatUnit);
         this.tile.getUnits().remove(this);
+        TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), -1, 2);
         this.tile = nonCombatUnit.getTile();
         this.tile.getUnits().add(this);
+        TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), 1, 2);
     }
 }

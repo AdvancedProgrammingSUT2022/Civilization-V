@@ -36,6 +36,8 @@ public class Tile {
         citizen = null;
         resource = null;
         improvement = null;
+        city = null;
+        civilization = null;
     }
     public boolean isCapital() {
         return isCapital;

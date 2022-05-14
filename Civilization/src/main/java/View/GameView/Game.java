@@ -46,6 +46,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> setup = matcher -> System.out.println();
     private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity(matcher));
     private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
+    private final Consumer<Matcher> cityAttack = matcher -> System.out.println(UnitController.getInstance().cityUnitAttack(matcher));
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println();
     private final Consumer<Matcher> delete = matcher -> System.out.println(GameController.getInstance().deleteUnit());
@@ -104,6 +105,7 @@ public class Game extends Menu{
         commandsMap.put(regex.garrison,garrison);
         commandsMap.put(regex.setup,setup);
         commandsMap.put(regex.attack,attack);
+        commandsMap.put(regex.cityAttack,cityAttack);
         commandsMap.put(regex.foundCity,foundCity);
         commandsMap.put(regex.cancel,cancel);
         commandsMap.put(regex.wake,wake);

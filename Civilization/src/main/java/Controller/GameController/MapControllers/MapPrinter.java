@@ -2,7 +2,6 @@ package Controller.GameController.MapControllers;
 import Model.TileRelated.Tile.Tile;
 import java.util.ArrayList;
 import Controller.GameController.GameController;
-import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Color;
 import Model.Enums.Direction;
@@ -52,11 +51,6 @@ public class MapPrinter {
     private String assignCharToCivilization(Civilization civilization){
         int asciiA = (int)'A';
         char returnChar = (char)(asciiA + GameMap.getInstance().getCivilizations().indexOf(civilization));
-        return Character.toString(returnChar);
-    }
-    private String assignCharToCity(City city){
-        int asciiA = (int)'A';
-        char returnChar = (char)(asciiA + city.getCivilization().getCities().indexOf(city));
         return Character.toString(returnChar);
     }
     public void nullify(String map[][],int startIndex,int length,int y){
@@ -111,11 +105,12 @@ public class MapPrinter {
         return (getVisibility(tile) == TileVisibility.FOGOFWAR);
     }
     private void printCivilizationAndCityChar(String map[][],int x,int y,int textDistance,Tile tile){
-        map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
         if(tile.getCity() != null){
-            nullify(map,1 + x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2, ("->" + assignCharToCity(tile.getCity())).length(), y + textDistance);
-            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] += "->" + assignCharToCity(tile.getCity());
-        }
+            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3] = assignCharToCivilization(tile.getCivilization());
+            nullify(map,1 + x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3, ("->" + tile.getCity().getName()).length(), y + textDistance);
+            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3] += "->" + tile.getCity().getName();
+        }else
+        map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
     }
     private void fillTextsForTilePrint(ArrayList<String> texts,Tile tile){
         if(getVisibility(tile) == TileVisibility.VISIBLE){
@@ -127,8 +122,8 @@ public class MapPrinter {
         texts.add("T: " + tile.getTerrain().name());
     }
     private void addVisibleTypeTexts(Tile tile,ArrayList<String> texts){
+        if(tile.getCity() != null && tile.isCapital())texts.add("HP: " +  String.format("%.2f",tile.getCity().getHitPoint()));else{texts.add(null);}
         if(tile.getFeature() != null)texts.add("F:" + tile.getFeature().getFeatureType().name());else{texts.add(null);}
-        if(tile.getCity() != null && tile.isCapital())texts.add(tile.getCity().getName());else{texts.add(null);}
         if(tile.getResource() != null)texts.add("R:" + tile.getResource().getResourceType().name());else{texts.add(null);}
         if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
