@@ -1,15 +1,11 @@
 package Controller.GameController;
-
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.Units.TypeEnums.MainType;
-import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import View.GameView.Game;
-
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -25,7 +21,7 @@ public class CivilizationController {
     public String chooseTechnologyMenu(){
         System.out.println(showAvailableTechnologies());
         System.out.println(showCloseResearch());
-        System.out.println(showTechnologyTree());
+        System.out.print(showTechnologyTree());
         return"";
     }
 
@@ -37,13 +33,13 @@ public class CivilizationController {
             output.append(number + ": ").append(technologyType.name() + "---> details :");
             output.append("Cost : ").append(technologyType.cost + "   ");
             output.append("Technology Main Type : ").append(technologyType.technologyMainType.name()).append("\n");
-//            if(technologyType.LeadsToTechs != null){
-//                output.append("leads to ---> {\n");
-//                for(int i = 0; i < technologyType.LeadsToTechs.size(); i++){
-//                    output.append(technologyType.LeadsToTechs.get(i).name() + "\n");
-//                }
-//                output.append("}\n");
-//            }
+            if(technologyType.LeadsToTechs != null){
+                output.append("leads to ---> {\n");
+                for(int i = 0; i < technologyType.LeadsToTechs.size(); i++){
+                    output.append(technologyType.LeadsToTechs.get(i).name() + "\n");
+                }
+                output.append("}\n");
+            }
             number++;
         }
         output.append("}");
@@ -83,11 +79,7 @@ public class CivilizationController {
             }
         }
         for(Technology technology : GameController.getInstance().getPlayerTurn().getTechnologies()){
-            for(TechnologyType technologyType : leadsToTechnologies){
-                if(technology.getTechnologyType().equals(technologyType)){
-                    leadsToTechnologies.remove(technologyType);
-                }
-            }
+            leadsToTechnologies.removeIf(technologyType -> technology.getTechnologyType().equals(technologyType));
         }
         return leadsToTechnologies;
     }
@@ -103,11 +95,11 @@ public class CivilizationController {
         for(TechnologyType technologyType : showLeadsToTechnologies()){
             if(Objects.equals(chosenTechnologyType, technologyType.name())){
                 int turn = calculateTechnologyTurns(technologyType);
-                GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
                 if(turn == -1) {
                     GameController.getInstance().getPlayerTurn().addNotification("you do not have enough production");
                     return "you do not have enough production";
                 }
+                GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
                 GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
                 if(turn == 0) {
                     Technology technology = new Technology(GameController.getInstance().getPlayerTurn().getCurrentResearchProject());
@@ -121,7 +113,7 @@ public class CivilizationController {
                 }
             }
         }
-        GameController.getInstance().getPlayerTurn().addNotification("not a valid technologyType");
+        GameController.getInstance().getPlayerTurn().addNotification("not a valid technology type");
         return "not a valid technology type";
     }
 
@@ -131,8 +123,8 @@ public class CivilizationController {
             for(City city : GameController.getInstance().getPlayerTurn().getCities()){
                 production += city.getProductionPerTurn();
             }
-            if(technologyType.cost > production) return -1;
-            else return technologyType.cost / production;
+            if(production == 0) return -1;
+            return technologyType.cost / production;
         } return -1;
     }
 

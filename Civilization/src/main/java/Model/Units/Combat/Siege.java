@@ -1,5 +1,4 @@
 package Model.Units.Combat;
-import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;

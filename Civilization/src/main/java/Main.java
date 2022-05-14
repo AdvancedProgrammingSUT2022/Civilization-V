@@ -17,8 +17,12 @@ menu enter Main_Menu
 play game --player1 nima --player2 sero
 print map
 select combat unit --y 1 --x 1
+select civil unit --y 1 --x 1
+unit found city athens
+select city --y 1 --x 1
 move unit to --y 1 --x 1
 unit attack --y 1 --x 1
+city attack --y 1 --x 1
 */
 //gamePlay commands
 //print map

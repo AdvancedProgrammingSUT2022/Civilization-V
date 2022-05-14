@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import Model.CivlizationRelated.Citizen;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Improvement.Improvement;
@@ -28,7 +27,7 @@ public class Tile {
     private Improvement improvement;
     private Civilization civilization;
     private City city;
-    private boolean isCapital;
+    private boolean isCapital = false;
     
     public int getX() {
         return x;
@@ -38,6 +37,8 @@ public class Tile {
         citizen = null;
         resource = null;
         improvement = null;
+        city = null;
+        civilization = null;
     }
     public boolean isCapital() {
         return isCapital;
