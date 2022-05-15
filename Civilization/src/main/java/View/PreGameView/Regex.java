@@ -52,6 +52,7 @@ public class Regex {
     public final String assignCitizen = "assign citizen (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String removeCitizen = "remove citizen from (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String siegePreAttack = "do siege pre attack";
+    public final String civilizationOutPut = "civilization output";
 
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";

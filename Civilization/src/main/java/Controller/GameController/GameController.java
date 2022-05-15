@@ -6,8 +6,11 @@ import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
+import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Resource.ResourceMainTypes;
 import Model.TileRelated.Resource.ResourceType;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
@@ -66,15 +69,64 @@ public class GameController{
     }
 
     public void reduceTurnOfImprovements(){
-        for (Improvement improvement:playerTurn.getImprovementsUnderConstruction()) {
-            improvement.changeDaysToComplete(-1);
-            if(improvement.getDaysToComplete() == 0){
-                if(improvement.getTile().getResource() != null) {
-                    for (ResourceType resource : improvement.getImprovementType().ImprovesThisResources) {
-                        if(improvement.getTile().getResource().getResourceType().equals(resource))improvement.getTile().getResource().setAvailable(true);
+        ArrayList<Improvement> Constructions = playerTurn.getImprovementsUnderConstruction();
+        for (int i=0;i<Constructions.size() ; i++) {
+            if(Constructions.get(i).getWorker() == null)return;
+            Constructions.get(i).changeDaysToComplete(-1);
+            if(Constructions.get(i).getDaysToComplete() == 0){
+                Constructions.get(i).setWorker(null);
+                if(Constructions.get(i).getTile().getFeature() != null &&Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Marsh))Constructions.get(i).getTile().setFeature(null);
+                if(Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Jungle))Constructions.get(i).getTile().setFeature(null);
+                if(Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Forest))Constructions.get(i).getTile().setFeature(null);
+                if(Constructions.get(i).getTile().getResource() != null) {
+                    for (ResourceType resource : Constructions.get(i).getImprovementType().ImprovesThisResources) {
+                        if(Constructions.get(i).getTile().getResource().getResourceType().equals(resource)){
+                            Constructions.get(i).getTile().getResource().setAvailable(true);
+                            luxuryAndStrategicRecourses(resource);
+                        }
                     }
                 }
-                playerTurn.removeFromImprovementsUnderConstruction(improvement);
+                playerTurn.removeFromImprovementsUnderConstruction(Constructions.get(i));
+                i--;
+            }
+        }
+    }
+
+    public String civilizationOutPut(){
+        StringBuilder output = new StringBuilder();
+        output.append("Gold : " + playerTurn.getGold() + " + " + playerTurn.getGoldPerTurn() + "\n");
+        output.append("Science Per Turn : " + playerTurn.getSciencePerTurn() + "\n");
+        output.append("Happiness : " + playerTurn.getHappiness() + "\n");
+        output.append("Iron : " + playerTurn.getTotalIron() + " (used : " + (playerTurn.getTotalIron()-playerTurn.getCurrentIron()) + ")" + "\n");
+        output.append("Horse : " + playerTurn.getTotalHorses() + " (used : " + (playerTurn.getTotalHorses()-playerTurn.getCurrentHorses()) + ")" + "\n");
+        output.append("Coal : " + playerTurn.getTotalCoal() + " (used : " + (playerTurn.getTotalCoal()-playerTurn.getCurrentCoal()) + ")");
+        return String.valueOf(output);
+    }
+
+    public void luxuryAndStrategicRecourses(ResourceType resource){
+        if(resource.equals(ResourceType.Iron)){
+            playerTurn.changeTotalIron(2);
+            playerTurn.changeCurrentIron(2);
+        }
+        if(resource.equals(ResourceType.Horses)){
+            playerTurn.changeTotalHorses(2);
+            playerTurn.changeCurrentHorses(2);
+        }
+        if(resource.equals(ResourceType.Coal)){
+            playerTurn.changeTotalCoal(2);
+            playerTurn.changeCurrentCoal(2);
+        }
+        if(resource.mainType.equals(ResourceMainTypes.LuxuryResources)){
+            boolean alreadyHaveIt = false;
+            for (ResourceType founded:playerTurn.getFoundedLuxuryRecourses()) {
+                if(resource.equals(founded)){
+                    alreadyHaveIt = true;
+                    break;
+                }
+            }
+            if(!alreadyHaveIt){
+                playerTurn.addLuxuryRecourse(resource);
+                playerTurn.changeHappiness(2);
             }
         }
     }

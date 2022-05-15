@@ -1,10 +1,7 @@
 package Model.CivlizationRelated;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
-import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
-import Controller.GameController.MapControllers.MapGenerator;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Feature.FeatureType;
@@ -25,7 +22,7 @@ public class City {
     private int productionPerTurn;
     private double hitPoint = 20;
     private double strength = 15;
-    private int population;
+    private int population =1;
 
     private BuildingType underConstructionBuilding;
     private int BuildingTurn = 0;
@@ -69,6 +66,10 @@ public class City {
 
     public void setUnitTurn(int unitTurn) {
         UnitTurn = unitTurn;
+    }
+
+    public int getStoredFood() {
+        return storedFood;
     }
 
     public int getUnitTurn() {
@@ -200,7 +201,6 @@ public class City {
                 calculateFood();
                 calculateProduction();
                 calculateGold();
-                if(tile.getFeature() != null)System.out.println(tile.getFeature().getFeatureType().name());
                 this.civilization.addNotification("done");
                 return "done";
             }
@@ -269,7 +269,7 @@ public class City {
         }
     }
 
-    public void populationGrowth(){
+    public void populationGrowthAndHunger(){
         if(civilization.getHappiness()<= 0)return;
         int neededFood = (int)Math.pow(2,population);
         for (Building building:buildings) {
@@ -287,6 +287,12 @@ public class City {
             productionPerTurn ++;
             sciencePerTurn ++;
             foodPerTurn -= 2;
+        }
+        if(storedFood < -1 * neededFood){
+            storedFood = 0 ;
+            citizens.get(0).getTile().setCitizen(null);
+            citizens.remove(0);
+            population -- ;
         }
     }
 

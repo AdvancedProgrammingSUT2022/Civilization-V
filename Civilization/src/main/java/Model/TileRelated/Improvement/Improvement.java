@@ -2,10 +2,12 @@ package Model.TileRelated.Improvement;
 
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.NonCombat.Worker;
 
 public class Improvement {
     private ImprovementType improvementType;
     private int daysToComplete;
+    private Worker worker;
     private Tile tile;
     private boolean ruined = false;
     public Improvement(ImprovementType improvementType) {
@@ -18,6 +20,13 @@ public class Improvement {
 
     public void setTile(Tile tile) {
         this.tile = tile;
+    }
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public Worker getWorker() {
+        return worker;
     }
 
     public boolean isRuined() {

@@ -17,11 +17,8 @@ import Model.Units.NonCombat.NonCombat;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import View.GameView.Game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
@@ -69,8 +66,9 @@ public class CityController {
         output.append("Gold : ").append((city.getGoldPerTurn() > 0 ? "+" : "") + city.getGoldPerTurn() + "\n");
         output.append("Production : ").append((city.getProductionPerTurn() > 0 ? "+" : "" ) + city.getProductionPerTurn() + "\n");
         output.append("Science : ").append((GameController.getInstance().getPlayerTurn().getSciencePerTurn() > 0 ? "+" : "") + GameController.getInstance().getPlayerTurn().getSciencePerTurn() + "\n");
-        output.append("population growth turns : ").append(/*population growth turns*/"\n");
-        output.append("turns until city's border increases : ");
+        output.append("population : ").append(city.getPopulation()).append("\n");
+        if(city.getFoodPerTurn() <= 0)output.append("city is not growing !");
+        else output.append("population growth turns : " + (int)((Math.pow(2,city.getPopulation())) - city.getStoredFood())/(city.getFoodPerTurn())+1);
         return output.toString();
     }
 
@@ -91,12 +89,12 @@ public class CityController {
                 city.calculateSciencePerTurn();
                 city.calculateGold();
                 city.calculateFood();
-                city.populationGrowth();
+                city.populationGrowthAndHunger();
                 city.calculateBuildingBonuses();
                 civilization.changeSciencePerTurn(city.getSciencePerTurn());
-                civilization.changeGold(city.getGoldPerTurn());
-                civilization.changeGold(city.getGoldPerTurn());
+                civilization.changeGoldPerTurn(city.getGoldPerTurn());
             }
+            civilization.changeGold(civilization.getGoldPerTurn());
             civilization.checkGoldRunningOut();
     }
 

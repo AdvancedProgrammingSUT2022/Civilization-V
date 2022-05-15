@@ -124,6 +124,7 @@ public class UnitController {
                     }
                 String cityName = matcher.group("cityName");
                 BuildCity((Settler) selectedUnit, cityName);
+                GameController.getInstance().setSelectedUnit(null);
                 return "your new city is built";
             } return "this tile belongs to another civilization";
         } return "you can only build new city with settler";
@@ -471,7 +472,8 @@ public class UnitController {
 
     public String buildImprovementMatcher(Matcher matcher){
         Unit selected = GameController.getInstance().getSelectedUnit();
-        if(selected != null && !selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
         ImprovementType improvementType;
         if(matcher.group("ImprovementType").equals("Camp"))improvementType = ImprovementType.Camp;
         else if(matcher.group("ImprovementType").equals("Farm"))improvementType = ImprovementType.Farm;

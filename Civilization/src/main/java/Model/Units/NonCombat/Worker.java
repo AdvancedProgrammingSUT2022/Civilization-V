@@ -34,6 +34,8 @@ public class Worker extends NonCombat {
 //    }
     public String buildImprovement(ImprovementType improvement){
         if(tile.getImprovement() != null)return"there is an improvement here!";
+        if(!civilization.equals(tile.getCivilization()))return "this is not your territory";
+        if(tile.isCapital())return "you can't build improvement on your city center";
         boolean properFeature = false;
         boolean properTerrain = false;
         if(!civilization.hasTechnology(improvement.PrerequisiteTechnology.getTechnologyType()))return "you don't have access to the required technology";
@@ -71,7 +73,10 @@ public class Worker extends NonCombat {
         Improvement newImprovement = new Improvement(improvement);
         newImprovement.setTile(tile);
         newImprovement.changeDaysToComplete(daysToComplete);
+        newImprovement.setWorker(this);
+        tile.setImprovement(newImprovement);
         civilization.addImprovementUnderConstruction(newImprovement);
+        movementsLeft = 0;
         return "construction has been started!";
     }
 }

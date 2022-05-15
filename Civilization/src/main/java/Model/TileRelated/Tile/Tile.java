@@ -8,6 +8,7 @@ import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
@@ -181,7 +182,7 @@ public class Tile {
         if(feature != null) {
             Production += feature.getFeatureType().production;
         }
-        if(improvement != null && improvement.getImprovementType().product.equals("Production"))
+        if(improvement != null && improvement.getImprovementType().product.equals("production"))
             Production += improvement.getImprovementType().TileYields;
         if(resource.getResourceType().production != 0 && resource.isAvailable())
             Production += resource.getResourceType().production;
