@@ -41,9 +41,15 @@ public class Civilization {
     private int researchTurns = 0;
     private ArrayList<DiplomaticTie> diplomaticTies;
     private ArrayList<String> Notification = new ArrayList<>();
-    private HashMap<ResourceType,Boolean> luxuryRecourseIsFound = new HashMap<>();
-    private ArrayList<ResourceType> foundedLuxuryRecourses;
+    private ArrayList<ResourceType> foundedLuxuryRecourses = new ArrayList<>();
 
+    public ArrayList<ResourceType> getFoundedLuxuryRecourses() {
+        return foundedLuxuryRecourses;
+    }
+
+    public void addLuxuryRecourse(ResourceType resourceType){
+        foundedLuxuryRecourses.add(resourceType);
+    }
 
     public LinkedHashMap<TechnologyType, Integer> getResearchProjects() {
         return researchProjects;
@@ -124,7 +130,7 @@ public class Civilization {
         return happiness;
     }
     public void changeHappiness(double happiness) {
-        this.happiness = happiness;
+        this.happiness += happiness;
     }
     public void addNotification(String notification){
         Notification.add(notification);

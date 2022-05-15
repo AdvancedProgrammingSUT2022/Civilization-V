@@ -25,7 +25,8 @@ public class City {
     private int productionPerTurn;
     private double hitPoint = 3;
     private double strength = 15;
-    private int population;
+    private int population =1;
+
     private BuildingType underConstructionBuilding;
     private int BuildingTurn = 0;
     private UnitType underConstructionUnit;
@@ -82,6 +83,10 @@ public class City {
 
     public void setUnitTurn(int unitTurn) {
         UnitTurn = unitTurn;
+    }
+
+    public int getStoredFood() {
+        return storedFood;
     }
 
     public int getUnitTurn() {
@@ -213,7 +218,6 @@ public class City {
                 calculateFood();
                 calculateProduction();
                 calculateGold();
-                if(tile.getFeature() != null)System.out.println(tile.getFeature().getFeatureType().name());
                 this.civilization.addNotification("done");
                 return "done";
             }
@@ -282,7 +286,7 @@ public class City {
         }
     }
 
-    public void populationGrowth(){
+    public void populationGrowthAndHunger(){
         if(civilization.getHappiness()<= 0)return;
         int neededFood = (int)Math.pow(2,population);
         for (Building building:buildings) {
@@ -300,6 +304,12 @@ public class City {
             productionPerTurn ++;
             sciencePerTurn ++;
             foodPerTurn -= 2;
+        }
+        if(storedFood < -1 * neededFood && citizens.size()!= 0){
+            storedFood = 0 ;
+            if(citizens.get(0).getTile() != null)citizens.get(0).getTile().setCitizen(null);
+            citizens.remove(0);
+            population -- ;
         }
     }
 

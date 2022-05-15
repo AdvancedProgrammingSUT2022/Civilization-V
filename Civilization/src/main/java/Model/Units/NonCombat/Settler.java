@@ -1,4 +1,5 @@
 package Model.Units.NonCombat;
+import Controller.GameController.CityController;
 import Controller.GameController.MapControllers.MapFunctions;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
@@ -26,10 +27,8 @@ public class Settler extends NonCombat {
         tile.setCity(city);
         this.tile.setCapital(true);
         city.setName(cityName);
-        city.calculateProduction();
-        city.calculateGold();
-        city.calculateFood();
-        city.setTile(this.tile);
+        CityController.getInstance().calculateProducts(civilization);
+
     }
     public int calculateProductionAfterBuildingCity(){
         return 0;

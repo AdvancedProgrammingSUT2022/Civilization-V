@@ -64,8 +64,9 @@ public class CityController {
         output.append("Gold : ").append((city.getGoldPerTurn() > 0 ? "+" : "") + city.getGoldPerTurn() + "\n");
         output.append("Production : ").append((city.getProductionPerTurn() > 0 ? "+" : "" ) + city.getProductionPerTurn() + "\n");
         output.append("Science : ").append((GameController.getInstance().getPlayerTurn().getSciencePerTurn() > 0 ? "+" : "") + GameController.getInstance().getPlayerTurn().getSciencePerTurn() + "\n");
-        output.append("population growth turns : ").append(/*population growth turns*/"\n");
-        output.append("turns until city's border increases : ");
+        output.append("population : ").append(city.getPopulation()).append("\n");
+        if(city.getFoodPerTurn() <= 0)output.append("city is not growing !");
+        else output.append("population growth turns : " + (int)((Math.pow(2,city.getPopulation())) - city.getStoredFood())/(city.getFoodPerTurn())+1);
         return output.toString();
     }
 
@@ -86,12 +87,12 @@ public class CityController {
                 city.calculateSciencePerTurn();
                 city.calculateGold();
                 city.calculateFood();
-                city.populationGrowth();
+                city.populationGrowthAndHunger();
                 city.calculateBuildingBonuses();
                 civilization.changeSciencePerTurn(city.getSciencePerTurn());
-                civilization.changeGold(city.getGoldPerTurn());
-                civilization.changeGold(city.getGoldPerTurn());
+                civilization.changeGoldPerTurn(city.getGoldPerTurn());
             }
+            civilization.changeGold(civilization.getGoldPerTurn());
             civilization.checkGoldRunningOut();
     }
 
@@ -322,10 +323,15 @@ public class CityController {
         GameController.getInstance().getSelectedCity().getCivilization().setGold(newGoldAmount);
     }
 
-    private void need(){
-        if(selectedUnitType.resourcesRequired.equals(ResourceType.Horses)) GameController.getInstance().getPlayerTurn().changeCurrentHorses(-1);
-        else if (selectedUnitType.resourcesRequired.equals(ResourceType.Iron)) GameController.getInstance().getPlayerTurn().changeCurrentIron(-1);
-        else if(selectedUnitType.resourcesRequired.equals(ResourceType.Coal)) GameController.getInstance().getPlayerTurn().changeCurrentCoal(-1);
+    private void need() {
+        if (selectedUnitType.resourcesRequired != null) {
+            if (selectedUnitType.resourcesRequired.equals(ResourceType.Horses))
+                GameController.getInstance().getPlayerTurn().changeCurrentHorses(-1);
+            else if (selectedUnitType.resourcesRequired.equals(ResourceType.Iron))
+                GameController.getInstance().getPlayerTurn().changeCurrentIron(-1);
+            else if (selectedUnitType.resourcesRequired.equals(ResourceType.Coal))
+                GameController.getInstance().getPlayerTurn().changeCurrentCoal(-1);
+        }
     }
 
 

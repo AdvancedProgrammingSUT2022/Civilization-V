@@ -34,7 +34,7 @@ public class Regex {
     public final String changeCityConstruction = "change city construction to (building type (?<buildingType>\\S+)|unit type (?<unitType>\\S+))"; // Arash changes
     public final String showInfoPanel = "show info panel";
     public final String cancelTechnology = "cancel technology"; // Arash changes technology 2
-    public final String buildImprovement = "build improvement (?<=ImprovementType>\\S+)";
+    public final String buildImprovement = "build improvement (?<ImprovementType>\\S+)";
     public final String sleep = "unit sleep";
     public final String alert = "unit alert";
     public final String fortify = "unit fortify$";
@@ -53,7 +53,9 @@ public class Regex {
     public final String assignCitizen = "assign citizen (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String removeCitizen = "remove citizen from (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String siegePreAttack = "do siege pre attack";
-
+    public final String civilizationOutPut = "civilization output";
+    public final String pillage = "pillage";
+    public final String afterCityVictory = "(?<decision>destroy|annex)";
 
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
@@ -62,8 +64,7 @@ public class Regex {
     public final String cheatIncreaseCityStrength = "cheat increase strength by (?<amount>-?\\d+)";
     public final String increaseTurns = "cheat increase turns by (?<amount>-?\\d+)";
     public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
-
-    public final String pillage = "pillage";
-    public final String afterCityVictory = "(?<decision>destroy|annex)";
+    public final String unlockFirstHalfOfTechnologies = "unlock first half of technologies";
+    public final String unlockSecondHalfOfTechnologies = "unlock second half of technologies";
 
 }
