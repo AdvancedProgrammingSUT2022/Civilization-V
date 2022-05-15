@@ -152,8 +152,7 @@ public class CivilizationController {
                     GameController.getInstance().getPlayerTurn().addTechnology(technology);
                     GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
                     return "your research project is finished";
-                }
-                else return "your research project has started";
+                } else return "your research project has started";
             }
         } return "not a valid technology type";
     }
@@ -190,7 +189,7 @@ public class CivilizationController {
         GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
         return "your research project has stopped";
     }
-
+    // info panel ------------------------------------------------
     public String InfoPanel(){
         StringBuilder output = new StringBuilder();
         output.append("------------- INFO PANEL -------------\n");

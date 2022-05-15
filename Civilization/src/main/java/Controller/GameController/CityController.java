@@ -37,19 +37,31 @@ public class CityController {
     }
 
     public String selectCity(Matcher matcher){
+        String name = matcher.group("name");
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        if(x > MapEnum.MAPWIDTH.amount -1 || y > MapEnum.MAPHEIGHT.amount -1) return "invalid coordinates";
+        if (x > MapEnum.MAPWIDTH.amount - 1 || y > MapEnum.MAPHEIGHT.amount - 1) return "invalid coordinates";
         Civilization civilization;
-        if(( civilization = MapFunctions.getInstance().getTile(x, y).getCivilization()) == null) return "this tile does not belong to anyone";
-        if(civilization != GameController.getInstance().getPlayerTurn()) return "this tile does not belong to your civilization";
+        if ((civilization = MapFunctions.getInstance().getTile(x, y).getCivilization()) == null)
+            return "this tile does not belong to anyone";
+        if (civilization != GameController.getInstance().getPlayerTurn())
+            return "this tile does not belong to your civilization";
         ArrayList<City> playerCities = GameController.getInstance().getPlayerTurn().getCities();
-        if(playerCities == null) return "no cities on your civilization";
-        for(City city : playerCities){
-            if(Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))){
-                GameController.getInstance().setSelectedCity(city);
-                return "city selected :" + cityOutput();
+        if (playerCities == null) return "no cities on your civilization";
+        if(name == null) {
+            for (City city : playerCities) {
+                if (Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))) {
+                    GameController.getInstance().setSelectedCity(city);
+                    return "city selected :" + cityOutput();
 
+                }
+            }
+        } else if(name != null){
+            for (City city : playerCities){
+                if(name.equals(city.getName())){
+                    GameController.getInstance().setSelectedCity(city);
+                    return "city selected :" + cityOutput();
+                }
             }
         }
         return "city not found";
@@ -223,8 +235,8 @@ public class CityController {
                 unitTypesCanBeBuilt.add(unitType);
             }
         }
-        removeBuiltUnits(unitTypesCanBeBuilt);
         if(unitTypesCanBeBuilt.size() == 0) return "this city can not build units now";
+
         GameController.getInstance().getSelectedCity().setUnitsCanBeBuilt(unitTypesCanBeBuilt);
         String returnString  = "your valid units are:" + unitTypesCanBeBuilt.toString();
         String returnString1 = "";
@@ -237,14 +249,6 @@ public class CityController {
         return returnString + (returnString1 == "" ? "\nyour city is not build a unit or a building right now" : returnString1);
     }
 
-    private void removeBuiltUnits(ArrayList<UnitType> validUnitTypes){
-        ArrayList<Unit> UnitsInCity;
-        if((UnitsInCity = GameController.getInstance().getSelectedCity().getUnits()) != null){
-            for (Unit unit : UnitsInCity) {
-                validUnitTypes.remove(unit.getUnitType());
-            }
-        }
-    }
 
     public String chooseUnitType(Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";

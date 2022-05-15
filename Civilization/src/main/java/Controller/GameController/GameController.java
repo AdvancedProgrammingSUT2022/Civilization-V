@@ -113,6 +113,7 @@ public class GameController{
             unit.setUnitType(city.getUnderConstructionUnit());
             city.addUnit(unit);
             city.getCityTiles().get(0).addUnit(unit);
+            unit.setCivilization(city.getCivilization());
             city.setUnderConstructionUnit(null);
             city.setUnitTurn(0);
         }
