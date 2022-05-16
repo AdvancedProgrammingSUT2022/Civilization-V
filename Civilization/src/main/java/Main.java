@@ -2,6 +2,7 @@ import Controller.SavingDataController.UserDataController;
 import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
+import Model.User.User;
 import View.PreGameView.LoginMenuView;
 
 import java.util.ArrayList;
@@ -11,8 +12,9 @@ public class Main {
         ImprovementType improvementType;
         improvementType = ImprovementType.Farm;
         LoginMenuView loginMenuView = new LoginMenuView();
+        UserDataController.loadUsers();
         loginMenuView.run();
-        UserDataController.getInstance().saveGame();
+        UserDataController.getInstance().saveUsers();
     }
 }
 /*

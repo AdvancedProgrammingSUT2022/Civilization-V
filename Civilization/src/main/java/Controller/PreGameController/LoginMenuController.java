@@ -13,7 +13,9 @@ public class LoginMenuController extends Controller{
     public static ArrayList<User> getUsers() {
         return users;
     }
-
+    public static void setUsers(ArrayList<User> createdUsers){
+        users = createdUsers;
+    }
     public static User getLoggedInUser() {
         return loggedInUser;
     }

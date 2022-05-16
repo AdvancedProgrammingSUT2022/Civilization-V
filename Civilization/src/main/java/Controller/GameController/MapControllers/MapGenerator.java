@@ -225,7 +225,6 @@ public class MapGenerator {
             UnitController.getInstance().makeUnit(UnitType.Warrior,civilization,warriorDeploy);
         }
         GameController.getInstance().setPlayerTurn(GameMap.getInstance().getCivilizations().get(0));
-        UserDataController.getInstance().saveGame();
-
+//        UserDataController.getInstance().saveGame();
     }
 }

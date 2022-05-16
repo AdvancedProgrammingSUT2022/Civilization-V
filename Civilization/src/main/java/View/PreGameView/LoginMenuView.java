@@ -31,4 +31,8 @@ public class LoginMenuView extends Menu{
         commandsMap.put(regex.enterMenu,enterMenu);
         return commandsMap;
     }
+
+    public LoginMenuController getLoginController() {
+        return loginController;
+    }
 }
