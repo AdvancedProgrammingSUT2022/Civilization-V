@@ -1,5 +1,7 @@
 package Model.Units.NonCombat;
 
+import Controller.GameController.GameController;
+import Controller.GameController.UnitController;
 import Model.CivlizationRelated.Civilization;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
@@ -7,6 +9,8 @@ import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Improvement.ImprovementType;
+import Model.TileRelated.Road.Road;
+import Model.TileRelated.Road.RoadType;
 import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
@@ -16,7 +20,6 @@ public class Worker extends NonCombat {
     public Worker(Civilization civilization, Tile tile) {
         super(civilization, tile, UnitType.Worker);
     }
-
 
     public String buildImprovement(ImprovementType improvement){
         if(tile.getImprovement() != null)return"there is an improvement here!";
@@ -62,7 +65,73 @@ public class Worker extends NonCombat {
         tile.setImprovement(newImprovement);
         civilization.addImprovementUnderConstruction(newImprovement);
         movementsLeft = 0;
+        GameController.getInstance().setSelectedUnit(null);
         return "construction has been started!";
+    }
+
+
+    public String stop(){
+        if(tile.getImprovement() != null && tile.getImprovement().getWorker() != null){
+            tile.getImprovement().setWorker(null);
+            return "action has stopped";
+        }
+        else if(tile.getRoad() != null && tile.getRoad().getWorker() != null){
+            tile.getRoad().setWorker(null);
+            return "action has stopped";
+        }
+        else return "no action to stop!";
+    }
+
+    public String resumeBuildingOrRepairOfImprovements(){
+        if(tile.getImprovement() == null)return "no improvement here!";
+        if(tile.getImprovement().getWorker() != null)return "already being worked on";
+        if(tile.getImprovement().getDaysToComplete() == 0 && !tile.getImprovement().isRuined())return "improvement is working properly!";
+        tile.getImprovement().setWorker(this);
+        if(tile.getImprovement().isRuined()){
+            tile.getImprovement().setRuined(false);
+            tile.getImprovement().changeDaysToComplete(3);
+        }
+        civilization.addImprovementUnderConstruction(tile.getImprovement());
+        movementsLeft = 0;
+        GameController.getInstance().setSelectedUnit(null);
+        return "construction resumed";
+    }
+
+    public String buildRoad(RoadType roadType){
+        if(tile.getRoad() != null)return"there is already a road here!";
+        if(tile.isCapital())return "you can't build roads on your city center";
+        if(!civilization.hasTechnology(roadType.PrerequisiteTechnology))return "you don't have access to the required technology";
+        Road road = new Road(roadType,3,civilization);
+        road.setWorker(this);
+        tile.setRoad(road);
+        civilization.addRoadUnderConstruction(road);
+        movementsLeft = 0;
+        GameController.getInstance().setSelectedUnit(null);
+        return "construction has been started!";
+    }
+
+    public String resumeBuildingOrRepairOfRoads(){
+        if(tile.getRoad() == null)return "no road here!";
+        if(tile.getRoad().getWorker() != null)return "already being worked on";
+        if(tile.getRoad().getDaysToComplete() == 0 && !tile.getRoad().isRuined())return "road is working properly!";
+        tile.getRoad().setWorker(this);
+        if(tile.getRoad().isRuined()){
+            tile.getRoad().setRuined(false);
+            tile.getRoad().changeDaysToComplete(3);
+        }
+        civilization.addRoadUnderConstruction(tile.getRoad());
+        movementsLeft = 0;
+        GameController.getInstance().setSelectedUnit(null);
+        return "construction resumed";
+    }
+
+    public String destroyRoad(){
+        if(tile.getRoad() == null)return "no road here!";
+        if(tile.getRoad().getDaysToComplete() == 0 && !tile.getRoad().isRuined())civilization.changeRoadMaintenance(-1);
+        tile.setRoad(null);
+        movementsLeft = 0;
+        GameController.getInstance().setSelectedUnit(null);
+        return "destroyed";
     }
 }
 

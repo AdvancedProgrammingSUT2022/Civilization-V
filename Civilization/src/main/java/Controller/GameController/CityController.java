@@ -79,23 +79,6 @@ public class CityController {
         return GameController.getInstance().getSelectedCity().buyTile(tile);
     }
 
-    public void calculateProducts(Civilization civilization){
-            civilization.setGoldPerTurn(0);
-            civilization.setSciencePerTurn(0);
-            for (City city:civilization.getCities()) {
-                city.calculateProduction();
-                city.calculateSciencePerTurn();
-                city.calculateGold();
-                city.calculateFood();
-                city.populationGrowthAndHunger();
-                city.calculateBuildingBonuses();
-                civilization.changeSciencePerTurn(city.getSciencePerTurn());
-                civilization.changeGoldPerTurn(city.getGoldPerTurn());
-            }
-            civilization.changeGold(civilization.getGoldPerTurn());
-            civilization.checkGoldRunningOut();
-    }
-
     public String showValidBuildingTypes() {
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
         ArrayList<BuildingType> buildingTypesCanBuilt = new ArrayList<BuildingType>();

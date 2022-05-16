@@ -66,8 +66,14 @@ public class Game extends Menu{
     private final Consumer<Matcher> pillage = matcher -> System.out.println(UnitController.getInstance().pillage());
     private final Consumer<Matcher> afterCityVictory = matcher -> System.out.println(UnitController.getInstance().changesAfterCityVictory(matcher));
     private final Consumer<Matcher> unlockFirstHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockFirstHalfTechnologies());
-    private final Consumer<Matcher> unlockSecondHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockFirstHalfTechnologies());
+    private final Consumer<Matcher> unlockSecondHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockSecondHalfTechnologies());
     private final Consumer<Matcher> civilizationOutPut = matcher -> System.out.println(GameController.getInstance().civilizationOutPut());
+    private final Consumer<Matcher> stopImprovement = matcher -> System.out.println(UnitController.getInstance().stopWorker());
+    private final Consumer<Matcher> repairOrResumeImprovement = matcher -> System.out.println(UnitController.getInstance().RORImatcher());
+    private final Consumer<Matcher> buildRoad = matcher -> System.out.println(UnitController.getInstance().buildRoadMatcher(matcher));
+    private final Consumer<Matcher> repairOrResumeRoad = matcher -> System.out.println(UnitController.getInstance().RORRmatcher());
+    private final Consumer<Matcher> destroyRoad = matcher -> System.out.println(UnitController.getInstance().destroyRoad());
+
 
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
@@ -130,6 +136,11 @@ public class Game extends Menu{
         commandsMap.put(regex.unlockFirstHalfOfTechnologies,unlockFirstHalfOfTechnologies);
         commandsMap.put(regex.unlockSecondHalfOfTechnologies,unlockSecondHalfOfTechnologies);
         commandsMap.put(regex.civilizationOutPut,civilizationOutPut);
+        commandsMap.put(regex.stopImprovement,stopImprovement);
+        commandsMap.put(regex.buildRoad,buildRoad);
+        commandsMap.put(regex.repairOrResumeImprovement,repairOrResumeImprovement);
+        commandsMap.put(regex.repairOrResumeRoad,repairOrResumeRoad);
+        commandsMap.put(regex.destroyRoad,destroyRoad);
         return commandsMap;
     }
 }

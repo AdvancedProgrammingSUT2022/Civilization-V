@@ -9,6 +9,7 @@ import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.ResourceMainTypes;
 import Model.TileRelated.Resource.ResourceType;
+import Model.TileRelated.Road.Road;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
 import Model.Units.Unit;
@@ -63,8 +64,9 @@ public class GameController{
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheUnitsAndBuildings();
-        CityController.getInstance().calculateProducts(playerTurn);
+        CivilizationController.getInstance().calculateProducts(playerTurn);
         reduceTurnOfImprovements();
+        reduceTurnOfRoads();
         reducingTurnOfTheTechnologies();
         selectedUnit = null;
         selectedCity = null;
@@ -77,6 +79,7 @@ public class GameController{
         for (int i=0;i<Constructions.size() ; i++) {
             if(Constructions.get(i).getWorker() == null)return;
             Constructions.get(i).changeDaysToComplete(-1);
+            Constructions.get(i).getWorker().setMovementsLeft(0);
             if(Constructions.get(i).getDaysToComplete() == 0){
                 Constructions.get(i).setWorker(null);
                 if(Constructions.get(i).getTile().getFeature() != null &&Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Marsh))Constructions.get(i).getTile().setFeature(null);
@@ -92,6 +95,21 @@ public class GameController{
                 }
                 playerTurn.removeFromImprovementsUnderConstruction(Constructions.get(i));
                 i--;
+            }
+        }
+    }
+
+    public void reduceTurnOfRoads(){
+        ArrayList<Road> Constructions = playerTurn.getRoadsUnderConstruction();
+        for (int i=0;i<Constructions.size() ; i++) {
+            if(Constructions.get(i).getWorker() == null)return;
+            Constructions.get(i).changeDaysToComplete(-1);
+            Constructions.get(i).getWorker().setMovementsLeft(0);
+            if(Constructions.get(i).getDaysToComplete() == 0){
+                Constructions.get(i).setWorker(null);
+                playerTurn.removeFromRoadsUnderConstruction(Constructions.get(i));
+                i--;
+                playerTurn.changeRoadMaintenance(1);
             }
         }
     }

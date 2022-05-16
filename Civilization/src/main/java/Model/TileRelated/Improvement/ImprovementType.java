@@ -23,6 +23,7 @@ public enum ImprovementType {
     TradingPost("Gold",8, 1,  new Technology(TechnologyType.Trapping)),
     ManuFactory("Production",7, 2,  new Technology(TechnologyType.Engineering));
 
+
     public final int constructionTime;
     public final int TileYields;
     public final String product;

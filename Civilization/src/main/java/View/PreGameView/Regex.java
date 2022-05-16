@@ -56,6 +56,11 @@ public class Regex {
     public final String civilizationOutPut = "civilization output";
     public final String pillage = "pillage";
     public final String afterCityVictory = "(?<decision>destroy|annex)";
+    public final String stopImprovement = "stop";
+    public final String repairOrResumeImprovement = "repair or resume building improvement";
+    public final String buildRoad = "build road (?<RoadType>\\S+)";
+    public final String repairOrResumeRoad = "repair or resume building road";
+    public final String destroyRoad = "destroy road";
 
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
