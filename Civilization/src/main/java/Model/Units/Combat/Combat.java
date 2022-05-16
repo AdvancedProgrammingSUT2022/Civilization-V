@@ -1,6 +1,4 @@
 package Model.Units.Combat;
-import java.util.Random;
-
 import Controller.GameController.UnitController;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Model.CivlizationRelated.City;

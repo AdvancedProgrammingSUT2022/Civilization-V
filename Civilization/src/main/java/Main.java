@@ -1,18 +1,10 @@
 import Controller.SavingDataController.UserDataController;
-import Model.TileRelated.Improvement.ImprovementType;
-import Model.TileRelated.Resource.ResourceType;
-import Model.TileRelated.Terraine.TerrainType;
-import Model.User.User;
 import View.PreGameView.LoginMenuView;
-
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args){
-        ImprovementType improvementType;
-        improvementType = ImprovementType.Farm;
         LoginMenuView loginMenuView = new LoginMenuView();
-        UserDataController.loadUsers();
+        UserDataController.getInstance().loadUsers();
         loginMenuView.run();
         UserDataController.getInstance().saveUsers();
     }

@@ -1,12 +1,9 @@
 package Controller.GameController.MapControllers;
-
 import Controller.GameController.GameController;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class CheatCode {

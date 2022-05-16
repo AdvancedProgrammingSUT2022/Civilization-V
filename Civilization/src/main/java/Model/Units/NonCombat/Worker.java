@@ -1,13 +1,9 @@
 package Model.Units.NonCombat;
-
 import Model.CivlizationRelated.Civilization;
-import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
-import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Improvement.ImprovementType;
-import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;

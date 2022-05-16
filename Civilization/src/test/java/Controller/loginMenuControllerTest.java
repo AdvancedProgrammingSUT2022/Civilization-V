@@ -1,20 +1,13 @@
 package Controller;
-
 import Controller.PreGameController.LoginMenuController;
 import Model.User.User;
-import View.PreGameView.LoginMenuView;
 import View.PreGameView.Regex;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.mockito.Mockito.when;
-import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,8 +66,8 @@ public class loginMenuControllerTest {
 
    @Test
    public void setLoggedInUserTest(){
-      loginMenuController.setLoggedInUser(user);
-      Assert.assertEquals(user, loginMenuController.getLoggedInUser());
+      LoginMenuController.setLoggedInUser(user);
+      Assert.assertEquals(user, LoginMenuController.getLoggedInUser());
    }
 
    @Test

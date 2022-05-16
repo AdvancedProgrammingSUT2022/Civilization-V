@@ -1,21 +1,12 @@
 package Controller.SavingDataController;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import Controller.GameController.GameController;
 import Controller.PreGameController.LoginMenuController;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import Model.CivlizationRelated.Civilization;
-import Model.MapRelated.GameMap;
 import Model.User.User;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,7 +19,7 @@ public class UserDataController {
         return userDataController;
     }
 
-    public static void loadUsers() {
+    public void loadUsers() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
             ArrayList<User> createdUsers;
@@ -41,7 +32,7 @@ public class UserDataController {
             e.printStackTrace();
         }
     }
-    public static void saveUsers() {
+    public void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
             fileWriter.write(new Gson().toJson(LoginMenuController.getUsers()));

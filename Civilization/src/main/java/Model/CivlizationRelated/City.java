@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import Controller.GameController.MapControllers.MapFunctions;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
-import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Terraine.TerrainType;
@@ -11,7 +10,6 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
-import Model.Units.Combat.Ranged;
 
 public class City {
     private String name;

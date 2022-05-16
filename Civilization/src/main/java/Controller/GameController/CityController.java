@@ -10,10 +10,6 @@ import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Tile.Tile;
-import Model.Units.Combat.Ranged;
-import Model.Units.Combat.Siege;
-import Model.Units.NonCombat.NonCombat;
-import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import java.util.ArrayList;
@@ -328,7 +324,6 @@ public class CityController {
 
 
     private void buildUnit(){
-        Civilization civilization = GameController.getInstance().getSelectedCity().getCivilization();
         Tile tile = GameController.getInstance().getSelectedCity().getCityTiles().get(0);
         UnitController.getInstance().makeUnit(selectedUnitType, GameController.getInstance().getPlayerTurn(), tile);
         need();

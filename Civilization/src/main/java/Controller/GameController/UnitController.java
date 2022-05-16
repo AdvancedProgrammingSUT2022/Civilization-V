@@ -20,7 +20,6 @@ import Model.Units.NonCombat.NonCombat;
 import Model.Units.NonCombat.Settler;
 import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.UnitType;
-import View.GameView.Game;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;

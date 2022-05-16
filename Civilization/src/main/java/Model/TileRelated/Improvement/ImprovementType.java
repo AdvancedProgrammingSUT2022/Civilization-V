@@ -2,11 +2,8 @@ package Model.TileRelated.Improvement;
 
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
-import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
-import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
-import Model.TileRelated.Terraine.Terrain;
 import Model.TileRelated.Terraine.TerrainType;
 import java.util.ArrayList;
 
