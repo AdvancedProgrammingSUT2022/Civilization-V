@@ -10,9 +10,15 @@ import java.util.regex.Pattern;
 import Controller.Controller.Controller;
 
 public class MainMenuController extends Controller{
-
+    private static MainMenuController mainMenuController;
+    private MainMenuController(){}
+    public static MainMenuController getInstance(){
+        if(mainMenuController == null)
+            mainMenuController = new MainMenuController();
+        return mainMenuController;
+    }
     public String userLogout(){
-        LoginMenuController.setLoggedInUser(null);
+        LoginMenuController.getInstance().setLoggedInUser(null);
         return "user logged out successfully!";
     }
 
@@ -30,7 +36,7 @@ public class MainMenuController extends Controller{
             String username;
             if((username = numbers.get(t)) == null)return "player numbers are not valid";
             boolean playerExists = false;
-            for (User key:LoginMenuController.getUsers()) {
+            for (User key:LoginMenuController.getInstance().getUsers()) {
                 if(key.getUsername().equals(username)){
                     playerExists = true;
                     for (User key2:players) {

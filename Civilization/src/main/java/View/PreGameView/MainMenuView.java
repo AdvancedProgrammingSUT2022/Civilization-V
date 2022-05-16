@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
 public class MainMenuView extends Menu {
-    private MainMenuController mainMenuController = new MainMenuController();
+    private MainMenuController mainMenuController = MainMenuController.getInstance();
 
     private final Consumer<Matcher> logout = matcher -> {
         System.out.println(mainMenuController.userLogout());

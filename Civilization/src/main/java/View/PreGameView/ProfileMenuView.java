@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
 public class ProfileMenuView extends Menu{
-    private ProfileMenuController profileMenuController = new ProfileMenuController();
+    private ProfileMenuController profileMenuController = ProfileMenuController.getInstance();
 
     private final Consumer<Matcher> showMenu = matcher -> System.out.println(profileMenuController.showCurrentMenu());
     private final Consumer<Matcher> enterMenu = matcher -> System.out.println(profileMenuController.enterMenu(matcher));

@@ -7,21 +7,28 @@ import Controller.Controller.Controller;
 import Model.User.User;
 
 public class LoginMenuController extends Controller{
-    private static ArrayList<User> users = new ArrayList<>();
-    private static User loggedInUser;
+    private static LoginMenuController loginMenuController;
+    private LoginMenuController(){}
+    public static LoginMenuController getInstance(){
+        if(loginMenuController == null)
+            loginMenuController = new LoginMenuController();
+        return loginMenuController;
+    }
+    private ArrayList<User> users = new ArrayList<>();
+    private  User loggedInUser;
 
-    public static ArrayList<User> getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
-    public static void setUsers(ArrayList<User> createdUsers){
+    public void setUsers(ArrayList<User> createdUsers){
         users = createdUsers;
     }
-    public static User getLoggedInUser() {
+    public User getLoggedInUser() {
         return loggedInUser;
     }
 
-    public static void setLoggedInUser(User loggedInUser) {
-        LoginMenuController.loggedInUser = loggedInUser;
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
 
     public String register(Matcher matcher){
@@ -65,9 +72,5 @@ public class LoginMenuController extends Controller{
         if(loggedInUser == null)return "please login first";
         if(matcher.group("menu").equals("Main_Menu"))return "done!";
         return "menu navigation is not possible";
-    }
-
-    public String checkEnterMenuErrors(String menu){
-        return "";
     }
 }

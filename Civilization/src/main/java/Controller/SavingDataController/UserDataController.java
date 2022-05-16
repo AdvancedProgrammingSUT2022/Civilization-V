@@ -26,7 +26,7 @@ public class UserDataController {
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
-                LoginMenuController.setUsers(createdUsers);
+                LoginMenuController.getInstance().setUsers(createdUsers);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class UserDataController {
     public void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            fileWriter.write(new Gson().toJson(LoginMenuController.getUsers()));
+            fileWriter.write(new Gson().toJson(LoginMenuController.getInstance().getUsers()));
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

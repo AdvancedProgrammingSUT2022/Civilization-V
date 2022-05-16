@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
 public class LoginMenuView extends Menu{
-    private LoginMenuController loginController = new LoginMenuController();
+    private LoginMenuController loginController = LoginMenuController.getInstance();
 
     private final Consumer<Matcher> register = matcher -> System.out.println(loginController.register(matcher));
     private final Consumer<Matcher> login = matcher ->  System.out.println(loginController.login(matcher));
