@@ -56,7 +56,6 @@ public class Regex {
     public final String civilizationOutPut = "civilization output";
     public final String pillage = "pillage";
     public final String afterCityVictory = "(?<decision>destroy|annex)";
-
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
     public final String cheatHappinessIncrease = "cheat increase happiness by (?<amount>-?\\d+)";
