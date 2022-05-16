@@ -219,4 +219,7 @@ public class GameController{
     public String deleteUnit(){
         return UnitController.getInstance().removeUnitFromGame(selectedUnit);
     }
+    public char[] wake() {
+        return null;
+    }
 }

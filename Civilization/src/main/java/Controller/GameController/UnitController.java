@@ -20,6 +20,7 @@ import Model.Units.NonCombat.NonCombat;
 import Model.Units.NonCombat.Settler;
 import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.UnitType;
+import View.GameView.Game;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;
@@ -71,7 +72,8 @@ public class UnitController {
         Graph graph = new Graph(GameMap.getInstance().getInitialGraph());
         graph = Movement.getInstance().calculateShortestPathFromSource(graph,graph.getNode(origin));
         GameController.getInstance().getSelectedUnit().setPath(graph.getNode(destination).getShortestPath());
-        GameController.getInstance().getSelectedUnit().getPath().remove(0);
+        if(GameController.getInstance().getSelectedUnit().getPath().size() > 0)
+            GameController.getInstance().getSelectedUnit().getPath().remove(0);
         GameController.getInstance().getSelectedUnit().addNodeToPath(graph.getNode(destination));
     }
 
@@ -96,7 +98,7 @@ public class UnitController {
             return "tile contains a unit that isnt from your civilization";
         else if(destination.getTerrain().equals(TerrainType.Ocean) ||
                 destination.getTerrain().equals(TerrainType.Mountain) ||
-                destination.isCapital() ||
+                (destination.isCapital() && (destination.getCivilization() != GameController.getInstance().getSelectedUnit().getCivilization())) ||
                 (destination.getFeature() != null && destination.getFeature().getFeatureType().equals(FeatureType.Ice))){
                     return "destination is invalid.";   
         }
@@ -639,6 +641,32 @@ public class UnitController {
             return "unit is in its own civilization";    
         if(GameController.getInstance().getSelectedUnit().getTile().getImprovement() == null)
             return "tile does not contain an improvement"; 
+        return null;
+    }
+    public String garrisonUnit() {
+        String errorMassege;
+        if((errorMassege = garrisonUnitErrors()) != null)
+            return errorMassege;
+        City garrisonCity = new City(GameController.getInstance().getSelectedUnit().getCivilization());
+        for (City city : GameController.getInstance().getPlayerTurn().getCities()) {
+            if(city.getTile() == ((Combat)GameController.getInstance().getSelectedUnit()).getTile())
+                garrisonCity = city; 
+        }
+        garrisonCity.setGarrisonUnit(GameController.getInstance().getSelectedUnit());
+        return "unit garrissoned successfully";
+    }
+    private String garrisonUnitErrors() {
+        boolean isOnACity = false;
+        if(GameController.getInstance().getSelectedUnit() == null)
+            return "unit is not selected";
+        if((GameController.getInstance().getSelectedUnit() instanceof Combat) == false )
+            return "unit cannot be garrisonned";
+        for (City city : GameController.getInstance().getPlayerTurn().getCities()) {
+            if(city.getTile() == ((Combat)GameController.getInstance().getSelectedUnit()).getTile())
+                isOnACity = true;
+        }
+        if(isOnACity == false)
+            return "unit is not on a city tile";
         return null;
     }
 }

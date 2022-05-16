@@ -20,10 +20,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
     private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
-    private final Consumer<Matcher> info = matcher -> System.out.println();
     private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
-    private final Consumer<Matcher> showMap = matcher -> System.out.println();
-    private final Consumer<Matcher> moveMap = matcher -> System.out.println();
     private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher)); // Arash changes
     private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // Arash changes
     private final Consumer<Matcher> nowOrPerTurns = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurns(matcher)); // Arash changes
@@ -38,18 +35,17 @@ public class Game extends Menu{
     private final Consumer<Matcher> cancelResearchProject = matcher -> System.out.println(CivilizationController.getInstance().cancelResearchProject());// Arash changes technology
     private final Consumer<Matcher> changeCityConstruction = matcher -> System.out.println(CityController.getInstance().changeConstruction(matcher)); // Arash changes
     private final Consumer<Matcher> showInfoPanel = matcher -> System.out.println(CivilizationController.getInstance().InfoPanel()); // Arash changes
-    private final Consumer<Matcher> sleep = matcher -> System.out.println();
-    private final Consumer<Matcher> alert = matcher -> System.out.println();
-    private final Consumer<Matcher> fortify = matcher -> System.out.println();
-    private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println();
-    private final Consumer<Matcher> garrison = matcher -> System.out.println();
-    private final Consumer<Matcher> setup = matcher -> System.out.println();
+    private final Consumer<Matcher> sleep = matcher -> System.out.println(UnitController.getInstance().sleep());//
+    private final Consumer<Matcher> alert = matcher -> System.out.println(UnitController.getInstance().alert());//
+    private final Consumer<Matcher> fortify = matcher -> System.out.println(UnitController.getInstance().fortify());//
+    private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println(UnitController.getInstance().fortifyUntilHealed());//
+    private final Consumer<Matcher> garrison = matcher -> System.out.println(UnitController.getInstance().garrisonUnit());//
     private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity(matcher));
     private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
     private final Consumer<Matcher> cityAttack = matcher -> System.out.println(UnitController.getInstance().cityUnitAttack(matcher));
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
-    private final Consumer<Matcher> wake = matcher -> System.out.println();
-    private final Consumer<Matcher> delete = matcher -> System.out.println(GameController.getInstance().deleteUnit());
+    private final Consumer<Matcher> wake = matcher -> System.out.println(GameController.getInstance().wake());//
+    private final Consumer<Matcher> delete = matcher -> System.out.println(GameController.getInstance().deleteUnit());//
     private final Consumer<Matcher> removeObjects = matcher -> System.out.println();
     private final Consumer<Matcher> repair = matcher -> System.out.println();
     private final Consumer<Matcher> buyTile = matcher -> System.out.println(CityController.getInstance().buyTile(matcher));
@@ -82,10 +78,7 @@ public class Game extends Menu{
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
         commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
-        commandsMap.put(regex.info,info);
         commandsMap.put(regex.selectCity,selectCity);
-        commandsMap.put(regex.showMap,showMap);
-        commandsMap.put(regex.moveMap,moveMap);
         commandsMap.put(regex.build,build); // Arash changes
         commandsMap.put(regex.showValidBuilding, showValidBuildings); // Arash changes
         commandsMap.put(regex.typeOfPayForBuilding, nowOrPerTurns); // Arash changes
@@ -105,7 +98,6 @@ public class Game extends Menu{
         commandsMap.put(regex.fortify,fortify);
         commandsMap.put(regex.fortifyHeal,fortifyHeal);
         commandsMap.put(regex.garrison,garrison);
-        commandsMap.put(regex.setup,setup);
         commandsMap.put(regex.attack,attack);
         commandsMap.put(regex.cityAttack,cityAttack);
         commandsMap.put(regex.foundCity,foundCity);
