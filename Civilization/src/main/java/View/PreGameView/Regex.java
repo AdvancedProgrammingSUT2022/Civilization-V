@@ -73,5 +73,6 @@ public class Regex {
     public final String unlockSecondHalfOfTechnologies = "unlock second half of technologies";
     public final String cheatIncreaseHealthOfALlUnits = "cheat increase health of all units by (?<amount>\\d+)";
     public final String cheatIncreaseXpOfALlUnits = "cheat increase xp of all units by (?<amount>\\d+)";
+    public final String cheatIncreaseIron = "cheat increase iron by (?<amount>\\d+)";
 
 }

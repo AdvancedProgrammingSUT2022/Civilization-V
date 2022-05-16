@@ -63,6 +63,13 @@ public class CheatCode {
         return "cheating is bad but ok";
     }
 
+    public String increaseIron(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("amount"));
+        GameController.getInstance().getPlayerTurn().changeTotalIron(amount);
+        GameController.getInstance().getPlayerTurn().changeCurrentIron(amount);
+        return "done!";
+    }
+
     public String unlockFirstHalfTechnologies(){
         Civilization player = GameController.getInstance().getPlayerTurn();
         player.addTechnology(new Technology(TechnologyType.Agriculture));

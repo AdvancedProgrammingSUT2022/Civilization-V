@@ -385,6 +385,7 @@ public class UnitController {
         return "ranged attack on city successful";
     }
     private void annexCity(Unit attacker,City city) {
+        city.getCivilization().changeGold(-20);
         if(city.getGarrisonUnit() != null)
             removeUnitFromGame(city.getGarrisonUnit());
         city.setCivilization(attacker.getCivilization());
@@ -396,7 +397,10 @@ public class UnitController {
         GameController.getInstance().getSelectedUnit().getTile().getUnits().remove(GameController.getInstance().getSelectedUnit());
         TileVisibilityController.getInstance().changeVision(GameController.getInstance().getSelectedUnit().getTile(), GameController.getInstance().getSelectedUnit().getCivilization().getSeenBy(), 1, 2);
         city.getTile().getUnits().add(GameController.getInstance().getSelectedUnit());
+        attacker.getCivilization().changeGold(20);
+        attacker.getCivilization().changeHappiness(-1);
     }
+
     public double calculateDamageDealtToAttacker(Combat attacker,Combat defender){
         return (calculateDamageDeltToDefendingUnit(attacker, defender) * (1 / CalculateStrengthRatio(attacker,defender)));
  
@@ -410,6 +414,7 @@ public class UnitController {
         finalDefenderDamage = (defender.getMaxDamage() * (bonus + 100) / 100);
         return  finalAttackerDamage / finalDefenderDamage;
     }
+
     private double CalculateStrengthCityRatio(Combat attacker,City city){
         double finalAttackerDamage = (attacker.getMaxDamage() * (calculateBonusesForAttackingUnit(attacker) + 100)) / 100;
         return  finalAttackerDamage / city.calculateMaxCityDamage();

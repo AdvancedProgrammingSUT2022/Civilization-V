@@ -28,7 +28,6 @@ public class Unit {
     public Unit(Civilization civilization, Tile tile, UnitType unitType) {
         this.civilization = civilization;
         this.civilization.addUnit(this);
-        //this.city = city;
         this.tile = tile;
         this.setUnitType(unitType);
         this.setUnitStateType(UnitStateType.NORMAL);

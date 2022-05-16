@@ -75,6 +75,8 @@ public class Game extends Menu{
     private final Consumer<Matcher> clearFeature = matcher -> System.out.println(UnitController.getInstance().clearFeature());
     private final Consumer<Matcher> cheatIncreaseHealthOfALlUnits = matcher -> System.out.println(CheatCode.getInstance().increaseHealthOfUnits(matcher));
     private final Consumer<Matcher> cheatIncreaseXpOfALlUnits = matcher -> System.out.println(CheatCode.getInstance().increaseXpOfUnits(matcher));
+    private final Consumer<Matcher> cheatIncreaseIron = matcher -> System.out.println(CheatCode.getInstance().increaseIron(matcher));
+
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
     }
@@ -143,6 +145,7 @@ public class Game extends Menu{
         commandsMap.put(regex.clearFeature,clearFeature);
         commandsMap.put(regex.cheatIncreaseXpOfALlUnits,cheatIncreaseXpOfALlUnits);
         commandsMap.put(regex.cheatIncreaseHealthOfALlUnits,cheatIncreaseHealthOfALlUnits);
+        commandsMap.put(regex.cheatIncreaseIron,cheatIncreaseIron);
         return commandsMap;
     }
 }
