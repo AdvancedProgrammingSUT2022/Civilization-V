@@ -20,7 +20,6 @@ public class Game extends Menu{
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
     private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
-    private final Consumer<Matcher> info = matcher -> System.out.println();
     private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
     private final Consumer<Matcher> moveMap = matcher -> System.out.println();
@@ -89,7 +88,6 @@ public class Game extends Menu{
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
         commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
-        commandsMap.put(regex.info,info);
         commandsMap.put(regex.selectCity,selectCity);
         commandsMap.put(regex.showMap,showMap);
         commandsMap.put(regex.moveMap,moveMap);

@@ -112,6 +112,9 @@ public class UnitController {
         if((result = checkInitMoveUnitErrors(destinationX, destinationY, MapFunctions.getInstance().getTile(destinationX , destinationY))) != null)
             return result;
         assignPathToUnit(matcher);
+        if(GameController.getInstance().getSelectedUnit() instanceof Worker){
+            ((Worker)GameController.getInstance().getSelectedUnit()).stop();
+        }
         GameController.getInstance().getSelectedUnit().moveUnit();
         GameController.getInstance().setSelectedUnit(null);
         return "moving...";
