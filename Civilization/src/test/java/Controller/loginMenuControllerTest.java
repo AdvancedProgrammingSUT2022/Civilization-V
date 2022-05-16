@@ -97,45 +97,4 @@ public class loginMenuControllerTest {
       Assert.assertEquals(expected, result);
    }
 
-   @Test
-   public void LoginTestThree(){
-      String input = "user login --username Arash --password mio";
-      Matcher matcher = Pattern.compile(regex.login).matcher(input);
-      matcher.find();
-      String expected = "user logged in successfully!";
-      String result = loginMenuController.login(matcher);
-      Assert.assertEquals(expected, result);
-   }
-
-
-   @Test
-   public void registerTestOne(){
-      String input = "user create --username Arash --password hello --nickname Arash";
-      Matcher matcher = Pattern.compile(regex.register).matcher(input);
-      matcher.find();
-      String expected = "user with username Arash already exists";
-      String result = loginMenuController.register(matcher);
-      Assert.assertEquals(expected, result);
-   }
-
-   @Test
-   public void registerTestTwo(){
-      String input = "user create --username sero --password hello --nickname Araash";
-      Matcher matcher = Pattern.compile(regex.register).matcher(input);
-      matcher.find();
-      String expected = "user with nickname Araash already exists";
-      String result = loginMenuController.register(matcher);
-      Assert.assertEquals(expected, result);
-   }
-
-   @Test
-   public void registerTestThree(){
-      String input = "user create --username sero --password chaghal --nickname chaghalllll";
-      Matcher matcher = Pattern.compile(regex.register).matcher(input);
-      matcher.find();
-      String expected = "user created successfully";
-      String result = loginMenuController.register(matcher);
-      Assert.assertEquals(expected, result);
-   }
-
 }
