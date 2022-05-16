@@ -31,6 +31,7 @@ public class Civilization {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private ArrayList<Improvement> improvementsUnderConstruction = new ArrayList<>();
     private ArrayList<Road> roadsUnderConstruction = new ArrayList<>();
+    private ArrayList<Feature> featuresBeingCleared = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
@@ -90,6 +91,16 @@ public class Civilization {
 
     public void addRoadUnderConstruction(Road road){
         roadsUnderConstruction.add(road);
+    }
+
+    public ArrayList<Feature> getFeaturesBeingCleared() {
+        return featuresBeingCleared;
+    }
+    public void addFeaturesBeingCleared(Feature feature){
+        featuresBeingCleared.add(feature);
+    }
+    public void removeFeaturesBeingCleared(Feature feature){
+        featuresBeingCleared.remove(feature);
     }
 
     public void removeFromImprovementsUnderConstruction(Improvement improvement){

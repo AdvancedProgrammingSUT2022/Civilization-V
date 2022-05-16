@@ -73,8 +73,9 @@ public class Game extends Menu{
     private final Consumer<Matcher> buildRoad = matcher -> System.out.println(UnitController.getInstance().buildRoadMatcher(matcher));
     private final Consumer<Matcher> repairOrResumeRoad = matcher -> System.out.println(UnitController.getInstance().RORRmatcher());
     private final Consumer<Matcher> destroyRoad = matcher -> System.out.println(UnitController.getInstance().destroyRoad());
-
-
+    private final Consumer<Matcher> clearFeature = matcher -> System.out.println(UnitController.getInstance().clearFeature());
+    private final Consumer<Matcher> cheatIncreaseHealthOfALlUnits = matcher -> System.out.println(CheatCode.getInstance().increaseHealthOfUnits(matcher));
+    private final Consumer<Matcher> cheatIncreaseXpOfALlUnits = matcher -> System.out.println(CheatCode.getInstance().increaseXpOfUnits(matcher));
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
     }
@@ -141,6 +142,9 @@ public class Game extends Menu{
         commandsMap.put(regex.repairOrResumeImprovement,repairOrResumeImprovement);
         commandsMap.put(regex.repairOrResumeRoad,repairOrResumeRoad);
         commandsMap.put(regex.destroyRoad,destroyRoad);
+        commandsMap.put(regex.clearFeature,clearFeature);
+        commandsMap.put(regex.cheatIncreaseXpOfALlUnits,cheatIncreaseXpOfALlUnits);
+        commandsMap.put(regex.cheatIncreaseHealthOfALlUnits,cheatIncreaseHealthOfALlUnits);
         return commandsMap;
     }
 }

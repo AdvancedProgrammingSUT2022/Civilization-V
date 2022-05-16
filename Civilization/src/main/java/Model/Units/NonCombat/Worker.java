@@ -35,6 +35,7 @@ public class Worker extends NonCombat {
                     break;
                 }
             }
+            if(!properFeature)return "not a proper Feature";
         }
         if(improvement.TerrainCanBeBuiltOn != null) {
             for (TerrainType terrain : improvement.TerrainCanBeBuiltOn) {
@@ -132,6 +133,31 @@ public class Worker extends NonCombat {
         movementsLeft = 0;
         GameController.getInstance().setSelectedUnit(null);
         return "destroyed";
+    }
+
+    public String clearFeature(){
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Jungle)){
+            if(!civilization.hasTechnology(TechnologyType.BronzeWorking))return "you need BronzeWorking technology";
+            tile.getFeature().changeDaysToClear(6);
+            tile.getFeature().setWorker(this);
+            civilization.addFeaturesBeingCleared(tile.getFeature());
+            return "on work";
+        }
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Forest)){
+            if(!civilization.hasTechnology(TechnologyType.Mining))return "you need mining technology";
+            tile.getFeature().changeDaysToClear(3);
+            tile.getFeature().setWorker(this);
+            civilization.addFeaturesBeingCleared(tile.getFeature());
+            return "on work";
+        }
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Marsh)) {
+            if (!civilization.hasTechnology(TechnologyType.Masonry)) return "you need Masonry technology";
+            tile.getFeature().changeDaysToClear(5);
+            tile.getFeature().setWorker(this);
+            civilization.addFeaturesBeingCleared(tile.getFeature());
+            return "on work";
+        }
+        return "no allowed feature";
     }
 }
 

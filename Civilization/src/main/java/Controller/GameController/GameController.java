@@ -5,6 +5,7 @@ import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
+import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.ResourceMainTypes;
@@ -66,12 +67,33 @@ public class GameController{
         reducingTurnOfTheUnitsAndBuildings();
         CivilizationController.getInstance().calculateProducts(playerTurn);
         reduceTurnOfImprovements();
+        reduceTurnOfFeaturesBeingCleared();
         reduceTurnOfRoads();
         reducingTurnOfTheTechnologies();
         selectedUnit = null;
         selectedCity = null;
+        // graph init is a heavy method
+        GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
         if(playerTurn.equals(this.map.getCivilizations().get(0))) turn++;
         return "next player turn!";
+    }
+
+
+    public void reduceTurnOfFeaturesBeingCleared(){
+        ArrayList<Feature> Constructions = playerTurn.getFeaturesBeingCleared();
+        for (int i=0;i<Constructions.size() ; i++) {
+            if(Constructions.get(i).getWorker() == null)return;
+            Constructions.get(i).changeDaysToClear(-1);
+            Constructions.get(i).getWorker().setMovementsLeft(0);
+            if(Constructions.get(i).getDaysToClear() == 0){
+                if(Constructions.get(i) != null &&Constructions.get(i).getFeatureType().equals(FeatureType.Marsh))Constructions.get(i).getWorker().getTile().setFeature(null);
+                if(Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Jungle))Constructions.get(i).getWorker().getTile().setFeature(null);
+                if(Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Forest))Constructions.get(i).getWorker().getTile().setFeature(null);
+                Constructions.get(i).setWorker(null);
+                playerTurn.removeFeaturesBeingCleared(Constructions.get(i));
+                i--;
+            }
+        }
     }
 
     public void reduceTurnOfImprovements(){
@@ -179,10 +201,6 @@ public class GameController{
             city.setUnitTurn(turn);
         }
         if(city.getUnderConstructionUnit() != null && city.getUnitTurn() == 0){
-//            Unit unit = new Unit();
-//            unit.setUnitType(city.getUnderConstructionUnit());
-//            city.addUnit(unit);
-//            city.getCityTiles().get(0).addUnit(unit);
             UnitController.getInstance().makeUnit(city.getUnderConstructionUnit(),city.getCivilization(),city.getCityTiles().get(0));
             city.setUnderConstructionUnit(null);
             city.setUnitTurn(0);

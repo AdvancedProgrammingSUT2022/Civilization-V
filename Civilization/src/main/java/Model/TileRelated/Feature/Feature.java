@@ -1,14 +1,14 @@
 package Model.TileRelated.Feature;
 
 import Model.TileRelated.Resource.Resource;
+import Model.Units.NonCombat.Worker;
 
 import java.util.ArrayList;
 
 public class Feature {
-    public int mpCost;
-    public int defenseBonus;
-    public ArrayList<Resource> possibleResources;
     private FeatureType featureType;
+    private Worker worker;
+    private int daysToClear;
     public Feature(FeatureType featureType){
         this.setFeatureType(featureType);
     }
@@ -18,5 +18,21 @@ public class Feature {
     }
     public void setFeatureType(FeatureType featureType) {
         this.featureType = featureType;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public int getDaysToClear() {
+        return daysToClear;
+    }
+
+    public void changeDaysToClear(int daysToClear) {
+        this.daysToClear += daysToClear;
+    }
+
+    public Worker getWorker() {
+        return worker;
     }
 }

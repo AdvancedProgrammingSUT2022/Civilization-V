@@ -61,6 +61,7 @@ public class Regex {
     public final String buildRoad = "build road (?<RoadType>\\S+)";
     public final String repairOrResumeRoad = "repair or resume building road";
     public final String destroyRoad = "destroy road";
+    public final String clearFeature = "clear Feature";
 
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
@@ -71,5 +72,7 @@ public class Regex {
     public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
     public final String unlockFirstHalfOfTechnologies = "unlock first half of technologies";
     public final String unlockSecondHalfOfTechnologies = "unlock second half of technologies";
+    public final String cheatIncreaseHealthOfALlUnits = "cheat increase health of all units by (?<amount>\\d+)";
+    public final String cheatIncreaseXpOfALlUnits = "cheat increase xp of all units by (?<amount>\\d+)";
 
 }
