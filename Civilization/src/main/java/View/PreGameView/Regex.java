@@ -2,12 +2,16 @@ package View.PreGameView;
 
 public class Regex {
     public final String register = "user create (?=.*--username (?<username>\\S+))(?=.*--password (?<password>\\S+))(?=.*--nickname (?<nickname>\\S+))";
+    public final String register2 = "user create (?=.*--u (?<username>\\S+))(?=.*--p (?<password>\\S+))(?=.*--n (?<nickname>\\S+))";
     public final String login = "user login (?=.*--username (?<username>\\S+))(?=.*--password (?<password>\\S+))";
+    public final String login2 = "user login (?=.*--u (?<username>\\S+))(?=.*--p (?<password>\\S+))";
     public final String logout = "user logout";
     public final String changeNickName = "profile change --nickname (?<nickname>\\S+)";
+    public final String changeNickName2 = "profile change --n (?<nickname>\\S+)";
     public final String showMenu = "menu show-current";
     public final String enterMenu = "menu enter (?<menu>\\S+)";
     public final String changePass = "profile change --password (?=.*--current (?<current>\\S+))(?=.*--new (?<new>\\S+))";
+    public final String changePass2 = "profile change --p (?=.*--c (?<current>\\S+))(?=.*--n (?<new>\\S+))";
     public final String startGame = "^play game (?<playerData>.+)$";
     //game
     public final String printMap = "print map";

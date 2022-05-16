@@ -21,7 +21,9 @@ public class ProfileMenuView extends Menu{
         commandsMap.put(regex.showMenu,this.showMenu);
         commandsMap.put(regex.enterMenu,enterMenu);
         commandsMap.put(regex.changeNickName,changeNickName);
+        commandsMap.put(regex.changeNickName2,changeNickName);
         commandsMap.put(regex.changePass,changePassword);
+        commandsMap.put(regex.changePass2,changePassword);
         return commandsMap;
     }
 }

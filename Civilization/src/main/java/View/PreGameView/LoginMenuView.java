@@ -35,7 +35,9 @@ public class LoginMenuView extends Menu{
         Regex regex = new Regex();
         HashMap<String, Consumer<Matcher>> commandsMap = new HashMap<>();
         commandsMap.put(regex.register,this.register);
+        commandsMap.put(regex.register2,this.register);
         commandsMap.put(regex.login,this.login);
+        commandsMap.put(regex.login2,this.login);
         commandsMap.put(regex.showMenu,this.showMenu);
         commandsMap.put(regex.enterMenu,enterMenu);
         return commandsMap;
