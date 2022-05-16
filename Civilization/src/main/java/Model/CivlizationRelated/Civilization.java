@@ -9,6 +9,7 @@ import Model.TileRelated.Improvement.Improvement;
 import Model.Technology.Technology;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
+import Model.TileRelated.Road.Road;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 import Model.User.User;
@@ -26,8 +27,11 @@ public class Civilization {
     private int currentHorses;
     private int totalIron;
     private int currentIron;
+    private int roadMaintenance;
     private ArrayList<Tile> tiles = new ArrayList<>();
     private ArrayList<Improvement> improvementsUnderConstruction = new ArrayList<>();
+    private ArrayList<Road> roadsUnderConstruction = new ArrayList<>();
+    private ArrayList<Feature> featuresBeingCleared = new ArrayList<>();
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
@@ -45,6 +49,13 @@ public class Civilization {
 
     public ArrayList<ResourceType> getFoundedLuxuryRecourses() {
         return foundedLuxuryRecourses;
+    }
+
+    public int getRoadMaintenance() {
+        return roadMaintenance;
+    }
+    public void changeRoadMaintenance(int amount){
+        roadMaintenance += amount;
     }
 
     public void addLuxuryRecourse(ResourceType resourceType){
@@ -70,12 +81,34 @@ public class Civilization {
         return improvementsUnderConstruction;
     }
 
+    public ArrayList<Road> getRoadsUnderConstruction() {
+        return roadsUnderConstruction;
+    }
+
     public void addImprovementUnderConstruction(Improvement improvement){
         improvementsUnderConstruction.add(improvement);
     }
 
+    public void addRoadUnderConstruction(Road road){
+        roadsUnderConstruction.add(road);
+    }
+
+    public ArrayList<Feature> getFeaturesBeingCleared() {
+        return featuresBeingCleared;
+    }
+    public void addFeaturesBeingCleared(Feature feature){
+        featuresBeingCleared.add(feature);
+    }
+    public void removeFeaturesBeingCleared(Feature feature){
+        featuresBeingCleared.remove(feature);
+    }
+
     public void removeFromImprovementsUnderConstruction(Improvement improvement){
         improvementsUnderConstruction.remove(improvement);
+    }
+
+    public void removeFromRoadsUnderConstruction(Road road){
+        roadsUnderConstruction.remove(road);
     }
 
     public boolean hasTechnology(TechnologyType givenTechnology){

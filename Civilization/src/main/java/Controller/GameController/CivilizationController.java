@@ -324,5 +324,21 @@ public class CivilizationController {
             stringBuilder.append("no cities\n");
         }
     }
-
+    public void calculateProducts(Civilization civilization){
+        civilization.setGoldPerTurn(0);
+        civilization.setSciencePerTurn(0);
+        for (City city:civilization.getCities()) {
+            city.calculateProduction();
+            city.calculateSciencePerTurn();
+            city.calculateGold();
+            city.calculateFood();
+            city.populationGrowthAndHunger();
+            city.calculateBuildingBonuses();
+            civilization.changeSciencePerTurn(city.getSciencePerTurn());
+            civilization.changeGoldPerTurn(city.getGoldPerTurn());
+        }
+        civilization.changeGoldPerTurn(-1 * civilization.getRoadMaintenance());
+        civilization.changeGold(civilization.getGoldPerTurn());
+        civilization.checkGoldRunningOut();
+    }
 }

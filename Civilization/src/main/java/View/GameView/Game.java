@@ -20,7 +20,6 @@ public class Game extends Menu{
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
     private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
-    private final Consumer<Matcher> info = matcher -> System.out.println();
     private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> showMap = matcher -> System.out.println();
     private final Consumer<Matcher> moveMap = matcher -> System.out.println();
@@ -66,9 +65,16 @@ public class Game extends Menu{
     private final Consumer<Matcher> pillage = matcher -> System.out.println(UnitController.getInstance().pillage());
     private final Consumer<Matcher> afterCityVictory = matcher -> System.out.println(UnitController.getInstance().changesAfterCityVictory(matcher));
     private final Consumer<Matcher> unlockFirstHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockFirstHalfTechnologies());
-    private final Consumer<Matcher> unlockSecondHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockFirstHalfTechnologies());
+    private final Consumer<Matcher> unlockSecondHalfOfTechnologies = matcher -> System.out.println(CheatCode.getInstance().unlockSecondHalfTechnologies());
     private final Consumer<Matcher> civilizationOutPut = matcher -> System.out.println(GameController.getInstance().civilizationOutPut());
-
+    private final Consumer<Matcher> stopImprovement = matcher -> System.out.println(UnitController.getInstance().stopWorker());
+    private final Consumer<Matcher> repairOrResumeImprovement = matcher -> System.out.println(UnitController.getInstance().RORImatcher());
+    private final Consumer<Matcher> buildRoad = matcher -> System.out.println(UnitController.getInstance().buildRoadMatcher(matcher));
+    private final Consumer<Matcher> repairOrResumeRoad = matcher -> System.out.println(UnitController.getInstance().RORRmatcher());
+    private final Consumer<Matcher> destroyRoad = matcher -> System.out.println(UnitController.getInstance().destroyRoad());
+    private final Consumer<Matcher> clearFeature = matcher -> System.out.println(UnitController.getInstance().clearFeature());
+    private final Consumer<Matcher> cheatIncreaseHealthOfALlUnits = matcher -> System.out.println(CheatCode.getInstance().increaseHealthOfUnits(matcher));
+    private final Consumer<Matcher> cheatIncreaseXpOfALlUnits = matcher -> System.out.println(CheatCode.getInstance().increaseXpOfUnits(matcher));
     public Game(ArrayList<User> players){
         gameController.gameInit(players);
     }
@@ -82,7 +88,6 @@ public class Game extends Menu{
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
         commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
-        commandsMap.put(regex.info,info);
         commandsMap.put(regex.selectCity,selectCity);
         commandsMap.put(regex.showMap,showMap);
         commandsMap.put(regex.moveMap,moveMap);
@@ -130,6 +135,14 @@ public class Game extends Menu{
         commandsMap.put(regex.unlockFirstHalfOfTechnologies,unlockFirstHalfOfTechnologies);
         commandsMap.put(regex.unlockSecondHalfOfTechnologies,unlockSecondHalfOfTechnologies);
         commandsMap.put(regex.civilizationOutPut,civilizationOutPut);
+        commandsMap.put(regex.stopImprovement,stopImprovement);
+        commandsMap.put(regex.buildRoad,buildRoad);
+        commandsMap.put(regex.repairOrResumeImprovement,repairOrResumeImprovement);
+        commandsMap.put(regex.repairOrResumeRoad,repairOrResumeRoad);
+        commandsMap.put(regex.destroyRoad,destroyRoad);
+        commandsMap.put(regex.clearFeature,clearFeature);
+        commandsMap.put(regex.cheatIncreaseXpOfALlUnits,cheatIncreaseXpOfALlUnits);
+        commandsMap.put(regex.cheatIncreaseHealthOfALlUnits,cheatIncreaseHealthOfALlUnits);
         return commandsMap;
     }
 }

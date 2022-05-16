@@ -15,7 +15,6 @@ public class Regex {
     public final String getPlayerName = "get player name";
     public final String selectUnit = "select (?<type>(combat)|(civil)) unit (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String moveUnit = "move unit to (?=.*--y (?<destinationY>\\d+))(?=.*--x (?<destinationX>\\d+))";
-    public final String info = "show info (?<type>RESEARCH|UNITS|CITIES|DIPLOMACY|VICTORY|DEMOGRAPHICS|NOTIFICATIONS|MILITARY|ECONOMIC|DIPLOMATIC|DEALS)";
     public final String selectCity = "select city ((--name (?<name>\\S+))|((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))))";
     public final String showMap = "show map ((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))|(--cityName (?<cityName>\\S+))";
     public final String moveMap  = "move map (?=.*--direction (?<direction>RIGHT|LEFT|UP|DOWN))(?=.*--amount (?<amount>\\d+))";
@@ -56,6 +55,13 @@ public class Regex {
     public final String civilizationOutPut = "civilization output";
     public final String pillage = "pillage";
     public final String afterCityVictory = "(?<decision>destroy|annex)";
+    public final String stopImprovement = "stop";
+    public final String repairOrResumeImprovement = "repair or resume building improvement";
+    public final String buildRoad = "build road (?<RoadType>\\S+)";
+    public final String repairOrResumeRoad = "repair or resume building road";
+    public final String destroyRoad = "destroy road";
+    public final String clearFeature = "clear Feature";
+
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
     public final String cheatHappinessIncrease = "cheat increase happiness by (?<amount>-?\\d+)";
@@ -65,5 +71,7 @@ public class Regex {
     public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
     public final String unlockFirstHalfOfTechnologies = "unlock first half of technologies";
     public final String unlockSecondHalfOfTechnologies = "unlock second half of technologies";
+    public final String cheatIncreaseHealthOfALlUnits = "cheat increase health of all units by (?<amount>\\d+)";
+    public final String cheatIncreaseXpOfALlUnits = "cheat increase xp of all units by (?<amount>\\d+)";
 
 }

@@ -14,6 +14,7 @@ import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.ImprovementType;
+import Model.TileRelated.Road.RoadType;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.NonCombat.NonCombat;
@@ -36,6 +37,7 @@ public class UnitController {
             unitController = new UnitController();
         return unitController;
     }
+
 
     public String selectUnit(Matcher matcher){
         int x = Integer.parseInt(matcher.group("x"));
@@ -80,7 +82,7 @@ public class UnitController {
             return "no selected unit";
         else if(GameController.getInstance().getSelectedUnit().getMovementsLeft() == 0)
             return "no movement left";
-        else if(destinationX > MapEnum.MAPWIDTH.amount - 1 || destinationY > MapEnum.MAPWIDTH.amount - 1)
+        else if(destinationX > MapEnum.MAPWIDTH.amount - 1 || destinationY > MapEnum.MAPHEIGHT.amount - 1)
             return "invalid coordinates";
         else if(MapFunctions.getInstance().getTile(destinationX, destinationY).getUnits().size() != 0 && MapFunctions.getInstance().getTile(destinationX, destinationY).getUnits().get(0).getCivilization() != GameController.getInstance().getSelectedUnit().getCivilization())
             return "tile contains a unit that isnt from your civilization";
@@ -109,6 +111,9 @@ public class UnitController {
         if((result = checkInitMoveUnitErrors(destinationX, destinationY, MapFunctions.getInstance().getTile(destinationX , destinationY))) != null)
             return result;
         assignPathToUnit(matcher);
+        if(GameController.getInstance().getSelectedUnit() instanceof Worker){
+            ((Worker)GameController.getInstance().getSelectedUnit()).stop();
+        }
         GameController.getInstance().getSelectedUnit().moveUnit();
         GameController.getInstance().setSelectedUnit(null);
         return "moving...";
@@ -621,13 +626,71 @@ public class UnitController {
         Worker worker = (Worker) selected;
         return worker.buildImprovement(improvementType);
     }
+
+    public String buildRoadMatcher(Matcher matcher){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        RoadType roadType;
+        if(matcher.group("RoadType").equals("RailWay"))roadType = RoadType.RailWay;
+        else if(matcher.group("RoadType").equals("Road"))roadType = RoadType.Road;
+        else return "not a valid road type";
+        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
+        selected = new Worker(selected.getCivilization(), selected.getTile());
+        Worker worker = (Worker) selected;
+        return worker.buildRoad(roadType);
+    }
+
+    public String stopWorker(){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
+        selected = new Worker(selected.getCivilization(), selected.getTile());
+        Worker worker = (Worker) selected;
+        return worker.stop();
+    }
+
+    public String RORImatcher(){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
+        selected = new Worker(selected.getCivilization(), selected.getTile());
+        Worker worker = (Worker) selected;
+        return worker.resumeBuildingOrRepairOfImprovements();
+    }
+
+    public String RORRmatcher(){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        return ((Worker)selected).resumeBuildingOrRepairOfRoads();
+    }
+
+    public String clearFeature(){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+//        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
+//        selected = new Worker(selected.getCivilization(), selected.getTile());
+//        Worker worker = (Worker) selected;
+        return ((Worker)selected).clearFeature();
+    }
+
+    public String destroyRoad(){
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if(selected == null)return "no unit is selected";
+        if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
+        return ((Worker)selected).destroyRoad();
+    }
+
     public String pillage() {
         String errorMassege;
         if((errorMassege = checkPillageErrors()) != null)
             return errorMassege;
-        GameController.getInstance().getSelectedUnit().getTile().setImprovement(null);
         GameController.getInstance().getSelectedUnit().getTile().getImprovement().setRuined(true);
-        GameController.getInstance().getSelectedUnit().getTile().getResource().setAvailable(false);
+        if(GameController.getInstance().getSelectedUnit().getTile().getResource() != null)GameController.getInstance().getSelectedUnit().getTile().getResource().setAvailable(false);
         return null;
     }
     private String checkPillageErrors() {

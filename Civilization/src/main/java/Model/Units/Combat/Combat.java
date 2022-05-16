@@ -39,7 +39,7 @@ public class Combat extends Unit {
         this.fortifiedTurnCount = fortifiedTurnCount;
     }
 
-    public int getMovementsLeft() {
+    public double getMovementsLeft() {
         return movementsLeft;
     }
 
