@@ -1,8 +1,12 @@
 package Controller.GameController.MapControllers;
 
 import Controller.GameController.GameController;
+import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
+import Model.Technology.Technology;
+import Model.Technology.TechnologyType;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class CheatCode {
@@ -37,6 +41,64 @@ public class CheatCode {
     public String increaseStoredFood (Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
         GameController.getInstance().getSelectedCity().changeStoredFood(Integer.parseInt(matcher.group("amount")));
+        return "done";
+    }
+
+    public String unlockFirstHalfTechnologies(){
+        Civilization player = GameController.getInstance().getPlayerTurn();
+        player.addTechnology(new Technology(TechnologyType.Agriculture));
+        player.addTechnology(new Technology(TechnologyType.AnimalHusbandry));
+        player.addTechnology(new Technology(TechnologyType.Masonry));
+        player.addTechnology(new Technology(TechnologyType.Mining));
+        player.addTechnology(new Technology(TechnologyType.Pottery));
+        player.addTechnology(new Technology(TechnologyType.Trapping));
+        player.addTechnology(new Technology(TechnologyType.Archery));
+        player.addTechnology(new Technology(TechnologyType.TheWheel));
+        player.addTechnology(new Technology(TechnologyType.BronzeWorking));
+        player.addTechnology(new Technology(TechnologyType.Writing));
+        player.addTechnology(new Technology(TechnologyType.Calendar));
+        player.addTechnology(new Technology(TechnologyType.Construction));
+        player.addTechnology(new Technology(TechnologyType.HorsebackRiding));
+        player.addTechnology(new Technology(TechnologyType.IronWorking));
+        player.addTechnology(new Technology(TechnologyType.Mathematics));
+        player.addTechnology(new Technology(TechnologyType.Philosophy));
+        player.addTechnology(new Technology(TechnologyType.Chivalry));
+        player.addTechnology(new Technology(TechnologyType.CivilService));
+        player.addTechnology(new Technology(TechnologyType.Currency));
+        player.addTechnology(new Technology(TechnologyType.Education));
+        player.addTechnology(new Technology(TechnologyType.Engineering));
+        return "done";
+    }
+
+    public String unlockSecondHalfTechnologies(){
+        Civilization player = GameController.getInstance().getPlayerTurn();
+        player.addTechnology(new Technology(TechnologyType.Machinery));
+        player.addTechnology(new Technology(TechnologyType.MetalCasting));
+        player.addTechnology(new Technology(TechnologyType.Physics));
+        player.addTechnology(new Technology(TechnologyType.Steel));
+        player.addTechnology(new Technology(TechnologyType.Theology));
+        player.addTechnology(new Technology(TechnologyType.Acoustics));
+        player.addTechnology(new Technology(TechnologyType.Archaeology));
+        player.addTechnology(new Technology(TechnologyType.Banking));
+        player.addTechnology(new Technology(TechnologyType.Chemistry));
+        player.addTechnology(new Technology(TechnologyType.Economics));
+        player.addTechnology(new Technology(TechnologyType.Fertilizer));
+        player.addTechnology(new Technology(TechnologyType.Gunpowder));
+        player.addTechnology(new Technology(TechnologyType.Metallurgy));
+        player.addTechnology(new Technology(TechnologyType.IronWorking));
+        player.addTechnology(new Technology(TechnologyType.MilitaryScience));
+        player.addTechnology(new Technology(TechnologyType.PrintingPress));
+        player.addTechnology(new Technology(TechnologyType.Rifling));
+        player.addTechnology(new Technology(TechnologyType.ScientificTheory));
+        player.addTechnology(new Technology(TechnologyType.Biology));
+        player.addTechnology(new Technology(TechnologyType.Combustion));
+        player.addTechnology(new Technology(TechnologyType.Dynamite));
+        player.addTechnology(new Technology(TechnologyType.Electricity));
+        player.addTechnology(new Technology(TechnologyType.Radio));
+        player.addTechnology(new Technology(TechnologyType.Railroad));
+        player.addTechnology(new Technology(TechnologyType.ReplaceableParts));
+        player.addTechnology(new Technology(TechnologyType.SteamPower));
+        player.addTechnology(new Technology(TechnologyType.Telegraph));
         return "done";
     }
 }

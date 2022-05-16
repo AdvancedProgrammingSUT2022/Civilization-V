@@ -13,177 +13,128 @@ import java.util.ArrayList;
 public enum ImprovementType {
 
     // workerImprovements
-    Camp("",6, 0, new ArrayList<Resource>(){{
-        Resource Furs = new Resource(ResourceType.Furs);
-        Resource Ivory = new Resource(ResourceType.Ivory);
-        Resource Deer = new Resource(ResourceType.Deer);
-        add(Furs);
-        add(Ivory);
-        add(Deer);
-    }}, new Technology(TechnologyType.Trapping), new ArrayList<Feature>(){{
-        Feature Forest = new Feature(FeatureType.Forest);
-        add(Forest);
-    }}, new ArrayList<Terrain>(){{
-        Terrain Tundra = new Terrain(TerrainType.Tundra);
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Hill = new Terrain(TerrainType.Hill);
-        add(Tundra);
-        add(Plains);
-        add(Hill);
-    }}),
-    Farm("food",6, 1, new ArrayList<Resource>(){{
-        Resource Wheat = new Resource(ResourceType.Wheat);
-        add(Wheat);
-    }}, new Technology(TechnologyType.Agriculture), null, new ArrayList<Terrain>(){{
-        Terrain Desert = new Terrain(TerrainType.Desert);
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Grassland = new Terrain(TerrainType.Grassland);
-        add(Desert);
-        add(Plains);
-        add(Grassland);
-    }}),
-    LumberMill("food",6, 1, null, new Technology(TechnologyType.Engineering),
-            new ArrayList<Feature>(){{
-                Feature  Forest = new Feature(FeatureType.Forest);
-                add(Forest);
-            }}, null),
-    Mine("production",6, 1, new ArrayList<Resource>(){{
-        Resource Gem = new Resource(ResourceType.Gems);
-        Resource GoldResource = new Resource(ResourceType.GoldResource);
-        Resource Silver = new Resource(ResourceType.Silver);
-        Resource Coal = new Resource(ResourceType.Coal);
-        Resource Iron = new Resource(ResourceType.Iron);
-        add(Gem);
-        add(GoldResource);
-        add(Silver);
-        add(Coal);
-        add(Iron);
-    }}, new Technology(TechnologyType.Mining), new ArrayList<Feature>(){{
-        Feature Forest = new Feature(FeatureType.Forest);
-        Feature Jungle = new Feature(FeatureType.Jungle);
-        Feature Marsh = new Feature(FeatureType.Marsh);
-        add(Forest);
-        add(Jungle);
-        add(Marsh);
-    }}, new ArrayList<Terrain>(){{
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Desert = new Terrain(TerrainType.Desert);
-        Terrain Grassland = new Terrain(TerrainType.Grassland);
-        Terrain Tundra = new Terrain(TerrainType.Tundra);
-        Terrain Snow = new Terrain(TerrainType.Snow);
-        Terrain Hill = new Terrain(TerrainType.Hill);
-        add(Plains);
-        add(Desert);
-        add(Grassland);
-        add(Tundra);
-        add(Snow);
-        add(Hill);
-    }}),
-    Pasture("",7, 0, new ArrayList<Resource>(){{
-        Resource Horse = new Resource(ResourceType.Horses);
-        Resource Cattle = new Resource(ResourceType.Cattle);
-        Resource Sheep = new Resource(ResourceType.Sheep);
-        add(Horse);
-        add(Cattle);
-        add(Sheep);
-    }}, new Technology(TechnologyType.AnimalHusbandry), null, new ArrayList<Terrain>(){{
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Desert = new Terrain(TerrainType.Desert);
-        Terrain Grassland = new Terrain(TerrainType.Grassland);
-        Terrain Tundra = new Terrain(TerrainType.Tundra);
-        Terrain Hill = new Terrain(TerrainType.Hill);
-        add(Plains);
-        add(Desert);
-        add(Grassland);
-        add(Tundra);
-        add(Hill);
-    }}),
-    Plantation("",5, 0, new ArrayList<Resource>(){{
-        Resource Bananas = new Resource(ResourceType.Bananas);
-        Resource Cotton = new Resource(ResourceType.Cotton);
-        Resource Dyes = new Resource(ResourceType.Dyes);
-        Resource Incense = new Resource(ResourceType.Incense);
-        Resource Silk = new Resource(ResourceType.Silk);
-        Resource Sugar = new Resource(ResourceType.Sugar);
-        add(Bananas);
-        add(Cotton);
-        add(Dyes);
-        add(Incense);
-        add(Silk);
-        add(Sugar);
-    }}, new Technology(TechnologyType.Calendar), new ArrayList<Feature>(){{
-        Feature Jungle = new Feature(FeatureType.Jungle);
-        Feature Forest = new Feature(FeatureType.Forest);
-        Feature Marsh = new Feature(FeatureType.Marsh);
-        Feature FloodPlains = new Feature(FeatureType.FloodPlains);
-        add(Marsh);
-        add(Forest);
-        add(Jungle);
-        add(FloodPlains);
-    }}, new ArrayList<Terrain>(){{
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Desert = new Terrain(TerrainType.Desert);
-        Terrain Grassland = new Terrain(TerrainType.Grassland);
-        Terrain Tundra = new Terrain(TerrainType.Tundra);
-        add(Plains);
-        add(Desert);
-        add(Grassland);
-        add(Tundra);
-    }}),
-    Quarry("",7, 0, new ArrayList<Resource>(){{
-        Resource Marble = new Resource(ResourceType.Marble);
-        add(Marble);
-    }}, new Technology(TechnologyType.Masonry), null, new ArrayList<Terrain>(){{
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Desert = new Terrain(TerrainType.Desert);
-        Terrain Grassland = new Terrain(TerrainType.Grassland);
-        Terrain Tundra = new Terrain(TerrainType.Tundra);
-        Terrain Hill = new Terrain(TerrainType.Hill);
-        add(Plains);
-        add(Desert);
-        add(Grassland);
-        add(Tundra);
-        add(Hill);
-    }}),
-    TradingPost("Gold",8, 1, null, new Technology(TechnologyType.Trapping), null,
-            new ArrayList<Terrain>(){{
-                Terrain Plains = new Terrain(TerrainType.Plains);
-                Terrain Desert = new Terrain(TerrainType.Desert);
-                Terrain Grassland = new Terrain(TerrainType.Grassland);
-                Terrain Tundra = new Terrain(TerrainType.Tundra);
-                add(Plains);
-                add(Desert);
-                add(Grassland);
-                add(Tundra);
-            }}),
-    ManuFactory("Production",7, 2, null, new Technology(TechnologyType.Engineering),
-            null, new ArrayList<Terrain>(){{
-        Terrain Plains = new Terrain(TerrainType.Plains);
-        Terrain Desert = new Terrain(TerrainType.Desert);
-        Terrain Grassland = new Terrain(TerrainType.Grassland);
-        Terrain Tundra = new Terrain(TerrainType.Tundra);
-        Terrain Snow = new Terrain(TerrainType.Snow);
-        add(Plains);
-        add(Desert);
-        add(Grassland);
-        add(Tundra);
-        add(Snow);
-    }});
+    Camp("",6, 0, new Technology(TechnologyType.Trapping)),
+    Farm("food",6, 1, new Technology(TechnologyType.Agriculture)),
+    LumberMill("food",6, 1,  new Technology(TechnologyType.Engineering)),
+    Mine("production",6, 1,  new Technology(TechnologyType.Mining)),
+    Pasture("",7, 0, new Technology(TechnologyType.AnimalHusbandry)),
+    Plantation("",5, 0, new Technology(TechnologyType.Calendar)),
+    Quarry("",7, 0, new Technology(TechnologyType.Masonry)),
+    TradingPost("Gold",8, 1,  new Technology(TechnologyType.Trapping)),
+    ManuFactory("Production",7, 2,  new Technology(TechnologyType.Engineering));
 
     public final int constructionTime;
     public final int TileYields;
     public final String product;
-    public final ArrayList<Resource> ImprovesThisResources;
+    public  ArrayList<ResourceType> ImprovesThisResources;
     public final Technology PrerequisiteTechnology;
-    public final ArrayList<Feature> FeaturesCanBeBuiltOn;
-    public final ArrayList<Terrain> TerrainCanBeBuiltOn;
-    ImprovementType(String product,int constructionTime , int tileYields, ArrayList<Resource> improvesThisResources, Technology prerequisiteTechnology, ArrayList<Feature> featuresCanBeBuiltOn, ArrayList<Terrain> terrainCanBeBuiltOn) {
+    public  ArrayList<FeatureType> FeaturesCanBeBuiltOn;
+    public  ArrayList<TerrainType> TerrainCanBeBuiltOn;
+
+    static {
+        Camp.setter(new ArrayList<ResourceType>(){{
+            add(ResourceType.Furs);
+            add(ResourceType.Ivory);
+            add(ResourceType.Deer);
+        }},new ArrayList<FeatureType>(){{
+            add(FeatureType.Forest);
+        }}, new ArrayList<TerrainType>(){{
+            add(TerrainType.Tundra);
+            add(TerrainType.Plains);
+            add(TerrainType.Hill);
+        }});
+        Farm.setter(new ArrayList<ResourceType>(){{
+            add(ResourceType.Wheat);
+        }},null, new ArrayList<TerrainType>(){{
+            add(TerrainType.Desert);
+            add(TerrainType.Plains);
+            add(TerrainType.Grassland);
+        }});
+        LumberMill.setter(null,new ArrayList<FeatureType>(){{
+            add(FeatureType.Forest);
+        }}, null);
+        Mine.setter(new ArrayList<ResourceType>(){{
+            add(ResourceType.Gems);
+            add(ResourceType.GoldResource);
+            add(ResourceType.Silver);
+            add(ResourceType.Coal);
+            add(ResourceType.Iron);
+        }}, new ArrayList<FeatureType>(){{
+            add(FeatureType.Forest);
+            add(FeatureType.Jungle);
+            add(FeatureType.Marsh);
+        }}, new ArrayList<TerrainType>(){{
+            add(TerrainType.Plains);
+            add(TerrainType.Desert);
+            add(TerrainType.Grassland);
+            add(TerrainType.Tundra);
+            add(TerrainType.Snow);
+            add(TerrainType.Hill);
+        }});
+        Pasture.setter(new ArrayList<ResourceType>(){{
+            add(ResourceType.Horses);
+            add(ResourceType.Cattle);
+            add(ResourceType.Sheep);
+        }},null, new ArrayList<TerrainType>(){{
+            add(TerrainType.Plains);
+            add(TerrainType.Desert);
+            add(TerrainType.Grassland);
+            add(TerrainType.Tundra);
+            add(TerrainType.Hill);
+        }});
+        Plantation.setter(new ArrayList<ResourceType>(){{
+            add(ResourceType.Bananas);
+            add(ResourceType.Cotton);
+            add(ResourceType.Dyes);
+            add(ResourceType.Incense);
+            add(ResourceType.Silk);
+            add(ResourceType.Sugar);
+        }},new ArrayList<FeatureType>(){{
+            add(FeatureType.Marsh);
+            add(FeatureType.Forest);
+            add(FeatureType.Jungle);
+            add(FeatureType.FloodPlains);
+        }}, new ArrayList<TerrainType>(){{
+            add(TerrainType.Plains);
+            add(TerrainType.Desert);
+            add(TerrainType.Grassland);
+            add(TerrainType.Tundra);
+        }});
+        Quarry.setter(new ArrayList<ResourceType>(){{
+            add(ResourceType.Marble);
+        }}, null, new ArrayList<TerrainType>(){{
+            add(TerrainType.Plains);
+            add(TerrainType.Desert);
+            add(TerrainType.Grassland);
+            add(TerrainType.Tundra);
+            add(TerrainType.Hill);
+        }});
+        TradingPost.setter(null, null,
+                new ArrayList<TerrainType>(){{
+                    add(TerrainType.Plains);
+                    add(TerrainType.Desert);
+                    add(TerrainType.Grassland);
+                    add(TerrainType.Tundra);
+                }});
+        ManuFactory.setter(null ,null, new ArrayList<TerrainType>(){{
+            add(TerrainType.Plains);
+            add(TerrainType.Desert);
+            add(TerrainType.Grassland);
+            add(TerrainType.Tundra);
+            add(TerrainType.Snow);
+        }});
+    }
+
+    private void setter(ArrayList<ResourceType> improvesThisResources,ArrayList<FeatureType> featuresCanBeBuiltOn, ArrayList<TerrainType> terrainCanBeBuiltOn){
+        this.FeaturesCanBeBuiltOn = featuresCanBeBuiltOn;
+        this.TerrainCanBeBuiltOn = terrainCanBeBuiltOn;
+        this.ImprovesThisResources = improvesThisResources;
+    }
+
+    ImprovementType(String product,int constructionTime , int tileYields,  Technology prerequisiteTechnology) {
         this.product = product;
         this.constructionTime = constructionTime;
         this.TileYields = tileYields;
-        ImprovesThisResources = improvesThisResources;
-        PrerequisiteTechnology = prerequisiteTechnology;
-        FeaturesCanBeBuiltOn = featuresCanBeBuiltOn;
-        TerrainCanBeBuiltOn = terrainCanBeBuiltOn;
+        this.PrerequisiteTechnology = prerequisiteTechnology;
     }
 }

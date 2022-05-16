@@ -35,7 +35,7 @@ public class MapGenerator {
                 if(tile.getTerrain().getPossibleFeatures() != null){
                     Feature feature;
                     int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleFeatures().size());
-                    feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index));
+                    feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index).getFeatureType());
                     tile.setFeature(feature);
                 }
             }
@@ -52,7 +52,7 @@ public class MapGenerator {
                 }
                 if(tile.getTerrain().getPossibleResources() != null) {
                     int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleResources().size());
-                    Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index));
+                    Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index).getResourceType());
                     tile.setResource(resource);
                 }
             }
@@ -223,7 +223,6 @@ public class MapGenerator {
             }
             UnitController.getInstance().makeUnit(UnitType.Settler,civilization,settlerDeploy);
             UnitController.getInstance().makeUnit(UnitType.Warrior,civilization,warriorDeploy);
-
         }
         GameController.getInstance().setPlayerTurn(GameMap.getInstance().getCivilizations().get(0));
         UserDataController.getInstance().saveGame();

@@ -2,6 +2,8 @@ package Controller;
 
 import Controller.PreGameController.LoginMenuController;
 import Model.User.User;
+import View.PreGameView.LoginMenuView;
+import View.PreGameView.Regex;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
@@ -19,7 +21,7 @@ import java.util.regex.Pattern;
 
 @ExtendWith(MockitoExtension.class)
 public class loginMenuControllerTest {
-   String regex = "user create (?=.*--username (?<username>\\S+))(?=.*--password (?<password>\\S+))(?=.*--nickname (?<nickname>\\S+))";
+   public static Regex regex = new Regex();
 
    public static LoginMenuController loginMenuController = new LoginMenuController();
 
@@ -27,10 +29,10 @@ public class loginMenuControllerTest {
 
    public static User user1 = new User();
 
-   public static ArrayList<User> users = new ArrayList<>();
+   public static ArrayList<User> users = new ArrayList<User>();
 
    @BeforeEach
-   public void BeforeAll(){
+   public void BeforeEach(){
       users.add(user);
       users.add(user1);
       user.setUsername("Arash");
@@ -42,7 +44,7 @@ public class loginMenuControllerTest {
    }
 
    @AfterEach
-   public void AfterAll(){
+   public void AfterEach(){
       loginMenuController = null;
       user = null;
       user1 = null;
@@ -51,18 +53,23 @@ public class loginMenuControllerTest {
 
    @Test
    public void UsernameCheckTestOne(){
-      String input = "user create --username nima --password nimo --nickname enigma";
-      Matcher matcher = Pattern.compile(regex).matcher(input);
-      User result = loginMenuController.UsernameCheck(matcher.group("username"));
-      Assert.assertNull(result);
+      String username = "nima";
+      Assert.assertNull(loginMenuController.UsernameCheck(username));
    }
 
    @Test
    public void UsernameCheckTestTwo(){
-      String input = "user create --username nima1 --password nimo --nickname enigma";
-      Matcher matcher = Pattern.compile(regex).matcher(input);
-      User result = loginMenuController.UsernameCheck(matcher.group("username"));
-      Assert.assertNotNull(result);
+      String username = "nima1";
+      Assert.assertNull(loginMenuController.UsernameCheck(username));
+   }
+
+   @Test
+   public void registerTestOne(){
+      String input = "user create --username Arash --password hello --nickname Arash";
+      Matcher matcher = Pattern.compile(regex.register).matcher(input);
+      String expected = "user with username Arash already exists";
+      String result = loginMenuController.register(matcher);
+      Assert.assertEquals(expected, result);
    }
 
 }
