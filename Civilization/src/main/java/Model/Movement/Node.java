@@ -13,11 +13,11 @@ public class Node {
 
     private List<Node> shortestPath = new LinkedList<>();
 
-    private Integer distance = Integer.MAX_VALUE;
+    private Double distance = Double.MAX_VALUE;
 
-    Map<Node, Integer> adjacentNodes = new HashMap<>();
+    Map<Node, Double> adjacentNodes = new HashMap<>();
 
-    public void addDestination(Node destination, int distance) {
+    public void addDestination(Node destination, double distance) {
         adjacentNodes.put(destination, distance);
     }
 
@@ -29,11 +29,11 @@ public class Node {
         return shortestPath;
     }
 
-    public Integer getDistance() {
+    public Double getDistance() {
         return distance;
     }
 
-    public Map<Node, Integer> getAdjacentNodes() {
+    public Map<Node, Double> getAdjacentNodes() {
         return adjacentNodes;
     }
 
@@ -42,11 +42,11 @@ public class Node {
         this.shortestPath = shortestPath;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
 
-    public void setAdjacentNodes(Map<Node, Integer> adjacentNodes) {
+    public void setAdjacentNodes(Map<Node, Double> adjacentNodes) {
         this.adjacentNodes = adjacentNodes;
     }
 

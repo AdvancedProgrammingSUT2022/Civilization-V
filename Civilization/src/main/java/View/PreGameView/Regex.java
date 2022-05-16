@@ -2,12 +2,16 @@ package View.PreGameView;
 
 public class Regex {
     public final String register = "user create (?=.*--username (?<username>\\S+))(?=.*--password (?<password>\\S+))(?=.*--nickname (?<nickname>\\S+))";
+    public final String register2 = "user create (?=.*--u (?<username>\\S+))(?=.*--p (?<password>\\S+))(?=.*--n (?<nickname>\\S+))";
     public final String login = "user login (?=.*--username (?<username>\\S+))(?=.*--password (?<password>\\S+))";
+    public final String login2 = "user login (?=.*--u (?<username>\\S+))(?=.*--p (?<password>\\S+))";
     public final String logout = "user logout";
     public final String changeNickName = "profile change --nickname (?<nickname>\\S+)";
+    public final String changeNickName2 = "profile change --n (?<nickname>\\S+)";
     public final String showMenu = "menu show-current";
     public final String enterMenu = "menu enter (?<menu>\\S+)";
     public final String changePass = "profile change --password (?=.*--current (?<current>\\S+))(?=.*--new (?<new>\\S+))";
+    public final String changePass2 = "profile change --p (?=.*--c (?<current>\\S+))(?=.*--n (?<new>\\S+))";
     public final String startGame = "^play game (?<playerData>.+)$";
     //game
     public final String printMap = "print map";
@@ -15,7 +19,6 @@ public class Regex {
     public final String getPlayerName = "get player name";
     public final String selectUnit = "select (?<type>(combat)|(civil)) unit (?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))";
     public final String moveUnit = "move unit to (?=.*--y (?<destinationY>\\d+))(?=.*--x (?<destinationX>\\d+))";
-    public final String info = "show info (?<type>RESEARCH|UNITS|CITIES|DIPLOMACY|VICTORY|DEMOGRAPHICS|NOTIFICATIONS|MILITARY|ECONOMIC|DIPLOMATIC|DEALS)";
     public final String selectCity = "select city ((--name (?<name>\\S+))|((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+))))";
     public final String showMap = "show map ((?=.*--y (?<y>\\d+))(?=.*--x (?<x>\\d+)))|(--cityName (?<cityName>\\S+))";
     public final String moveMap  = "move map (?=.*--direction (?<direction>RIGHT|LEFT|UP|DOWN))(?=.*--amount (?<amount>\\d+))";
@@ -56,6 +59,13 @@ public class Regex {
     public final String civilizationOutPut = "civilization output";
     public final String pillage = "pillage";
     public final String afterCityVictory = "(?<decision>destroy|annex)";
+    public final String stopImprovement = "stop";
+    public final String repairOrResumeImprovement = "repair or resume building improvement";
+    public final String buildRoad = "build road (?<RoadType>\\S+)";
+    public final String repairOrResumeRoad = "repair or resume building road";
+    public final String destroyRoad = "destroy road";
+    public final String clearFeature = "clear Feature";
+
     //cheat code
     public final String cheatGoldIncrease = "cheat increase gold by (?<amount>-?\\d+)";
     public final String cheatHappinessIncrease = "cheat increase happiness by (?<amount>-?\\d+)";
@@ -65,5 +75,8 @@ public class Regex {
     public final String increaseStoredFood = "cheat increase stored foods by (?<amount>-?\\d+)";
     public final String unlockFirstHalfOfTechnologies = "unlock first half of technologies";
     public final String unlockSecondHalfOfTechnologies = "unlock second half of technologies";
+    public final String cheatIncreaseHealthOfALlUnits = "cheat increase health of all units by (?<amount>\\d+)";
+    public final String cheatIncreaseXpOfALlUnits = "cheat increase xp of all units by (?<amount>\\d+)";
+    public final String cheatIncreaseIron = "cheat increase iron by (?<amount>\\d+)";
 
 }

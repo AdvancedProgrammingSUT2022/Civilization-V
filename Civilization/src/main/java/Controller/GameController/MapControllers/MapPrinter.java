@@ -1,4 +1,5 @@
 package Controller.GameController.MapControllers;
+import Model.TileRelated.Road.RoadType;
 import Model.TileRelated.Tile.Tile;
 import java.util.ArrayList;
 import Controller.GameController.GameController;
@@ -126,6 +127,10 @@ public class MapPrinter {
         if(tile.getFeature() != null)texts.add("F:" + tile.getFeature().getFeatureType().name());else{texts.add(null);}
         if(tile.getResource() != null)texts.add("R:" + tile.getResource().getResourceType().name());else{texts.add(null);}
         if(tile.getImprovement() != null)texts.add("I:" + tile.getImprovement().getImprovementType().name());else{texts.add(null);}
+        if(tile.getRoad() != null){
+            if(tile.getRoad().getRoadType().equals(RoadType.RailWay))texts.add("|=|");
+            else texts.add("||");
+        }
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
         printUnitInfo(tile, texts, 0);
         printUnitInfo(tile, texts, 1);

@@ -7,6 +7,7 @@ import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Road.Road;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
@@ -24,6 +25,7 @@ public class Tile {
     private ArrayList<River> rivers = new ArrayList<>();
     private TerrainType terrain;
     private Improvement improvement;
+    private Road road;
     private Civilization civilization;
     private City city;
     private boolean isCapital = false;
@@ -39,6 +41,15 @@ public class Tile {
         city = null;
         civilization = null;
     }
+
+    public Road getRoad() {
+        return road;
+    }
+
+    public void setRoad(Road road) {
+        this.road = road;
+    }
+
     public boolean isCapital() {
         return isCapital;
     }

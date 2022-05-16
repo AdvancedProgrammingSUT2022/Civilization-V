@@ -2,6 +2,7 @@ package Model.Units;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Node;
+import Model.Technology.TechnologyType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitStateType;
 import Model.Units.TypeEnums.UnitType;
@@ -18,7 +19,7 @@ public class Unit {
     protected Civilization civilization;
     protected City city;
     protected Tile tile;
-    protected int movementsLeft;
+    protected double movementsLeft;
     protected UnitType unitType;
     protected UnitStateType unitStateType;
     protected double maxDamage;
@@ -27,13 +28,13 @@ public class Unit {
     public Unit(Civilization civilization, Tile tile, UnitType unitType) {
         this.civilization = civilization;
         this.civilization.addUnit(this);
-        //this.city = city;
         this.tile = tile;
         this.setUnitType(unitType);
         this.setUnitStateType(UnitStateType.NORMAL);
         this.setMovementsLeft(unitType.movement);
         movementsLeft = this.unitType.movement;
     }
+
     public Unit(){
 
     }
@@ -42,7 +43,9 @@ public class Unit {
         while (getMovementsLeft() > 0) {
             TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), -1, 2);
             if (MapPrinter.getInstance().hasRiverBetween(getTile(), getNextMoveNode().getTile()))
-                setMovementsLeft(0);
+                if(getNextMoveNode().getTile().getRoad() != null && !getNextMoveNode().getTile().getRoad().isRuined() && getNextMoveNode().getTile().getRoad().getDaysToComplete() == 0
+                        && civilization.hasTechnology(TechnologyType.Construction))addMovementsLeft(-0.5);
+                else setMovementsLeft(0);
             else {
                 addMovementsLeft(-(Movement.getInstance().calculateDistance(getTile(),getNextMoveNode().getTile(),unitType)));
                 if (getMovementsLeft() < 0)
@@ -64,10 +67,8 @@ public class Unit {
             if(GameController.getInstance().getMap().getMovingUnits().contains(this))
             GameController.getInstance().getMap().getMovingUnits().remove(this);
     }
-    public void updateData(){
 
-    }
-    public int getMovementsLeft() {
+    public double getMovementsLeft() {
         return movementsLeft;
     }
     public Civilization getCivilization(){
@@ -94,7 +95,7 @@ public class Unit {
     public void restoreMovementLeft(){
         this.movementsLeft = this.unitType.movement;
     }
-    public void addMovementsLeft(int movementsLeft) {
+    public void addMovementsLeft(double movementsLeft) {
         this.movementsLeft += movementsLeft;
     }
     public Node getNextMoveNode(){

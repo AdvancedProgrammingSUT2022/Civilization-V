@@ -4,6 +4,8 @@ import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
+import Model.Units.Combat.Combat;
+import Model.Units.Unit;
 import java.util.regex.Matcher;
 
 public class CheatCode {
@@ -39,6 +41,33 @@ public class CheatCode {
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
         GameController.getInstance().getSelectedCity().changeStoredFood(Integer.parseInt(matcher.group("amount")));
         return "done";
+    }
+
+    public String increaseHealthOfUnits(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("amount"));
+        for (Unit unit:GameController.getInstance().getPlayerTurn().getUnits()) {
+            if(unit instanceof Combat){
+                ((Combat)unit).changeHitPoint(amount);
+            }
+        }
+        return "cheating is bad but ok";
+    }
+
+    public String increaseXpOfUnits(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("amount"));
+        for (Unit unit:GameController.getInstance().getPlayerTurn().getUnits()) {
+            if(unit instanceof Combat){
+                ((Combat)unit).addXp(amount);
+            }
+        }
+        return "cheating is bad but ok";
+    }
+
+    public String increaseIron(Matcher matcher){
+        int amount = Integer.parseInt(matcher.group("amount"));
+        GameController.getInstance().getPlayerTurn().changeTotalIron(amount);
+        GameController.getInstance().getPlayerTurn().changeCurrentIron(amount);
+        return "done!";
     }
 
     public String unlockFirstHalfTechnologies(){

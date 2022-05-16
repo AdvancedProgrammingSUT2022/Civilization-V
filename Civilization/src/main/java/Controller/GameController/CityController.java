@@ -7,7 +7,6 @@ import Model.MapRelated.GameMap;
 import Model.Technology.Technology;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
-import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
@@ -80,6 +79,8 @@ public class CityController {
         return output.toString();
     }
 
+
+
     public String buyTile(Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
         Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
@@ -87,23 +88,6 @@ public class CityController {
         City city = GameController.getInstance().getSelectedCity();
         GameController.getInstance().getPlayerTurn().addNotification(city.getName() + "->buying Tile( y->" + tile.getY()+ ",x->"+ tile.getX() +") :");
         return GameController.getInstance().getSelectedCity().buyTile(tile);
-    }
-
-    public void calculateProducts(Civilization civilization){
-            civilization.setGoldPerTurn(0);
-            civilization.setSciencePerTurn(0);
-            for (City city:civilization.getCities()) {
-                city.calculateProduction();
-                city.calculateSciencePerTurn();
-                city.calculateGold();
-                city.calculateFood();
-                city.populationGrowthAndHunger();
-                city.calculateBuildingBonuses();
-                civilization.changeSciencePerTurn(city.getSciencePerTurn());
-                civilization.changeGoldPerTurn(city.getGoldPerTurn());
-            }
-            civilization.changeGold(civilization.getGoldPerTurn());
-            civilization.checkGoldRunningOut();
     }
 
     public String showValidBuildingTypes() {
@@ -357,23 +341,28 @@ public class CityController {
     }
 
     private boolean hasRequiredTechnologyForUnit(UnitType unitType){
-        Technology requiredTechnology = new Technology(unitType.technologyRequired);
         if(unitType.technologyRequired == null) return true;
         ArrayList<Technology> validTechnologies;
         if((validTechnologies = GameController.getInstance().getSelectedCity().getCivilization().getTechnologies()) == null) return false;
         for (Technology technology : validTechnologies) {
-            if(Objects.equals(technology, requiredTechnology)) return true;
+            if(Objects.equals(technology.getTechnologyType(), unitType.technologyRequired)) return true;
         }
         return false;
     }
 
     private boolean hasRequiredResourcesForUnit(UnitType unitType){
-        Resource requiredResource = new Resource(unitType.resourcesRequired);
         if(unitType.resourcesRequired == null) return true;
-        ArrayList<Resource> validResources;
-        if((validResources = GameController.getInstance().getSelectedCity().getCivilization().getResources()) == null) return false;
-        for (Resource resource : validResources) {
-            if(Objects.equals(resource, requiredResource)) return true;
+        if(unitType.resourcesRequired.equals(ResourceType.Iron)){
+            if(GameController.getInstance().getPlayerTurn().getCurrentIron() == 0) return false;
+            return true;
+        }
+        if(unitType.resourcesRequired.equals(ResourceType.Horses)){
+            if(GameController.getInstance().getPlayerTurn().getCurrentHorses() == 0) return false;
+            return true;
+        }
+        if(unitType.resourcesRequired.equals(ResourceType.Coal)){
+            if(GameController.getInstance().getPlayerTurn().getCurrentCoal() == 0) return false;
+            return true;
         }
         return false;
     }
