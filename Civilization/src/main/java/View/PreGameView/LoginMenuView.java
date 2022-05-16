@@ -1,4 +1,5 @@
 package View.PreGameView;
+import Controller.GameController.CityController;
 import Controller.PreGameController.LoginMenuController;
 import View.Menu.Menu;
 
@@ -7,6 +8,14 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
 public class LoginMenuView extends Menu{
+    private static LoginMenuView loginMenuView;
+    private LoginMenuView(){};
+
+    public static LoginMenuView getInstance() {
+        if (loginMenuView == null)
+            loginMenuView = new LoginMenuView();
+        return loginMenuView;
+    }
     private LoginMenuController loginController = LoginMenuController.getInstance();
 
     private final Consumer<Matcher> register = matcher -> System.out.println(loginController.register(matcher));
