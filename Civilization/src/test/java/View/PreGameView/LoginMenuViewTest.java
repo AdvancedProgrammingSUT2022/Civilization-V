@@ -1,6 +1,9 @@
-package View.PreGameView;
+package test.java.View.PreGameView;
 
 import Controller.PreGameController.LoginMenuController;
+import View.GameView.PreGameView.LoginMenuView;
+import View.GameView.PreGameView.MainMenuView;
+import View.GameView.PreGameView.Regex;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,11 +13,9 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class LoginMenuViewTest {
     Regex regex = new Regex();
-    public  LoginMenuView loginMenuView  = LoginMenuView.getInstance();
+    public LoginMenuView loginMenuView  = LoginMenuView.getInstance();
     HashMap<String, Consumer<Matcher>> commandsMap = new HashMap<>();
     private final Consumer<Matcher> register = matcher -> System.out.println(LoginMenuController.getInstance().register(matcher));
     private final Consumer<Matcher> login = matcher ->  System.out.println(LoginMenuController.getInstance().login(matcher));

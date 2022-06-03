@@ -6,7 +6,7 @@ import Controller.GameController.MapControllers.CheatCode;
 import Controller.GameController.UnitController;
 import Model.User.User;
 import View.Menu.Menu;
-import View.PreGameView.Regex;
+import View.GameView.PreGameView.Regex;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;

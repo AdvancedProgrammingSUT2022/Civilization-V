@@ -1,7 +1,7 @@
 package Controller.PreGameController;
 
 import Model.User.User;
-import View.PreGameView.Regex;
+import View.GameView.PreGameView.Regex;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,8 +10,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfileMenuControllerTest {
     public Regex regex = new Regex();

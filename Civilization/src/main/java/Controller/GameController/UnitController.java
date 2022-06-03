@@ -598,7 +598,7 @@ public class UnitController {
             return errorMassege;
         ((Siege)GameController.getInstance().getSelectedUnit()).setPreAttackDone(true);
         ((Siege)GameController.getInstance().getSelectedUnit()).setMovementsLeft(0);
-        return null;
+        return "pre attack done";
     }
     private String siegePreAttackErrors() {
         if(GameController.getInstance().getSelectedUnit() == null)

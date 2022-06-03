@@ -1,7 +1,7 @@
 package Controller.PreGameController;
 
 import Model.User.User;
-import View.PreGameView.Regex;
+import View.GameView.PreGameView.Regex;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

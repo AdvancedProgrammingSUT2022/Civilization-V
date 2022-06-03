@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane fx:id="pane" prefHeight="750" prefWidth="1200" styleClass="loginMenu" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginPageController">
+   <children>
+      <Button layoutX="592.0" layoutY="239.0" mnemonicParsing="false" text="kar mikne" />
+   </children>
+</Pane>
