@@ -11,6 +11,7 @@ public enum Images {
         add(new Image("/images/profiles/2.png"));
         add(new Image("/images/profiles/3.png"));
         add(new Image("/images/profiles/4.png"));
+        add(new Image("/images/profiles/5.png"));
     }});
 
     public final ArrayList<Image> pics;

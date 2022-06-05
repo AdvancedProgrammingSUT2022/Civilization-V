@@ -5,10 +5,7 @@ import Controller.PreGameController.MainMenuController;
 import Model.Enums.Menus;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -21,12 +18,14 @@ public class LoginPageController implements Initializable {
     @FXML private PasswordField password;
     @FXML private Label error;
 
+
     @FXML
     Label menuName;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menuName.setText(LoginAndRegisterController.getInstance().showCurrentMenu());
+
     }
     
     public void buttonSizeIncrease(MouseEvent mouseEvent) {

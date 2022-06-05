@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -10,34 +11,56 @@
 
 <Pane fx:id="content" prefHeight="750.0" prefWidth="1500.0" styleClass="backGroundMain" stylesheets="/Css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.MainPageController">
     <Button layoutX="1380.0" layoutY="24.0" onMouseClicked="#logout" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Logout" />
-   <VBox alignment="CENTER" layoutX="532.0" layoutY="159.0" prefHeight="411.0" prefWidth="436.0" styleClass="border">
+   <VBox alignment="CENTER" layoutX="514.0" layoutY="155.0" prefHeight="411.0" prefWidth="473.0" styleClass="border">
       <children>
-         <VBox alignment="CENTER" prefHeight="294.0" prefWidth="364.0" spacing="10">
+         <VBox alignment="CENTER" prefHeight="256.0" prefWidth="473.0" spacing="10">
             <children>
                <HBox alignment="CENTER" prefHeight="56.0" prefWidth="311.0" spacing="8">
                   <children>
-                     <Label prefHeight="51.0" prefWidth="179.0" styleClass="loginFont" text="Number of players:" />
-                     <Polygon fill="DODGERBLUE" points="2.0, -9.0, -8.0, -22.0, 2.0, -35.0" stroke="BLACK" strokeType="INSIDE" onMouseClicked="#decreasePlayer"/>
+                     <Label prefHeight="51.0" prefWidth="179.0" styleClass="loginFont" text="Number of players:" fx:id="playerDes"/>
+                     <Polygon fill="DODGERBLUE" onMouseClicked="#decreasePlayer" points="2.0, -9.0, -8.0, -22.0, 2.0, -35.0" stroke="BLACK" strokeType="INSIDE" />
                      <Label fx:id="playerNum" styleClass="loginFont" text="2" />
-                     <Polygon fill="DODGERBLUE" points="2.0, -9.0, 12.0, -22.0, 2.0, -35.0" stroke="BLACK" strokeType="INSIDE" onMouseClicked="#increasePlayer"/>
+                     <Polygon fill="DODGERBLUE" onMouseClicked="#increasePlayer" points="2.0, -9.0, 12.0, -22.0, 2.0, -35.0" stroke="BLACK" strokeType="INSIDE" />
                   </children>
                </HBox>
-               <Label styleClass="loginFont" text="Send Invite:" />
-               <HBox alignment="CENTER" prefHeight="51.0" prefWidth="236.0" spacing="7">
+               <HBox alignment="CENTER" prefHeight="68.0" prefWidth="328.0" spacing="7.0">
                   <children>
-                     <TextField prefHeight="31.0" prefWidth="183.0" promptText="Enter player's Username" styleClass="textFields" />
-                     <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Send" />
+                     <Label styleClass="loginFont" text="Map Configuration:" fx:id="MapDes"/>
+                     <TextField alignment="CENTER" prefHeight="31.0" prefWidth="74.0" styleClass="textFields" promptText="width" />
+                     <TextField alignment="CENTER" layoutX="167.0" layoutY="45.0" prefHeight="31.0" prefWidth="74.0" styleClass="textFields" promptText="height" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="80.0" prefWidth="473.0" spacing="7">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="76.0" prefWidth="439.0" spacing="7.0">
+                        <children>
+                           <Label prefHeight="21.0" prefWidth="94.0" styleClass="loginFont" text="Send Invite:" fx:id="inviteDes"/>
+                           <TextField prefHeight="31.0" prefWidth="219.0" promptText="Enter player's Username" styleClass="textFields" />
+                           <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Send" />
+                        </children>
+                     </HBox>
                   </children>
                </HBox>
                <Label id="error" text="error" visible="false" />
+               <HBox alignment="CENTER" prefHeight="56.0" prefWidth="377.0" spacing="7.0">
+                  <children>
+                     <Label styleClass="loginFont" text="AutoSave timing:" fx:id="autoSaveDes"/>
+                     <ChoiceBox fx:id="autoSave" prefHeight="31.0" prefWidth="224.0" styleClass="textFields" />
+                  </children>
+               </HBox>
                <Label />
             </children>
          </VBox>
          <HBox alignment="CENTER" prefHeight="92.0" prefWidth="364.0" spacing="10">
             <children>
                <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Play Game" />
-               <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="ScoreBoard" onMouseClicked="#scoreBoard"/>
-               <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Profile Menu" onMouseClicked="#profile"/>
+               <Button mnemonicParsing="false" text="Load Game" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="61.0" prefWidth="279.0" spacing="10.0">
+            <children>
+               <Button mnemonicParsing="false" onMouseClicked="#profile" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Profile Menu" />
+               <Button mnemonicParsing="false" onMouseClicked="#scoreBoard" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="ScoreBoard" />
             </children>
          </HBox>
       </children>

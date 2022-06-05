@@ -26,7 +26,7 @@ public class ScoreBoardPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         int i = 1;
-        Text text1 = new Text("Top 6 Players:");
+        Text text1 = new Text("Top 10 Players:");
         text1.setStyle("-fx-font-family: 'Cooper Black' ; -fx-fill: #86033b; -fx-font-size: 60;");
         list.getChildren().add(text1);
         for (User user: LoginAndRegisterController.getInstance().getUsers()) {

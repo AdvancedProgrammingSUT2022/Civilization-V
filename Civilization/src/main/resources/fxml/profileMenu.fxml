@@ -10,27 +10,28 @@
 
 <Pane fx:id="content" prefHeight="750.0" prefWidth="1500.0" styleClass="backGroundProfile" stylesheets="/Css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.ProfilePageController">
     <Button layoutX="1380.0" layoutY="24.0" onMouseClicked="#back" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="back" />
-   <ImageView fitHeight="234.0" fitWidth="247.0" layoutX="452.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true" />
-   <Polygon fill="DODGERBLUE" layoutX="800.0" layoutY="116.0" points="-50.0, 40.0, 10.0, 40.0, -20.0, 10.0" stroke="BLACK" strokeType="INSIDE" />
-   <Polygon fill="DODGERBLUE" layoutX="800.0" layoutY="136.0" points="-50.0, 40.0, 10.0, 40.0, -20.0, 70.0" stroke="BLACK" strokeType="INSIDE" />
-   <Label fx:id="userName" layoutX="750.0" layoutY="71.0" prefHeight="41.0" prefWidth="118.0" styleClass="welcome" text="Label" />
+   <ImageView fx:id="profilePic" fitHeight="234.0" fitWidth="247.0" layoutX="452.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true" />
+   <Polygon fill="#b700ff" layoutX="800.0" layoutY="116.0" onMouseClicked="#nextProf" points="-50.0, 40.0, 10.0, 40.0, -20.0, 10.0" stroke="BLACK" strokeType="INSIDE" />
+   <Polygon fill="#b700ff" layoutX="800.0" layoutY="136.0" onMouseClicked="#previousProf" points="-50.0, 40.0, 10.0, 40.0, -20.0, 70.0" stroke="BLACK" strokeType="INSIDE" />
+   <Label fx:id="userName" layoutX="750.0" layoutY="71.0" prefHeight="41.0" prefWidth="118.0" styleClass="Profile" text="Label" />
    <VBox prefHeight="200.0" prefWidth="100.0" spacing="7" />
-   <VBox alignment="CENTER" layoutX="377.0" layoutY="383.0" prefHeight="212.0" prefWidth="345.0" spacing="7" styleClass="border">
+   <VBox alignment="CENTER" layoutX="282.0" layoutY="383.0" prefHeight="212.0" prefWidth="440.0" spacing="7" styleClass="border">
       <children>
          <Label styleClass="loginFont" text="Change Password" />
          <TextField fx:id="oldPass" promptText="Enter your old password" styleClass="textFields" />
          <TextField fx:id="newPass" promptText="Enter your new Password" styleClass="textFields" />
          <Button mnemonicParsing="false" onMouseClicked="#changePass" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Submit" />
-         <Label fx:id="PasswordError" alignment="CENTER" prefHeight="21.0" prefWidth="339.0" styleClass="errors" text="error" visible="false" />
+         <Label fx:id="PasswordError" alignment="CENTER" prefHeight="21.0" prefWidth="427.0" styleClass="errors" text="error" visible="false" />
       </children>
    </VBox>
-   <VBox alignment="CENTER" layoutX="810.0" layoutY="383.0" prefHeight="212.0" prefWidth="345.0" spacing="7" styleClass="border">
+   <VBox alignment="CENTER" layoutX="810.0" layoutY="383.0" prefHeight="212.0" prefWidth="427.0" spacing="7" styleClass="border">
       <children>
          <Label styleClass="loginFont" text="Change NickName" />
          <TextField fx:id="newNickname" promptText="Enter New NickName" styleClass="textFields" />
          <Button mnemonicParsing="false" onMouseClicked="#changeNickName" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Submit" />
-         <Label fx:id="nickNameError" alignment="CENTER" prefHeight="21.0" prefWidth="349.0" styleClass="errors" text="error" visible="false" />
+         <Label fx:id="nickNameError" alignment="CENTER" prefHeight="21.0" prefWidth="410.0" styleClass="errors" text="error" visible="false" />
       </children>
    </VBox>
+   <Button id="choosePick" layoutX="734.0" layoutY="247.0" mnemonicParsing="false" text="Choose Pic" onMouseClicked="#choosePic" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
 
 </Pane>

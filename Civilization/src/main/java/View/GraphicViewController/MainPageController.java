@@ -5,19 +5,36 @@ import Model.Enums.Menus;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
     @FXML private Label menuName;
     @FXML private Label playerNum;
+    @FXML private ChoiceBox<String> autoSave;
+    private Pane description;
+    @FXML Label playerDes;
+    @FXML Label inviteDes;
+    @FXML Label MapDes;
+    @FXML Label autoSaveDes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menuName.setText(MainMenuController.getInstance().showCurrentMenu());
+        autoSave.getItems().add("after claiming a city");
+        autoSave.getItems().add("every 5 minutes");
+        autoSave.getItems().add("after winning a game");
+        playerDes.setTooltip(new Tooltip("number of players attending in the game including you"));
+        inviteDes.setTooltip(new Tooltip("invite your friends to play with you"));
+        MapDes.setTooltip(new Tooltip("customize your own map!"));
+        autoSave.setTooltip(new Tooltip("choose on which period you want to save your game"));
     }
 
 

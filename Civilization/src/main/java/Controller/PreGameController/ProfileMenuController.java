@@ -26,6 +26,7 @@ public class ProfileMenuController extends Controller{
         UserDataController.getInstance().saveUsers();
         return "nickname changed successfully!";
     }
+
     public String changeCurrentPassword(String old,String newPass) {
         if(!old.equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
         if(old.equals(newPass))return "please enter a new password";

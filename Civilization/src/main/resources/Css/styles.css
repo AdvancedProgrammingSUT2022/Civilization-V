@@ -12,6 +12,12 @@
     -fx-font-size: 36;
 }
 
+.Profile{
+    -fx-font-family: "Britannic Bold";
+    -fx-fill: #dcc343;
+    -fx-font-size: 45;
+}
+
 .loginFont{
     -fx-font-family: Garamond;
     -fx-alignment: center;
@@ -56,5 +62,5 @@
 .backGroundProfile{
     -fx-background-image: url("/images/Backgrounds/profile.jpg");
     -fx-background-position: center;
-    -fx-background-size: 1500;
+    -fx-background-size: 1550;
 }

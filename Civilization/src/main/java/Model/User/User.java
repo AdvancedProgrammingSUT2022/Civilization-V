@@ -9,7 +9,7 @@ public class User {
     private  String password;
     private String nickname;
     private int score ;
-    //private Image profilePic = Images.profilePics.pics.get(0);
+    private int profPicIndex;
     
     public String getUsername() {
         return username;
@@ -43,11 +43,11 @@ public class User {
         this.nickname = nickname;
     }
 
-//    public void setProfilePic(Image profilePic) {
-//        this.profilePic = profilePic;
-//    }
-//
-//    public Image getProfilePic() {
-//        return profilePic;
-//    }
+    public int getProfPicIndex() {
+        return profPicIndex;
+    }
+
+    public void setProfPicIndex(int profPicIndex) {
+        this.profPicIndex = profPicIndex;
+    }
 }
