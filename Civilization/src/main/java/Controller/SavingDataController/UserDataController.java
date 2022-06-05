@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import Controller.PreGameController.LoginMenuController;
+import Controller.PreGameController.LoginAndRegisterController;
 import com.google.gson.Gson;
 import Model.User.User;
 import com.google.gson.reflect.TypeToken;
@@ -26,7 +26,7 @@ public class UserDataController {
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
-                LoginMenuController.getInstance().setUsers(createdUsers);
+                LoginAndRegisterController.getInstance().setUsers(createdUsers);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class UserDataController {
     public void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
-            fileWriter.write(new Gson().toJson(LoginMenuController.getInstance().getUsers()));
+            fileWriter.write(new Gson().toJson(LoginAndRegisterController.getInstance().getUsers()));
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

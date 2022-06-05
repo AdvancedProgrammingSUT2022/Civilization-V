@@ -1,5 +1,5 @@
 package View.GameView.PreGameView;
-import Controller.PreGameController.LoginMenuController;
+import Controller.PreGameController.LoginAndRegisterController;
 import View.Menu.Menu;
 
 import java.util.HashMap;
@@ -15,10 +15,10 @@ public class LoginMenuView extends Menu{
             loginMenuView = new LoginMenuView();
         return loginMenuView;
     }
-    private LoginMenuController loginController = LoginMenuController.getInstance();
+    private LoginAndRegisterController loginController = LoginAndRegisterController.getInstance();
 
-    private final Consumer<Matcher> register = matcher -> System.out.println(loginController.register(matcher));
-    private final Consumer<Matcher> login = matcher ->  System.out.println(loginController.login(matcher));
+    private final Consumer<Matcher> register = matcher -> System.out.println();
+    private final Consumer<Matcher> login = matcher ->  System.out.println();
     private final Consumer<Matcher> showMenu = matcher -> System.out.println(loginController.showCurrentMenu());
     private final Consumer<Matcher> enterMenu = matcher -> {
         String output;
@@ -42,7 +42,7 @@ public class LoginMenuView extends Menu{
         return commandsMap;
     }
 
-    public LoginMenuController getLoginController() {
+    public LoginAndRegisterController getLoginController() {
         return loginController;
     }
 }

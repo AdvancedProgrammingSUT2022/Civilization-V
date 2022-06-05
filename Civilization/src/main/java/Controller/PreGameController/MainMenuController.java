@@ -18,7 +18,7 @@ public class MainMenuController extends Controller{
         return mainMenuController;
     }
     public String userLogout(){
-        LoginMenuController.getInstance().setLoggedInUser(null);
+        LoginAndRegisterController.getInstance().setLoggedInUser(null);
         return "user logged out successfully!";
     }
 
@@ -36,7 +36,7 @@ public class MainMenuController extends Controller{
             String username;
             if((username = numbers.get(t)) == null)return "player numbers are not valid";
             boolean playerExists = false;
-            for (User key:LoginMenuController.getInstance().getUsers()) {
+            for (User key: LoginAndRegisterController.getInstance().getUsers()) {
                 if(key.getUsername().equals(username)){
                     playerExists = true;
                     for (User key2:players) {

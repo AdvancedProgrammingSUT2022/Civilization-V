@@ -39,8 +39,8 @@ public class ProfileMenuControllerTest {
         user2.setUsername("arash");
         user2.setPassword("man");
         user2.setNickname("man");
-        LoginMenuController.getInstance().setLoggedInUser(user1);
-        LoginMenuController.getInstance().setUsers(users);
+        LoginAndRegisterController.getInstance().setLoggedInUser(user1);
+        LoginAndRegisterController.getInstance().setUsers(users);
     }
 
     @Test
@@ -86,8 +86,8 @@ public class ProfileMenuControllerTest {
     @After
     public void After(){
         profileMenuController = null;
-        LoginMenuController.getInstance().setLoggedInUser(null);
-        LoginMenuController.getInstance().setUsers(null);
+        LoginAndRegisterController.getInstance().setLoggedInUser(null);
+        LoginAndRegisterController.getInstance().setUsers(null);
         user = null;
         user1 = null;
         user2 = null;

@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import Controller.Controller.Controller;
+import Controller.SavingDataController.UserDataController;
 import Model.User.User;
 
-public class LoginMenuController extends Controller{
-    private static LoginMenuController loginMenuController;
-    private LoginMenuController(){}
-    public static LoginMenuController getInstance(){
-        if(loginMenuController == null)
-            loginMenuController = new LoginMenuController();
-        return loginMenuController;
+public class LoginAndRegisterController extends Controller{
+    private static LoginAndRegisterController loginAndRegisterController;
+    private LoginAndRegisterController(){}
+    public static LoginAndRegisterController getInstance(){
+        if(loginAndRegisterController == null)
+            loginAndRegisterController = new LoginAndRegisterController();
+        return loginAndRegisterController;
     }
     private ArrayList<User> users = new ArrayList<>();
     private  User loggedInUser;
+
 
     public ArrayList<User> getUsers() {
         return users;
@@ -31,23 +33,24 @@ public class LoginMenuController extends Controller{
         this.loggedInUser = loggedInUser;
     }
 
-    public String register(Matcher matcher){
-        if(UsernameCheck(matcher.group("username")) == null) {
+    public String register(String username , String password , String nickname){
+        if(usernameCheck(username) == null) {
             for (User key:users) {
-                if(key.getNickname().equals(matcher.group("nickname")))
+                if(key.getNickname().equals(nickname))
                     return "user with nickname " + key.getNickname() +" already exists";
             }
             User user = new User();
-            user.setNickname(matcher.group("nickname"));
-            user.setUsername(matcher.group("username"));
-            user.setPassword(matcher.group("password"));
+            user.setNickname(nickname);
+            user.setUsername(username);
+            user.setPassword(password);
             users.add(user);
+            UserDataController.getInstance().saveUsers();
             return "user created successfully";
         }
-        else return "user with username " + matcher.group("username") + " already exists";
+        else return "user with username " + username + " already exists";
     }
 
-    public User UsernameCheck(String username){
+    public User usernameCheck(String username){
         for (User key:users) {
             if(key.getUsername().equals(username))
                 return key;
@@ -55,10 +58,10 @@ public class LoginMenuController extends Controller{
         return null;
     }
 
-    public String login(Matcher matcher){
-        User user = UsernameCheck(matcher.group("username"));
+    public String login(String username , String password){
+        User user = usernameCheck(username);
         if(user == null)return "Username and password didn’t match!";
-        if(!user.getPassword().equals(matcher.group("password")))return "Username and password didn’t match!";
+        if(!user.getPassword().equals(password))return "Username and password didn’t match!";
         setLoggedInUser(user);
         return "user logged in successfully!";
     }

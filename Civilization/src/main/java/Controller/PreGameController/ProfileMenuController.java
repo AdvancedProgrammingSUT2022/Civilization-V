@@ -17,18 +17,18 @@ public class ProfileMenuController extends Controller{
         return profileMenuController;
     }
     public String changeNickname(Matcher matcher){
-        for (User key:LoginMenuController.getInstance().getUsers()) {
+        for (User key: LoginAndRegisterController.getInstance().getUsers()) {
             if(key.getNickname().equals(matcher.group("nickname")))
                 return "user with nickname "+ key.getNickname() +" already exists";
         }
-        LoginMenuController.getInstance().getLoggedInUser().setNickname(matcher.group("nickname"));
+        LoginAndRegisterController.getInstance().getLoggedInUser().setNickname(matcher.group("nickname"));
         UserDataController.getInstance().saveUsers();
         return "nickname changed successfully!";
     }
     public String changeCurrentPassword(Matcher matcher) {
-        if(!matcher.group("current").equals(LoginMenuController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
+        if(!matcher.group("current").equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
         if(matcher.group("current").equals(matcher.group("new")))return "please enter a new password";
-        LoginMenuController.getInstance().getLoggedInUser().setPassword(matcher.group("new"));
+        LoginAndRegisterController.getInstance().getLoggedInUser().setPassword(matcher.group("new"));
         UserDataController.getInstance().saveUsers();
         return "password changed successfully!";
     }

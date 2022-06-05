@@ -1,0 +1,54 @@
+.buttons{
+    -fx-font-family: "Britannic Bold";
+    -fx-background-radius: 10;
+    -fx-background-color: rgba(201, 238, 221, 0.7);
+    -fx-font-size: 18;
+    -fx-text-fill: #4f4e4e;
+}
+
+.welcome{
+    -fx-font-family: Garamond;
+    -fx-fill: #ca67ef;
+    -fx-font-size: 36;
+}
+
+.loginFont{
+    -fx-font-family: Garamond;
+    -fx-alignment: center;
+    -fx-text-fill: #46c6c9;
+    -fx-font-size: 20;
+}
+
+.backGroundLogin{
+    -fx-background-image: url("/images/LoginMenu.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 1500;
+}
+
+.backGroundScoreBoard{
+    -fx-background-image: url("/images/scoreBoard.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 1500;
+}
+
+.backGroundMain{
+    -fx-background-image: url("/images/MainMenu.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 1400;
+}
+
+.errors{
+    -fx-font-family: "Britannic Bold";
+    -fx-text-fill: #a90909;
+    -fx-font-size: 20;
+}
+
+.border{
+    -fx-background-radius: 20;
+    -fx-background-color: rgba(2, 2, 2, 0.48);
+}
+
+.textFields{
+    -fx-background-color: rgba(248, 248, 248, 0.35);
+    -fx-background-radius: 10;
+}

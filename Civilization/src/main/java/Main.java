@@ -39,6 +39,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
     private static Parent loadFXML(String name){
         try {
             URL address = new URL(Objects.requireNonNull(Main.class.getResource("/fxml/" + name + ".fxml")).toString());

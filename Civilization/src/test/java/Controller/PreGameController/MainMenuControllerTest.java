@@ -43,7 +43,7 @@ public class MainMenuControllerTest {
         user2.setUsername("arash");
         user2.setPassword("man");
         user2.setNickname("man");
-        LoginMenuController.getInstance().setUsers(users);
+        LoginAndRegisterController.getInstance().setUsers(users);
     }
 
     @Test
