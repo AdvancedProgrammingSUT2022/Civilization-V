@@ -21,7 +21,7 @@
          <TextField fx:id="oldPass" promptText="Enter your old password" styleClass="textFields" />
          <TextField fx:id="newPass" promptText="Enter your new Password" styleClass="textFields" />
          <Button mnemonicParsing="false" onMouseClicked="#changePass" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Submit" />
-         <Label fx:id="PasswordError" prefHeight="21.0" prefWidth="339.0" styleClass="errors" text="error" visible="false" />
+         <Label fx:id="PasswordError" alignment="CENTER" prefHeight="21.0" prefWidth="339.0" styleClass="errors" text="error" visible="false" />
       </children>
    </VBox>
    <VBox alignment="CENTER" layoutX="810.0" layoutY="383.0" prefHeight="212.0" prefWidth="345.0" spacing="7" styleClass="border">
@@ -29,7 +29,7 @@
          <Label styleClass="loginFont" text="Change NickName" />
          <TextField fx:id="newNickname" promptText="Enter New NickName" styleClass="textFields" />
          <Button mnemonicParsing="false" onMouseClicked="#changeNickName" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Submit" />
-         <Label fx:id="nickNameError" prefHeight="21.0" prefWidth="349.0" styleClass="errors" text="error" visible="false" />
+         <Label fx:id="nickNameError" alignment="CENTER" prefHeight="21.0" prefWidth="349.0" styleClass="errors" text="error" visible="false" />
       </children>
    </VBox>
 
