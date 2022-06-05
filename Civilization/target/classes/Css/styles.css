@@ -20,19 +20,19 @@
 }
 
 .backGroundLogin{
-    -fx-background-image: url("/images/LoginMenu.jpg");
+    -fx-background-image: url("/images/Backgrounds/LoginMenu.jpg");
     -fx-background-position: center;
     -fx-background-size: 1500;
 }
 
 .backGroundScoreBoard{
-    -fx-background-image: url("/images/scoreBoard.jpg");
+    -fx-background-image: url("/images/Backgrounds/scoreBoard.jpg");
     -fx-background-position: center;
     -fx-background-size: 1500;
 }
 
 .backGroundMain{
-    -fx-background-image: url("/images/MainMenu.jpg");
+    -fx-background-image: url("/images/Backgrounds/MainMenu.jpg");
     -fx-background-position: center;
     -fx-background-size: 1400;
 }
@@ -51,4 +51,10 @@
 .textFields{
     -fx-background-color: rgba(248, 248, 248, 0.35);
     -fx-background-radius: 10;
+}
+
+.backGroundProfile{
+    -fx-background-image: url("/images/Backgrounds/profile.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 1500;
 }

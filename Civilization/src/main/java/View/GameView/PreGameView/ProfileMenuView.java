@@ -11,8 +11,8 @@ public class ProfileMenuView extends Menu{
 
     private final Consumer<Matcher> showMenu = matcher -> System.out.println(profileMenuController.showCurrentMenu());
     private final Consumer<Matcher> enterMenu = matcher -> System.out.println(profileMenuController.enterMenu(matcher));
-    private final Consumer<Matcher> changeNickName = matcher -> System.out.println(profileMenuController.changeNickname(matcher));
-    private final Consumer<Matcher> changePassword = matcher -> System.out.println(profileMenuController.changeCurrentPassword(matcher));
+    private final Consumer<Matcher> changeNickName = matcher -> System.out.println();
+    private final Consumer<Matcher> changePassword = matcher -> System.out.println();
 
     @Override
     public HashMap<String, Consumer<Matcher>> createCommandsMap(){

@@ -1,10 +1,15 @@
 package Model.User;
 
+import View.Images;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class User {
     private String username;
     private  String password;
     private String nickname;
     private int score ;
+    //private Image profilePic = Images.profilePics.pics.get(0);
     
     public String getUsername() {
         return username;
@@ -37,4 +42,12 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+//    public void setProfilePic(Image profilePic) {
+//        this.profilePic = profilePic;
+//    }
+//
+//    public Image getProfilePic() {
+//        return profilePic;
+//    }
 }

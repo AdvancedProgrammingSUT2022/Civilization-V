@@ -16,19 +16,20 @@ public class ProfileMenuController extends Controller{
             profileMenuController = new ProfileMenuController();
         return profileMenuController;
     }
-    public String changeNickname(Matcher matcher){
+    public String changeNickname(String newNickname){
+        if(newNickname.equals(""))return "field is empty";
         for (User key: LoginAndRegisterController.getInstance().getUsers()) {
-            if(key.getNickname().equals(matcher.group("nickname")))
+            if(key.getNickname().equals(newNickname))
                 return "user with nickname "+ key.getNickname() +" already exists";
         }
-        LoginAndRegisterController.getInstance().getLoggedInUser().setNickname(matcher.group("nickname"));
+        LoginAndRegisterController.getInstance().getLoggedInUser().setNickname(newNickname);
         UserDataController.getInstance().saveUsers();
         return "nickname changed successfully!";
     }
-    public String changeCurrentPassword(Matcher matcher) {
-        if(!matcher.group("current").equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
-        if(matcher.group("current").equals(matcher.group("new")))return "please enter a new password";
-        LoginAndRegisterController.getInstance().getLoggedInUser().setPassword(matcher.group("new"));
+    public String changeCurrentPassword(String old,String newPass) {
+        if(!old.equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
+        if(old.equals(newPass))return "please enter a new password";
+        LoginAndRegisterController.getInstance().getLoggedInUser().setPassword(newPass);
         UserDataController.getInstance().saveUsers();
         return "password changed successfully!";
     }

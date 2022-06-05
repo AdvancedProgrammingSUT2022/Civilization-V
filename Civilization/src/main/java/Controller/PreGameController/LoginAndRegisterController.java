@@ -59,6 +59,7 @@ public class LoginAndRegisterController extends Controller{
     }
 
     public String login(String username , String password){
+        if(username.equals(""))return "enter username!";
         User user = usernameCheck(username);
         if(user == null)return "Username and password didn’t match!";
         if(!user.getPassword().equals(password))return "Username and password didn’t match!";

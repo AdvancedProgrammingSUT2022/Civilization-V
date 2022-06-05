@@ -46,7 +46,7 @@ public class ScoreBoardPageController implements Initializable {
 
     public void buttonSizeDecrease(MouseEvent mouseEvent) {
         Button button =(Button) mouseEvent.getSource();
-        button.setStyle("-fx-font-size: 18; -fx-background-color: rgba(220, 90, 6, 0.76);");
+        button.setStyle("-fx-font-size: 18; -fx-background-color: rgba(201, 238, 221, 0.7);");
     }
 
     public void back(){
