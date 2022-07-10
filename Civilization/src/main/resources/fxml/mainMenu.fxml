@@ -26,8 +26,8 @@
                <HBox alignment="CENTER" prefHeight="68.0" prefWidth="328.0" spacing="7.0">
                   <children>
                      <Label styleClass="loginFont" text="Map Configuration:" fx:id="MapDes"/>
-                     <TextField alignment="CENTER" prefHeight="31.0" prefWidth="74.0" styleClass="textFields" promptText="width" />
-                     <TextField alignment="CENTER" layoutX="167.0" layoutY="45.0" prefHeight="31.0" prefWidth="74.0" styleClass="textFields" promptText="height" />
+                     <TextField alignment="CENTER" prefHeight="31.0" prefWidth="74.0" styleClass="textFields" promptText="width" fx:id="mapWidth"/>
+                     <TextField alignment="CENTER" layoutX="167.0" layoutY="45.0" prefHeight="31.0" prefWidth="74.0" styleClass="textFields" promptText="height" fx:id="mapHeight"/>
                   </children>
                </HBox>
                <HBox alignment="CENTER" prefHeight="80.0" prefWidth="473.0" spacing="7">
@@ -53,7 +53,7 @@
          </VBox>
          <HBox alignment="CENTER" prefHeight="92.0" prefWidth="364.0" spacing="10">
             <children>
-               <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Play Game" />
+               <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Play Game" onMouseClicked="#startGame"/>
                <Button mnemonicParsing="false" text="Load Game" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
             </children>
          </HBox>

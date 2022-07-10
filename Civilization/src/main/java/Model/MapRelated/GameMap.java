@@ -17,6 +17,9 @@ public class GameMap {
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
     private Random random = new Random();
     private static GameMap map;
+    private int mapWidth;
+    private int mapHeight;
+
     private GameMap(){
     }
     public static GameMap getInstance(){
@@ -75,5 +78,21 @@ public class GameMap {
     }
     public String printMap(){
         return MapPrinter.getInstance().printMap();
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapWidth(int mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public void setMapHeight(int mapHeight) {
+        this.mapHeight = mapHeight;
     }
 }

@@ -1,0 +1,11 @@
+.statusBar{
+    -fx-text-fill: #34290d;
+    -fx-font-family: "Britannic Bold";
+    -fx-font-size: 23;
+}
+
+.stats{
+    -fx-text-fill: #e5d5b2;
+    -fx-font-family: "Britannic Bold";
+    -fx-font-size: 23;
+}

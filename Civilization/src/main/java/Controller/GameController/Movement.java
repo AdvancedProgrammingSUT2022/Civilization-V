@@ -1,5 +1,6 @@
 package Controller.GameController;
 import Model.Enums.MapEnum;
+import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
 import Model.Movement.Node;
 import Model.TileRelated.Feature.FeatureType;
@@ -70,8 +71,8 @@ public class Movement {
 
     public Graph graphInit(){
         Graph graph = new Graph();
-        for (int j = 1; j < MapEnum.MAPHEIGHT.amount -1 ; j++) {
-            for (int i = 1; i < MapEnum.MAPWIDTH.amount - 1; i++) {
+        for (int j = 1; j < GameMap.getInstance().getMapHeight() -1 ; j++) {
+            for (int i = 1; i < GameMap.getInstance().getMapWidth() - 1; i++) {
                 if(MapFunctions.getInstance().getTile(i, j).getTerrain().equals(TerrainType.Mountain) || 
                 MapFunctions.getInstance().getTile(i, j).getTerrain().equals(TerrainType.Ocean))continue;
                 Node node = new Node(MapFunctions.getInstance().getTile(i, j));

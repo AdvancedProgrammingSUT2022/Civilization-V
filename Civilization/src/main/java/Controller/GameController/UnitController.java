@@ -44,7 +44,7 @@ public class UnitController {
         int y = Integer.parseInt(matcher.group("y"));
         boolean isCombatUnit = true;
         if(matcher.group("type").equals("civil"))isCombatUnit = false;
-        if(x > MapEnum.MAPWIDTH.amount -1 || y > MapEnum.MAPHEIGHT.amount -1)return "invalid coordinates";
+        if(x > GameMap.getInstance().getMapWidth() -1 || y > GameMap.getInstance().getMapHeight() -1)return "invalid coordinates";
         ArrayList<Unit> tileUnits;
         if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return "no units on this tile";
         for (Unit unit:tileUnits) {
@@ -83,7 +83,7 @@ public class UnitController {
             return "no selected unit";
         else if(GameController.getInstance().getSelectedUnit().getMovementsLeft() == 0)
             return "no movement left";
-        else if(destinationX > MapEnum.MAPWIDTH.amount - 1 || destinationY > MapEnum.MAPHEIGHT.amount - 1)
+        else if(destinationX > GameMap.getInstance().getMapWidth() - 1 || destinationY > GameMap.getInstance().getMapHeight() - 1)
             return "invalid coordinates";
         else if(MapFunctions.getInstance().getTile(destinationX, destinationY).getUnits().size() != 0 && MapFunctions.getInstance().getTile(destinationX, destinationY).getUnits().get(0).getCivilization() != GameController.getInstance().getSelectedUnit().getCivilization())
             return "tile contains a unit that isnt from your civilization";
@@ -239,7 +239,7 @@ public class UnitController {
             return "unit not selected yet";
         if(GameController.getInstance().getSelectedUnit().getMovementsLeft() == 0)
             return "no movement left";
-        if(x > MapEnum.MAPWIDTH.amount -1 || y > MapEnum.MAPHEIGHT.amount -1)
+        if(x > GameMap.getInstance().getMapWidth() -1 || y > GameMap.getInstance().getMapHeight() -1)
             return "invalid coordinates";
         if(MapFunctions.getInstance().getTile(x, y).getTerrain() == TerrainType.Ocean || MapFunctions.getInstance().getTile(x, y).getTerrain() == TerrainType.Mountain)
             return "this position is either mountain or ocean";

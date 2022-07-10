@@ -243,9 +243,6 @@ public class GameController{
         }
         return this.map.printMap();
     }
-    public void gameInit(ArrayList<User> players) {
-        MapGenerator.getInstance().gameInit(players);
-    }
     public String initMoveUnit(Matcher matcher) {
         return UnitController.getInstance().initMoveUnit(matcher); 
     }

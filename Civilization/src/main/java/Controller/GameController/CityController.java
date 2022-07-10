@@ -36,7 +36,7 @@ public class CityController {
         if(name == null) {
             int x = Integer.parseInt(matcher.group("x"));
             int y = Integer.parseInt(matcher.group("y"));
-            if (x > MapEnum.MAPWIDTH.amount - 1 || y > MapEnum.MAPHEIGHT.amount - 1) return "invalid coordinates";
+            if (x > GameMap.getInstance().getMapWidth() - 1 || y > GameMap.getInstance().getMapHeight() - 1) return "invalid coordinates";
             Civilization civilization;
             if ((civilization = MapFunctions.getInstance().getTile(x, y).getCivilization()) == null)
                 return "this tile does not belong to anyone";

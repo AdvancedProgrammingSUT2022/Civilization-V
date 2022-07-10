@@ -23,7 +23,7 @@ public class MapPrinter {
         return mapPrinter;
     }
     public String printMap(){
-        String[][] printMap = new String[MapEnum.MAPHEIGHT.amount * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount + 1][MapEnum.MAPWIDTH.amount * (MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount) + MapEnum.HEXSIDESHORT.amount];
+        String[][] printMap = new String[GameMap.getInstance().getMapHeight() * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount + 1][GameMap.getInstance().getMapWidth() * (MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount) + MapEnum.HEXSIDESHORT.amount];
         blankMap(printMap);
         for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
             fillTileInfo(GameMap.getInstance().getTiles().get(i), printMap);
@@ -183,7 +183,7 @@ public class MapPrinter {
             }
         return hasRivers;
     }
-    private TileVisibility getVisibility(Tile tile){
+    public TileVisibility getVisibility(Tile tile){
         if(GameController.getInstance().getPlayerTurn().getSeenBy().get(tile) == -1)return TileVisibility.FOGOFWAR;
         if(GameController.getInstance().getPlayerTurn().getSeenBy().get(tile) == 0)return TileVisibility.REVEALED;
         return TileVisibility.VISIBLE;

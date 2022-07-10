@@ -103,7 +103,7 @@ public class MapGenerator {
         setMountains(mapX, mapY, MapSeed);
         setFeatures(mapX, mapY, MapSeed);
         setResources(mapX, mapY, MapSeed);
-        setRivers(mapX, mapY);
+        //setRivers(mapX, mapY);
         setWaterSideTiles(mapX , mapY);
     }
 
@@ -180,8 +180,10 @@ public class MapGenerator {
         return TerrainType.values()[pickTerrain];
     }
 
-    public void gameInit(ArrayList<User> players){
-        generateMap(MapEnum.MAPWIDTH.amount , MapEnum.MAPHEIGHT.amount);
+    public void gameInit(ArrayList<User> players,int mapWidth,int mapHeight){
+        generateMap(mapWidth , mapHeight);
+        GameMap.getInstance().setMapHeight(mapHeight);
+        GameMap.getInstance().setMapWidth(mapWidth);
         int playersCount = players.size();
         ArrayList<Tile> availableMapTiles = new ArrayList<>(GameMap.getInstance().getTiles());
         GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());

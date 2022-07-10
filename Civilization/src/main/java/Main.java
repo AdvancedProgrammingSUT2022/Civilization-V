@@ -23,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         UserDataController.getInstance().loadUsers();
-        Parent root = loadFXML(Menus.LOGIN_MENU.value);
+        Parent root = loadFXML(Menus.MAIN_MENU.value);
         assert root != null;
         Scene scene = new Scene(root);
         Main.stage = stage;

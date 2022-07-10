@@ -75,7 +75,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> cheatIncreaseIron = matcher -> System.out.println(CheatCode.getInstance().increaseIron(matcher));
 
     public Game(ArrayList<User> players){
-        gameController.gameInit(players);
+       // gameController.gameInit(players);
     }
 
     @Override

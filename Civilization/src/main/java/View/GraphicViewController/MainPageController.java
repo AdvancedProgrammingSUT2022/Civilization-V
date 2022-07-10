@@ -1,18 +1,20 @@
 package View.GraphicViewController;
 
+import Controller.GameController.MapControllers.MapGenerator;
+import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
 import Model.Enums.Menus;
+import Model.User.User;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
@@ -24,6 +26,10 @@ public class MainPageController implements Initializable {
     @FXML Label inviteDes;
     @FXML Label MapDes;
     @FXML Label autoSaveDes;
+    @FXML
+    private TextField mapWidth;
+    @FXML
+    private TextField mapHeight;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,5 +75,16 @@ public class MainPageController implements Initializable {
 
     public void profile(MouseEvent mouseEvent) {
         main.java.Main.changeMenu(Menus.PROFILE_MENU.value);
+    }
+
+    @FXML
+    private void startGame(MouseEvent mouseEvent) {
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User());
+        users.add(new User());
+        if(Integer.parseInt(mapHeight.getText()) > 0 && Integer.parseInt(mapWidth.getText()) > 0) {
+            MapGenerator.getInstance().gameInit(users, Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
+            main.java.Main.changeMenu(Menus.GAME_MENU.value);
+        }
     }
 }
