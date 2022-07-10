@@ -3,6 +3,8 @@ package View.GraphicViewController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapPrinter;
+import Controller.PreGameController.LoginAndRegisterController;
+import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
@@ -167,10 +169,14 @@ public class GameplayGraphicController implements Initializable {
     }
 
     void managePanels(){
-        sciencePerTurn.setText("+10");
-        goldPerTurn.setText("(+2)");
-        currentGold.setText("20");
-        happiness.setText("10");
+        for (Civilization civ:GameMap.getInstance().getCivilizations()) {
+            if(civ.getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())){
+                sciencePerTurn.setText(Integer.toString(civ.getSciencePerTurn()));
+                goldPerTurn.setText("("+Integer.toString(civ.getGoldPerTurn())+")");
+                currentGold.setText(Integer.toString(civ.getGold()));
+                happiness.setText(Integer.toString(civ.getGold()));
+            }
+        }
     }
 
     public void buttonSizeIncrease(MouseEvent mouseEvent) {

@@ -80,8 +80,9 @@ public class MainPageController implements Initializable {
     @FXML
     private void startGame(MouseEvent mouseEvent) {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User());
-        users.add(new User());
+        users.add(LoginAndRegisterController.getInstance().getUser("nima"));
+        users.add(LoginAndRegisterController.getInstance().getUser("sero"));
+        users.add(LoginAndRegisterController.getInstance().getUser("arash"));
         if(Integer.parseInt(mapHeight.getText()) > 0 && Integer.parseInt(mapWidth.getText()) > 0) {
             MapGenerator.getInstance().gameInit(users, Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
             main.java.Main.changeMenu(Menus.GAME_MENU.value);
