@@ -1,5 +1,4 @@
 package View.GraphicViewController;
-
 import Controller.GameController.CityController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
@@ -12,11 +11,7 @@ import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
-import Model.Units.NonCombat.Settler;
-import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
-import Model.Units.Unit;
-import Model.User.User;
 import View.Images;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -24,34 +19,29 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.util.Duration;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Handler;
 
 
 public class GameplayGraphicController implements Initializable {
@@ -91,6 +81,8 @@ public class GameplayGraphicController implements Initializable {
     private ImageView profilePic;
     @FXML
     private Button buildCity;
+
+    private ArrayList<Circle> unitImages = new ArrayList<>();
     @FXML
     private Button sleep;
     @FXML
@@ -203,9 +195,19 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
+    private void updateMap(){
+        for (Circle circle: unitImages) {
+            pane.getChildren().remove(circle);
+        }
+        for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
+            assignImages(GameMap.getInstance().getTiles().get(i), tileToPoly.get(GameMap.getInstance().getTiles().get(i)), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+        }
+    }
+
     private void assignPicToPoly(Polygon polygon) {
         Tile tile = polyToTile.get(polygon);
-        Image img = null;
+        Image img;
         try {
             if (MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR))
                 polygon.setFill(new ImagePattern(image));
@@ -224,26 +226,37 @@ public class GameplayGraphicController implements Initializable {
 
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
-            if(GameController.getInstance().getSelectedUnit() != null){
+            if(selectedPoly != null){
+                if(polyToTile.get(selectedPoly).getUnits().size() != 0) {
+                    selectedPoly.setEffect(null);
+                    selectedPoly.setStrokeWidth(selectedPoly.getStrokeWidth() / 5);
+                }
+                selectedPoly.setStroke(null);
                 assignPicToPoly(selectedPoly);
             }
             if (polyToTile.get(polygon).getUnits().size() == 0)
                 timesClickedOnTile = 0;
             else
                 timesClickedOnTile++;
-            boolean isCombat = false;
+            boolean isCombat = polyToTile.get(polygon).getUnits().size() == 1 && polyToTile.get(polygon).getCombatUnitOnTile() != null;
             if (timesClickedOnTile != 0) {
                 if (polyToTile.get(polygon).getCombatUnitOnTile() != null && timesClickedOnTile % 2 == 0)
                     isCombat = true;
                 if (UnitController.getInstance().selectUnit(polyToTile.get(polygon), isCombat)) {
-                    polygon.setStroke(Paint.valueOf("Red"));
+                    selectedPoly = polygon;
+                    polygon.setStroke(Paint.valueOf("Cyan"));
+                    polygon.setEffect(new BoxBlur());
+                    polygon.setStrokeWidth(polygon.getStrokeWidth() * 5);
                     unitBar();
                 }
-                selectedPoly = polygon;
             }
         });
     }
-
+    private void resetPoly(Polygon polygon){
+        polygon.setStrokeWidth(1);
+        polygon.setStroke(null);
+        polygon.setEffect(null);
+    }
     private void buildPoly(double x, double y, Tile tile, Polygon polygon) {
         double shortSide = MapEnum.HEXSIDESHORT.amount;
         double longSide = MapEnum.HEXSIDELONG.amount;
@@ -265,13 +278,15 @@ public class GameplayGraphicController implements Initializable {
                 circle.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 6 / 5);
                 circle.setRadius(tile.getUnits().get(0).getUnitType().image.getWidth() * 1 / 5);
                 circle.setFill(new ImagePattern(tile.getUnits().get(0).getUnitType().image));
-                pane.getChildren().add(0,circle);
+                pane.getChildren().add(circle);
+                unitImages.add(circle);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
     private void assignImages(Tile tile,Polygon polygon,double x,double y){
+        resetPoly(polygon);
         assignPicToPoly(polygon);
         assignPicToUnits(tile,x,y);
     }
@@ -357,5 +372,10 @@ public class GameplayGraphicController implements Initializable {
             actionPanel.setDisable(true);
             actionPanel.setVisible(false);
         }
+    }
+
+    public void nextTurn(ActionEvent actionEvent) {
+        GameController.getInstance().nextTurn();
+        updateMap();
     }
 }
