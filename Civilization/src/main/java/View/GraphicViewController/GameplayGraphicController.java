@@ -38,9 +38,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.util.Duration;
-import main.java.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,10 +66,10 @@ public class GameplayGraphicController implements Initializable {
     HashMap<Tile, javafx.scene.shape.Polygon> tileToPoly = new HashMap<>();
     HashMap<javafx.scene.shape.Polygon, Tile> polyToTile = new HashMap<>();
     private Boolean up = false;
+    private Polygon selectedPoly;
     private Boolean down = false;
     private Boolean right = false;
     private Boolean left = false;
-    private Polygon selectedPoly;
     @FXML
     private Button button1;
     @FXML
@@ -110,19 +110,16 @@ public class GameplayGraphicController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<User> users = new ArrayList<>();
-        users.add(new User());
-        users.add(new User());
         Platform.runLater(this::printMap);
         initControls();
         getTimeline().play();
         profilePic.setImage(Images.profilePics.pics.get(LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex()));
-        buildCity.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                ((Settler)GameController.getInstance().getSelectedUnit()).buildCity(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()+"abad");
-                System.out.println("jj");
-            }
+        buildCity.setOnMouseClicked(mouseEvent -> {
+            Tile tile = GameController.getInstance().getSelectedUnit().getTile();
+            assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
+            ((Settler)GameController.getInstance().getSelectedUnit()).buildCity(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()+"abad");
+            System.out.println("jj");
         });
     }
 
@@ -148,38 +145,14 @@ public class GameplayGraphicController implements Initializable {
     public void move() {
         double speed = MapEnum.NAVIGATIONSPEED.amount;
         javafx.scene.shape.Polygon firstPoly = getPolygon(MapFunctions.getInstance().getTile(0, 0));
-        if (up) {
-            for (Node node : pane.getChildren()) {
-                if (node instanceof javafx.scene.shape.Polygon polygon ||
-                        node instanceof Circle) {
-                    node.setLayoutY(node.getLayoutY() + speed);
-                }
-            }
-        }
-        if (down) {
-            for (Node node : pane.getChildren()) {
-                if (node instanceof javafx.scene.shape.Polygon polygon ||
-                        node instanceof Circle) {
-                    node.setLayoutY(node.getLayoutY() - speed);
-                }
-            }
-        }
-        if (right) {
-            for (Node node : pane.getChildren()) {
-                if (node instanceof javafx.scene.shape.Polygon polygon ||
-                        node instanceof Circle) {
-                    node.setLayoutX(node.getLayoutX() - speed);
-                }
-            }
-        }
-        if (left) {
-            for (Node node : pane.getChildren()) {
-                if (node instanceof javafx.scene.shape.Polygon polygon ||
-                        node instanceof Circle) {
-                    node.setLayoutX(node.getLayoutX() + speed);
-                }
-            }
-        }
+        if(up)
+            pane.setLayoutY(pane.getLayoutY() + speed);
+        if (down)
+            pane.setLayoutY(pane.getLayoutY() - speed);
+        if (right)
+            pane.setLayoutX(pane.getLayoutX() - speed);
+        if(left)
+            pane.setLayoutX(pane.getLayoutX() + speed);
     }
 
     public void initControls() {
@@ -215,12 +188,14 @@ public class GameplayGraphicController implements Initializable {
         try {
             if (MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR))
                 polygon.setFill(Color.GRAY);
-            if (tile.getFeature() == null) {
-                img = new Image("/images/Map/newPics/" + tile.getTerrain().name() + ".png");
-            } else {
-                img = new Image("/images/Map/newPics/" + tile.getFeature().getFeatureType().name() + ".png");
+            else {
+                if (tile.getFeature() == null) {
+                    img = new Image("/images/Map/newPics/" + tile.getTerrain().name() + ".png");
+                } else {
+                    img = new Image("/images/Map/newPics/" + tile.getFeature().getFeatureType().name() + ".png");
+                }
+                polygon.setFill(new ImagePattern(img));
             }
-            polygon.setFill(new ImagePattern(img));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -228,8 +203,8 @@ public class GameplayGraphicController implements Initializable {
 
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
-            if (GameController.getInstance().getSelectedUnit() != null) {
-                selectedPoly.setStroke(null);
+            if(GameController.getInstance().getSelectedUnit() != null){
+                assignPicToPoly(selectedPoly);
             }
             if (polyToTile.get(polygon).getUnits().size() == 0)
                 timesClickedOnTile = 0;
@@ -261,28 +236,29 @@ public class GameplayGraphicController implements Initializable {
         polyToTile.put(polygon, tile);
     }
 
-    private void assignImages(Tile tile, Polygon polygon, double x, double y) {
-        Image img;
+    private void assignPicToUnits(Tile tile,double x,double y){
         try {
-            if (MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR))
-                polygon.setFill(Color.GRAY);
-            if (tile.getFeature() == null) {
-                img = new Image("/images/Map/newPics/" + tile.getTerrain().name() + ".png");
-            } else {
-                img = new Image("/images/Map/newPics/" + tile.getFeature().getFeatureType().name() + ".png");
-            }
-            if (tile.getUnits().size() != 0) {
+            if(tile.getUnits().size() != 0 && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)){
                 Circle circle = new Circle();
                 circle.setCenterX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 3);
                 circle.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 6 / 5);
                 circle.setRadius(tile.getUnits().get(0).getUnitType().image.getWidth() * 1 / 5);
                 circle.setFill(new ImagePattern(tile.getUnits().get(0).getUnitType().image));
-                pane.getChildren().add(circle);
+                pane.getChildren().add(0,circle);
             }
-            polygon.setFill(new ImagePattern(img));
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    private void assignImages(Tile tile,Polygon polygon,double x,double y){
+        assignPicToPoly(polygon);
+        assignPicToUnits(tile,x,y);
+    }
+
+    private void assignRectangleToCities(Tile tile, double x, double y) {
+            Rectangle rectangle = new Rectangle(x - MapEnum.HEXSIDELONG.amount, y - MapEnum.HEXSIDESHORT.amount, x + MapEnum.HEXSIDELONG.amount, y + MapEnum.HEXSIDESHORT.amount);
+            rectangle.setFill(Color.RED);
+            pane.getChildren().add(rectangle);
     }
 
     private void createAndAddPolygon(double x, double y, Tile tile) {
