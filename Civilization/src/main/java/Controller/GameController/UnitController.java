@@ -117,7 +117,7 @@ public class UnitController {
         return "moving...";
     }
 
-    public String checkAndBuildCity(Matcher matcher) {
+    public String checkAndBuildCity(String cityName) {
         Unit selectedUnit = GameController.getInstance().getSelectedUnit();
         if (selectedUnit == null) 
         return "no unit is selected";
@@ -141,7 +141,6 @@ public class UnitController {
                         }
                     }
                 }
-            String cityName = matcher.group("cityName");
             BuildCity((Settler) selectedUnit, cityName);
             removeUnitFromGame(selectedUnit);
             GameController.getInstance().setSelectedUnit(null);

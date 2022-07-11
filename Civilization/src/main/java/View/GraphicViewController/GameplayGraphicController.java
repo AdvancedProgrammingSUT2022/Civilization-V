@@ -1,10 +1,12 @@
 package View.GraphicViewController;
 
+import Controller.GameController.CityController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.UnitController;
 import Controller.PreGameController.LoginAndRegisterController;
+import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
@@ -33,12 +35,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.util.Duration;
 
@@ -51,6 +55,7 @@ import java.util.logging.Handler;
 
 
 public class GameplayGraphicController implements Initializable {
+    Image image = new Image("/images/Map/cloud.png");
     @FXML
     private Label sciencePerTurn;
     @FXML
@@ -106,6 +111,23 @@ public class GameplayGraphicController implements Initializable {
     private Button buildImprovement;
     @FXML
     private Button rangedAttack;
+    private Rectangle rectangle;
+    @FXML
+    private AnchorPane cityPanel;
+    @FXML
+    private Label populationCityBar;
+    @FXML
+    private Label growthCityBar;
+    @FXML
+    private Label foodCityBar;
+    @FXML
+    private Label productionCityBar;
+    @FXML
+    private Label goldCityBar;
+    @FXML
+    private Label scienceCityBar;
+    @FXML
+    private Label notification;
 
 
     @Override
@@ -116,10 +138,9 @@ public class GameplayGraphicController implements Initializable {
         profilePic.setImage(Images.profilePics.pics.get(LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex()));
         buildCity.setOnMouseClicked(mouseEvent -> {
             Tile tile = GameController.getInstance().getSelectedUnit().getTile();
+            notification.setText(UnitController.getInstance().checkAndBuildCity("shahr"));
             assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
-            ((Settler)GameController.getInstance().getSelectedUnit()).buildCity(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()+"abad");
-            System.out.println("jj");
         });
     }
 
@@ -187,7 +208,7 @@ public class GameplayGraphicController implements Initializable {
         Image img = null;
         try {
             if (MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR))
-                polygon.setFill(Color.GRAY);
+                polygon.setFill(new ImagePattern(image));
             else {
                 if (tile.getFeature() == null) {
                     img = new Image("/images/Map/newPics/" + tile.getTerrain().name() + ".png");
@@ -256,9 +277,34 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void assignRectangleToCities(Tile tile, double x, double y) {
-            Rectangle rectangle = new Rectangle(x - MapEnum.HEXSIDELONG.amount, y - MapEnum.HEXSIDESHORT.amount, x + MapEnum.HEXSIDELONG.amount, y + MapEnum.HEXSIDESHORT.amount);
-            rectangle.setFill(Color.RED);
-            pane.getChildren().add(rectangle);
+        Rectangle rectangle = new Rectangle(x + (double) MapEnum.HEXSIDESHORT.amount*1/2, y - (double) MapEnum.HEXSIDELONG.amount* 1/5,100,30);
+        Text text = new Text("shahr");
+        text.setStyle("-fx-font-family: 'Britannic Bold';-fx-text-fill: rgba(12,7,7,0.68);-fx-font-size: 18;");
+        rectangle.setArcHeight(35);
+        rectangle.setArcWidth(35);
+        rectangle.setFill(Paint.valueOf("#9bd8c9b3"));
+        StackPane stack = new StackPane();
+        stack.getChildren().addAll(rectangle,text);
+        stack.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount*1/2);
+        stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount* 1/5);
+        stack.setOnMouseClicked(mouseEvent -> {
+            CityController.getInstance().selectCity(((Text)stack.getChildren().get(1)).getText());
+            manageCityPanel();
+        });
+        pane.getChildren().add(stack);
+    }
+
+    private void manageCityPanel() {
+        City city = GameController.getInstance().getSelectedCity();
+        cityPanel.setVisible(true);
+        cityPanel.setDisable(false);
+        populationCityBar.setText("Population:     " + city.getPopulation());
+        if(city.getFoodPerTurn() > 0)growthCityBar.setText("growth in " + ((int)((Math.pow(2,city.getPopulation())) - city.getStoredFood())/(city.getFoodPerTurn())+1) + " turns");
+        else growthCityBar.setText("City is not growing!");
+        foodCityBar.setText("Food per Turn: " + city.getFoodPerTurn());
+        productionCityBar.setText("Production per Turn: " + city.getProductionPerTurn());
+        goldCityBar.setText("Gold per Turn: "+ city.getGoldPerTurn());
+        scienceCityBar.setText("Science Per Turn: " + city.getSciencePerTurn());
     }
 
     private void createAndAddPolygon(double x, double y, Tile tile) {

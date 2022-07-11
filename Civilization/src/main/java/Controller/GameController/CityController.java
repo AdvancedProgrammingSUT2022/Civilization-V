@@ -31,27 +31,26 @@ public class CityController {
         return selectedBuildingType;
     }
 
-    public String selectCity(Matcher matcher){
-        String name = matcher.group("name");
-        if(name == null) {
-            int x = Integer.parseInt(matcher.group("x"));
-            int y = Integer.parseInt(matcher.group("y"));
-            if (x > GameMap.getInstance().getMapWidth() - 1 || y > GameMap.getInstance().getMapHeight() - 1) return "invalid coordinates";
-            Civilization civilization;
-            if ((civilization = MapFunctions.getInstance().getTile(x, y).getCivilization()) == null)
-                return "this tile does not belong to anyone";
-            if (civilization != GameController.getInstance().getPlayerTurn())
-                return "this tile does not belong to your civilization";
-            ArrayList<City> playerCities = GameController.getInstance().getPlayerTurn().getCities();
-            if (playerCities == null) return "no cities on your civilization";
-            for (City city : playerCities) {
-                if (Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))) {
-                    GameController.getInstance().setSelectedCity(city);
-                    return "city selected :" + cityOutput();
-
-                }
-            }
-        } else {
+    public String selectCity(String name){
+//        if(name == null) {
+//            int x = Integer.parseInt(matcher.group("x"));
+//            int y = Integer.parseInt(matcher.group("y"));
+//            if (x > GameMap.getInstance().getMapWidth() - 1 || y > GameMap.getInstance().getMapHeight() - 1) return "invalid coordinates";
+//            Civilization civilization;
+//            if ((civilization = MapFunctions.getInstance().getTile(x, y).getCivilization()) == null)
+//                return "this tile does not belong to anyone";
+//            if (civilization != GameController.getInstance().getPlayerTurn())
+//                return "this tile does not belong to your civilization";
+//            ArrayList<City> playerCities = GameController.getInstance().getPlayerTurn().getCities();
+//            if (playerCities == null) return "no cities on your civilization";
+//            for (City city : playerCities) {
+//                if (Objects.equals(city.getCityTiles().get(0), MapFunctions.getInstance().getTile(x, y))) {
+//                    GameController.getInstance().setSelectedCity(city);
+//                    return "city selected :" + cityOutput();
+//
+//                }
+//            }
+//        } else {
             ArrayList<City> playerCities = GameController.getInstance().getPlayerTurn().getCities();
             if (playerCities == null) return "no cities on your civilization";
             for (City city : playerCities) {
@@ -60,7 +59,7 @@ public class CityController {
                     return "city selected :" + cityOutput();
                 }
             }
-        }
+        //}
         return "city not found";
     }
 
