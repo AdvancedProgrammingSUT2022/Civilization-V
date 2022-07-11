@@ -17,8 +17,8 @@ public class GameMap {
     private ArrayList<Building> builtBuildings = new ArrayList<Building>();
     private Random random = new Random();
     private static GameMap map;
-    private int mapWidth;
-    private int mapHeight;
+    private int mapWidth ;
+    private int mapHeight ;
 
     private GameMap(){
     }

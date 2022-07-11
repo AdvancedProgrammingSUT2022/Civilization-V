@@ -9,6 +9,8 @@ import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
+import Model.Units.TypeEnums.UnitType;
+import Model.Units.Unit;
 import Model.User.User;
 import View.GameView.Game;
 import javafx.animation.KeyFrame;
@@ -30,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import javafx.stage.Popup;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -59,15 +62,15 @@ public class GameplayGraphicController implements Initializable {
     @FXML
     private Button button1;
     @FXML
-    private Button button2;
-    @FXML
-    private Button button3;
-    @FXML
-    private Button button4;
-    @FXML
     private ImageView unitPic;
     @FXML
     private AnchorPane unitBar;
+    @FXML
+    private AnchorPane actionPanel;
+    @FXML
+    private Label unitLabel;
+    @FXML
+    private Label unitMoves;
 
 
     @Override
@@ -193,9 +196,16 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
-    public void unitBar(Tile tile){
+    public void unitBar(){
         unitBar.setVisible(true);
-        //button1.seto
+        unitBar.setDisable(false);
+        for (UnitType key:UnitType.values()) {
+            if(GameController.getInstance().getSelectedUnit().getUnitType().equals(key)){
+                unitPic.setImage(key.image);
+                unitLabel.setText(key.name());
+                unitMoves.setText("Movements: " + GameController.getInstance().getSelectedUnit().getMovementsLeft());
+            }
+        }
     }
 
     public void buttonSizeIncrease(MouseEvent mouseEvent) {
@@ -206,5 +216,17 @@ public class GameplayGraphicController implements Initializable {
     public void buttonSizeDecrease(MouseEvent mouseEvent) {
         javafx.scene.control.Button button =(Button) mouseEvent.getSource();
         button.setStyle("-fx-font-size: 18; -fx-background-color: rgba(201, 238, 221, 0.7);");
+    }
+
+    @FXML
+    private void showActions(MouseEvent mouseEvent) {
+        if(actionPanel.isDisable()) {
+            actionPanel.setDisable(false);
+            actionPanel.setVisible(true);
+        }
+        else {
+            actionPanel.setDisable(true);
+            actionPanel.setVisible(false);
+        }
     }
 }

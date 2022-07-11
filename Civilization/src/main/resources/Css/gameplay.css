@@ -9,3 +9,9 @@
     -fx-font-family: "Britannic Bold";
     -fx-font-size: 23;
 }
+
+.topics{
+    -fx-text-fill: #6771d0;
+    -fx-font-family: fantasy;
+    -fx-font-size: 25;
+}

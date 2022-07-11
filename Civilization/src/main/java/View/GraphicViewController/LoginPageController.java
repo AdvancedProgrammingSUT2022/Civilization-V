@@ -41,7 +41,9 @@ public class LoginPageController implements Initializable {
     public void login(MouseEvent mouseEvent) {
         error.setText(LoginAndRegisterController.getInstance().login(username.getText(),password.getText()));
         error.setVisible(true);
-        if(error.getText().equals("user logged in successfully!"))main.java.Main.changeMenu(Menus.MAIN_MENU.value);
+        if(error.getText().equals("user logged in successfully!")){
+            main.java.Main.changeMenu(Menus.MAIN_MENU.value);
+        }
     }
 
     public void register(MouseEvent mouseEvent) {
