@@ -46,8 +46,8 @@ public class UnitController {
         if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return false;
         for (Unit unit:tileUnits) {
             if((unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit) || (!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit)){
-                //if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return true;
-                    GameController.getInstance().setSelectedUnit(unit);
+                if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return false;
+                GameController.getInstance().setSelectedUnit(unit);
                 return true;
             }
         }
