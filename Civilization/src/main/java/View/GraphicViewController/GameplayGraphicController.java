@@ -23,7 +23,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -54,6 +56,18 @@ public class GameplayGraphicController implements Initializable {
     private Boolean down = false;
     private Boolean right = false;
     private Boolean left = false;
+    @FXML
+    private Button button1;
+    @FXML
+    private Button button2;
+    @FXML
+    private Button button3;
+    @FXML
+    private Button button4;
+    @FXML
+    private ImageView unitPic;
+    @FXML
+    private AnchorPane unitBar;
 
 
     @Override
@@ -177,6 +191,11 @@ public class GameplayGraphicController implements Initializable {
                 happiness.setText(Integer.toString(civ.getGold()));
             }
         }
+    }
+
+    public void unitBar(Tile tile){
+        unitBar.setVisible(true);
+        //button1.seto
     }
 
     public void buttonSizeIncrease(MouseEvent mouseEvent) {

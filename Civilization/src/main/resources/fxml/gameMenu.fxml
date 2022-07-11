@@ -36,10 +36,10 @@
             <Label fx:id="goldPerTurn" styleClass="stats" text="Label" />
          </children>
       </HBox>
-      <AnchorPane layoutX="13.0" layoutY="391.0" prefHeight="328.0" prefWidth="405.0">
+      <AnchorPane layoutX="13.0" layoutY="391.0" prefHeight="328.0" prefWidth="405.0" fx:id="unitBar">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#8f979e7d" height="202.0" layoutX="4.0" layoutY="126.0" stroke="BLACK" strokeType="INSIDE" width="397.0" />
-            <ImageView fitHeight="234.0" fitWidth="199.0" layoutX="14.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="234.0" fitWidth="199.0" layoutX="14.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" fx:id="unitPic">
                <image>
                   <Image url="@../images/statusBar/Archer.png" />
                </image>
@@ -50,14 +50,14 @@
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="167.0" styleClass="statusBar" text="description" textAlignment="CENTER" />
                   <HBox alignment="CENTER" prefHeight="62.0" prefWidth="213.0" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" />
-                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" fx:id="button1"/>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" fx:id="button2"/>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="61.0" prefWidth="168.0" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" />
-                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" fx:id="button3"/>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Button" fx:id="button4"/>
                      </children>
                   </HBox>
                </children>
