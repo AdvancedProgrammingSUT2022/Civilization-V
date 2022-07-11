@@ -35,6 +35,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Popup;
@@ -228,7 +229,7 @@ public class GameplayGraphicController implements Initializable {
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
             if (GameController.getInstance().getSelectedUnit() != null) {
-                assignPicToPoly(selectedPoly);
+                selectedPoly.setStroke(null);
             }
             if (polyToTile.get(polygon).getUnits().size() == 0)
                 timesClickedOnTile = 0;
@@ -239,7 +240,7 @@ public class GameplayGraphicController implements Initializable {
                 if (polyToTile.get(polygon).getCombatUnitOnTile() != null && timesClickedOnTile % 2 == 0)
                     isCombat = true;
                 if (UnitController.getInstance().selectUnit(polyToTile.get(polygon), isCombat)) {
-                    polygon.setFill(Color.RED);
+                    polygon.setStroke(Paint.valueOf("Red"));
                     unitBar();
                 }
                 selectedPoly = polygon;
