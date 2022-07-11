@@ -19,7 +19,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
-    private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
+    //private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
     private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher)); // Arash changes
     private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // Arash changes
@@ -85,7 +85,7 @@ public class Game extends Menu{
         commandsMap.put(regex.printMap,this.printMap);
         commandsMap.put(regex.nextTurn,this.nextTurn);
         commandsMap.put(regex.getPlayerName,this.getPlayerName);
-        commandsMap.put(regex.selectUnit,this.selectUnit);
+        //commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
         commandsMap.put(regex.selectCity,selectCity);
         commandsMap.put(regex.build,build); // Arash changes

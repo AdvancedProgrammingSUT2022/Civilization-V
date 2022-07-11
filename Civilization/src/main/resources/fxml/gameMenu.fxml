@@ -10,8 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<Pane fx:id="pane" prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
+      <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />
       <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="174.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -38,13 +39,13 @@
       </HBox>
       <AnchorPane fx:id="unitBar" disable="true" layoutX="13.0" layoutY="401.0" prefHeight="344.0" prefWidth="367.0" visible="false">
          <children>
-            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#8f979e7d" height="202.0" layoutX="4.0" layoutY="126.0" stroke="BLACK" strokeType="INSIDE" width="342.0" />
-            <ImageView fx:id="unitPic" fitHeight="234.0" fitWidth="199.0" layoutX="14.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#8f979e7d" height="202.0" layoutX="4.0" layoutY="126.0" stroke="BLACK" strokeType="INSIDE" width="389.0" />
+            <ImageView fx:id="unitPic" fitHeight="186.0" fitWidth="161.0" layoutX="35.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/statusBar/Archer.png" />
                </image>
             </ImageView>
-            <VBox alignment="CENTER" layoutX="196.0" layoutY="110.0" prefHeight="234.0" prefWidth="143.0">
+            <VBox alignment="CENTER" layoutX="196.0" layoutY="110.0" prefHeight="234.0" prefWidth="206.0">
                <children>
                   <Label fx:id="unitLabel" alignment="CENTER" prefHeight="42.0" prefWidth="125.0" styleClass="statusBar" text="archer" textAlignment="CENTER" />
                   <Label fx:id="unitMoves" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="167.0" styleClass="statusBar" text="description" textAlignment="CENTER" />
@@ -85,31 +86,31 @@
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="25.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="580.0" />
             <HBox alignment="CENTER" layoutX="5.0" layoutY="14.0" prefHeight="62.0" prefWidth="620.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Sleep" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Alert" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Fortify" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Heal" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Setup" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Wake" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Delete" />
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Sleep" fx:id="sleep"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Alert" fx:id="alert"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Fortify" fx:id="fortify"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Heal" fx:id="heal"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Setup" fx:id="setup"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Wake" fx:id="wake"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Delete" fx:id="delete"/>
                </children>
             </HBox>
             <HBox alignment="CENTER" layoutX="9.0" layoutY="77.0" prefHeight="66.0" prefWidth="620.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build Improvement" />
-                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" fx:id="upgrade"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" fx:id="buildCity"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build Improvement" fx:id="buildImprovement"/>
+                  <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" fx:id="rangedAttack"/>
                </children>
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane disable="true" layoutX="-5.0" layoutY="32.0" prefHeight="328.0" prefWidth="298.0" visible="false">
+      <AnchorPane layoutX="-5.0" layoutY="32.0" prefHeight="328.0" prefWidth="298.0">
          <children>
             <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#638d7182" height="372.0" layoutX="30.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="236.0" />
             <VBox alignment="CENTER" layoutX="31.0" layoutY="28.0" prefHeight="344.0" prefWidth="236.0">
                <children>
-                  <ImageView fitHeight="149.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="149.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" fx:id="profilePic"/>
                   <Label alignment="CENTER" prefHeight="21.0" prefWidth="226.0" styleClass="topics" text="City Panel" />
                   <Label fx:id="populationCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="339.0" styleClass="stats" text="population" />
                   <Label fx:id="growthCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="292.0" styleClass="stats" text="growth" />
@@ -121,10 +122,10 @@
             </VBox>
          </children>
       </AnchorPane>
-      <HBox fx:id="cityButtons" alignment="CENTER" layoutX="601.0" layoutY="523.0" prefHeight="100.0" prefWidth="298.0" spacing="10.0">
+      <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="601.0" layoutY="523.0" prefHeight="100.0" prefWidth="298.0" spacing="10.0" visible="false">
          <children>
-            <Button mnemonicParsing="false" text="Buy Tile" />
-            <Button mnemonicParsing="false" text="Citizen Mangement" />
+            <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
+            <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
          </children>
       </HBox>
    </children>

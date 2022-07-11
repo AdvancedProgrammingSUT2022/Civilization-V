@@ -9,7 +9,6 @@ import java.util.Random;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
-import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.Movement.Graph;
 import Model.TileRelated.Feature.FeatureType;
@@ -39,22 +38,20 @@ public class UnitController {
     }
 
 
-    public String selectUnit(Matcher matcher){
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        boolean isCombatUnit = true;
-        if(matcher.group("type").equals("civil"))isCombatUnit = false;
-        if(x > GameMap.getInstance().getMapWidth() -1 || y > GameMap.getInstance().getMapHeight() -1)return "invalid coordinates";
+    public boolean selectUnit(Tile tile, boolean isCombatUnit){
+        int x = tile.getX();
+        int y = tile.getY();
+        if(x > GameMap.getInstance().getMapWidth() -1 || y > GameMap.getInstance().getMapHeight() -1)return false;
         ArrayList<Unit> tileUnits;
-        if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return "no units on this tile";
+        if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return false;
         for (Unit unit:tileUnits) {
             if((unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit) || (!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit)){
-                if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return "selected unit does not belong to your civilization!";
-                GameController.getInstance().setSelectedUnit(unit);
-                return "unit selected";
+                //if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return true;
+                    GameController.getInstance().setSelectedUnit(unit);
+                return true;
             }
         }
-        return "unit not found";
+        return true;
     }
 
     public void restoreUnitMovementLeft(){
@@ -561,21 +558,20 @@ public class UnitController {
             return "selected tile isnt valid";
         if(GameController.getInstance().getSelectedCity() == null)
             return "city not selected";
-        if(GameController.getInstance().getSelectedCity().isHasAttackLeft() == false)
+        if(!GameController.getInstance().getSelectedCity().isHasAttackLeft())
             return "already used attack";
         if(tile.getUnits().size() == 0)
             return "tile does not contain a unit";
         if(tile.getUnits().size() > 0 && tile.getUnits().get(0).getCivilization() == GameController.getInstance().getSelectedCity().getCivilization())
             return "unit is of the same civilization";
-        if(TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<Tile,Integer>()).containsKey(tile) == false ||
-            TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<Tile,Integer>()).get(tile) > 2)
+        if(!TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<>()).containsKey(tile) ||
+            TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<>()).get(tile) > 2)
             return "tile is out of range";
 
         return null;
     }
     public void updateUnitDataAfterRound(Unit unit){
-        if(unit instanceof Combat){
-            Combat combatUnit = ((Combat) unit);
+        if(unit instanceof Combat combatUnit){
             if(unit.getUnitStateType() == UnitStateType.FORTIFYUNTILHEALED){
                 if(combatUnit.getHitPoints() < 10)
                     combatUnit.setHitPoints(combatUnit.getHitPoints() + 2);
@@ -605,7 +601,7 @@ public class UnitController {
             return "unit not selected yet";
         else if(GameController.getInstance().getSelectedUnit().getMovementsLeft() == 0)
             return "no movement left";
-        if((GameController.getInstance().getSelectedUnit() instanceof Siege) == false)
+        if(!(GameController.getInstance().getSelectedUnit() instanceof Siege))
             return "selected unit is not a siege unit";
         if(((Siege)GameController.getInstance().getSelectedUnit()).isPreAttackDone())
             return "pre attack already done";
