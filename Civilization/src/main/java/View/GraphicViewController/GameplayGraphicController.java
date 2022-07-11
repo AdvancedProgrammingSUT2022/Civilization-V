@@ -12,6 +12,7 @@ import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.TypeEnums.UnitType;
+import View.GameView.Game;
 import View.Images;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -65,6 +66,7 @@ public class GameplayGraphicController implements Initializable {
     private Boolean down = false;
     private Boolean right = false;
     private Boolean left = false;
+    ArrayList<StackPane> cityBanners = new ArrayList<>();
     @FXML
     private Button button1;
     @FXML
@@ -130,9 +132,10 @@ public class GameplayGraphicController implements Initializable {
         profilePic.setImage(Images.profilePics.pics.get(LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex()));
         buildCity.setOnMouseClicked(mouseEvent -> {
             Tile tile = GameController.getInstance().getSelectedUnit().getTile();
-            notification.setText(UnitController.getInstance().checkAndBuildCity("shahr"));
+            notification.setText(UnitController.getInstance().checkAndBuildCity(GameController.getInstance().getSelectedUnit().getCivilization().getUser().getNickname() +" "+ (GameController.getInstance().getSelectedUnit().getCivilization().getCities().size()+1)));
             assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
+            updateMap();
         });
     }
 
@@ -196,11 +199,23 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void updateMap(){
+        for (StackPane stack:cityBanners) {
+            pane.getChildren().remove(stack);
+        }
+        cityBanners = new ArrayList<>();
+        cityPanel.setDisable(true);
+        cityPanel.setVisible(false);
+        unitBar.setDisable(true);
+        unitBar.setVisible(false);
+        actionPanel.setVisible(false);
+        actionPanel.setDisable(true);
         for (Circle circle: unitImages) {
             pane.getChildren().remove(circle);
         }
         for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
             assignImages(GameMap.getInstance().getTiles().get(i), tileToPoly.get(GameMap.getInstance().getTiles().get(i)), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+            assignRectangleToCities(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
         }
     }
@@ -229,7 +244,7 @@ public class GameplayGraphicController implements Initializable {
             if(selectedPoly != null){
                 if(polyToTile.get(selectedPoly).getUnits().size() != 0) {
                     selectedPoly.setEffect(null);
-                    selectedPoly.setStrokeWidth(selectedPoly.getStrokeWidth() / 5);
+                    selectedPoly.setStrokeWidth(selectedPoly.getStrokeWidth() / 10);
                 }
                 selectedPoly.setStroke(null);
                 assignPicToPoly(selectedPoly);
@@ -243,10 +258,11 @@ public class GameplayGraphicController implements Initializable {
                 if (polyToTile.get(polygon).getCombatUnitOnTile() != null && timesClickedOnTile % 2 == 0)
                     isCombat = true;
                 if (UnitController.getInstance().selectUnit(polyToTile.get(polygon), isCombat)) {
+                    updateMap();
                     selectedPoly = polygon;
                     polygon.setStroke(Paint.valueOf("Cyan"));
                     polygon.setEffect(new BoxBlur());
-                    polygon.setStrokeWidth(polygon.getStrokeWidth() * 5);
+                    polygon.setStrokeWidth(polygon.getStrokeWidth() * 10);
                     unitBar();
                 }
             }
@@ -292,21 +308,30 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void assignRectangleToCities(Tile tile, double x, double y) {
-        Rectangle rectangle = new Rectangle(x + (double) MapEnum.HEXSIDESHORT.amount*1/2, y - (double) MapEnum.HEXSIDELONG.amount* 1/5,100,30);
-        Text text = new Text("shahr");
-        text.setStyle("-fx-font-family: 'Britannic Bold';-fx-text-fill: rgba(12,7,7,0.68);-fx-font-size: 18;");
-        rectangle.setArcHeight(35);
-        rectangle.setArcWidth(35);
-        rectangle.setFill(Paint.valueOf("#9bd8c9b3"));
-        StackPane stack = new StackPane();
-        stack.getChildren().addAll(rectangle,text);
-        stack.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount*1/2);
-        stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount* 1/5);
-        stack.setOnMouseClicked(mouseEvent -> {
-            CityController.getInstance().selectCity(((Text)stack.getChildren().get(1)).getText());
-            manageCityPanel();
-        });
-        pane.getChildren().add(stack);
+        if(tile.isCapital() && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+            Rectangle rectangle = new Rectangle(x + (double) MapEnum.HEXSIDESHORT.amount * 1 / 2, y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5, 100, 30);
+            Text text = new Text(tile.getCity().getName());
+            text.setStyle("-fx-font-family: 'Britannic Bold';-fx-text-fill: rgba(12,7,7,0.68);-fx-font-size: 18;");
+            rectangle.setArcHeight(35);
+            rectangle.setArcWidth(35);
+            rectangle.setFill(Paint.valueOf("#9bd8c9b3"));
+            StackPane stack = new StackPane();
+            stack.getChildren().addAll(rectangle, text);
+            stack.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 1 / 2);
+            stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
+            stack.setOnMouseClicked(mouseEvent -> {
+                updateMap();
+                CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText());
+                manageCityPanel();
+                for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
+                    Polygon pol = tileToPoly.get(key);
+                    pol.setStroke(Paint.valueOf("Green"));
+                    pol.setStrokeWidth(pol.getStrokeWidth()*10);
+                }
+            });
+            cityBanners.add(stack);
+            pane.getChildren().add(stack);
+        }
     }
 
     private void manageCityPanel() {
