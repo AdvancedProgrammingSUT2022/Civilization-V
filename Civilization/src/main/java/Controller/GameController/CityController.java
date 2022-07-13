@@ -432,16 +432,16 @@ public class CityController {
 
     // ---------------------------------------------------
 
-    public String assignCitizen(Matcher matcher){
-        if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
-        GameController.getInstance().getPlayerTurn().addNotification("turn : "+ GameController.getInstance().getTurn() + ")"+ GameController.getInstance().getSelectedCity().getName() + "->assign work to citizen :");
-        Tile tile = MapFunctions.getInstance().getTile(Integer.parseInt(matcher.group("x")),Integer.parseInt(matcher.group("y")));
-        if(tile == null){
-            GameController.getInstance().getPlayerTurn().addNotification("no such tile exist");
-            return "no such tile exists";
-        }
-        return GameController.getInstance().getSelectedCity().assignCitizen(tile);
-    }
+//    public String assignCitizen(Tile tile){
+//        if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
+//        GameController.getInstance().getPlayerTurn().addNotification("turn : "+ GameController.getInstance().getTurn() + ")"+ GameController.getInstance().getSelectedCity().getName() + "->assign work to citizen :");
+//        if(tile == null){
+//            GameController.getInstance().getPlayerTurn().addNotification("no such tile exist");
+//            return "no such tile exists";
+//        }
+//        return GameController.getInstance().getSelectedCity().assignCitizen(tile);
+//    }
+
     public String removeCitizen(Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
         GameController.getInstance().getPlayerTurn().addNotification("turn : "+ GameController.getInstance().getTurn() + ")"+ GameController.getInstance().getSelectedCity().getName() + "->remove citizen from work :");
