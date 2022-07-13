@@ -1,5 +1,6 @@
 package View.GraphicViewController;
 
+import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapGenerator;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
@@ -65,7 +66,7 @@ public class MainPageController implements Initializable {
 
     public void decreasePlayer(MouseEvent mouseEvent) {
         if(Integer.parseInt(playerNum.getText()) > 2)
-        playerNum.setText(Integer.toString(Integer.parseInt(playerNum.getText()) - 1));
+            playerNum.setText(Integer.toString(Integer.parseInt(playerNum.getText()) - 1));
     }
 
     public void increasePlayer(MouseEvent mouseEvent) {
@@ -85,6 +86,7 @@ public class MainPageController implements Initializable {
         users.add(LoginAndRegisterController.getInstance().getUser("arash"));
         if(Integer.parseInt(mapHeight.getText()) > 0 && Integer.parseInt(mapWidth.getText()) > 0) {
             MapGenerator.getInstance().gameInit(users, Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
+            System.out.println( "first turn:" + GameController.getInstance().getPlayerTurn().getUser().getUsername());
             main.java.Main.changeMenu(Menus.GAME_MENU.value);
         }
     }

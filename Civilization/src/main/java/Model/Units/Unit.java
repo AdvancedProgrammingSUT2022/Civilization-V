@@ -19,7 +19,7 @@ public class Unit {
     protected Civilization civilization;
     protected City city;
     protected Tile tile;
-    protected double movementsLeft;
+    public double movementsLeft;
     protected UnitType unitType;
     protected UnitStateType unitStateType;
     protected double maxDamage;
@@ -40,6 +40,7 @@ public class Unit {
     }
 
     public void moveUnit() {
+        System.out.println(movementsLeft);
         while (getMovementsLeft() > 0) {
             TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), -1, 2);
             if (MapPrinter.getInstance().hasRiverBetween(getTile(), getNextMoveNode().getTile()))
@@ -60,12 +61,12 @@ public class Unit {
                 break;
         }
         if (getPath().size() > 0){
-            if(GameController.getInstance().getMap().getMovingUnits().contains(this) != true)
+            if(!GameController.getInstance().getMap().getMovingUnits().contains(this))
                 GameController.getInstance().getMap().getMovingUnits().add(this);
         }
         else
             if(GameController.getInstance().getMap().getMovingUnits().contains(this))
-            GameController.getInstance().getMap().getMovingUnits().remove(this);
+                GameController.getInstance().getMap().getMovingUnits().remove(this);
     }
 
     public double getMovementsLeft() {
@@ -91,6 +92,7 @@ public class Unit {
     }
     public void setMovementsLeft(int movementsLeft) {
         this.movementsLeft = movementsLeft;
+        //System.out.println("2 - this.movementsLeft: " +this.movementsLeft + "movementsLeft:" + movementsLeft);
     }
     public void restoreMovementLeft(){
         this.movementsLeft = this.unitType.movement;

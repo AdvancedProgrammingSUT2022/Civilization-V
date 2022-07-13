@@ -3,6 +3,7 @@ import Controller.GameController.CityController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapPrinter;
+import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.GameController.UnitController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.City;
@@ -12,7 +13,6 @@ import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.TypeEnums.UnitType;
-import View.GameView.Game;
 import View.Images;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -25,9 +25,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -39,10 +40,14 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import main.java.Main;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import static javafx.scene.paint.Color.*;
 
 
 public class GameplayGraphicController implements Initializable {
@@ -123,6 +128,9 @@ public class GameplayGraphicController implements Initializable {
     @FXML
     private Label notification;
 
+    private boolean moveMode = false;
+
+    private HashMap<Tile,Integer> availablePolys = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -160,7 +168,6 @@ public class GameplayGraphicController implements Initializable {
 
     public void move() {
         double speed = MapEnum.NAVIGATIONSPEED.amount;
-        javafx.scene.shape.Polygon firstPoly = getPolygon(MapFunctions.getInstance().getTile(0, 0));
         if(up)
             pane.setLayoutY(pane.getLayoutY() + speed);
         if (down)
@@ -188,6 +195,18 @@ public class GameplayGraphicController implements Initializable {
                 case LEFT -> left = false;
             }
         }));
+        Platform.runLater(() -> Main.scene.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.M && GameController.getInstance().getSelectedUnit() != null) {
+                Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
+                availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
+                for (Tile tile :availablePolys.keySet()) {
+                    tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
+                    tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
+                    moveMode = true;
+                }
+            }
+        }));
+
     }
 
     private void printMap() {
@@ -228,9 +247,11 @@ public class GameplayGraphicController implements Initializable {
                 polygon.setFill(new ImagePattern(image));
             else {
                 if (tile.getFeature() == null) {
-                    img = new Image("/images/Map/newPics/" + tile.getTerrain().name() + ".png");
+                    System.out.println("no terrain" + tile.getTerrain());
+                    img = tile.getTerrain().image;
                 } else {
-                    img = new Image("/images/Map/newPics/" + tile.getFeature().getFeatureType().name() + ".png");
+                    System.out.println("yes terrain" + tile.getTerrain() + "feature " +tile.getFeature());
+                    img = tile.getFeature().getFeatureType().image;
                 }
                 polygon.setFill(new ImagePattern(img));
             }
@@ -238,13 +259,27 @@ public class GameplayGraphicController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    public void printDetails(){
+        System.out.println("-----------------------------");
+        System.out.println("selected unit info: ");
+        System.out.println("unit type : " + GameController.getInstance().getSelectedUnit().getUnitType());
+        System.out.println(GameController.getInstance().getSelectedUnit().getTile().getX());
+        System.out.println(GameController.getInstance().getSelectedUnit().getTile().getY());
+        System.out.println("movements left :" + GameController.getInstance().getSelectedUnit().getMovementsLeft());
+        System.out.println("-----------------------------");
+    }
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
-            if(selectedPoly != null){
-                if(polyToTile.get(selectedPoly).getUnits().size() != 0) {
+            if (moveMode) {
+                System.out.println("im in move init");
+                GameController.getInstance().initMoveUnit(polyToTile.get(polygon));
+                updateMap();
+                moveMode = false;
+            }
+            if (selectedPoly != null) {
+                if (polyToTile.get(selectedPoly).getUnits().size() != 0) {
                     selectedPoly.setEffect(null);
-                    selectedPoly.setStrokeWidth(selectedPoly.getStrokeWidth() / 10);
+                    selectedPoly.setStrokeWidth(selectedPoly.getStrokeWidth() / 4);
                 }
                 selectedPoly.setStroke(null);
                 assignPicToPoly(selectedPoly);
@@ -261,11 +296,13 @@ public class GameplayGraphicController implements Initializable {
                     updateMap();
                     selectedPoly = polygon;
                     polygon.setStroke(Paint.valueOf("Cyan"));
-                    polygon.setEffect(new BoxBlur());
-                    polygon.setStrokeWidth(polygon.getStrokeWidth() * 10);
+                    polygon.setEffect(new InnerShadow(75, 1, 1, CYAN));
+                    polygon.setStrokeWidth(polygon.getStrokeWidth() * 4);
                     unitBar();
+                    printDetails();
                 }
             }
+            polygon.requestFocus();
         });
     }
     private void resetPoly(Polygon polygon){
@@ -294,6 +331,8 @@ public class GameplayGraphicController implements Initializable {
                 circle.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 6 / 5);
                 circle.setRadius(tile.getUnits().get(0).getUnitType().image.getWidth() * 1 / 5);
                 circle.setFill(new ImagePattern(tile.getUnits().get(0).getUnitType().image));
+                circle.setStrokeWidth(6);
+                circle.setStroke(tile.getUnits().get(0).getCivilization().getColor());
                 pane.getChildren().add(circle);
                 unitImages.add(circle);
             }
@@ -401,6 +440,7 @@ public class GameplayGraphicController implements Initializable {
 
     public void nextTurn(ActionEvent actionEvent) {
         GameController.getInstance().nextTurn();
+        System.out.println(GameController.getInstance().getPlayerTurn().getUser().getUsername());
         updateMap();
     }
 }

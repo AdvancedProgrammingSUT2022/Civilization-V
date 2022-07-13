@@ -4,6 +4,7 @@ import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.CheatCode;
 import Controller.GameController.UnitController;
+import Model.TileRelated.Tile.Tile;
 import Model.User.User;
 import View.Menu.Menu;
 import View.GameView.PreGameView.Regex;
@@ -18,7 +19,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> printMap = matcher -> System.out.println(gameController.printMap());
     private final Consumer<Matcher> nextTurn = matcher -> System.out.println(gameController.nextTurn());
     private final Consumer<Matcher> getPlayerName = matcher -> System.out.println(gameController.getPlayerTurn().getUser().getUsername());
-    private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(matcher));
+    private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(new Tile()));
     //private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
     //private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
     private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher)); // Arash changes

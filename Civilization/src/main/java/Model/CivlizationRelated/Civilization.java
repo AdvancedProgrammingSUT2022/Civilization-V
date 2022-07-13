@@ -13,6 +13,7 @@ import Model.TileRelated.Road.Road;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 import Model.User.User;
+import javafx.scene.paint.Color;
 
 public class Civilization {
     private User user;
@@ -28,6 +29,16 @@ public class Civilization {
     private int totalIron;
     private int currentIron;
     private int roadMaintenance;
+    private Color color;
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     private ArrayList<Tile> tiles = new ArrayList<>();
     private ArrayList<Improvement> improvementsUnderConstruction = new ArrayList<>();
     private ArrayList<Road> roadsUnderConstruction = new ArrayList<>();

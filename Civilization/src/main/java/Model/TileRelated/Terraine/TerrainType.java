@@ -4,6 +4,7 @@ import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -23,8 +24,12 @@ public enum TerrainType {
     public int movementCost;
     public ArrayList<Feature> possibleFeatures;
     public ArrayList<Resource> possibleResources;
+    public Image image;
 
     static {
+        for (TerrainType terrainType: TerrainType.values()) {
+            terrainType.image = new Image("/images/Map/terrain/" + terrainType.name() + ".png");
+        }
         Desert.setter(new ArrayList<Feature>(){{
             Feature Oasis = new Feature(FeatureType.Oasis);
             Feature FloodPlains = new Feature(FeatureType.FloodPlains);

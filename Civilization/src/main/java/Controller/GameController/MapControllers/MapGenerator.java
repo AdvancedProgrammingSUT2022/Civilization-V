@@ -1,5 +1,6 @@
 package Controller.GameController.MapControllers;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import Controller.GameController.GameController;
@@ -15,6 +16,7 @@ import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 import Model.User.User;
+import javafx.scene.paint.Color;
 
 public class MapGenerator {
     private static MapGenerator mapGenerator;
@@ -24,16 +26,19 @@ public class MapGenerator {
             mapGenerator = new MapGenerator();
         return mapGenerator;
     }
-
     private void setFeatures(int mapX, int mapY, int mapSeed){
         for(int i = 1; i < mapY - 1; i++){
             for(int j = 1; j < mapX - 1; j++){
-                Tile tile = GameMap.getInstance().getATile(j ,i);
-                if(tile.getTerrain().getPossibleFeatures() != null){
-                    Feature feature;
-                    int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleFeatures().size());
-                    feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index).getFeatureType());
-                    tile.setFeature(feature);
+                int random = GameMap.getInstance().getRandom().nextInt(10);
+                System.out.println("random " + random);
+                if(random >= 5) {
+                    Tile tile = GameMap.getInstance().getATile(j, i);
+                    if (tile.getTerrain().getPossibleFeatures() != null) {
+                        Feature feature;
+                        int index = GameMap.getInstance().getRandom().nextInt(tile.getTerrain().getPossibleFeatures().size());
+                        feature = new Feature(tile.getTerrain().getPossibleFeatures().get(index).getFeatureType());
+                        tile.setFeature(feature);
+                    }
                 }
             }
         }
@@ -43,12 +48,12 @@ public class MapGenerator {
             for(int j = 1; j < mapX - 1; j++){
                 Tile tile = GameMap.getInstance().getATile(j ,i);
                 if(tile.getFeature() != null && tile.getFeature().getFeatureType().getPossibleResources() != null){
-                    int index = new Random(mapSeed).nextInt(tile.getFeature().getFeatureType().getPossibleResources().size());
+                    int index = GameMap.getInstance().getRandom().nextInt(tile.getFeature().getFeatureType().getPossibleResources().size());
                     Resource resource = new Resource(tile.getFeature().getFeatureType().getPossibleResources().get(index).getResourceType());
                     tile.setResource(resource);
                 }
                 if(tile.getTerrain().getPossibleResources() != null) {
-                    int index = new Random(mapSeed).nextInt(tile.getTerrain().getPossibleResources().size());
+                    int index = GameMap.getInstance().getRandom().nextInt(tile.getTerrain().getPossibleResources().size());
                     Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index).getResourceType());
                     tile.setResource(resource);
                 }
@@ -73,7 +78,7 @@ public class MapGenerator {
         for (int i = 1; i < mapY; i++) {
             for (int j = 1; j < mapX; j++) {
                 if(mountainCount == 0) break;
-                int random = new Random(mapSeed).nextInt(1000);
+                int random = GameMap.getInstance().getRandom().nextInt(1000);
                 if(random % ( mapY - 2 ) == (mapY - 3)){
                     GameMap.getInstance().getATile(j, i).setTerrain(TerrainType.Mountain);
                     mountainCount--;
@@ -187,11 +192,15 @@ public class MapGenerator {
         int playersCount = players.size();
         ArrayList<Tile> availableMapTiles = new ArrayList<>(GameMap.getInstance().getTiles());
         GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
+        ArrayList<Color> colors = new ArrayList<>(){{
+            add(Color.RED);add(Color.CYAN);add(Color.BEIGE);add(Color.DARKORANGE);add(Color.BLUE);add(Color.OLDLACE);
+        }};
         for (int i = 0; i < playersCount ; i++) {
             Tile settlerDeploy = new Tile();
             Tile warriorDeploy = new Tile();
             Civilization civilization = new Civilization();
             civilization.setUser(players.get(i));
+            civilization.setColor(colors.get(i));
             TileVisibilityController.getInstance().seenByInit(civilization.getSeenBy());
             GameMap.getInstance().getCivilizations().add(civilization);
             outer:

@@ -243,8 +243,8 @@ public class GameController{
         }
         return this.map.printMap();
     }
-    public String initMoveUnit(Matcher matcher) {
-        return UnitController.getInstance().initMoveUnit(matcher); 
+    public String initMoveUnit(Tile tile) {
+        return UnitController.getInstance().initMoveUnit(tile);
     }
     public String attack(Matcher matcher){
         return UnitController.getInstance().combat(matcher);

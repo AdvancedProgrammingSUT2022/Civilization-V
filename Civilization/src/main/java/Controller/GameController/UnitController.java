@@ -52,7 +52,7 @@ public class UnitController {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void restoreUnitMovementLeft(){
@@ -64,8 +64,8 @@ public class UnitController {
         }
     }
 
-    private void assignPathToUnit(Matcher matcher){
-        int destinationX = Integer.parseInt(matcher.group("destinationX")),destinationY = Integer.parseInt(matcher.group("destinationY"));
+    private void assignPathToUnit(Tile tile){
+        int destinationX = tile.getX(),destinationY = tile.getY();
         Tile origin = GameController.getInstance().getSelectedUnit().getTile();
         Tile destination = MapFunctions.getInstance().getTile(destinationX , destinationY);
         Graph graph = new Graph(GameMap.getInstance().getInitialGraph());
@@ -104,12 +104,12 @@ public class UnitController {
         return null;
     }
 
-    public String initMoveUnit(Matcher matcher){
-        int destinationX = getXFromMatcher(matcher),destinationY = getYFromMatcher(matcher);
+    public String initMoveUnit(Tile tile){
+        int destinationX = tile.getX(),destinationY = tile.getY();
         String result;
         if((result = checkInitMoveUnitErrors(destinationX, destinationY, MapFunctions.getInstance().getTile(destinationX , destinationY))) != null)
             return result;
-        assignPathToUnit(matcher);
+        assignPathToUnit(tile);
         if(GameController.getInstance().getSelectedUnit() instanceof Worker){
             ((Worker)GameController.getInstance().getSelectedUnit()).stop();
         }
@@ -311,8 +311,8 @@ public class UnitController {
         return "ranged attack successful";
     }
     private String rangedCombatErrors(Tile tile) {
-        if(TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<Tile,Integer>()).containsKey(tile) == false ||
-           TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<Tile,Integer>()).get(tile) > 2)
+        if(!TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<>()).containsKey(tile) ||
+           TileVisibilityController.getInstance().findVisibles(tile, 0, new HashMap<>()).get(tile) > 2)
             return "tile is out of range";
         return null;
     }
@@ -580,11 +580,14 @@ public class UnitController {
             }
             combatUnit.setHasAttacked(false);
         }
-        unit.setMovementsLeft(unit.getUnitType().movement);
+//        if(GameController.getInstance().getPlayerTurn().getUser().getUsername().equals("nima"))
+        System.out.println("1- unit movementsLeft: " + unit.getMovementsLeft() + "movementsLeft: " + unit.getUnitType().movement);
+        unit.movementsLeft =  2;
     }
     public void updateAllUnitData(){
         for (Unit unit : GameMap.getInstance().getUnits()) {
-            UnitController.getInstance().updateUnitDataAfterRound(unit);   
+            if(unit.getCivilization() == GameController.getInstance().getPlayerTurn())
+                UnitController.getInstance().updateUnitDataAfterRound(unit);
         }
     }
 
