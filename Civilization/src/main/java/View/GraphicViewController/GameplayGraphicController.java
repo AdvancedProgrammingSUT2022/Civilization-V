@@ -12,8 +12,8 @@ import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.TypeEnums.UnitType;
-import View.GameView.Game;
 import View.Images;
+import View.Pics;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -26,12 +26,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -46,7 +49,6 @@ import java.util.ResourceBundle;
 
 
 public class GameplayGraphicController implements Initializable {
-    Image image = new Image("/images/Map/cloud.png");
     @FXML
     private Label sciencePerTurn;
     @FXML
@@ -85,6 +87,8 @@ public class GameplayGraphicController implements Initializable {
     private Button buildCity;
 
     private ArrayList<Circle> unitImages = new ArrayList<>();
+    private ArrayList<ImageView> citizenImages = new ArrayList<>();
+    private ArrayList<ImageView> cityPics = new ArrayList<>();
     @FXML
     private Button sleep;
     @FXML
@@ -122,6 +126,16 @@ public class GameplayGraphicController implements Initializable {
     private Label scienceCityBar;
     @FXML
     private Label notification;
+    @FXML
+    private HBox cityButtons;
+    @FXML
+    private AnchorPane researchBar;
+    @FXML
+    private Label researchNotif;
+    @FXML
+    private Button research;
+    @FXML
+    private ImageView researchPic;
 
 
     @Override
@@ -135,8 +149,9 @@ public class GameplayGraphicController implements Initializable {
             notification.setText(UnitController.getInstance().checkAndBuildCity(GameController.getInstance().getSelectedUnit().getCivilization().getUser().getNickname() +" "+ (GameController.getInstance().getSelectedUnit().getCivilization().getCities().size()+1)));
             assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
-            updateMap();
+            manageResearchBar();
         });
+        researchPic.setImage(Pics.questionMark.image);
     }
 
     public javafx.scene.shape.Polygon getPolygon(Tile tile) {
@@ -145,7 +160,7 @@ public class GameplayGraphicController implements Initializable {
 
     public void timeline() {
         move();
-        managePanels();
+        manageMainPanel();
         pane.requestFocus();
     }
 
@@ -202,6 +217,14 @@ public class GameplayGraphicController implements Initializable {
         for (StackPane stack:cityBanners) {
             pane.getChildren().remove(stack);
         }
+        for (ImageView imageView:citizenImages) {
+            pane.getChildren().remove(imageView);
+        }
+        researchBar.setVisible(true);
+        researchBar.setDisable(false);
+        manageResearchBar();
+        cityButtons.setVisible(false);
+        cityButtons.setDisable(true);
         cityBanners = new ArrayList<>();
         cityPanel.setDisable(true);
         cityPanel.setVisible(false);
@@ -215,6 +238,8 @@ public class GameplayGraphicController implements Initializable {
         for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
             assignImages(GameMap.getInstance().getTiles().get(i), tileToPoly.get(GameMap.getInstance().getTiles().get(i)), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+            assignPicToCities(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignRectangleToCities(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
         }
@@ -225,7 +250,7 @@ public class GameplayGraphicController implements Initializable {
         Image img;
         try {
             if (MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR))
-                polygon.setFill(new ImagePattern(image));
+                polygon.setFill(new ImagePattern(Pics.cloud.image));
             else {
                 if (tile.getFeature() == null) {
                     img = new Image("/images/Map/newPics/" + tile.getTerrain().name() + ".png");
@@ -238,6 +263,8 @@ public class GameplayGraphicController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
@@ -301,6 +328,35 @@ public class GameplayGraphicController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void assignPicToCitizen(Tile tile,double x,double y){
+        try{
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(1280/18);
+            imageView.setFitWidth(1600/18);
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 3 / 5);
+            imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount);
+            imageView.setImage(Pics.citizen.image);
+            imageView.setOnMouseClicked(mouseEvent -> {
+                if(tile.getCitizen() == null) {
+                    notification.setText(GameController.getInstance().getSelectedCity().assignCitizen(tile));
+                    if(notification.getText().equals("citizen assigned successfully"))imageView.setOpacity(1);
+                }
+                else {
+                    notification.setText(GameController.getInstance().getSelectedCity().removeCitizenFromWork(tile));
+                    if(notification.getText().equals("citizen removed successfully"))imageView.setOpacity(0.5);
+                }
+                manageMainPanel();
+                manageCityPanel();
+            });
+            pane.getChildren().add(imageView);
+            citizenImages.add(imageView);
+            if(tile.getCitizen() == null)imageView.setOpacity(0.5);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void assignImages(Tile tile,Polygon polygon,double x,double y){
         resetPoly(polygon);
         assignPicToPoly(polygon);
@@ -321,16 +377,34 @@ public class GameplayGraphicController implements Initializable {
             stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
             stack.setOnMouseClicked(mouseEvent -> {
                 updateMap();
+                researchBar.setVisible(false);
+                researchBar.setDisable(true);
                 CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText());
+                cityButtons.setVisible(true);
+                cityButtons.setDisable(false);
                 manageCityPanel();
                 for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
                     Polygon pol = tileToPoly.get(key);
                     pol.setStroke(Paint.valueOf("Green"));
+                    pol.setEffect(new InnerShadow(75, 1, 1, Color.GREEN));
                     pol.setStrokeWidth(pol.getStrokeWidth()*10);
                 }
             });
             cityBanners.add(stack);
             pane.getChildren().add(stack);
+        }
+    }
+
+    private void assignPicToCities(Tile tile, double x, double y) {
+        if(tile.isCapital() && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+            ImageView imageView = new ImageView();
+            imageView.setImage(Pics.city1.image);
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 2 / 5);
+            imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
+            imageView.setFitWidth(595/5);
+            imageView.setFitHeight(476/5);
+            cityPics.add(imageView);
+            pane.getChildren().add(imageView);
         }
     }
 
@@ -355,11 +429,11 @@ public class GameplayGraphicController implements Initializable {
         pane.getChildren().add(0, polygon);
     }
 
-    void managePanels() {
+    void manageMainPanel() {
         for (Civilization civ : GameMap.getInstance().getCivilizations()) {
             if (civ.getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())) {
                 sciencePerTurn.setText(Integer.toString(civ.getSciencePerTurn()));
-                goldPerTurn.setText("(" + Integer.toString(civ.getGoldPerTurn()) + ")");
+                goldPerTurn.setText("(" + (civ.getGoldPerTurn()) + ")");
                 currentGold.setText(Integer.toString(civ.getGold()));
                 happiness.setText(Integer.toString(civ.getGold()));
             }
@@ -376,6 +450,22 @@ public class GameplayGraphicController implements Initializable {
         }
         if(GameController.getInstance().getSelectedUnit().getUnitType().equals(UnitType.Settler))buildCity.setDisable(false);
         else buildCity.setDisable(true);
+    }
+
+    public void manageResearchBar(){
+        for (Civilization civ : GameMap.getInstance().getCivilizations()) {
+            if (civ.getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())) {
+                if(civ.getCurrentResearchProject() == null){
+                    researchNotif.setText("no Research!");
+                    research.setDisable(false);
+                    researchPic.setImage(Pics.questionMark.image);
+                }
+                else {
+                    research.setDisable(true);
+                   // researchPic.setImage();
+                }
+            }
+        }
     }
 
     public void buttonSizeIncrease(MouseEvent mouseEvent) {
@@ -402,5 +492,14 @@ public class GameplayGraphicController implements Initializable {
     public void nextTurn(ActionEvent actionEvent) {
         GameController.getInstance().nextTurn();
         updateMap();
+    }
+
+    @FXML
+    private void citizenManagement(MouseEvent mouseEvent) {
+        for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
+            if(key.isCapital())continue;
+            assignPicToCitizen(key,MapFunctions.getInstance().NonConventionalCoordinatesX(key)
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(key));
+        }
     }
 }

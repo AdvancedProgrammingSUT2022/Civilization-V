@@ -200,6 +200,9 @@ public class City {
     }
 
     public String assignCitizen(Tile tile){
+        if(tile.getTerrain().equals(TerrainType.Ocean))return "you cant assign citizens to ocean";
+        if(tile.getTerrain().equals(TerrainType.Mountain))return "you cant assign citizens to mountains";
+        if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Ice))return "you cant assign citizens to ice feature";
         if(!cityTiles.contains(tile)){
             this.civilization.addNotification("this tile doesn't belong to you");
             return "this tile doesn't belong to you";
@@ -217,7 +220,7 @@ public class City {
                 calculateProduction();
                 calculateGold();
                 this.civilization.addNotification("done");
-                return "done";
+                return "citizen assigned successfully";
             }
         }
         this.civilization.addNotification("all citizens are on work");
@@ -235,7 +238,7 @@ public class City {
         calculateGold();
         tile.setCitizen(null);
         this.civilization.addNotification("done!");
-        return "done";
+        return "citizen removed successfully";
     }
 
     public void calculateBuildingBonuses(){

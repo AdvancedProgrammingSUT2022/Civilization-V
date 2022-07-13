@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane fx:id="openChatRoom" prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />
@@ -41,9 +41,6 @@
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#8f979e7d" height="202.0" layoutX="4.0" layoutY="126.0" stroke="BLACK" strokeType="INSIDE" width="389.0" />
             <ImageView fx:id="unitPic" fitHeight="186.0" fitWidth="161.0" layoutX="35.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/statusBar/Archer.png" />
-               </image>
             </ImageView>
             <VBox alignment="CENTER" layoutX="196.0" layoutY="110.0" prefHeight="234.0" prefWidth="206.0">
                <children>
@@ -59,18 +56,20 @@
          </children>
       </AnchorPane>
       <Button layoutX="1383.0" layoutY="660.0" mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
-      <AnchorPane disable="true" layoutX="13.0" layoutY="52.0" prefHeight="137.0" prefWidth="264.0" visible="false">
+      <AnchorPane fx:id="researchBar" layoutX="13.0" layoutY="52.0" prefHeight="137.0" prefWidth="264.0">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#acbdcd85" height="123.0" layoutX="3.0" stroke="BLACK" strokeType="INSIDE" width="255.0" />
             <ImageView fitHeight="123.0" fitWidth="143.0" layoutX="25.0" pickOnBounds="true" preserveRatio="true" />
-            <HBox alignment="CENTER_LEFT" layoutY="-30.0" prefHeight="113.0" prefWidth="255.0">
+            <HBox alignment="TOP_CENTER" layoutX="5.0" layoutY="7.0" prefHeight="110.0" prefWidth="264.0">
                <children>
-                  <ImageView fitHeight="167.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/statusBar/Archer.png" />
-                     </image>
+                  <ImageView fx:id="researchPic" fitHeight="110.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
                   </ImageView>
-                  <Label prefHeight="90.0" prefWidth="113.0" styleClass="statusBar" text="research" />
+                  <VBox alignment="CENTER" prefHeight="110.0" prefWidth="168.0">
+                     <children>
+                        <Label fx:id="researchNotif" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="170.0" styleClass="statusBar" text="research" />
+                        <Button fx:id="research" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Research" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
          </children>
@@ -122,12 +121,13 @@
             </VBox>
          </children>
       </AnchorPane>
-      <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="601.0" layoutY="523.0" prefHeight="100.0" prefWidth="298.0" spacing="10.0" visible="false">
+      <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="549.0" layoutY="523.0" prefHeight="100.0" prefWidth="402.0" spacing="10.0" visible="false">
          <children>
             <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
-            <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
+            <Button mnemonicParsing="false" onMouseClicked="#citizenManagement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
          </children>
       </HBox>
-      <Label fx:id="notification" alignment="CENTER" layoutX="474.0" layoutY="11.0" prefHeight="21.0" prefWidth="818.0" styleClass="notification" />
+      <Label fx:id="notification" alignment="CENTER" layoutX="435.0" layoutY="11.0" prefHeight="21.0" prefWidth="866.0" styleClass="notification" />
+      <Button layoutX="1321.0" layoutY="46.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
    </children>
 </Pane>
