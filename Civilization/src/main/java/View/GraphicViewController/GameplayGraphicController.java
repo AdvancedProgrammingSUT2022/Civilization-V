@@ -707,4 +707,9 @@ public class GameplayGraphicController implements Initializable {
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(key));
         }
     }
+
+    @FXML
+    private void openChatRoom(MouseEvent mouseEvent) {
+        main.java.Main.changeMenu("ChatPage");
+    }
 }

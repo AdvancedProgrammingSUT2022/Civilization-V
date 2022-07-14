@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 
 
-<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />
@@ -130,7 +130,7 @@
          </children>
       </HBox>
       <Label fx:id="notification" alignment="CENTER" layoutX="435.0" layoutY="11.0" prefHeight="21.0" prefWidth="866.0" styleClass="notification" />
-      <Button layoutX="1321.0" layoutY="46.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
+      <Button layoutX="1321.0" layoutY="46.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" onMouseClicked="#openChatRoom"/>
       <AnchorPane layoutX="1152.0" layoutY="96.0" prefHeight="213.0" prefWidth="338.0">
          <children>
             <Polygon fx:id="tilePolyInfo" fill="DODGERBLUE" layoutX="207.0" layoutY="136.0" opacity="0.7" points="-105.0, 136.0, 35.0, 136.0, 119.0, -6.0, 35.0, -136.0, -105.0, -136.0, -195.0, -6.0" stroke="BLACK" strokeType="INSIDE" />

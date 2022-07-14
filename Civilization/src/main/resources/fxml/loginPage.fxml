@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane fx:id="content" prefHeight="750.0" prefWidth="1500.0" styleClass="backGroundLogin" stylesheets="/Css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.LoginPageController">
+<Pane fx:id="content" prefHeight="750.0" prefWidth="1500.0" styleClass="backGroundLogin" stylesheets="/css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.LoginPageController">
 
    <VBox layoutX="500" layoutY="200" prefWidth="500" spacing="10" alignment="CENTER" >
       <Text fx:id="welcome" layoutX="520" layoutY="260" styleClass="welcome" text="Welcome! Login or register" textAlignment="CENTER"/>
