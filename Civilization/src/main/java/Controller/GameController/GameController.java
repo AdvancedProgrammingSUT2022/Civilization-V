@@ -246,8 +246,8 @@ public class GameController{
     public String initMoveUnit(Tile tile) {
         return UnitController.getInstance().initMoveUnit(tile);
     }
-    public String attack(Matcher matcher){
-        return UnitController.getInstance().combat(matcher);
+    public String attack(Tile tile){
+        return UnitController.getInstance().combat(tile);
     }
 
     public int getTurn() {

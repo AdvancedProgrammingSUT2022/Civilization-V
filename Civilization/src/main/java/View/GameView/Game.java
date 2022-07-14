@@ -42,7 +42,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> fortifyHeal = matcher -> System.out.println(UnitController.getInstance().fortifyUntilHealed());//
     private final Consumer<Matcher> garrison = matcher -> System.out.println(UnitController.getInstance().garrisonUnit());//
     //private final Consumer<Matcher> foundCity = matcher -> System.out.println(UnitController.getInstance().checkAndBuildCity(matcher));
-    private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
+   // private final Consumer<Matcher> attack = matcher -> System.out.println(gameController.attack(matcher));
     private final Consumer<Matcher> cityAttack = matcher -> System.out.println(UnitController.getInstance().cityUnitAttack(matcher));
     private final Consumer<Matcher> cancel = matcher -> System.out.println();
     private final Consumer<Matcher> wake = matcher -> System.out.println(GameController.getInstance().wake());//
@@ -108,7 +108,7 @@ public class Game extends Menu{
         commandsMap.put(regex.fortify,fortify);
         commandsMap.put(regex.fortifyHeal,fortifyHeal);
         commandsMap.put(regex.garrison,garrison);
-        commandsMap.put(regex.attack,attack);
+        //commandsMap.put(regex.attack,attack);
         commandsMap.put(regex.cityAttack,cityAttack);
         //commandsMap.put(regex.foundCity,foundCity);
         commandsMap.put(regex.cancel,cancel);
