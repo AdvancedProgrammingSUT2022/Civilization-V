@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
 <Pane fx:id="openChatRoom" prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
@@ -80,10 +81,10 @@
             <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Menu" />
          </children>
       </HBox>
-      <AnchorPane fx:id="actionPanel" layoutX="480.0" layoutY="537.0" prefHeight="148.0" prefWidth="638.0">
+      <AnchorPane fx:id="actionPanel" disable="true" layoutX="379.0" layoutY="537.0" prefHeight="154.0" prefWidth="743.0" visible="false">
          <children>
-            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="25.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="580.0" />
-            <HBox alignment="CENTER" layoutX="5.0" layoutY="14.0" prefHeight="62.0" prefWidth="620.0" spacing="5.0">
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="35.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="674.0" />
+            <HBox alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="62.0" prefWidth="710.0" spacing="5.0">
                <children>
                   <Button fx:id="sleep" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Sleep" />
                   <Button fx:id="alert" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Alert" />
@@ -92,13 +93,13 @@
                   <Button fx:id="setup" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Setup" />
                   <Button fx:id="wake" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Wake" />
                   <Button fx:id="delete" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Delete" />
-                  <Button fx:id="move" mnemonicParsing="false" text="move" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" onMouseClicked="#moveButton"/>
+                  <Button fx:id="move" mnemonicParsing="false" onMouseClicked="#moveButton" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="move" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="9.0" layoutY="77.0" prefHeight="66.0" prefWidth="620.0" spacing="5.0">
+            <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" prefHeight="66.0" prefWidth="689.0" spacing="5.0">
                <children>
                   <Button fx:id="upgrade" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" />
-                  <Button fx:id="buildCity" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" />
+                  <Button fx:id="buildCity" mnemonicParsing="false" onMouseClicked="#buildCity" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" />
                   <Button fx:id="buildImprovement" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build Improvement" />
                   <Button fx:id="rangedAttack" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
                </children>
@@ -124,11 +125,25 @@
       </AnchorPane>
       <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="549.0" layoutY="523.0" prefHeight="100.0" prefWidth="402.0" spacing="10.0" visible="false">
          <children>
-            <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
+            <Button mnemonicParsing="false" onMouseClicked="#buyTile" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
             <Button mnemonicParsing="false" onMouseClicked="#citizenManagement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
          </children>
       </HBox>
       <Label fx:id="notification" alignment="CENTER" layoutX="435.0" layoutY="11.0" prefHeight="21.0" prefWidth="866.0" styleClass="notification" />
       <Button layoutX="1321.0" layoutY="46.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
+      <AnchorPane layoutX="1152.0" layoutY="96.0" prefHeight="213.0" prefWidth="338.0">
+         <children>
+            <Polygon fx:id="tilePolyInfo" fill="DODGERBLUE" layoutX="207.0" layoutY="136.0" opacity="0.7" points="-105.0, 136.0, 35.0, 136.0, 119.0, -6.0, 35.0, -136.0, -105.0, -136.0, -195.0, -6.0" stroke="BLACK" strokeType="INSIDE" />
+            <VBox layoutX="4.0" layoutY="56.0" prefHeight="166.0" prefWidth="331.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="331.0" styleClass="topics" text="Tile information" />
+                  <Label fx:id="terrainType" alignment="CENTER" prefHeight="30.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+                  <Label fx:id="tileUnit" alignment="CENTER" prefHeight="29.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+                  <Label fx:id="featureType" alignment="CENTER" prefHeight="30.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+                  <Label fx:id="recourseType" alignment="CENTER" prefHeight="31.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
    </children>
 </Pane>

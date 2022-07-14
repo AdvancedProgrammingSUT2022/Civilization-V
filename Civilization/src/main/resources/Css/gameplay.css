@@ -10,10 +10,16 @@
     -fx-font-size: 23;
 }
 
+.tileInfo{
+    -fx-text-fill: rgba(75, 52, 37, 0.76);
+    -fx-font-family: "Britannic Bold";
+    -fx-font-size: 23;
+}
+
 .topics{
     -fx-text-fill: #1e2042;
     -fx-font-family: "Britannic Bold";
-    -fx-font-size: 30;
+    -fx-font-size: 26;
 }
 
 .notification{

@@ -35,7 +35,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -94,26 +93,26 @@ public class GameplayGraphicController implements Initializable {
     private ArrayList<Circle> unitImages = new ArrayList<>();
     private ArrayList<ImageView> citizenImages = new ArrayList<>();
     private ArrayList<ImageView> cityPics = new ArrayList<>();
-    @FXML
-    private Button sleep;
-    @FXML
-    private Button alert;
-    @FXML
-    private Button fortify;
-    @FXML
-    private Button heal;
-    @FXML
-    private Button setup;
-    @FXML
-    private Button wake;
-    @FXML
-    private Button delete;
-    @FXML
-    private Button upgrade;
-    @FXML
-    private Button buildImprovement;
-    @FXML
-    private Button rangedAttack;
+//    @FXML
+//    private Button sleep;
+//    @FXML
+//    private Button alert;
+//    @FXML
+//    private Button fortify;
+//    @FXML
+//    private Button heal;
+//    @FXML
+//    private Button setup;
+//    @FXML
+//    private Button wake;
+//    @FXML
+//    private Button delete;
+//    @FXML
+//    private Button upgrade;
+//    @FXML
+//    private Button buildImprovement;
+//    @FXML
+//    private Button rangedAttack;
     private Rectangle rectangle;
     @FXML
     private AnchorPane cityPanel;
@@ -145,6 +144,16 @@ public class GameplayGraphicController implements Initializable {
     private boolean moveMode = false;
 
     private HashMap<Tile,Integer> availablePolys = new HashMap<>();
+    @FXML
+    private Label terrainType;
+    @FXML
+    private Label featureType;
+    @FXML
+    private Label recourseType;
+    @FXML
+    private Label tileUnit;
+    @FXML
+    private Polygon tilePolyInfo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -152,13 +161,6 @@ public class GameplayGraphicController implements Initializable {
         initControls();
         getTimeline().play();
         profilePic.setImage(Images.profilePics.pics.get(LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex()));
-        buildCity.setOnMouseClicked(mouseEvent -> {
-            Tile tile = GameController.getInstance().getSelectedUnit().getTile();
-            notification.setText(UnitController.getInstance().checkAndBuildCity(GameController.getInstance().getSelectedUnit().getCivilization().getUser().getNickname() +" "+ (GameController.getInstance().getSelectedUnit().getCivilization().getCities().size()+1)));
-            assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
-                    , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
-            manageResearchBar();
-        });
         researchPic.setImage(Pics.questionMark.image);
     }
 
@@ -179,6 +181,14 @@ public class GameplayGraphicController implements Initializable {
                 new KeyFrame(Duration.ZERO, new KeyValue(xPosition, 0)),
                 new KeyFrame(Duration.seconds(200), new KeyValue(xPosition, -15000)));
         return timeline;
+    }
+
+    public void buildCity(){
+        Tile tile = GameController.getInstance().getSelectedUnit().getTile();
+        notification.setText(UnitController.getInstance().checkAndBuildCity(GameController.getInstance().getSelectedUnit().getCivilization().getUser().getNickname() +" "+ (GameController.getInstance().getSelectedUnit().getCivilization().getCities().size()+1)));
+        assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
+                , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
+        updateMap();
     }
 
     public void move() {
@@ -414,6 +424,26 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
+    private void assignCoinToTile(Tile tile,double x,double y){
+        try{
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(128/2);
+            imageView.setFitWidth(128/2);
+            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, YELLOW));
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 5);
+            imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount);
+            imageView.setImage(Pics.coin.image);
+            imageView.setOnMouseClicked(mouseEvent -> {
+                notification.setText(GameController.getInstance().getSelectedCity().buyTile(tile));
+                cityShow();
+            });
+            pane.getChildren().add(imageView);
+            citizenImages.add(imageView);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void assignImages(Tile tile,Polygon polygon,double x,double y){
         resetPoly(polygon);
         assignPicToPoly(polygon);
@@ -433,22 +463,43 @@ public class GameplayGraphicController implements Initializable {
             stack.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 1 / 2);
             stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
             stack.setOnMouseClicked(mouseEvent -> {
-                updateMap();
-                researchBar.setVisible(false);
-                researchBar.setDisable(true);
                 CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText());
-                cityButtons.setVisible(true);
-                cityButtons.setDisable(false);
-                manageCityPanel();
-                for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
-                    Polygon pol = tileToPoly.get(key);
-                    pol.setStroke(key.getCivilization().getColor());
-                    pol.setEffect(new InnerShadow(75, 1, 1, key.getCivilization().getColor()));
-                    pol.setStrokeWidth(pol.getStrokeWidth()*10);
+                if(tile.getCivilization().getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())) {
+                    cityShow();
+                }
+                else {
+                    enemyCityShow();
                 }
             });
             cityBanners.add(stack);
             pane.getChildren().add(stack);
+        }
+    }
+
+    private void enemyCityShow() {
+        updateMap();
+        researchBar.setVisible(false);
+        researchBar.setDisable(true);
+        for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
+            Polygon pol = tileToPoly.get(key);
+            pol.setStroke(key.getCivilization().getColor());
+            pol.setEffect(new InnerShadow(75, 1, 1, key.getCivilization().getColor()));
+            pol.setStrokeWidth(pol.getStrokeWidth()*10);
+        }
+    }
+
+    private void cityShow() {
+        updateMap();
+        researchBar.setVisible(false);
+        researchBar.setDisable(true);
+        cityButtons.setVisible(true);
+        cityButtons.setDisable(false);
+        manageCityPanel();
+        for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
+            Polygon pol = tileToPoly.get(key);
+            pol.setStroke(key.getCivilization().getColor());
+            pol.setEffect(new InnerShadow(75, 1, 1, key.getCivilization().getColor()));
+            pol.setStrokeWidth(pol.getStrokeWidth()*10);
         }
     }
 
@@ -482,8 +533,37 @@ public class GameplayGraphicController implements Initializable {
         Polygon polygon = new Polygon();
         buildPoly(x, y, tile, polygon);
         clickSettings(polygon);
+        hoverSettings(polygon);
         assignImages(tile, polygon, x, y);
         pane.getChildren().add(0, polygon);
+    }
+
+    private void hoverSettings(Polygon polygon) {
+        Tile tile = polyToTile.get(polygon);
+        polygon.setOnMouseEntered(mouseEvent -> {
+            if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)){
+                tilePolyInfo.setFill(new ImagePattern(Pics.cloud.image));
+                recourseType.setText("Recourse: Fogged");
+                terrainType.setText("Terrain: Fogged");
+                featureType.setText("Feature: Fogged");
+                unitLabel.setText("CombatUnit: Fogged");
+            }
+            else {
+                tilePolyInfo.setFill(new ImagePattern(tile.getTerrain().image));
+                if(tile.getResource() != null)recourseType.setText("Recourse: " + tile.getResource().getResourceType().name());
+                else recourseType.setText("Recourse: No Recourse");
+                terrainType.setText("Terrain: " + tile.getTerrain().name());
+                if(tile.getFeature() != null)featureType.setText("Feature: " + tile.getFeature().getFeatureType().name());
+                else featureType.setText("Feature: No Feature");
+                if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.VISIBLE)){
+                    if(tile.getCombatUnitOnTile() == null)tileUnit.setText("CombatUnit: No Unit");
+                    else tileUnit.setText("Combat: HP:" + tile.getCombatUnitOnTile().getHitPoints() + " _ Strength: " + tile.getCombatUnitOnTile().getUnitType().combatStrength);
+                }
+                else {
+                    tileUnit.setText("CombatUnit: Revealed Tile");
+                }
+            }
+        });
     }
 
     void manageMainPanel() {
@@ -554,9 +634,21 @@ public class GameplayGraphicController implements Initializable {
 
     @FXML
     private void citizenManagement(MouseEvent mouseEvent) {
+        updateMap();
+        cityShow();
         for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
             if(key.isCapital())continue;
             assignPicToCitizen(key,MapFunctions.getInstance().NonConventionalCoordinatesX(key)
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(key));
+        }
+    }
+
+    @FXML
+    private void buyTile(MouseEvent mouseEvent) {
+        updateMap();
+        cityShow();
+        for (Tile key:GameController.getInstance().getSelectedCity().findCitySurroundings()) {
+            assignCoinToTile(key,MapFunctions.getInstance().NonConventionalCoordinatesX(key)
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(key));
         }
     }

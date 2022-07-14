@@ -6,6 +6,7 @@ public enum Pics {
     cloud(new Image("/images/Map/cloud.png")),
     citizen(new Image("/images/statusBar/citizen.png")),
     questionMark(new Image("/images/statusBar/questionMark.png")),
+    coin(new Image("/images/statusBar/coin.png")),
     city1(new Image("images/Cities/1.png"));
 
     public Image image;
