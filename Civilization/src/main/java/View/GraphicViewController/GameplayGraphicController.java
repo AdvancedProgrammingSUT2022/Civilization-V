@@ -500,6 +500,18 @@ public class GameplayGraphicController implements Initializable {
         resetPoly(polygon);
         assignPicToPoly(polygon);
         assignPicToUnits(tile,x,y);
+        assignPicForResources(tile,x,y);
+    }
+
+    private void assignPicForResources(Tile tile, double x, double y) {
+        if(tile.getResource() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+            Circle circle = new Circle();
+            circle.setCenterX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 3);
+            circle.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 6 / 5);
+            circle.setRadius(tile.getResource().getResourceType().image.getWidth() * 1 / 5);
+            circle.setFill(new ImagePattern(tile.getResource().getResourceType().image));
+            pane.getChildren().add(circle);
+        }
     }
 
     private void assignRectangleToCities(Tile tile, double x, double y) {

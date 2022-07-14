@@ -30,7 +30,6 @@ public class MapGenerator {
         for(int i = 1; i < mapY - 1; i++){
             for(int j = 1; j < mapX - 1; j++){
                 int random = GameMap.getInstance().getRandom().nextInt(10);
-                System.out.println("random " + random);
                 if(random >= 5) {
                     Tile tile = GameMap.getInstance().getATile(j, i);
                     if (tile.getTerrain().getPossibleFeatures() != null) {
@@ -46,16 +45,19 @@ public class MapGenerator {
     private void setResources(int mapX, int mapY, int mapSeed){
         for(int i = 1; i < mapY - 1; i++){
             for(int j = 1; j < mapX - 1; j++){
-                Tile tile = GameMap.getInstance().getATile(j ,i);
-                if(tile.getFeature() != null && tile.getFeature().getFeatureType().getPossibleResources() != null){
-                    int index = GameMap.getInstance().getRandom().nextInt(tile.getFeature().getFeatureType().getPossibleResources().size());
-                    Resource resource = new Resource(tile.getFeature().getFeatureType().getPossibleResources().get(index).getResourceType());
-                    tile.setResource(resource);
-                }
-                if(tile.getTerrain().getPossibleResources() != null) {
-                    int index = GameMap.getInstance().getRandom().nextInt(tile.getTerrain().getPossibleResources().size());
-                    Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index).getResourceType());
-                    tile.setResource(resource);
+                int random = GameMap.getInstance().getRandom().nextInt(10);
+                if(random >= 9) {
+                    Tile tile = GameMap.getInstance().getATile(j, i);
+                    if (tile.getFeature() != null && tile.getFeature().getFeatureType().getPossibleResources() != null) {
+                        int index = GameMap.getInstance().getRandom().nextInt(tile.getFeature().getFeatureType().getPossibleResources().size());
+                        Resource resource = new Resource(tile.getFeature().getFeatureType().getPossibleResources().get(index).getResourceType());
+                        tile.setResource(resource);
+                    }
+                    if (tile.getTerrain().getPossibleResources() != null) {
+                        int index = GameMap.getInstance().getRandom().nextInt(tile.getTerrain().getPossibleResources().size());
+                        Resource resource = new Resource(tile.getTerrain().getPossibleResources().get(index).getResourceType());
+                        tile.setResource(resource);
+                    }
                 }
             }
         }
