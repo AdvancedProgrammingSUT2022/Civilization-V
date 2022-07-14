@@ -27,3 +27,11 @@
     -fx-font-family: "Britannic Bold";
     -fx-font-size: 25;
 }
+
+.button2{
+    -fx-font-family: "Britannic Bold";
+    -fx-background-radius: 10;
+    -fx-background-color: rgba(229, 89, 26, 0.7);
+    -fx-font-size: 12;
+    -fx-text-fill: #4f4e4e;
+}

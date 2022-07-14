@@ -10,11 +10,15 @@ import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
+import Model.Technology.Technology;
+import Model.Technology.TechnologyType;
+import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;
 import Model.Units.TypeEnums.UnitType;
+import Model.Units.Unit;
 import View.Images;
 import View.Pics;
 import javafx.animation.KeyFrame;
@@ -26,17 +30,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -159,6 +162,10 @@ public class GameplayGraphicController implements Initializable {
     private Label tileUnit;
     @FXML
     private Polygon tilePolyInfo;
+    @FXML
+    private ScrollPane technologies;
+    @FXML
+    private ScrollPane buildUnitsBar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -260,6 +267,89 @@ public class GameplayGraphicController implements Initializable {
 
     }
 
+    public void manageBuildUnitBar(){
+        buildUnitsBar.setDisable(false);
+        buildUnitsBar.setVisible(true);
+        VBox vBox = new VBox();
+        Label label1 = new Label("Choose Production:");
+        vBox.getChildren().add(label1);
+                for (UnitType unit: CityController.getInstance().validUnits()) {
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(7);
+                    hBox.setAlignment(Pos.CENTER);
+                    ImageView imageView = new ImageView(unit.image);
+                    imageView.setFitWidth(60);
+                    imageView.setFitHeight(60);
+                    Button production = new Button("Production");
+                    production.setOnMouseClicked(mouseEvent -> {
+                        CityController.getInstance().setSelectedUnitType(unit);
+                        notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("per turns"));
+                        updateMap();
+                    });
+                    Button gold = new Button("Gold");
+                    gold.setOnMouseClicked(mouseEvent -> {
+                        CityController.getInstance().setSelectedUnitType(unit);
+                        notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("build now"));
+                        updateMap();
+                    });
+                    Label label = new Label(unit.name());
+                    label.setMaxWidth(50);
+                    hBox.getChildren().add(imageView);
+                    hBox.getChildren().add(label);
+                    hBox.getChildren().add(production);
+                    hBox.getChildren().add(gold);
+                    vBox.getChildren().add(hBox);
+                }
+        for (BuildingType buildingType: CityController.getInstance().showValidBuildings()) {
+            HBox hBox = new HBox();
+            hBox.setSpacing(7);
+            hBox.setAlignment(Pos.CENTER);
+            ImageView imageView = new ImageView();
+            imageView.setFitWidth(60);
+            imageView.setFitHeight(60);
+            Button production = new Button("Production");
+            production.getStylesheets().add("/css/gameplay.css");
+            production.getStyleClass().add("button1");
+            Button gold = new Button("Gold");
+            Label label = new Label(buildingType.name());
+            label.setMaxWidth(50);
+            hBox.getChildren().add(imageView);
+            hBox.getChildren().add(label);
+            hBox.getChildren().add(production);
+            hBox.getChildren().add(gold);
+            vBox.getChildren().add(hBox);
+        }
+        buildUnitsBar.setContent(vBox);
+    }
+
+
+    public void manageTechnologies(){
+        technologies.setVisible(true);
+        technologies.setDisable(false);
+        for (Civilization civilization: GameMap.getInstance().getCivilizations()) {
+            if(civilization.getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())){
+                VBox vBox = new VBox();
+                Label label1 = new Label("Choose your Research:");
+                vBox.getChildren().add(label1);
+                for (TechnologyType technologyType: civilization.searchableTechnologiesTypes()) {
+                        HBox hBox = new HBox();
+                        hBox.setSpacing(7);
+                        hBox.setAlignment(Pos.CENTER);
+                        ImageView imageView = new ImageView(technologyType.image);
+                        imageView.setFitWidth(60);
+                        imageView.setFitHeight(60);
+                        Button research = new Button("Research");
+                        Label label = new Label(technologyType.name());
+                        hBox.getChildren().add(imageView);
+                        hBox.getChildren().add(label);
+                        hBox.getChildren().add(research);
+                        vBox.getChildren().add(hBox);
+                }
+                technologies.setContent(vBox);
+            }
+        }
+    }
+
     public void moveButton(){
         Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
         availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
@@ -288,6 +378,10 @@ public class GameplayGraphicController implements Initializable {
         for (ImageView imageView:cityPics) {
             pane.getChildren().remove(imageView);
         }
+        technologies.setDisable(true);
+        technologies.setVisible(false);
+        buildUnitsBar.setVisible(false);
+        buildUnitsBar.setDisable(true);
         researchBar.setVisible(true);
         researchBar.setDisable(false);
         manageResearchBar();

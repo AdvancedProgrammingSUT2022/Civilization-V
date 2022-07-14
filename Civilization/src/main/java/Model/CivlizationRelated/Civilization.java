@@ -1,7 +1,6 @@
 package Model.CivlizationRelated;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
+
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Feature.Feature;
@@ -203,6 +202,24 @@ public class Civilization {
         if(gold <= 0){
             sciencePerTurn -= 2 ;
         }
+    }
+
+    public ArrayList<TechnologyType> searchableTechnologiesTypes(){
+        Set<TechnologyType> searchableTechnologiesTypes = new HashSet<>();
+        for (Technology technology : getTechnologies()){
+            searchableTechnologiesTypes.add(technology.getTechnologyType());
+            if(technology.getTechnologyType().LeadsToTechs != null){
+                searchableTechnologiesTypes.addAll(technology.getTechnologyType().LeadsToTechs);
+            }
+        }
+
+        for(TechnologyType technologyType : TechnologyType.values()){
+            if(technologyType.PrerequisiteTechs == null){
+                searchableTechnologiesTypes.add(technologyType);
+            }
+        }
+
+        return new ArrayList<>(searchableTechnologiesTypes);
     }
 
     public int getGoldPerTurn() {
