@@ -195,18 +195,16 @@ public class GameController{
             }
         }
     }
+
     private void reducingTurnOFUnits(City city){
         if(city.getUnderConstructionUnit() != null && city.getUnitTurn() != 0){
-            int turn = city.getUnitTurn() - 1;
+            int turn = city.getUnitTurn() - city.getProductionPerTurn();
             city.setUnitTurn(turn);
         }
-        if(city.getUnderConstructionUnit() != null && city.getUnitTurn() == 0){
+        if(city.getUnderConstructionUnit() != null && city.getUnitTurn() <= 0){
             //              city.addUnit(unit);
-            Unit unit = new Unit();
-            city.getCityTiles().get(0).addUnit(unit);
-            unit.setUnitType(city.getUnderConstructionUnit());
             Tile tile = city.getCityTiles().get(0);
-            UnitController.getInstance().makeUnit(city.getUnderConstructionUnit(),city.getCivilization(), tile);
+            UnitController.getInstance().makeUnit(city.getUnderConstructionUnit(), GameController.getInstance().getPlayerTurn(), tile);
             city.setUnderConstructionUnit(null);
             city.setUnitTurn(0);
         }

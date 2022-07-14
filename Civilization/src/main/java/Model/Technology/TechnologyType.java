@@ -1,5 +1,8 @@
 package Model.Technology;
 
+import Model.TileRelated.Terraine.TerrainType;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 public enum TechnologyType implements Unlocks {
@@ -574,10 +577,20 @@ public enum TechnologyType implements Unlocks {
         }
     };
 
+
     public final int cost;
     public final TechnologyMainType technologyMainType;
     public final ArrayList<TechnologyType> PrerequisiteTechs;
     public final ArrayList<TechnologyType> LeadsToTechs;
+    public Image image;
+
+    static {
+        for (
+                TechnologyType technologyType: TechnologyType.values()) {
+            if(technologyType.equals(TechnologyType.Theology))continue;
+            technologyType.image = new Image("/images/Technologies/" + technologyType.name() + ".png");
+        }
+    }
 
     TechnologyType(int cost, TechnologyMainType technologyMainType, ArrayList<TechnologyType> prerequisiteTechs, ArrayList<TechnologyType> leadsToTechs) {
         this.cost = cost;

@@ -28,7 +28,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> cancelBuilding = matcher -> System.out.println(CityController.getInstance().cancelBuilding());  // Arash changes
     private final Consumer<Matcher> showValidUnits = matcher -> System.out.println(CityController.getInstance().showValidUnits()); // Arash changes build unit
     private final Consumer<Matcher> BuildUnit = matcher -> System.out.println(CityController.getInstance().chooseUnitType(matcher)); // Arash changes build unit
-    private final Consumer<Matcher> typeOFPayForUnit = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurnsForUnit(matcher)); // Arash changes build unit
+   // private final Consumer<Matcher> typeOFPayForUnit = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurnsForUnit(matcher)); // Arash changes build unit
     private final Consumer<Matcher> cancelBuildUnit = matcher -> System.out.println(CityController.getInstance().cancelBuildingUnit()); // Arash changes build unit
     private final Consumer<Matcher> chooseTechnology = matcher -> System.out.println(CivilizationController.getInstance().chooseTechnologyMenu()); // Arash changes technology
     private final Consumer<Matcher> studyTechnology = matcher -> System.out.println(CivilizationController.getInstance().createTechnologyForStudy(matcher)); // Arash changes technology
@@ -95,7 +95,7 @@ public class Game extends Menu{
         commandsMap.put(regex.cancelBuilding, cancelBuilding); // Arash changes
         commandsMap.put(regex.showValidUnits, showValidUnits); // Arash changes
         commandsMap.put(regex.buildUnit, BuildUnit); // Arash changes
-        commandsMap.put(regex.typeOfPayForUnit, typeOFPayForUnit); // Arash changes
+        //commandsMap.put(regex.typeOfPayForUnit, typeOFPayForUnit); // Arash changes
         commandsMap.put(regex.cancelBuildUnit, cancelBuildUnit); // Arash changes
         commandsMap.put(regex.chooseTechnologyMenu, chooseTechnology); // Arash changes
         commandsMap.put(regex.studyTechnology, studyTechnology); // Arash changes

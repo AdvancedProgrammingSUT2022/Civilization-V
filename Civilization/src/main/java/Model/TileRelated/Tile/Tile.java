@@ -180,7 +180,7 @@ public class Tile {
         }
         if(improvement != null && improvement.getImprovementType().product.equals("food"))
             FoodAmount += improvement.getImprovementType().TileYields;
-        if(resource.getResourceType().Food != 0 && resource.isAvailable())
+        if(resource != null && resource.getResourceType().Food != 0 && resource.isAvailable())
             FoodAmount += resource.getResourceType().Food;
         return FoodAmount;
     }
@@ -192,7 +192,7 @@ public class Tile {
         }
         if(improvement != null && improvement.getImprovementType().product.equals("production"))
             Production += improvement.getImprovementType().TileYields;
-        if(resource.getResourceType().production != 0 && resource.isAvailable())
+        if(resource != null && resource.getResourceType().production != 0 && resource.isAvailable())
             Production += resource.getResourceType().production;
         return Production;
     }
@@ -205,7 +205,7 @@ public class Tile {
         }
         if(improvement != null && improvement.getImprovementType().product.equals("Gold"))
             Gold += improvement.getImprovementType().TileYields;
-        if(resource.getResourceType().Gold != 0 && resource.isAvailable())
+        if(resource != null && resource.getResourceType().Gold != 0 && resource.isAvailable())
             Gold += resource.getResourceType().Gold;
         return Gold;
     }
