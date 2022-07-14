@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
-<Pane fx:id="openChatRoom" prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/Css/styles.css,/Css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />

@@ -1,8 +1,11 @@
 package Model.User;
 
+import Model.ChatRelated.Chat;
 import View.Images;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
 
 public class User {
     private String username;
@@ -10,6 +13,8 @@ public class User {
     private String nickname;
     private int score ;
     private int profPicIndex;
+    private boolean isOnline = false;
+    private ArrayList<Chat> chats = new ArrayList<>();
     
     public String getUsername() {
         return username;
@@ -49,5 +54,20 @@ public class User {
 
     public void setProfPicIndex(int profPicIndex) {
         this.profPicIndex = profPicIndex;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+    public void addChat(Chat chat){
+        this.chats.add(chat);
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public boolean getOnline(){
+        return this.isOnline;
     }
 }

@@ -1,0 +1,26 @@
+ImageView {
+    -fx-cursor: hand;
+}
+.message_box {
+    -fx-border-color: gray;
+    -fx-border-radius: 40;
+    -fx-padding: 15 20 15 30;
+    -fx-background-color: #66aadd;
+    -fx-background-radius: 40;
+}
+
+.name{
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+
+.message_text {
+    -fx-label-padding: 10 0 0 0;
+    -fx-max-width: 280;
+    -fx-wrap-text: true;
+}
+
+.chat_style {
+    -fx-max-width: 120;
+    -fx-label-padding: 10;
+}
