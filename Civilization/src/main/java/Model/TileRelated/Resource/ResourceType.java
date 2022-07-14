@@ -4,6 +4,7 @@ import Model.Technology.TechnologyType;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Terraine.TerrainType;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -13,16 +14,16 @@ public enum ResourceType {
 
     Bananas(1, 0, 0, ImprovementType.Plantation, null,
             ResourceMainTypes.BonusResources),
-
+//
     Cattle(1, 0, 0,  ImprovementType.Pasture, null,
             ResourceMainTypes.BonusResources),
-
+//
     Deer(1, 0, 0,  ImprovementType.Camp, null,
             ResourceMainTypes.BonusResources),
-
+//
     Sheep(2, 0, 0, ImprovementType.Pasture, null,
             ResourceMainTypes.BonusResources),
-
+//
     Wheat(1, 0, 0,  ImprovementType.Farm, null,
             ResourceMainTypes.BonusResources),
     // Strategic Resources
@@ -61,13 +62,17 @@ public enum ResourceType {
             ResourceMainTypes.LuxuryResources);
 
     static {
+        for (ResourceType resourceType: ResourceType.values()) {
+                resourceType.image = new Image("/images/Map/resource/" + resourceType.name().toLowerCase() + ".png");
+        }
+
         Bananas.setter(null, new ArrayList<FeatureType>(){{
             add(FeatureType.Forest);
         }});
         Cattle.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Grassland);
         }},null);
-        Deer.setter(new ArrayList<TerrainType>(){{
+        Deer.setter(new ArrayList<>() {{
             add(TerrainType.Hill);
             add(TerrainType.Tundra);
         }}, new ArrayList<FeatureType>(){{
@@ -171,12 +176,14 @@ public enum ResourceType {
     public final ImprovementType improvementNeeded;
     public final TechnologyType requiredTechnology;
 
+    public Image image;
+
     private void setter(ArrayList<TerrainType> canBeFoundOn, ArrayList<FeatureType> canBeFoundOnFeatures){
         this.canBeFoundOn = canBeFoundOn;
         this.canBeFoundOnFeatures = canBeFoundOnFeatures;
     }
 
-    ResourceType(int food, int production, int gold, ImprovementType improvementNeeded, TechnologyType requiredTechnology,ResourceMainTypes mainType) {
+    ResourceType(int food, int production, int gold, ImprovementType improvementNeeded, TechnologyType requiredTechnology, ResourceMainTypes mainType) {
         this.Food = food;
         this.Gold = gold;
         this.production = production;
