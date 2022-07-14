@@ -213,20 +213,19 @@ public class UnitController {
         GameController.getInstance().getSelectedUnit().alert();
         return "unit is alert!";
     }
-    public String combat(Matcher matcher){
-        int y = Integer.parseInt(matcher.group("y"));
-        int x = Integer.parseInt(matcher.group("x"));
+    public String combat(Tile tile){
+        int y = tile.getY();
+        int x = tile.getX();
         String errorMassege;
         if((errorMassege = combatErrors(y,x)) != null)
             return errorMassege;
-        Tile tile = MapFunctions.getInstance().getTile(x, y);
         if(GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack && tile.getCity() == null)
             return meleeCombat(tile);
-        else if(GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack == false && tile.isCapital() == false)
+        else if(!GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack && !tile.isCapital())
             return rangedCombat(tile);
-        else if(tile.getCity() != null && tile.isCapital() == true && GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack == true)
+        else if(tile.getCity() != null && tile.isCapital() && GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack)
             return cityMeleeAttack(tile);
-        else if(tile.getCity() != null && tile.isCapital() == true && GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack == false)
+        else if(tile.getCity() != null && tile.isCapital() && !GameController.getInstance().getSelectedUnit().getUnitType().canMeleeAttack)
             return cityRangedAttack(tile);
         return "your selection was invalid";
     }

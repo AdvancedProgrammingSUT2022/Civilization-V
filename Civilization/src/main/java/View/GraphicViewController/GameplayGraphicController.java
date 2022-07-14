@@ -12,6 +12,8 @@ import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
+import Model.Units.Combat.Combat;
+import Model.Units.Combat.Ranged;
 import Model.Units.TypeEnums.UnitType;
 import View.Images;
 import View.Pics;
@@ -54,6 +56,7 @@ import static javafx.scene.paint.Color.*;
 
 
 public class GameplayGraphicController implements Initializable {
+    public Label tileInfo;
     @FXML
     private Label sciencePerTurn;
     @FXML
@@ -144,6 +147,8 @@ public class GameplayGraphicController implements Initializable {
 
     private boolean moveMode = false;
 
+    private boolean attackMode = false;
+
     private HashMap<Tile,Integer> availablePolys = new HashMap<>();
 
     @Override
@@ -215,9 +220,30 @@ public class GameplayGraphicController implements Initializable {
                 Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
                 availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
                 for (Tile tile :availablePolys.keySet()) {
-                    tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
-                    tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
-                    moveMode = true;
+                    if(availablePolys.get(tile) <= GameController.getInstance().getSelectedUnit().getMovementsLeft()) {
+                        tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
+                        tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, GameController.getInstance().getSelectedUnit().getCivilization().getColor()));
+                        moveMode = true;
+                    }
+                }
+            }
+            if (keyEvent.getCode() == KeyCode.A && GameController.getInstance().getSelectedUnit() != null) {
+                Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
+                availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
+                for (Tile tile :availablePolys.keySet()) {
+                    if(GameController.getInstance().getSelectedUnit() instanceof Ranged){
+                        if (availablePolys.get(tile) <= GameController.getInstance().getSelectedUnit().getUnitType().range) {
+                            tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
+                            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
+                            attackMode = true;
+                        }
+                    }else if (GameController.getInstance().getSelectedUnit() instanceof Combat) {
+                        if (availablePolys.get(tile) <= 1) {
+                            tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
+                            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
+                            attackMode = true;
+                        }
+                    }
                 }
             }
         }));
@@ -297,6 +323,7 @@ public class GameplayGraphicController implements Initializable {
                 }
                 polygon.setFill(new ImagePattern(img));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -318,6 +345,11 @@ public class GameplayGraphicController implements Initializable {
             if (moveMode) {
                 System.out.println("im in move init");
                 GameController.getInstance().initMoveUnit(polyToTile.get(polygon));
+                updateMap();
+                moveMode = false;
+            }
+            if (attackMode) {
+                GameController.getInstance().attack(polyToTile.get(polygon));
                 updateMap();
                 moveMode = false;
             }
@@ -348,6 +380,14 @@ public class GameplayGraphicController implements Initializable {
                 }
             }
             polygon.requestFocus();
+        });
+        polygon.setOnMouseEntered(mouseEvent -> {
+           tileInfo.setText("Terrain: " + polyToTile.get(polygon).getTerrain().name());
+           if(polyToTile.get(polygon).getFeature() != null)
+               tileInfo.setText(tileInfo.getText() + " Feature: " + polyToTile.get(polygon).getFeature().getFeatureType().name());
+           if(polyToTile.get(polygon).getCombatUnitOnTile() != null){
+               tileInfo.setText(tileInfo.getText() + " Hp : " +polyToTile.get(polygon).getCombatUnitOnTile().getHitPoints());
+           }
         });
     }
     private void resetPoly(Polygon polygon){
@@ -380,6 +420,18 @@ public class GameplayGraphicController implements Initializable {
                 circle.setStroke(tile.getUnits().get(0).getCivilization().getColor());
                 pane.getChildren().add(circle);
                 unitImages.add(circle);
+                if(tile.getUnits().size() == 2){
+                    Circle circleSecond = new Circle();
+                    circleSecond.setCenterX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 3 + circle.getRadius() / 4);
+                    circle.setCenterX(circle.getCenterX() - circle.getRadius() / 4);
+                    circleSecond.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 6 / 5);
+                    circleSecond.setRadius(tile.getUnits().get(0).getUnitType().image.getWidth() * 1 / 5);
+                    circleSecond.setFill(new ImagePattern(tile.getUnits().get(0).getUnitType().image));
+                    circleSecond.setStrokeWidth(6);
+                    circleSecond.setStroke(tile.getUnits().get(0).getCivilization().getColor());
+                    pane.getChildren().add(circleSecond);
+                    unitImages.add(circleSecond);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -502,7 +554,10 @@ public class GameplayGraphicController implements Initializable {
             unitBar.setVisible(true);
             unitBar.setDisable(false);
             unitPic.setImage(GameController.getInstance().getSelectedUnit().getUnitType().image);
-            unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name());
+            if(GameController.getInstance().getSelectedUnit() instanceof Combat)
+                unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name() + " HP : " + ((Combat)GameController.getInstance().getSelectedUnit()).getHitPoints());
+            else
+                unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name());
             unitMoves.setText("Movements: " + GameController.getInstance().getSelectedUnit().getMovementsLeft());
         }
         if(GameController.getInstance().getSelectedUnit().getUnitType().equals(UnitType.Settler))buildCity.setDisable(false);
