@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class DiplomacyPanelGraphicPageController implements Initializable {
     public Pane pane;
+    public static Civilization opponent;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -30,22 +31,28 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
     }
 
     private void fillFields() {
+        HBox myBox = null;
         for (Node anchorPane:pane.getChildren()) {
             if(anchorPane instanceof  AnchorPane)
                 for (Node vbox : ((AnchorPane)anchorPane).getChildren()) {
-                    if (vbox instanceof VBox)
+                    if (vbox instanceof VBox){
                         for (Node hbox : ((VBox) vbox).getChildren()) {
                             if (hbox instanceof HBox && ((VBox) vbox).getChildren().indexOf(hbox) < GameMap.getInstance().getCivilizations().size()) {
                                 for (Node nodeHbox : ((HBox) hbox).getChildren()) {
                                     if (nodeHbox instanceof Label label) {
                                         Civilization civ = GameMap.getInstance().getCivilizations().get(((VBox) vbox).getChildren().indexOf(hbox));
                                         label.setText(civ.getUser().getNickname());
+                                        if (civ == GameController.getInstance().getPlayerTurn())
+                                            myBox = (HBox) hbox;
                                     }
                                 }
                             } else {
                                 hbox.setVisible(false);
                             }
                         }
+                        if(myBox != null)
+                            ((VBox) vbox).getChildren().remove(myBox);
+                    }
                 }
         }
     }
@@ -66,10 +73,23 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
     }
 
     public void openTradePanel(ActionEvent actionEvent) {
+        Node button = (Node) actionEvent.getSource();
+        HBox hBox = (HBox) button.getParent();
+        for (Node node:hBox.getChildren()) {
+            if(node instanceof Label){
+                String name = ((Label)node).getText();
+                for (Civilization civ: GameMap.getInstance().getCivilizations()) {
+                    if(civ.getUser().getUsername().equals(name)){
+                        opponent = civ;
+                    }
+                }
+            }
+        }
         main.java.Main.changeMenu(Menus.TRADE_PANEL.value);
     }
 
     public void openChat(ActionEvent actionEvent) {
+        main.java.Main.changeMenu(Menus.CHAT_MENU.value);
     }
 }
 

@@ -70,3 +70,8 @@
     -fx-background-position: center;
     -fx-background-size: 1550;
 }
+.backGroundTrade{
+    -fx-background-image: url("/images/Backgrounds/TradePanel.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 1550;
+}
