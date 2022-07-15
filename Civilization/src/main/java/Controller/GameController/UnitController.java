@@ -121,7 +121,7 @@ public class UnitController {
     public String checkAndBuildCity(String cityName) {
         Unit selectedUnit = GameController.getInstance().getSelectedUnit();
         if (selectedUnit == null) 
-        return "no unit is selected";
+            return "no unit is selected";
         if(selectedUnit.getMovementsLeft() == 0)    
             return "no movements left";
         if (selectedUnit.getUnitType() == UnitType.Settler) {

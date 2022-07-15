@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="pane" prefHeight="750.0" prefWidth="1333.0" styleClass="backGroundDiplomacy" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.DiplomacyPanelGraphicPageController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Back" />
+      <AnchorPane layoutX="292.0" layoutY="157.0" prefHeight="418.0" prefWidth="749.0">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#284765" height="393.0" layoutX="18.0" layoutY="17.0" opacity="0.63" stroke="#3c3939" strokeType="INSIDE" width="716.0" />
+            <VBox layoutX="123.0" layoutY="42.0" prefHeight="320.0" prefWidth="446.0">
+               <children>
+                  <HBox prefHeight="54.0" prefWidth="446.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="69.0" prefWidth="269.0" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="56.0" prefWidth="446.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="61.0" prefWidth="268.0" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="42.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="54.0" prefWidth="446.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="58.0" prefWidth="268.0" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="39.0" prefWidth="81.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="39.0" prefWidth="81.0" styleClass="buttons" text="Trade" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="53.0" prefWidth="446.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="72.0" prefWidth="269.0" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="51.0" prefWidth="446.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="83.0" prefWidth="269.0" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="38.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="39.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="49.0" prefWidth="446.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="62.0" prefWidth="270.0" text="Label">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="42.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="81.0" styleClass="buttons" text="Trade" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>

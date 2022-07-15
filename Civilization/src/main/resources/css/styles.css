@@ -43,6 +43,12 @@
     -fx-background-size: 1400;
 }
 
+.backGroundDiplomacy{
+    -fx-background-image: url("/images/Backgrounds/Diplomacy.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 1400;
+}
+
 .errors{
     -fx-font-family: "Britannic Bold";
     -fx-text-fill: #a90909;
@@ -60,7 +66,7 @@
 }
 
 .backGroundProfile{
-    -fx-background-image: url("/images/Backgrounds/profile.jpg");
+    -fx-background-image: url("/images/Backgrounds/profile.png");
     -fx-background-position: center;
     -fx-background-size: 1550;
 }
