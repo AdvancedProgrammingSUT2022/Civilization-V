@@ -225,11 +225,8 @@ public enum BuildingType implements BuildingNotes{
     public Image image;
 
     static {
-        int m= 0;
         for (BuildingType buildingType: BuildingType.values()) {
-            m++;
-            buildingType.image = new Image("/images/BuildingIcons/" + buildingType.name() + ".png");
-            if(m == 5)break;
+            buildingType.image = new Image("/images/Buildings/" + buildingType.name() + ".png");
         }
     }
 

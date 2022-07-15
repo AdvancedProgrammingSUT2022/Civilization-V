@@ -47,7 +47,7 @@ public class Civilization {
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
     private HashMap<Tile, Improvement> revealedImprovements = new HashMap<>();
     private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
-    private ArrayList<Resource> resources;
+    //private ArrayList<Resource> resources;
     private ArrayList<Technology> technologies = new ArrayList<Technology>();
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
@@ -56,6 +56,19 @@ public class Civilization {
     private ArrayList<DiplomaticTie> diplomaticTies;
     private ArrayList<String> Notification = new ArrayList<>();
     private ArrayList<ResourceType> foundedLuxuryRecourses = new ArrayList<>();
+    private HashMap<ResourceType,Integer> luxuryResourceCount = new HashMap<>(){{
+        for (ResourceType resourceType:ResourceType.values()) {
+            put(resourceType,0);
+        }
+    }};
+
+    public HashMap<ResourceType, Integer> getLuxuryResourceCount() {
+        return luxuryResourceCount;
+    }
+
+    public void addLuxuryResourceCount(ResourceType resourceType){
+        luxuryResourceCount.put(resourceType,luxuryResourceCount.get(resourceType)+1);
+    }
 
     public ArrayList<ResourceType> getFoundedLuxuryRecourses() {
         return foundedLuxuryRecourses;
@@ -206,16 +219,15 @@ public class Civilization {
 
     public ArrayList<TechnologyType> searchableTechnologiesTypes(){
         Set<TechnologyType> searchableTechnologiesTypes = new HashSet<>();
-        for (Technology technology : getTechnologies()){
-            searchableTechnologiesTypes.add(technology.getTechnologyType());
-            if(technology.getTechnologyType().LeadsToTechs != null){
-                searchableTechnologiesTypes.addAll(technology.getTechnologyType().LeadsToTechs);
-            }
+        for (TechnologyType technology:TechnologyType.values()) {
+            if(technology.PrerequisiteTechs == null && !hasTechnology(technology))
+                searchableTechnologiesTypes.add(technology);
         }
 
-        for(TechnologyType technologyType : TechnologyType.values()){
-            if(technologyType.PrerequisiteTechs == null){
-                searchableTechnologiesTypes.add(technologyType);
+        for (Technology technology:technologies) {
+            for (TechnologyType technologyType:technology.getTechnologyType().LeadsToTechs) {
+                if(!hasTechnology(technologyType))
+                    searchableTechnologiesTypes.add(technologyType);
             }
         }
 
@@ -249,12 +261,12 @@ public class Civilization {
     public void setTiles(ArrayList<Tile> tiles) {
         this.tiles = tiles;
     }
-    public ArrayList<Resource> getResources() {
-        return resources;
-    }
-    public void setResources(ArrayList<Resource> resources) {
-        this.resources = resources;
-    }
+//    public ArrayList<Resource> getResources() {
+//        return resources;
+//    }
+//    public void setResources(ArrayList<Resource> resources) {
+//        this.resources = resources;
+//    }
     public ArrayList<Technology> getTechnologies() {
         return technologies;
     }

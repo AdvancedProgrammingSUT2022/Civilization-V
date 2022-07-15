@@ -85,23 +85,20 @@ public class CivilizationController {
     }
 
 
-    public String createTechnologyForStudy(Matcher matcher){
+    public String createTechnologyForStudy(TechnologyType technologyType){
         GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" + "create research project:");
         if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() != null){
             GameController.getInstance().getPlayerTurn().addNotification("you are studying a technology right now");
             return "you are studying a technology right now";
         }
-        String chosenTechnologyType = matcher.group("technologyType");
-        for(TechnologyType technologyType : showLeadsToTechnologies()){
-            if(Objects.equals(chosenTechnologyType, technologyType.name())){
-                int turn = calculateTechnologyTurns(technologyType);
-                if(turn == -1) {
-                    GameController.getInstance().getPlayerTurn().addNotification("you do not have enough production");
-                    return "you do not have enough production";
+                int turn = technologyType.cost;
+                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() <= 0) {
+                    GameController.getInstance().getPlayerTurn().addNotification("your science is 0 or negative");
+                    return "your science is 0 or negative";
                 }
                 GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
                 GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
-                if(turn == 0) {
+                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() >= turn) {
                     Technology technology = new Technology(GameController.getInstance().getPlayerTurn().getCurrentResearchProject());
                     GameController.getInstance().getPlayerTurn().addTechnology(technology);
                     GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
@@ -110,27 +107,12 @@ public class CivilizationController {
                 } else {
                     GameController.getInstance().getPlayerTurn().addNotification("your research project is started");
                     return "your research project is started";
-                }
             }
-        }
-        GameController.getInstance().getPlayerTurn().addNotification("not a valid technology type");
-        return "not a valid technology type";
+
     }
 
-    private int calculateTechnologyTurns(TechnologyType technologyType) {
-        if(GameController.getInstance().getPlayerTurn().getCities() != null){
-            int production = 0;
-            for(City city : GameController.getInstance().getPlayerTurn().getCities()){
-                production += city.getProductionPerTurn();
-            }
-            if(production == 0) return -1;
-            return technologyType.cost / production;
-        } return -1;
-    }
 
-    public String changeStudyingTechnology(Matcher matcher){
-        for(TechnologyType technologyType : TechnologyType.values()){
-            if(technologyType.name().equals(matcher.group("technologyType"))){
+    public String changeStudyingTechnology(TechnologyType technologyType){
                 if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() == null) return "you have no research project to change it";
                 if(technologyType.name().equals(GameController.getInstance().getPlayerTurn().getCurrentResearchProject().name())) return "you already are studying this technology";
                 if(GameController.getInstance().getPlayerTurn().getTechnologies() != null) {
@@ -143,18 +125,16 @@ public class CivilizationController {
                    if(continueResearch(researchProjects, technologyType) != null) return continueResearch(researchProjects, technologyType);
                 }
                 GameController.getInstance().getPlayerTurn().addResearchProject(GameController.getInstance().getPlayerTurn().getCurrentResearchProject(), GameController.getInstance().getPlayerTurn().getResearchTurns());
-                int turn = calculateTechnologyTurns(technologyType);
+                int turn = technologyType.cost;
                 GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
-                if(turn == -1) return "you do not have enough production";
+                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() <= 0) return "your science is 0 or negative";
                 GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
-                if(turn == 0) {
+                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() >= turn) {
                     Technology technology = new Technology(GameController.getInstance().getPlayerTurn().getCurrentResearchProject());
                     GameController.getInstance().getPlayerTurn().addTechnology(technology);
                     GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
                     return "your research project is finished";
                 } else return "your research project has started";
-            }
-        } return "not a valid technology type";
     }
 
     private String continueResearch(LinkedHashMap<TechnologyType, Integer> researchProjects, TechnologyType technologyType){

@@ -24,7 +24,6 @@ public class Settler extends NonCombat {
         if(this.civilization.getCities().size() == 1) { // make palace for first city
             city.setCapital(true);
         }
-        civilization.getCities().add(city);
         city.setTile(tile);
         tile.setCity(city);
         this.tile.setCapital(true);

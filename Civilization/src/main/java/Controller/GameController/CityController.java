@@ -136,27 +136,16 @@ public class CityController {
         return false;
     }
 
-    public String chooseBuilding(Matcher matcher){
-        if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
-        String chosenBuildingType = matcher.group("buildingType");
-        for(BuildingType buildingType : GameController.getInstance().getSelectedCity().getBuildingTypesCanBeBuilt()){
-            if(buildingType.name().equals(chosenBuildingType)){
-                this.selectedBuildingType = buildingType;
-                return "your building type is selected. build per turns ? or build now ?";
-            }
-        }
-        return "not a valid building type";
-    }
 
-    public String buildNowOrPerTurns(Matcher matcher){
+    public String buildNowOrPerTurns(String buildNowOrPerTurns){
         if(GameController.getInstance().getSelectedCity() == null) return "no city is selected";
         BuildingType buildingType;
         if((buildingType = GameController.getInstance().getSelectedCity().getUnderConstructionBuilding()) != null)
             return "\nand your city is building:" + buildingType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
         if(this.selectedBuildingType == null) return "no selected building type";
-        String buildNowOrPerTurns = matcher.group("typeOfPay");
         return buildNowOrPerTurns.equals("per turns") ? buildPerTurns() : buildNow();
     }
+
     private String buildNow(){
         GameController.getInstance().getPlayerTurn().addNotification("turn : " + GameController.getInstance().getTurn() + ")" +"build building :");
         if(GameController.getInstance().getSelectedCity().getCivilization().getGold() < this.selectedBuildingType.getCost()){
@@ -185,11 +174,11 @@ public class CityController {
             GameController.getInstance().getPlayerTurn().addNotification("you can not pay for this building");
             return "you can not pay for this building";
         }
-        int turn = this.selectedBuildingType.getCost() / GameController.getInstance().getSelectedCity().getProductionPerTurn();
+        int turn = this.selectedBuildingType.getCost();
         GameController.getInstance().getSelectedCity().setBuildingTurn(turn);
         BuildingType buildingType =  this.selectedBuildingType;
         this.selectedBuildingType = null;
-        if(turn ==0 ) {
+        if(GameController.getInstance().getSelectedCity().getProductionPerTurn() >= turn) {
             Building building = new Building(buildingType);
             GameController.getInstance().getSelectedCity().addBuilding(building);
             GameMap.getInstance().addBuiltBuilding(building);
@@ -290,6 +279,7 @@ public class CityController {
         if(checkCenterTile != null) return checkCenterTile;
         GameController.getInstance().getSelectedCity().setUnderConstructionUnit(this.selectedUnitType);
         int turn = this.selectedUnitType.cost;
+        System.out.println(turn);
         if(GameController.getInstance().getSelectedCity().getProductionPerTurn() >= turn) return buildUnitNow();
         GameController.getInstance().getSelectedCity().setUnitTurn(turn);
         this.selectedUnitType = null;

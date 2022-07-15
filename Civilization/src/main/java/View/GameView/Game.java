@@ -22,17 +22,17 @@ public class Game extends Menu{
     private final Consumer<Matcher> moveUnit = matcher -> System.out.println(gameController.initMoveUnit(new Tile()));
     //private final Consumer<Matcher> selectUnit = matcher -> System.out.println(UnitController.getInstance().selectUnit(matcher));
     //private final Consumer<Matcher> selectCity = matcher -> System.out.println(CityController.getInstance().selectCity(matcher));
-    private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher)); // Arash changes
+    //private final Consumer<Matcher> build = matcher -> System.out.println(CityController.getInstance().chooseBuilding(matcher)); // Arash changes
     private final Consumer<Matcher> showValidBuildings = matcher -> System.out.println(CityController.getInstance().showValidBuildingTypes()); // Arash changes
-    private final Consumer<Matcher> nowOrPerTurns = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurns(matcher)); // Arash changes
+   // private final Consumer<Matcher> nowOrPerTurns = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurns(matcher)); // Arash changes
     private final Consumer<Matcher> cancelBuilding = matcher -> System.out.println(CityController.getInstance().cancelBuilding());  // Arash changes
     private final Consumer<Matcher> showValidUnits = matcher -> System.out.println(CityController.getInstance().showValidUnits()); // Arash changes build unit
     private final Consumer<Matcher> BuildUnit = matcher -> System.out.println(CityController.getInstance().chooseUnitType(matcher)); // Arash changes build unit
    // private final Consumer<Matcher> typeOFPayForUnit = matcher -> System.out.println(CityController.getInstance().buildNowOrPerTurnsForUnit(matcher)); // Arash changes build unit
     private final Consumer<Matcher> cancelBuildUnit = matcher -> System.out.println(CityController.getInstance().cancelBuildingUnit()); // Arash changes build unit
     private final Consumer<Matcher> chooseTechnology = matcher -> System.out.println(CivilizationController.getInstance().chooseTechnologyMenu()); // Arash changes technology
-    private final Consumer<Matcher> studyTechnology = matcher -> System.out.println(CivilizationController.getInstance().createTechnologyForStudy(matcher)); // Arash changes technology
-    private final Consumer<Matcher> changeResearchProject = matcher -> System.out.println(CivilizationController.getInstance().changeStudyingTechnology(matcher)); // Arash changes technology
+//    private final Consumer<Matcher> studyTechnology = matcher -> System.out.println(CivilizationController.getInstance().createTechnologyForStudy(matcher)); // Arash changes technology
+//    private final Consumer<Matcher> changeResearchProject = matcher -> System.out.println(CivilizationController.getInstance().changeStudyingTechnology(matcher)); // Arash changes technology
     private final Consumer<Matcher> cancelResearchProject = matcher -> System.out.println(CivilizationController.getInstance().cancelResearchProject());// Arash changes technology
     private final Consumer<Matcher> changeCityConstruction = matcher -> System.out.println(CityController.getInstance().changeConstruction(matcher)); // Arash changes
     private final Consumer<Matcher> showInfoPanel = matcher -> System.out.println(CivilizationController.getInstance().InfoPanel()); // Arash changes
@@ -89,18 +89,18 @@ public class Game extends Menu{
         //commandsMap.put(regex.selectUnit,this.selectUnit);
         commandsMap.put(regex.moveUnit,this.moveUnit);
         //commandsMap.put(regex.selectCity,selectCity);
-        commandsMap.put(regex.build,build); // Arash changes
+      //  commandsMap.put(regex.build,build); // Arash changes
         commandsMap.put(regex.showValidBuilding, showValidBuildings); // Arash changes
-        commandsMap.put(regex.typeOfPayForBuilding, nowOrPerTurns); // Arash changes
+       // commandsMap.put(regex.typeOfPayForBuilding, nowOrPerTurns); // Arash changes
         commandsMap.put(regex.cancelBuilding, cancelBuilding); // Arash changes
         commandsMap.put(regex.showValidUnits, showValidUnits); // Arash changes
         commandsMap.put(regex.buildUnit, BuildUnit); // Arash changes
         //commandsMap.put(regex.typeOfPayForUnit, typeOFPayForUnit); // Arash changes
         commandsMap.put(regex.cancelBuildUnit, cancelBuildUnit); // Arash changes
         commandsMap.put(regex.chooseTechnologyMenu, chooseTechnology); // Arash changes
-        commandsMap.put(regex.studyTechnology, studyTechnology); // Arash changes
+        //commandsMap.put(regex.studyTechnology, studyTechnology); // Arash changes
         commandsMap.put(regex.cancelResearchProject, cancelResearchProject); // Arash changes
-        commandsMap.put(regex.changeResearchProject, changeResearchProject); // Arash changes
+        //commandsMap.put(regex.changeResearchProject, changeResearchProject); // Arash changes
         commandsMap.put(regex.changeCityConstruction, changeCityConstruction); // Arash changes
         commandsMap.put(regex.showInfoPanel, showInfoPanel); // Arash changes
         commandsMap.put(regex.sleep,sleep);

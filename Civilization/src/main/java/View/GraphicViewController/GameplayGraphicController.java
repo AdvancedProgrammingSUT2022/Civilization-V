@@ -1,5 +1,6 @@
 package View.GraphicViewController;
 import Controller.GameController.CityController;
+import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapPrinter;
@@ -58,7 +59,6 @@ import static javafx.scene.paint.Color.*;
 
 
 public class GameplayGraphicController implements Initializable {
-    public Label tileInfo;
     @FXML
     private Label sciencePerTurn;
     @FXML
@@ -271,8 +271,11 @@ public class GameplayGraphicController implements Initializable {
         buildUnitsBar.setDisable(false);
         buildUnitsBar.setVisible(true);
         VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
         Label label1 = new Label("Choose Production:");
         vBox.getChildren().add(label1);
+        label1.setAlignment(Pos.CENTER);
+        label1.setStyle("-fx-font-size: 22; -fx-text-fill: #000000; -fx-font-family: 'Britannic Bold'");
                 for (UnitType unit: CityController.getInstance().validUnits()) {
                     HBox hBox = new HBox();
                     hBox.setSpacing(7);
@@ -305,14 +308,22 @@ public class GameplayGraphicController implements Initializable {
             hBox.setSpacing(7);
             hBox.setAlignment(Pos.CENTER);
             ImageView imageView = new ImageView();
+            imageView.setImage(buildingType.image);
             imageView.setFitWidth(60);
             imageView.setFitHeight(60);
             Button production = new Button("Production");
-            production.getStylesheets().add("/css/gameplay.css");
-            production.getStyleClass().add("button1");
+            production.setOnMouseClicked(mouseEvent -> {
+                CityController.getInstance().setSelectedBuildingType(buildingType);
+                notification.setText(CityController.getInstance().buildNowOrPerTurns("per turns"));
+                updateMap();
+            });
             Button gold = new Button("Gold");
+            gold.setOnMouseClicked(mouseEvent -> {
+                CityController.getInstance().setSelectedBuildingType(buildingType);
+                notification.setText(CityController.getInstance().buildNowOrPerTurns("build now"));
+                updateMap();
+            });
             Label label = new Label(buildingType.name());
-            label.setMaxWidth(50);
             hBox.getChildren().add(imageView);
             hBox.getChildren().add(label);
             hBox.getChildren().add(production);
@@ -329,7 +340,10 @@ public class GameplayGraphicController implements Initializable {
         for (Civilization civilization: GameMap.getInstance().getCivilizations()) {
             if(civilization.getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())){
                 VBox vBox = new VBox();
+                vBox.setAlignment(Pos.CENTER);
                 Label label1 = new Label("Choose your Research:");
+                label1.setAlignment(Pos.CENTER);
+                label1.setStyle("-fx-font-size: 22; -fx-text-fill: #000000; -fx-font-family: 'Britannic Bold'");
                 vBox.getChildren().add(label1);
                 for (TechnologyType technologyType: civilization.searchableTechnologiesTypes()) {
                         HBox hBox = new HBox();
@@ -339,6 +353,10 @@ public class GameplayGraphicController implements Initializable {
                         imageView.setFitWidth(60);
                         imageView.setFitHeight(60);
                         Button research = new Button("Research");
+                        research.setOnMouseClicked(mouseEvent -> {
+                            notification.setText(CivilizationController.getInstance().createTechnologyForStudy(technologyType));
+                            updateMap();
+                        });
                         Label label = new Label(technologyType.name());
                         hBox.getChildren().add(imageView);
                         hBox.getChildren().add(label);
@@ -419,10 +437,8 @@ public class GameplayGraphicController implements Initializable {
             }
             else {
                 if (tile.getFeature() == null) {
-                    System.out.println("no terrain" + tile.getTerrain());
                     img = tile.getTerrain().image;
                 } else {
-                    System.out.println("yes terrain" + tile.getTerrain() + "feature " +tile.getFeature());
                     img = tile.getFeature().getFeatureType().image;
                 }
                 polygon.setFill(new ImagePattern(img));
@@ -433,21 +449,21 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
-    public void printDetails(){
-        System.out.println("-----------------------------");
-        System.out.println("selected unit info: ");
-        System.out.println("unit type : " + GameController.getInstance().getSelectedUnit().getUnitType());
-        System.out.println(GameController.getInstance().getSelectedUnit().getTile().getX());
-        System.out.println(GameController.getInstance().getSelectedUnit().getTile().getY());
-        System.out.println("movements left :" + GameController.getInstance().getSelectedUnit().getMovementsLeft());
-        System.out.println("-----------------------------");
-    }
+//    public void printDetails(){
+//        System.out.println("-----------------------------");
+//        System.out.println("selected unit info: ");
+//        System.out.println("unit type : " + GameController.getInstance().getSelectedUnit().getUnitType());
+//        System.out.println(GameController.getInstance().getSelectedUnit().getTile().getX());
+//        System.out.println(GameController.getInstance().getSelectedUnit().getTile().getY());
+//        System.out.println("movements left :" + GameController.getInstance().getSelectedUnit().getMovementsLeft());
+//        System.out.println("-----------------------------");
+//    }
 
 
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
             if (moveMode) {
-                System.out.println("im in move init");
+//                System.out.println("im in move init");
                 GameController.getInstance().initMoveUnit(polyToTile.get(polygon));
                 updateMap();
                 moveMode = false;
@@ -480,25 +496,18 @@ public class GameplayGraphicController implements Initializable {
                     polygon.setEffect(new InnerShadow(75, 1, 1, CYAN));
                     polygon.setStrokeWidth(polygon.getStrokeWidth() * 4);
                     unitBar();
-                    printDetails();
                 }
             }
             polygon.requestFocus();
         });
-        polygon.setOnMouseEntered(mouseEvent -> {
-           tileInfo.setText("Terrain: " + polyToTile.get(polygon).getTerrain().name());
-           if(polyToTile.get(polygon).getFeature() != null)
-               tileInfo.setText(tileInfo.getText() + " Feature: " + polyToTile.get(polygon).getFeature().getFeatureType().name());
-           if(polyToTile.get(polygon).getCombatUnitOnTile() != null){
-               tileInfo.setText(tileInfo.getText() + " Hp : " +polyToTile.get(polygon).getCombatUnitOnTile().getHitPoints());
-           }
-        });
     }
+
     private void resetPoly(Polygon polygon){
         polygon.setStrokeWidth(1);
         polygon.setStroke(null);
         polygon.setEffect(null);
     }
+
     private void buildPoly(double x, double y, Tile tile, Polygon polygon) {
         double shortSide = MapEnum.HEXSIDESHORT.amount;
         double longSide = MapEnum.HEXSIDELONG.amount;
@@ -598,7 +607,8 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void assignPicForResources(Tile tile, double x, double y) {
-        if(tile.getResource() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR) && GameController.getInstance().getPlayerTurn().hasTechnology(tile.getResource().getResourceType().requiredTechnology)) {
+        if(tile.getResource() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR) &&
+                (tile.getResource().getResourceType().requiredTechnology == null || GameController.getInstance().getPlayerTurn().hasTechnology(tile.getResource().getResourceType().requiredTechnology))) {
             Circle circle = new Circle();
             circle.setCenterX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 3);
             circle.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 11 / 5);
@@ -701,24 +711,25 @@ public class GameplayGraphicController implements Initializable {
         polygon.setOnMouseEntered(mouseEvent -> {
             if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)){
                 tilePolyInfo.setFill(new ImagePattern(Pics.cloud.image));
-                recourseType.setText("Recourse: Fogged");
+                recourseType.setText("Resource: Fogged");
                 terrainType.setText("Terrain: Fogged");
                 featureType.setText("Feature: Fogged");
                 unitLabel.setText("CombatUnit: Fogged");
             }
             else {
                 tilePolyInfo.setFill(new ImagePattern(tile.getTerrain().image));
-                if(tile.getResource() != null)recourseType.setText("Recourse: " + tile.getResource().getResourceType().name());
-                else recourseType.setText("Recourse: No Recourse");
+                if(tile.getResource() != null && (tile.getResource().getResourceType().requiredTechnology == null || GameController.getInstance().getPlayerTurn().hasTechnology(tile.getResource().getResourceType().requiredTechnology)))
+                    recourseType.setText("Resource: " + tile.getResource().getResourceType().name());
+                else recourseType.setText("No Resource");
                 terrainType.setText("Terrain: " + tile.getTerrain().name());
                 if(tile.getFeature() != null)featureType.setText("Feature: " + tile.getFeature().getFeatureType().name());
-                else featureType.setText("Feature: No Feature");
+                else featureType.setText("No Feature");
                 if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.VISIBLE)){
-                    if(tile.getCombatUnitOnTile() == null)tileUnit.setText("CombatUnit: No Unit");
+                    if(tile.getCombatUnitOnTile() == null)tileUnit.setText("No Unit");
                     else tileUnit.setText("Combat: HP:" + tile.getCombatUnitOnTile().getHitPoints() + " _ Strength: " + tile.getCombatUnitOnTile().getUnitType().combatStrength);
                 }
                 else {
-                    tileUnit.setText("CombatUnit: Revealed Tile");
+                    tileUnit.setText("Revealed Tile");
                 }
             }
         });
@@ -740,10 +751,7 @@ public class GameplayGraphicController implements Initializable {
             unitBar.setVisible(true);
             unitBar.setDisable(false);
             unitPic.setImage(GameController.getInstance().getSelectedUnit().getUnitType().image);
-            if(GameController.getInstance().getSelectedUnit() instanceof Combat)
-                unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name() + " HP : " + ((Combat)GameController.getInstance().getSelectedUnit()).getHitPoints());
-            else
-                unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name());
+            unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name());
             unitMoves.setText("Movements: " + GameController.getInstance().getSelectedUnit().getMovementsLeft());
         }
         if(GameController.getInstance().getSelectedUnit().getUnitType().equals(UnitType.Settler))buildCity.setDisable(false);
@@ -760,7 +768,8 @@ public class GameplayGraphicController implements Initializable {
                 }
                 else {
                     research.setDisable(true);
-                   // researchPic.setImage();
+                    researchNotif.setText(civ.getCurrentResearchProject().name());
+                    researchPic.setImage(civ.getCurrentResearchProject().image);
                 }
             }
         }
@@ -789,7 +798,7 @@ public class GameplayGraphicController implements Initializable {
 
     public void nextTurn(ActionEvent actionEvent) {
         GameController.getInstance().nextTurn();
-        System.out.println(GameController.getInstance().getPlayerTurn().getUser().getUsername());
+//        System.out.println(GameController.getInstance().getPlayerTurn().getUser().getUsername());
         updateMap();
     }
 

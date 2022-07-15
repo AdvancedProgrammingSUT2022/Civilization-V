@@ -112,6 +112,7 @@ public class GameController{
                         if(Constructions.get(i).getTile().getResource().getResourceType().equals(resource)){
                             Constructions.get(i).getTile().getResource().setAvailable(true);
                             luxuryAndStrategicRecourses(resource);
+                            playerTurn.addLuxuryResourceCount(resource);
                         }
                     }
                 }
@@ -177,7 +178,7 @@ public class GameController{
 
     public void reducingTurnOfTheTechnologies(){
         if(getPlayerTurn().getCurrentResearchProject() != null){
-            int turn = GameController.getInstance().playerTurn.getResearchTurns() - 1;
+            int turn = GameController.getInstance().playerTurn.getResearchTurns() - GameController.getInstance().getPlayerTurn().getSciencePerTurn();
             getPlayerTurn().setResearchTurns(turn);
             TechnologyType technologyType = getPlayerTurn().getCurrentResearchProject();
             if(turn <= 0){
@@ -211,10 +212,10 @@ public class GameController{
     }
     public void reducingTurnOfTheBuildings(City city){
         if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() != 0){
-            int turn = city.getBuildingTurn() - 1;
+            int turn = city.getBuildingTurn() - city.getProductionPerTurn();
             city.setBuildingTurn(turn);
         }
-        if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() == 0){
+        if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() <= 0){
             Building building = new Building(city.getUnderConstructionBuilding());
             city.addBuilding(building);
             GameMap.getInstance().addBuiltBuilding(building);

@@ -138,20 +138,20 @@ public class UnitController {
                 for (City city : selectedUnit.getCivilization().getCities()) {
                     for (Tile tile : city.getCityTiles()) {
                         if (tile != null && tile == selectedUnit.getTile()) {
-                            return "these Tile belongs to another city";
+                            return "these Tile belongs to another city of yours";
                         }
                     }
                 }
-            BuildCity((Settler) selectedUnit, cityName);
+            ((Settler) selectedUnit).buildCity(cityName);
             removeUnitFromGame(selectedUnit);
             GameController.getInstance().setSelectedUnit(null);
             return "your new city is built";
         } return "you can only build new city with settler";
     }
 
-    private void BuildCity(Settler settler, String cityName){
-        settler.buildCity(cityName);
-    }
+//    private void BuildCity(Settler settler, String cityName){
+//        settler.buildCity(cityName);
+//    }
 
     public void makeUnit(UnitType unitType, Civilization civilization,Tile tile){
         Unit unit;
