@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Polygon?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />
@@ -87,22 +80,22 @@
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="35.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="674.0" />
             <HBox alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="62.0" prefWidth="710.0" spacing="5.0">
                <children>
-                  <Button fx:id="sleep" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Sleep" />
-                  <Button fx:id="alert" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Alert" />
-                  <Button fx:id="fortify" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Fortify" />
-                  <Button fx:id="heal" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Heal" />
-                  <Button fx:id="setup" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Setup" />
-                  <Button fx:id="wake" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Wake" />
-                  <Button fx:id="delete" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Delete" />
+                  <Button fx:id="sleep" mnemonicParsing="false" onAction="#sleepUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Sleep" />
+                  <Button fx:id="alert" mnemonicParsing="false" onAction="#alertUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Alert" />
+                  <Button fx:id="fortify" mnemonicParsing="false" onAction="#fortifyUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Fortify" />
+                  <Button fx:id="heal" mnemonicParsing="false" onAction="#healUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Heal" />
+                  <Button fx:id="setup" mnemonicParsing="false" onAction="#preAttack" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Setup" />
+                  <Button fx:id="wake" mnemonicParsing="false" onAction="#wakeUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Wake" />
+                  <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Delete" />
                   <Button fx:id="move" mnemonicParsing="false" onMouseClicked="#moveButton" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="move" />
                </children>
             </HBox>
             <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" prefHeight="66.0" prefWidth="689.0" spacing="5.0">
                <children>
-                  <Button fx:id="upgrade" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" />
+                  <Button fx:id="upgrade" mnemonicParsing="false" onAction="#upgradeUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" />
                   <Button fx:id="buildCity" mnemonicParsing="false" onMouseClicked="#buildCity" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" />
                   <Button fx:id="buildImprovement" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build Improvement" />
-                  <Button fx:id="rangedAttack" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
+                  <Button fx:id="rangedAttack" mnemonicParsing="false" onAction="#rangeAttackUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
                </children>
             </HBox>
          </children>
@@ -132,7 +125,7 @@
          </children>
       </HBox>
       <Label fx:id="notification" alignment="CENTER" layoutX="435.0" layoutY="11.0" prefHeight="21.0" prefWidth="866.0" styleClass="notification" />
-      <Button layoutX="1321.0" layoutY="46.0" mnemonicParsing="false" onMouseClicked="#openChatRoom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
+      <Button layoutX="1044.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#openChatRoom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="openChatRoom" />
       <AnchorPane layoutX="1152.0" layoutY="96.0" prefHeight="213.0" prefWidth="338.0">
          <children>
             <Polygon fx:id="tilePolyInfo" fill="DODGERBLUE" layoutX="207.0" layoutY="136.0" opacity="0.7" points="-105.0, 136.0, 35.0, 136.0, 119.0, -6.0, 35.0, -136.0, -105.0, -136.0, -195.0, -6.0" stroke="BLACK" strokeType="INSIDE" />
@@ -149,5 +142,6 @@
       </AnchorPane>
       <ScrollPane fx:id="technologies" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
       <ScrollPane fx:id="buildUnitsBar" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
+      <Button layoutX="1298.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="166.0" styleClass="buttons" text="Diplomacy" />
    </children>
 </Pane>

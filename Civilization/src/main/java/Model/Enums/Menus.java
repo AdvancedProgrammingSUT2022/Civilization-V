@@ -2,6 +2,9 @@ package Model.Enums;
 
 public enum Menus {
     LOGIN_MENU("loginPage"),
+    DIPLOMACY_PANEL("diplomacyPanel"),
+    CHAT_MENU("ChatPage"),
+    TRADE_PANEL("tradePanel"),
     MAIN_MENU("mainMenu"),
     PROFILE_MENU("profileMenu"),
     GAME_PAUSE_MENU("gamePauseMenu"),

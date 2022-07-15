@@ -10,8 +10,8 @@ import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
+import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
-import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Tile.Tile;
@@ -19,7 +19,6 @@ import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;
 import Model.Units.TypeEnums.UnitType;
-import Model.Units.Unit;
 import View.Images;
 import View.Pics;
 import javafx.animation.KeyFrame;
@@ -32,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -396,6 +396,15 @@ public class GameplayGraphicController implements Initializable {
         for (ImageView imageView:cityPics) {
             pane.getChildren().remove(imageView);
         }
+        ArrayList<Circle> circles = new ArrayList<>();
+        for (Node node:pane.getChildren()) {
+            if(node instanceof Circle) {
+                circles.add((Circle) node);
+            }
+        }
+        for (Circle circle:circles) {
+            pane.getChildren().remove(circle);
+        }
         technologies.setDisable(true);
         technologies.setVisible(false);
         buildUnitsBar.setVisible(false);
@@ -416,6 +425,8 @@ public class GameplayGraphicController implements Initializable {
             pane.getChildren().remove(circle);
         }
         for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
+            assignPicForResources(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignPicToCities(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignImages(GameMap.getInstance().getTiles().get(i), tileToPoly.get(GameMap.getInstance().getTiles().get(i)), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
@@ -826,5 +837,43 @@ public class GameplayGraphicController implements Initializable {
     @FXML
     private void openChatRoom(MouseEvent mouseEvent) {
         main.java.Main.changeMenu("ChatPage");
+    }
+
+    public void sleepUnit(ActionEvent actionEvent) {
+        UnitController.getInstance().sleep();
+    }
+
+    public void alertUnit(ActionEvent actionEvent) {
+        UnitController.getInstance().alert();
+    }
+
+    public void fortifyUnit(ActionEvent actionEvent) {
+        UnitController.getInstance().fortify();
+    }
+
+    public void healUnit(ActionEvent actionEvent) {
+        UnitController.getInstance().fortifyUntilHealed();
+    }
+
+    public void wakeUnit(ActionEvent actionEvent) {
+        GameController.getInstance().wake();
+    }
+
+    public void deleteUnit(ActionEvent actionEvent) {
+        GameController.getInstance().deleteUnit();
+    }
+
+    public void upgradeUnit(ActionEvent actionEvent) {
+        
+    }
+
+    public void rangeAttackUnit(ActionEvent actionEvent) {
+    }
+
+    public void preAttack(ActionEvent actionEvent) {
+    }
+
+    public void openDiplomacyPanel(MouseEvent actionEvent) {
+        Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
     }
 }
