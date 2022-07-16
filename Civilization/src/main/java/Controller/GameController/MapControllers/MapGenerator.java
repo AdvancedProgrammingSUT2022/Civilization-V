@@ -12,6 +12,7 @@ import Model.MapRelated.GameMap;
 import Model.TileRelated.Feature.Feature;
 import Model.TileRelated.Feature.River;
 import Model.TileRelated.Resource.Resource;
+import Model.TileRelated.Ruin.Ruin;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
@@ -110,8 +111,23 @@ public class MapGenerator {
         setMountains(mapX, mapY, MapSeed);
         setFeatures(mapX, mapY, MapSeed);
         setResources(mapX, mapY, MapSeed);
-        //setRivers(mapX, mapY);
+        setRivers(mapX, mapY);
+        setRuins(mapX,mapY);
         setWaterSideTiles(mapX , mapY);
+    }
+
+    private void setRuins(int mapX, int mapY) {
+        for(int i = 1; i < mapY - 1; i++){
+            for(int j = 1; j < mapX - 1; j++){
+                int random = GameMap.getInstance().getRandom().nextInt(12);
+                if(random >= 10) {
+                    Tile tile = GameMap.getInstance().getATile(j, i);
+                    Ruin ruin = new Ruin(tile);
+                    tile.setRuin(ruin);
+                    System.out.println("yes mam " + tile.getX() + " " + tile.getY() + tile.getRuin().getBenefit(new Civilization()));
+                }
+            }
+        }
     }
 
     private void setWaterSideTiles(int mapX, int mapY){
@@ -135,7 +151,7 @@ public class MapGenerator {
         }
         int setRiver = (mapX*mapY) / 3 - riverCount;
         while(setRiver > 0){
-            int randomTileIndex = (int)(GameMap.getInstance().getRandom().nextInt() % doesNotHaveRiver.size());
+            int randomTileIndex = GameMap.getInstance().getRandom().nextInt(doesNotHaveRiver.size());
             int setRandom = GameMap.getInstance().getRandom().nextInt( 6);
             while(MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom) == null)
                 setRandom = GameMap.getInstance().getRandom().nextInt( 6);
