@@ -12,7 +12,8 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
-<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/18
+" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />
@@ -150,6 +151,7 @@
       <ScrollPane fx:id="technologies" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
       <ScrollPane fx:id="buildUnitsBar" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
       <Button layoutX="1298.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="166.0" styleClass="buttons" text="Diplomacy" />
-      <Button layoutX="1317.0" layoutY="471.0" mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="MIlitary Overview" />
+      <Button layoutX="1317.0" layoutY="471.0" mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="Military Overview" />
+      <Button layoutX="1335.0" layoutY="558.0" mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="Notification history" />
    </children>
 </Pane>

@@ -38,6 +38,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -48,7 +49,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import main.java.Main;
@@ -890,6 +893,42 @@ public class GameplayGraphicController implements Initializable {
         for(City city : GameController.getInstance().getPlayerTurn().getCities())
             population += city.getPopulation();
         return population;
+    }
+    
+    @FXML
+    private void openNotificationHistory(MouseEvent mouseEvent){
+        Popup popup = new Popup();
+        Window window = Main.scene.getWindow();
+        Label name = new Label("NOTIFICATION HISTORY");
+        name.setFont(new Font(25));
+        VBox notificationHistory = new VBox(name, new Separator());
+        ArrayList<String> notifications = GameController.getInstance().getPlayerTurn().getNotification();
+        for(String notification : notifications){
+            Label label = new Label(notification);
+            label.setStyle("-fx-font-family: Britannic Bold;");
+            label.setFont(new Font(25));
+            notificationHistory.getChildren().add(label);
+            notificationHistory.getChildren().add(new Separator());
+        }
+        notificationHistory.setStyle("-fx-background-color: gray; -fx-background-radius: 20;");
+        ScrollPane scrollPane = new ScrollPane(notificationHistory);
+        scrollPane.setMaxHeight(600);
+        scrollPane.setMaxWidth(800);
+        scrollPane.setStyle("-fx-background-radius: 20; -fx-background-color: gray; ");
+        Button button = new Button("close");
+        button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                + "-fx-text-fill: #4f4e4e;");
+        notificationHistory.getChildren().add(button);
+        button.setAlignment(Pos.BOTTOM_LEFT);
+        pane.setEffect(new Lighting());
+        popup.getContent().add(scrollPane);
+        popup.show(window);
+
+        button.setOnMouseClicked(mouseEvent1 -> {
+            pane.setEffect(null);
+            popup.hide();
+        });
     }
 
     @FXML
