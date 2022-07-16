@@ -19,6 +19,7 @@ import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;
 import Model.Units.TypeEnums.UnitType;
+import Model.Units.Unit;
 import View.Images;
 import View.Pics;
 import javafx.animation.KeyFrame;
@@ -35,6 +36,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +49,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import main.java.Main;
 
@@ -832,6 +835,61 @@ public class GameplayGraphicController implements Initializable {
             assignCoinToTile(key,MapFunctions.getInstance().NonConventionalCoordinatesX(key)
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(key));
         }
+    }
+    @FXML
+    private void openMilitaryOverview(MouseEvent mouseEvent){
+        javafx.stage.Popup militaryOverview = new javafx.stage.Popup();
+        Window window = Main.scene.getWindow();
+        Label name = new Label("MILITARY OVERVIEW");
+        VBox unit_supply = UnitSupply();
+        VBox vBox = new VBox();
+        vBox.setMinHeight(0);
+        Button button = new Button("close");
+        if(GameController.getInstance().getPlayerTurn().getUnits().size() != 0){
+            vBox.getChildren().add(new Label("UNIT DETAILS"));
+            vBox.getChildren().add(new Separator());
+            for(Unit unit : GameController.getInstance().getPlayerTurn().getUnits()){
+                ImageView imageView = new ImageView(unit.getUnitType().image);
+                imageView.setFitHeight(60);
+                imageView.setFitWidth(60);
+                Label u_name = new Label("unit name : "+unit.getUnitType().name());
+                Label u_status = new Label("unit status : "+unit.getUnitStateType().name());
+                String u_s = "combat strength : " + unit.getUnitType().combatStrength;
+                Label u_combatStrength = new Label(u_s);
+                VBox vBox_details;
+                if(unit instanceof Combat) {
+                    Label u_hitPoint = new Label("hit point : " + ((Combat) unit).getHitPoints());
+                    vBox_details = new VBox(u_name, u_combatStrength, u_status, u_hitPoint);
+                } else {
+                    vBox_details = new VBox(u_name, u_combatStrength, u_status);
+                }
+                HBox hBox_u = new HBox(imageView, vBox_details);
+                vBox.getChildren().add(hBox_u);
+                vBox.getChildren().add(new Separator());
+            }
+        }
+        button.setLayoutY(vBox.getPrefHeight());
+        unit_supply.getChildren().add(button);
+        HBox allDetails = new HBox(unit_supply, new Separator(), vBox);
+        VBox all = new VBox(name, allDetails);
+        militaryOverview.getContent().add(all);
+        militaryOverview.show(window);
+        button.setOnMouseClicked(mouseEvent1 -> {
+            militaryOverview.hide();
+        });
+    }
+
+    private VBox UnitSupply(){
+        Label name = new Label("UNIT SUPPLY");
+        Label cities = new Label("cities \t\t\t" + GameController.getInstance().getPlayerTurn().getCities().size());
+        Label civPopulation = new Label("population \t\t" + getPopulation());
+        return new VBox(name, cities, civPopulation);
+    }
+    private int getPopulation(){
+        int population = 0;
+        for(City city : GameController.getInstance().getPlayerTurn().getCities())
+            population += city.getPopulation();
+        return population;
     }
 
     @FXML
