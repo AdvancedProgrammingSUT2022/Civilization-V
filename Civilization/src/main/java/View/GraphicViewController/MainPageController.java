@@ -15,7 +15,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Window;
-import main.java.Main;
 
 import java.net.URL;
 import java.nio.file.Path;
@@ -97,6 +96,6 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void openChatroom(MouseEvent mouseEvent) {
-        Main.changeMenu("ChatPage");
+        main.java.Main.changeMenu("ChatPage");
     }
 }

@@ -8,6 +8,7 @@ import Model.TileRelated.Feature.River;
 import Model.TileRelated.Improvement.Improvement;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Road.Road;
+import Model.TileRelated.Ruin.Ruin;
 import Model.TileRelated.Terraine.TerrainType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
@@ -29,6 +30,16 @@ public class Tile {
     private Civilization civilization;
     private City city;
     private boolean isCapital = false;
+
+    public Ruin getRuin() {
+        return ruin;
+    }
+
+    public void setRuin(Ruin ruin) {
+        this.ruin = ruin;
+    }
+
+    private Ruin ruin;
     
     public int getX() {
         return x;
