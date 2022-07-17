@@ -3,12 +3,7 @@ package View.GraphicViewController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Model.Enums.Menus;
 import Model.User.User;
-import View.Menu.Menu;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,9 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class ScoreBoardPageController implements Initializable {
@@ -35,6 +30,8 @@ public class ScoreBoardPageController implements Initializable {
         Text text1 = new Text("Top 10 Players:");
         text1.setStyle("-fx-font-family: 'Cooper Black' ; -fx-fill: #86033b; -fx-font-size: 60;");
         list.getChildren().add(text1);
+        Comparator comparator = Comparator.comparing(User::getScore);
+        LoginAndRegisterController.getInstance().getUsers().sort(comparator);
         for (User user: LoginAndRegisterController.getInstance().getUsers()) {
             Label text = new Label("\n"+user.getUsername() + "\t\t\t\t\t\t\t" + user.getScore());
             text.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
