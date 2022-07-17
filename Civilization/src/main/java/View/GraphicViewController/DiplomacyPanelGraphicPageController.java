@@ -88,6 +88,7 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
         main.java.Main.changeMenu(Menus.TRADE_PANEL.value);
     }
 
+
     public void openChat(ActionEvent actionEvent) {
         main.java.Main.changeMenu(Menus.CHAT_MENU.value);
     }

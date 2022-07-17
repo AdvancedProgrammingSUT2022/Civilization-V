@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -53,8 +54,10 @@ public class TradePanelController implements Initializable {
                 circle.setRadius(15);
                 circle.setFill(new ImagePattern(type.image));
                 Label label = new Label(type.name());
+                label.setStyle(" -fx-text-fill: #e5d5b2; -fx-font-family: 'Britannic Bold';-fx-font-size: 23;");
                 label.setPrefWidth(50);
                 TextField textField = new TextField(Integer.toString(civilization.getLuxuryResourceCount().get(type)));
+                textField.setStyle("-fx-background-color: rgba(248, 248, 248, 0.35); -fx-background-radius: 10;");
                 hBox.getChildren().add(circle);
                 hBox.getChildren().add(label);
                 hBox.getChildren().add(textField);
@@ -72,6 +75,16 @@ public class TradePanelController implements Initializable {
         }
     }
 
+    public void buttonSizeIncrease(MouseEvent mouseEvent) {
+        javafx.scene.control.Button button = (javafx.scene.control.Button) mouseEvent.getSource();
+        button.setStyle("-fx-font-size: 21;-fx-background-color: rgba(231,231,121,0.83);");
+
+    }
+
+    public void buttonSizeDecrease(MouseEvent mouseEvent) {
+        javafx.scene.control.Button button = (Button) mouseEvent.getSource();
+        button.setStyle("-fx-font-size: 18; -fx-background-color: rgba(201, 238, 221, 0.7);");
+    }
     public void addCoinHbox(Civilization civilization,VBox myResources,VBox myOffer){
         HBox hBox = new HBox();
         hBox.setPrefWidth(myResources.getPrefWidth());
@@ -80,8 +93,10 @@ public class TradePanelController implements Initializable {
         circle.setRadius(15);
         circle.setFill(new ImagePattern(Pics.coin.image));
         Label label = new Label(Pics.coin.name());
+        label.setStyle(" -fx-text-fill: #e5d5b2; -fx-font-family: 'Britannic Bold';-fx-font-size: 23;");
         label.setPrefWidth(50);
         TextField textField = new TextField(Integer.toString(civilization.getGold()));
+        textField.setStyle("-fx-background-color: rgba(248, 248, 248, 0.35); -fx-background-radius: 10;");
         hBox.getChildren().add(circle);
         hBox.getChildren().add(label);
         hBox.getChildren().add(textField);

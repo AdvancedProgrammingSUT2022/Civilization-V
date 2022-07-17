@@ -31,6 +31,8 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.css.Style;
+import javafx.css.StyleClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -192,6 +194,8 @@ public class GameplayGraphicController implements Initializable {
         getTimeline().play();
         profilePic.setImage(Images.profilePics.pics.get(LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex()));
         researchPic.setImage(Pics.questionMark.image);
+        CheatCode.getInstance().unlockFirstHalfTechnologies();
+        GameController.getInstance().getPlayerTurn().setGold(20000);
     }
 
     public javafx.scene.shape.Polygon getPolygon(Tile tile) {
@@ -930,6 +934,7 @@ public class GameplayGraphicController implements Initializable {
     }
     @FXML
     private void openMilitaryOverview(MouseEvent mouseEvent){
+        Pane pane = new Pane();
         javafx.stage.Popup militaryOverview = new javafx.stage.Popup();
         Window window = Main.scene.getWindow();
         Label name = new Label("MILITARY OVERVIEW");
@@ -964,8 +969,10 @@ public class GameplayGraphicController implements Initializable {
         unit_supply.getChildren().add(button);
         HBox allDetails = new HBox(unit_supply, new Separator(), vBox);
         VBox all = new VBox(name, allDetails);
-        militaryOverview.getContent().add(all);
+        pane.getChildren().add(all);
+        militaryOverview.getContent().add(pane);
         militaryOverview.show(window);
+        button.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
         button.setOnMouseClicked(mouseEvent1 -> {
             militaryOverview.hide();
         });
@@ -987,23 +994,23 @@ public class GameplayGraphicController implements Initializable {
     @FXML
     private void openNotificationHistory(MouseEvent mouseEvent){
         Popup popup = new Popup();
+        popup.centerOnScreen();
         Window window = Main.scene.getWindow();
         Label name = new Label("NOTIFICATION HISTORY");
-        name.setFont(new Font(25));
+        name.setStyle("-fx-font-family: 'Times New Roman'; -fx-font-size: 20; -fx-text-fill: #47a8d3");
         VBox notificationHistory = new VBox(name, new Separator());
         ArrayList<String> notifications = GameController.getInstance().getPlayerTurn().getNotification();
         for(String notification : notifications){
             Label label = new Label(notification);
-            label.setStyle("-fx-font-family: Britannic Bold;");
+            label.setStyle("-fx-font-family: Britannic Bold; -fx-font-size: 15");
             label.setFont(new Font(25));
             notificationHistory.getChildren().add(label);
             notificationHistory.getChildren().add(new Separator());
         }
-        notificationHistory.setStyle("-fx-background-color: gray; -fx-background-radius: 20;");
         ScrollPane scrollPane = new ScrollPane(notificationHistory);
-        scrollPane.setMaxHeight(600);
-        scrollPane.setMaxWidth(800);
-        scrollPane.setStyle("-fx-background-radius: 20; -fx-background-color: gray; ");
+        scrollPane.setPrefHeight(200);
+        scrollPane.setPrefWidth(300);
+        scrollPane.setStyle("-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35");
         Button button = new Button("close");
         button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
                 " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "

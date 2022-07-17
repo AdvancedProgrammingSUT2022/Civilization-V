@@ -11,54 +11,53 @@ import java.util.ArrayList;
 public enum ResourceType {
     // Bonus Resources
 
-
-    Bananas(1, 0, 0, ImprovementType.Plantation, null,
+    Bananas(1, 0, 0, null,
             ResourceMainTypes.BonusResources),
 //
-    Cattle(1, 0, 0,  ImprovementType.Pasture, null,
+    Cattle(1, 0, 0, null,
             ResourceMainTypes.BonusResources),
 //
-    Deer(1, 0, 0,  ImprovementType.Camp, null,
+    Deer(1, 0, 0, null,
             ResourceMainTypes.BonusResources),
 //
-    Sheep(2, 0, 0, ImprovementType.Pasture, null,
+    Sheep(2, 0, 0, null,
             ResourceMainTypes.BonusResources),
 //
-    Wheat(1, 0, 0,  ImprovementType.Farm, null,
+    Wheat(1, 0, 0, null,
             ResourceMainTypes.BonusResources),
     // Strategic Resources
-    Coal(0, 1, 0,  ImprovementType.Mine, TechnologyType.ScientificTheory,
+    Coal(0, 1, 0, TechnologyType.ScientificTheory,
             ResourceMainTypes.StrategicResources),
 
-    Horses(0, 1, 0,  ImprovementType.Pasture, TechnologyType.AnimalHusbandry,
+    Horses(0, 1, 0, TechnologyType.AnimalHusbandry,
             ResourceMainTypes.StrategicResources),
 
-    Iron(0, 1, 0, ImprovementType.Mine, TechnologyType.IronWorking,
+    Iron(0, 1, 0, TechnologyType.IronWorking,
             ResourceMainTypes.StrategicResources),
     // Luxury Resources
-    Cotton(0, 0,2, ImprovementType.Plantation, null,
+    Cotton(0, 0,2, null,
             ResourceMainTypes.LuxuryResources),
-    Dyes(0, 0, 2,  ImprovementType.Plantation, null,
+    Dyes(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Furs(0, 0, 2,  ImprovementType.Camp, null,
+    Furs(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Gems(0, 0, 3,  ImprovementType.Mine, null,
+    Gems(0, 0, 3, null,
             ResourceMainTypes.LuxuryResources),
-    GoldResource(0, 0, 2,  ImprovementType.Mine, null,
+    GoldResource(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Incense(0, 0, 2,  ImprovementType.Plantation, null,
+    Incense(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Ivory(0, 0, 2,  ImprovementType.Camp, null,
+    Ivory(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Marble(0, 0, 2,  ImprovementType.Quarry, null,
+    Marble(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Silk(0, 0, 2,  ImprovementType.Plantation, null,
+    Silk(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Silver(0 , 0, 2, ImprovementType.Plantation, null,
+    Silver(0 , 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Spices(0, 0, 2,  ImprovementType.Plantation, null,
+    Spices(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources),
-    Sugar(0, 0, 2,  ImprovementType.Plantation, null,
+    Sugar(0, 0, 2, null,
             ResourceMainTypes.LuxuryResources);
 
     static {
@@ -68,37 +67,37 @@ public enum ResourceType {
 
         Bananas.setter(null, new ArrayList<FeatureType>(){{
             add(FeatureType.Forest);
-        }});
+        }}, ImprovementType.Plantation);
         Cattle.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Grassland);
-        }},null);
+        }},null,  ImprovementType.Pasture);
         Deer.setter(new ArrayList<>() {{
             add(TerrainType.Hill);
             add(TerrainType.Tundra);
         }}, new ArrayList<FeatureType>(){{
             add(FeatureType.Forest);
-        }});
+        }},  ImprovementType.Camp);
         Sheep.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Grassland);
             add(TerrainType.Plains);
             add(TerrainType.Desert);
             add(TerrainType.Hill);
-        }}, null);
+        }}, null, ImprovementType.Pasture);
         Wheat.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Plains);
         }}, new ArrayList<FeatureType>(){{
             add(FeatureType.FloodPlains);
-        }});
+        }},  ImprovementType.Farm);
         Coal.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Grassland);
             add(TerrainType.Hill);
             add(TerrainType.Plains);
-        }}, null);
+        }}, null,  ImprovementType.Mine);
         Horses.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Plains);
             add(TerrainType.Tundra);
             add(TerrainType.Grassland);
-        }}, null);
+        }}, null,  ImprovementType.Pasture);
         Iron.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Hill);
             add(TerrainType.Desert);
@@ -106,21 +105,21 @@ public enum ResourceType {
             add(TerrainType.Tundra);
             add(TerrainType.Grassland);
             add(TerrainType.Snow);
-        }}, null);
+        }}, null, ImprovementType.Mine);
         Cotton.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Grassland);
             add(TerrainType.Plains);
             add(TerrainType.Desert);
-        }}, null);
+        }}, null, ImprovementType.Plantation);
         Dyes.setter(null, new ArrayList<FeatureType>(){{
             add(FeatureType.Forest);
             add(FeatureType.Jungle);
-        }});
+        }},  ImprovementType.Plantation);
         Furs.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Tundra);
         }}, new ArrayList<FeatureType>(){{
             add(FeatureType.Forest);
-        }});
+        }},  ImprovementType.Camp);
         Gems.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Grassland);
             add(TerrainType.Tundra);
@@ -129,42 +128,42 @@ public enum ResourceType {
             add(TerrainType.Plains);
         }}, new ArrayList<FeatureType>(){{
             add(FeatureType.Jungle);
-        }});
+        }},  ImprovementType.Mine);
         GoldResource.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Plains);
             add(TerrainType.Hill);
             add(TerrainType.Grassland);
             add(TerrainType.Desert);
-        }}, null);
+        }}, null,  ImprovementType.Mine);
         Incense.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Plains);
             add(TerrainType.Hill);
-        }}, null);
+        }}, null,  ImprovementType.Plantation);
         Ivory.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Plains);
-        }}, null);
+        }}, null,  ImprovementType.Camp);
         Marble.setter(new ArrayList<TerrainType>(){{
             add(TerrainType.Plains);
             add(TerrainType.Hill);
             add(TerrainType.Tundra);
             add(TerrainType.Desert);
             add(TerrainType.Grassland);
-        }}, null);
+        }}, null,  ImprovementType.Quarry);
         Silk.setter(null, new ArrayList<FeatureType>(){{
             add(FeatureType.Forest);
-        }});
+        }},  ImprovementType.Plantation);
         Silver.setter( new ArrayList<TerrainType>(){{
             add(TerrainType.Desert);
             add(TerrainType.Hill);
             add(TerrainType.Tundra);
-        }}, null);
+        }}, null, ImprovementType.Plantation);
         Spices.setter(null, new ArrayList<FeatureType>(){{
             add(FeatureType.Jungle);
-        }});
+        }},  ImprovementType.Plantation);
         Sugar.setter(null, new ArrayList<FeatureType>(){{
             add(FeatureType.FloodPlains);
             add(FeatureType.Marsh);
-        }});
+        }},  ImprovementType.Plantation);
     }
 
     public final int Food;
@@ -173,21 +172,21 @@ public enum ResourceType {
     public final ResourceMainTypes mainType;
     public ArrayList<TerrainType> canBeFoundOn;
     public ArrayList<FeatureType> canBeFoundOnFeatures;
-    public final ImprovementType improvementNeeded;
+    public  ImprovementType improvementNeeded;
     public final TechnologyType requiredTechnology;
 
     public Image image;
 
-    private void setter(ArrayList<TerrainType> canBeFoundOn, ArrayList<FeatureType> canBeFoundOnFeatures){
+    private void setter(ArrayList<TerrainType> canBeFoundOn, ArrayList<FeatureType> canBeFoundOnFeatures, ImprovementType improvementNeeded){
         this.canBeFoundOn = canBeFoundOn;
         this.canBeFoundOnFeatures = canBeFoundOnFeatures;
+        this.improvementNeeded = improvementNeeded;
     }
 
-    ResourceType(int food, int production, int gold, ImprovementType improvementNeeded, TechnologyType requiredTechnology, ResourceMainTypes mainType) {
+    ResourceType(int food, int production, int gold, TechnologyType requiredTechnology, ResourceMainTypes mainType) {
         this.Food = food;
         this.Gold = gold;
         this.production = production;
-        this.improvementNeeded = improvementNeeded;
         this.requiredTechnology = requiredTechnology;
         this.mainType = mainType;
     }

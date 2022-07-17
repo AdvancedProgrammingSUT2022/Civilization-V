@@ -186,10 +186,10 @@
             <Button mnemonicParsing="false" onAction="#cheat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Enter" />
          </children>
       </HBox>
-      <VBox alignment="CENTER" layoutX="1273.0" layoutY="523.0" prefHeight="200.0" prefWidth="221.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="1235.0" layoutY="523.0" prefHeight="200.0" prefWidth="259.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="Military Overview" />
-            <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="Notification history" />
+            <Button mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="179.0" styleClass="buttons" text="Military Overview" />
+            <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="181.0" styleClass="buttons" text="Notification history" />
             <Button mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
          </children>
       </VBox>
