@@ -204,6 +204,7 @@ public class GameplayGraphicController implements Initializable {
     public void buildCity(){
         Tile tile = GameController.getInstance().getSelectedUnit().getTile();
         notification.setText(UnitController.getInstance().checkAndBuildCity(GameController.getInstance().getSelectedUnit().getCivilization().getUser().getNickname() +" "+ (GameController.getInstance().getSelectedUnit().getCivilization().getCities().size()+1)));
+        GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
         assignRectangleToCities(tile,MapFunctions.getInstance().NonConventionalCoordinatesX(tile)
                 , MapFunctions.getInstance().NonConventionalCoordinatesY(tile));
         updateMap();
@@ -293,12 +294,14 @@ public class GameplayGraphicController implements Initializable {
                     production.setOnMouseClicked(mouseEvent -> {
                         CityController.getInstance().setSelectedUnitType(unit);
                         notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("per turns"));
+                        GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                         updateMap();
                     });
                     Button gold = new Button("Gold");
                     gold.setOnMouseClicked(mouseEvent -> {
                         CityController.getInstance().setSelectedUnitType(unit);
                         notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("build now"));
+                        GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                         updateMap();
                     });
                     Label label = new Label(unit.name());
@@ -321,12 +324,14 @@ public class GameplayGraphicController implements Initializable {
             production.setOnMouseClicked(mouseEvent -> {
                 CityController.getInstance().setSelectedBuildingType(buildingType);
                 notification.setText(CityController.getInstance().buildNowOrPerTurns("per turns"));
+                GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                 updateMap();
             });
             Button gold = new Button("Gold");
             gold.setOnMouseClicked(mouseEvent -> {
                 CityController.getInstance().setSelectedBuildingType(buildingType);
                 notification.setText(CityController.getInstance().buildNowOrPerTurns("build now"));
+                GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                 updateMap();
             });
             Label label = new Label(buildingType.name());
@@ -361,6 +366,7 @@ public class GameplayGraphicController implements Initializable {
                         Button research = new Button("Research");
                         research.setOnMouseClicked(mouseEvent -> {
                             notification.setText(CivilizationController.getInstance().createTechnologyForStudy(technologyType));
+                            GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                             updateMap();
                         });
                         Label label = new Label(technologyType.name());
@@ -579,10 +585,12 @@ public class GameplayGraphicController implements Initializable {
             imageView.setOnMouseClicked(mouseEvent -> {
                 if(tile.getCitizen() == null) {
                     notification.setText(GameController.getInstance().getSelectedCity().assignCitizen(tile));
+                    GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                     if(notification.getText().equals("citizen assigned successfully"))imageView.setOpacity(1);
                 }
                 else {
                     notification.setText(GameController.getInstance().getSelectedCity().removeCitizenFromWork(tile));
+                    GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                     if(notification.getText().equals("citizen removed successfully"))imageView.setOpacity(0.5);
                 }
                 manageMainPanel();
@@ -607,6 +615,7 @@ public class GameplayGraphicController implements Initializable {
             imageView.setImage(Pics.coin.image);
             imageView.setOnMouseClicked(mouseEvent -> {
                 notification.setText(GameController.getInstance().getSelectedCity().buyTile(tile));
+                GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
                 cityShow();
             });
             pane.getChildren().add(imageView);
