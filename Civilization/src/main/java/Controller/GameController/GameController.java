@@ -12,6 +12,7 @@ import Model.TileRelated.Resource.ResourceMainTypes;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Road.Road;
+import Model.Units.TypeEnums.UnitStateType;
 import Model.User.User;
 import Model.Units.Unit;
 import Controller.GameController.MapControllers.MapGenerator;
@@ -255,7 +256,8 @@ public class GameController{
     public String deleteUnit(){
         return UnitController.getInstance().removeUnitFromGame(selectedUnit);
     }
-    public char[] wake() {
-        return null;
+    public String wake() {
+        selectedUnit.setUnitStateType(UnitStateType.NORMAL);
+        return "unit is awake";
     }
 }

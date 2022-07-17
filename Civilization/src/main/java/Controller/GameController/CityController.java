@@ -264,7 +264,7 @@ public class CityController {
         UnitType unitType;
         if(this.selectedUnitType == null) return "no selected unit type";
         if((unitType = GameController.getInstance().getSelectedCity().getUnderConstructionUnit()) != null){
-            return "\nand your city is building:" + unitType.name() + " now.\nso you can not build a building per turns,\nunless you cancel building";
+            return "your city is building  " + unitType.name();
         }
         return buildNowOrPerTurns.equals("per turns") ? buildUnitPerTurns() : buildUnitNow();
     }

@@ -47,7 +47,7 @@ public class MapGenerator {
         for(int i = 1; i < mapY - 1; i++){
             for(int j = 1; j < mapX - 1; j++){
                 int random = GameMap.getInstance().getRandom().nextInt(10);
-                if(random >= 9) {
+                if(random >= 5) {
                     Tile tile = GameMap.getInstance().getATile(j, i);
                     if (tile.getFeature() != null && tile.getFeature().getFeatureType().getPossibleResources() != null) {
                         int index = GameMap.getInstance().getRandom().nextInt(tile.getFeature().getFeatureType().getPossibleResources().size());
@@ -124,7 +124,6 @@ public class MapGenerator {
                     Tile tile = GameMap.getInstance().getATile(j, i);
                     Ruin ruin = new Ruin(tile);
                     tile.setRuin(ruin);
-                    System.out.println("yes mam " + tile.getX() + " " + tile.getY() + tile.getRuin().getBenefit(new Civilization()));
                 }
             }
         }

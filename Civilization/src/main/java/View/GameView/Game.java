@@ -53,7 +53,7 @@ public class Game extends Menu{
     //private final Consumer<Matcher> assignCitizen = matcher -> System.out.println(CityController.getInstance().assignCitizen(matcher));
     private final Consumer<Matcher> removeCitizen = matcher -> System.out.println(CityController.getInstance().removeCitizen(matcher));
     private final Consumer<Matcher> siegePreAttack = matcher -> System.out.println(UnitController.getInstance().siegePreAttack());
-    private final Consumer<Matcher> buildImprovement = matcher -> System.out.println(UnitController.getInstance().buildImprovementMatcher(matcher));
+//    private final Consumer<Matcher> buildImprovement = matcher -> System.out.println(UnitController.getInstance().buildImprovementMatcher(matcher));
     private final Consumer<Matcher> cheatGoldIncrease = matcher -> System.out.println(CheatCode.getInstance().goldIncrease(matcher));
     private final Consumer<Matcher> cheatHappinessIncrease = matcher -> System.out.println(CheatCode.getInstance().happinessIncrease(matcher));
     private final Consumer<Matcher> cheatIncreaseCityHitPoint = matcher -> System.out.println(CheatCode.getInstance().increaseCityHitPoint(matcher));
@@ -67,7 +67,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> civilizationOutPut = matcher -> System.out.println(GameController.getInstance().civilizationOutPut());
     private final Consumer<Matcher> stopImprovement = matcher -> System.out.println(UnitController.getInstance().stopWorker());
     private final Consumer<Matcher> repairOrResumeImprovement = matcher -> System.out.println(UnitController.getInstance().RORImatcher());
-    private final Consumer<Matcher> buildRoad = matcher -> System.out.println(UnitController.getInstance().buildRoadMatcher(matcher));
+    //private final Consumer<Matcher> buildRoad = matcher -> System.out.println(UnitController.getInstance().buildRoadMatcher(matcher));
     private final Consumer<Matcher> repairOrResumeRoad = matcher -> System.out.println(UnitController.getInstance().RORRmatcher());
     private final Consumer<Matcher> destroyRoad = matcher -> System.out.println(UnitController.getInstance().destroyRoad());
     private final Consumer<Matcher> clearFeature = matcher -> System.out.println(UnitController.getInstance().clearFeature());
@@ -120,7 +120,7 @@ public class Game extends Menu{
         //commandsMap.put(regex.assignCitizen,assignCitizen);
         commandsMap.put(regex.removeCitizen,removeCitizen);
         commandsMap.put(regex.siegePreAttack,siegePreAttack);
-        commandsMap.put(regex.buildImprovement,buildImprovement);
+//        commandsMap.put(regex.buildImprovement,buildImprovement);
         commandsMap.put(regex.cheatGoldIncrease,cheatGoldIncrease);
         commandsMap.put(regex.cheatHappinessIncrease,cheatHappinessIncrease);
         commandsMap.put(regex.cheatIncreaseCityHitPoint,cheatIncreaseCityHitPoint);
@@ -133,7 +133,7 @@ public class Game extends Menu{
         commandsMap.put(regex.unlockSecondHalfOfTechnologies,unlockSecondHalfOfTechnologies);
         commandsMap.put(regex.civilizationOutPut,civilizationOutPut);
         commandsMap.put(regex.stopImprovement,stopImprovement);
-        commandsMap.put(regex.buildRoad,buildRoad);
+        //.put(regex.buildRoad,buildRoad);
         commandsMap.put(regex.repairOrResumeImprovement,repairOrResumeImprovement);
         commandsMap.put(regex.repairOrResumeRoad,repairOrResumeRoad);
         commandsMap.put(regex.destroyRoad,destroyRoad);

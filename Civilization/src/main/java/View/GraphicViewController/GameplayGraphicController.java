@@ -2,6 +2,7 @@ package View.GraphicViewController;
 import Controller.GameController.CityController;
 import Controller.GameController.CivilizationController;
 import Controller.GameController.GameController;
+import Controller.GameController.MapControllers.CheatCode;
 import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
@@ -14,10 +15,12 @@ import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.BuildingType;
+import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Tile.Tile;
 import Model.TileRelated.Tile.TileVisibility;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;
+import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import View.Images;
@@ -37,6 +40,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -44,6 +48,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -60,8 +65,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static javafx.scene.paint.Color.*;
 
 
 public class GameplayGraphicController implements Initializable {
@@ -105,27 +111,6 @@ public class GameplayGraphicController implements Initializable {
     private ArrayList<Circle> unitImages = new ArrayList<>();
     private ArrayList<ImageView> citizenImages = new ArrayList<>();
     private ArrayList<ImageView> cityPics = new ArrayList<>();
-//    @FXML
-//    private Button sleep;
-//    @FXML
-//    private Button alert;
-//    @FXML
-//    private Button fortify;
-//    @FXML
-//    private Button heal;
-//    @FXML
-//    private Button setup;
-//    @FXML
-//    private Button wake;
-//    @FXML
-//    private Button delete;
-//    @FXML
-//    private Button upgrade;
-//    @FXML
-//    private Button buildImprovement;
-//    @FXML
-//    private Button rangedAttack;
-    private Rectangle rectangle;
     @FXML
     private AnchorPane cityPanel;
     @FXML
@@ -154,6 +139,7 @@ public class GameplayGraphicController implements Initializable {
     private ImageView researchPic;
 
     private boolean moveMode = false;
+    private boolean cheating = false;
 
     private boolean attackMode = false;
 
@@ -172,6 +158,32 @@ public class GameplayGraphicController implements Initializable {
     private ScrollPane technologies;
     @FXML
     private ScrollPane buildUnitsBar;
+    @FXML
+    private Button productionBuild;
+    @FXML
+    private Button sleep;
+    @FXML
+    private Button alert;
+    @FXML
+    private Button fortify;
+    @FXML
+    private Button heal;
+    @FXML
+    private Button setup;
+    @FXML
+    private Button wake;
+    @FXML
+    private Button buildImprovement;
+    @FXML
+    private Button rangedAttack;
+    @FXML
+    private Button upgrade;
+    @FXML
+    private AnchorPane improvementPanel;
+    @FXML
+    private HBox cheatBar;
+    @FXML
+    private TextField cheatTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -189,7 +201,8 @@ public class GameplayGraphicController implements Initializable {
     public void timeline() {
         move();
         manageMainPanel();
-        pane.requestFocus();
+        if(!cheating)pane.requestFocus();
+        else cheatTextField.requestFocus();
     }
 
     public Timeline getTimeline() {
@@ -258,13 +271,13 @@ public class GameplayGraphicController implements Initializable {
                     if(GameController.getInstance().getSelectedUnit() instanceof Ranged){
                         if (availablePolys.get(tile) <= GameController.getInstance().getSelectedUnit().getUnitType().range) {
                             tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
-                            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
+                            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, Color.RED));
                             attackMode = true;
                         }
                     }else if (GameController.getInstance().getSelectedUnit() instanceof Combat) {
                         if (availablePolys.get(tile) <= 1) {
                             tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
-                            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
+                            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, Color.RED));
                             attackMode = true;
                         }
                     }
@@ -292,17 +305,23 @@ public class GameplayGraphicController implements Initializable {
                     imageView.setFitHeight(60);
                     Button production = new Button("Production");
                     production.setOnMouseClicked(mouseEvent -> {
-                        CityController.getInstance().setSelectedUnitType(unit);
-                        notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("per turns"));
-                        GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
-                        updateMap();
+                        if(GameController.getInstance().getSelectedCity().getUnderConstructionUnit() != null)
+                            notification.setText("you are training a " + GameController.getInstance().getSelectedCity().getUnderConstructionUnit().name() + " right now");
+                        else {
+                            CityController.getInstance().setSelectedUnitType(unit);
+                            notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("per turns"));
+                            updateMap();
+                        }
                     });
                     Button gold = new Button("Gold");
                     gold.setOnMouseClicked(mouseEvent -> {
-                        CityController.getInstance().setSelectedUnitType(unit);
-                        notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("build now"));
-                        GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
-                        updateMap();
+                        if(GameController.getInstance().getSelectedCity().getUnderConstructionUnit() != null)
+                            notification.setText("you are training a " + GameController.getInstance().getSelectedCity().getUnderConstructionUnit().name() + " right now");
+                        else {
+                            CityController.getInstance().setSelectedUnitType(unit);
+                            notification.setText(CityController.getInstance().buildNowOrPerTurnsForUnit("build now"));
+                            updateMap();
+                        }
                     });
                     Label label = new Label(unit.name());
                     label.setMaxWidth(50);
@@ -322,17 +341,23 @@ public class GameplayGraphicController implements Initializable {
             imageView.setFitHeight(60);
             Button production = new Button("Production");
             production.setOnMouseClicked(mouseEvent -> {
-                CityController.getInstance().setSelectedBuildingType(buildingType);
-                notification.setText(CityController.getInstance().buildNowOrPerTurns("per turns"));
-                GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
-                updateMap();
+                if(GameController.getInstance().getSelectedCity().getUnderConstructionBuilding() != null)
+                    notification.setText("you are training a " + GameController.getInstance().getSelectedCity().getUnderConstructionBuilding().name() + " right now");
+                else {
+                    CityController.getInstance().setSelectedBuildingType(buildingType);
+                    notification.setText(CityController.getInstance().buildNowOrPerTurns("per turns"));
+                    updateMap();
+                }
             });
             Button gold = new Button("Gold");
             gold.setOnMouseClicked(mouseEvent -> {
-                CityController.getInstance().setSelectedBuildingType(buildingType);
-                notification.setText(CityController.getInstance().buildNowOrPerTurns("build now"));
-                GameController.getInstance().getPlayerTurn().addNotification(notification.getText());
-                updateMap();
+                if(GameController.getInstance().getSelectedCity().getUnderConstructionBuilding() != null)
+                    notification.setText("you are training a " + GameController.getInstance().getSelectedCity().getUnderConstructionBuilding().name() + " right now");
+                else {
+                    CityController.getInstance().setSelectedBuildingType(buildingType);
+                    notification.setText(CityController.getInstance().buildNowOrPerTurns("build now"));
+                    updateMap();
+                }
             });
             Label label = new Label(buildingType.name());
             hBox.getChildren().add(imageView);
@@ -385,7 +410,7 @@ public class GameplayGraphicController implements Initializable {
         availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
         for (Tile tile :availablePolys.keySet()) {
             tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
-            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, RED));
+            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, Color.RED));
             moveMode = true;
         }
     }
@@ -433,13 +458,19 @@ public class GameplayGraphicController implements Initializable {
         unitBar.setVisible(false);
         actionPanel.setVisible(false);
         actionPanel.setDisable(true);
+        improvementPanel.setVisible(false);
+        improvementPanel.setDisable(true);
         for (Circle circle: unitImages) {
             pane.getChildren().remove(circle);
         }
         for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
-            assignPicForResources(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+            assignPicToRoads(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignPicToCities(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+            assignPicToImprovements(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+            assignPicForResources(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignImages(GameMap.getInstance().getTiles().get(i), tileToPoly.get(GameMap.getInstance().getTiles().get(i)), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
@@ -448,12 +479,56 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
+    private void assignPicToImprovements(Tile tile, int x, int y) {
+        if(tile.getImprovement() != null && tile.getImprovement().getDaysToComplete() <=0 && !tile.getImprovement().isRuined() && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+            ImageView imageView = new ImageView();
+            imageView.setImage(tile.getImprovement().getImprovementType().image);
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 2 / 5);
+            imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
+            if(tile.getImprovement().getImprovementType().equals(ImprovementType.Pasture)){
+                imageView.setFitWidth(300/5);
+                imageView.setFitHeight(300/5);
+                imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 5);
+                imageView.setLayoutY(y );
+            }
+            else if (tile.getImprovement().getImprovementType().equals(ImprovementType.Camp)){
+                imageView.setFitWidth(200/5);
+                imageView.setFitHeight(200/5);
+                imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 6 / 5);
+                imageView.setLayoutY(y );
+            }
+            else if(tile.getImprovement().getImprovementType().equals(ImprovementType.Plantation)){
+                imageView.setFitWidth(500/5);
+                imageView.setFitHeight(500/5);
+            }
+            else {
+                imageView.setFitWidth(595/5);
+                imageView.setFitHeight(476/5);
+            }
+            cityPics.add(imageView);
+            pane.getChildren().add(imageView);
+        }
+    }
+
+    private void assignPicToRoads(Tile tile, int x, int y) {
+        if(tile.getRoad() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+            ImageView imageView = new ImageView();
+            imageView.setImage(tile.getRoad().getRoadType().image);
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 2 / 5);
+            imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
+            imageView.setFitWidth(595/5);
+            imageView.setFitHeight(476/5);
+            cityPics.add(imageView);
+            pane.getChildren().add(imageView);
+        }
+    }
+
     private void assignPicToPoly(Polygon polygon) {
         Tile tile = polyToTile.get(polygon);
         Image img;
         try {
             if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.REVEALED)){
-                polygon.setEffect(new InnerShadow(170, 1, 1, BLACK));
+                polygon.setEffect(new InnerShadow(170, 1, 1, Color.BLACK));
             }
             if (MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
                 polygon.setFill(new ImagePattern(Pics.cloud.image));
@@ -516,7 +591,7 @@ public class GameplayGraphicController implements Initializable {
                     updateMap();
                     selectedPoly = polygon;
                     polygon.setStroke(Paint.valueOf("Cyan"));
-                    polygon.setEffect(new InnerShadow(75, 1, 1, CYAN));
+                    polygon.setEffect(new InnerShadow(75, 1, 1, Color.CYAN));
                     polygon.setStrokeWidth(polygon.getStrokeWidth() * 4);
                     unitBar();
                 }
@@ -609,7 +684,7 @@ public class GameplayGraphicController implements Initializable {
             ImageView imageView = new ImageView();
             imageView.setFitHeight(128/2);
             imageView.setFitWidth(128/2);
-            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, YELLOW));
+            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, Color.YELLOW));
             imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 5);
             imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount);
             imageView.setImage(Pics.coin.image);
@@ -658,29 +733,13 @@ public class GameplayGraphicController implements Initializable {
             stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
             stack.setOnMouseClicked(mouseEvent -> {
                 CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText());
-                if(tile.getCivilization().getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())) {
-                    cityShow();
-                }
-                else {
-                    enemyCityShow();
-                }
+                cityShow();
             });
             cityBanners.add(stack);
             pane.getChildren().add(stack);
         }
     }
 
-    private void enemyCityShow() {
-        updateMap();
-        researchBar.setVisible(false);
-        researchBar.setDisable(true);
-        for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
-            Polygon pol = tileToPoly.get(key);
-            pol.setStroke(key.getCivilization().getColor());
-            pol.setEffect(new InnerShadow(75, 1, 1, key.getCivilization().getColor()));
-            pol.setStrokeWidth(pol.getStrokeWidth()*10);
-        }
-    }
 
     private void cityShow() {
         updateMap();
@@ -688,7 +747,7 @@ public class GameplayGraphicController implements Initializable {
         researchBar.setDisable(true);
         cityButtons.setVisible(true);
         cityButtons.setDisable(false);
-        manageCityPanel();
+        if(GameController.getInstance().getSelectedCity().getCivilization().getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser()))manageCityPanel();
         for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
             Polygon pol = tileToPoly.get(key);
             pol.setStroke(key.getCivilization().getColor());
@@ -740,7 +799,7 @@ public class GameplayGraphicController implements Initializable {
                 recourseType.setText("Resource: Fogged");
                 terrainType.setText("Terrain: Fogged");
                 featureType.setText("Feature: Fogged");
-                unitLabel.setText("CombatUnit: Fogged");
+                tileUnit.setText("CombatUnit: Fogged");
             }
             else {
                 tilePolyInfo.setFill(new ImagePattern(tile.getTerrain().image));
@@ -767,21 +826,40 @@ public class GameplayGraphicController implements Initializable {
                 sciencePerTurn.setText(Integer.toString(civ.getSciencePerTurn()));
                 goldPerTurn.setText("(" + (civ.getGoldPerTurn()) + ")");
                 currentGold.setText(Integer.toString(civ.getGold()));
-                happiness.setText(Integer.toString(civ.getGold()));
+                happiness.setText(Integer.toString((int)civ.getHappiness()));
             }
         }
     }
 
     public void unitBar() {
-        if (GameController.getInstance().getSelectedUnit() != null) {
+        Unit selected = GameController.getInstance().getSelectedUnit();
+        if (selected != null) {
             unitBar.setVisible(true);
             unitBar.setDisable(false);
             unitPic.setImage(GameController.getInstance().getSelectedUnit().getUnitType().image);
             unitLabel.setText(GameController.getInstance().getSelectedUnit().getUnitType().name());
             unitMoves.setText("Movements: " + GameController.getInstance().getSelectedUnit().getMovementsLeft());
         }
-        if(GameController.getInstance().getSelectedUnit().getUnitType().equals(UnitType.Settler))buildCity.setDisable(false);
+        if(selected.getUnitType().equals(UnitType.Settler))buildCity.setDisable(false);
         else buildCity.setDisable(true);
+        if(selected.getUnitType().mainType.equals(MainType.NONCOMBAT))sleep.setDisable(false);
+        else sleep.setDisable(true);
+        if(!selected.getUnitType().mainType.equals(MainType.NONCOMBAT))alert.setDisable(false);
+        else alert.setDisable(true);
+        if(!selected.getUnitType().mainType.equals(MainType.NONCOMBAT))fortify.setDisable(false);
+        else fortify.setDisable(true);
+        if(!selected.getUnitType().mainType.equals(MainType.NONCOMBAT))heal.setDisable(false);
+        else heal.setDisable(true);
+        if(selected.getUnitType().mainType.equals(MainType.SIEGE))setup.setDisable(false);
+        else setup.setDisable(true);
+        if(selected.getUnitType().mainType.equals(MainType.NONCOMBAT))wake.setDisable(false);
+        else wake.setDisable(true);
+        if(selected.getUnitType().equals(UnitType.Worker))buildImprovement.setDisable(false);
+        else buildImprovement.setDisable(true);
+        if(selected.getUnitType().mainType.equals(MainType.RANGED) || selected.getUnitType().mainType.equals(MainType.SIEGE))rangedAttack.setDisable(false);
+        else rangedAttack.setDisable(true);
+        if(selected.getUnitType().mainType.equals(MainType.NONCOMBAT))upgrade.setDisable(false);
+        else upgrade.setDisable(true);
     }
 
     public void manageResearchBar(){
@@ -813,6 +891,8 @@ public class GameplayGraphicController implements Initializable {
 
     @FXML
     private void showActions(MouseEvent mouseEvent) {
+        improvementPanel.setDisable(true);
+        improvementPanel.setVisible(false);
         if (actionPanel.isDisable()) {
             actionPanel.setDisable(false);
             actionPanel.setVisible(true);
@@ -946,27 +1026,27 @@ public class GameplayGraphicController implements Initializable {
     }
 
     public void sleepUnit(ActionEvent actionEvent) {
-        UnitController.getInstance().sleep();
+        notification.setText(UnitController.getInstance().sleep());
     }
 
     public void alertUnit(ActionEvent actionEvent) {
-        UnitController.getInstance().alert();
+        notification.setText(UnitController.getInstance().alert());
     }
 
     public void fortifyUnit(ActionEvent actionEvent) {
-        UnitController.getInstance().fortify();
+        notification.setText(UnitController.getInstance().fortify());
     }
 
     public void healUnit(ActionEvent actionEvent) {
-        UnitController.getInstance().fortifyUntilHealed();
+        notification.setText(UnitController.getInstance().fortifyUntilHealed());
     }
 
     public void wakeUnit(ActionEvent actionEvent) {
-        GameController.getInstance().wake();
+        notification.setText(GameController.getInstance().wake());
     }
 
     public void deleteUnit(ActionEvent actionEvent) {
-        GameController.getInstance().deleteUnit();
+        notification.setText(GameController.getInstance().deleteUnit());
     }
 
     public void upgradeUnit(ActionEvent actionEvent) {
@@ -981,5 +1061,96 @@ public class GameplayGraphicController implements Initializable {
 
     public void openDiplomacyPanel(MouseEvent actionEvent) {
         Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
+    }
+
+    @FXML
+    private void buildRoad(MouseEvent mouseEvent) {
+        Button button = (Button) mouseEvent.getSource();
+        notification.setText(UnitController.getInstance().buildRoadMatcher(button.getText()));
+        updateMap();
+    }
+
+    @FXML
+    private void openImprovementPanel(MouseEvent mouseEvent) {
+        actionPanel.setDisable(true);
+        actionPanel.setVisible(false);
+        improvementPanel.setVisible(true);
+        improvementPanel.setDisable(false);
+    }
+
+    @FXML
+    private void buildImprovement(MouseEvent mouseEvent) {
+        Button button = (Button) mouseEvent.getSource();
+        notification.setText(UnitController.getInstance().buildImprovementMatcher(button.getText()));
+        updateMap();
+    }
+
+    @FXML
+    private void showCheatField(ActionEvent actionEvent) {
+        cheatBar.setVisible(true);
+        cheatBar.setDisable(false);
+        cheating = true;
+
+    }
+
+    @FXML
+    private void cheat(ActionEvent actionEvent) {
+        String input = cheatTextField.getText();
+        String regex;
+        Pattern pattern;
+        Matcher matcher;
+        if(input.matches(regex = "increase gold by (?<amount>-?\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().goldIncrease(matcher));
+        }
+        else if(input.matches(regex = "increase happiness by (?<amount>-?\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().happinessIncrease(matcher));
+        }
+        else if(input.matches(regex = "increase hitpoint by (?<amount>-?\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().increaseCityHitPoint(matcher));
+        }
+        else if(input.matches(regex = "increase strength by (?<amount>-?\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().increaseCityStrength(matcher));
+        }
+        else if(input.matches(regex = "increase turns by (?<amount>-?\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().increaseTurns(matcher));        }
+        else if(input.matches(regex = "increase stored foods by (?<amount>-?\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().increaseStoredFood(matcher));        }
+        else if(input.matches(regex = "unlock first half of technologies")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().unlockFirstHalfTechnologies());        }
+        else if(input.matches(regex = "unlock second half of technologies")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().unlockSecondHalfTechnologies());
+        }
+        else if(input.matches(regex = "increase health of all units by (?<amount>\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().increaseHealthOfUnits(matcher));
+        }
+        else if(input.matches(regex ="increase xp of all units by (?<amount>\\d+)")){
+            matcher = (Pattern.compile(regex)).matcher(input);
+            matcher.find();
+            notification.setText(CheatCode.getInstance().increaseXpOfUnits(matcher));
+        }
+        else
+            notification.setText("wrong cheat!");
+        cheating = false;
+        cheatBar.setDisable(true);
+        cheatBar.setVisible(false);
+        updateMap();
     }
 }

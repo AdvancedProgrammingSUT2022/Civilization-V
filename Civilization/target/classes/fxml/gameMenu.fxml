@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,10 +13,10 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
-<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
-      <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1474.0" />
+      <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1284.0" />
       <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="174.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/statusBar/gold.png" />
@@ -57,7 +58,6 @@
             </VBox>
          </children>
       </AnchorPane>
-      <Button layoutX="1383.0" layoutY="660.0" mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
       <AnchorPane fx:id="researchBar" disable="true" layoutX="13.0" layoutY="52.0" prefHeight="137.0" prefWidth="264.0" visible="false">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#acbdcd85" height="123.0" layoutX="3.0" stroke="BLACK" strokeType="INSIDE" width="255.0" />
@@ -82,7 +82,7 @@
             <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Menu" />
          </children>
       </HBox>
-      <AnchorPane fx:id="actionPanel" disable="true" layoutX="379.0" layoutY="537.0" prefHeight="154.0" prefWidth="743.0" visible="false">
+      <AnchorPane fx:id="actionPanel" disable="true" layoutX="379.0" layoutY="546.0" prefHeight="154.0" prefWidth="743.0" visible="false">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="35.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="674.0" />
             <HBox alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="62.0" prefWidth="710.0" spacing="5.0">
@@ -101,8 +101,8 @@
                <children>
                   <Button fx:id="upgrade" mnemonicParsing="false" onAction="#upgradeUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" />
                   <Button fx:id="buildCity" mnemonicParsing="false" onMouseClicked="#buildCity" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" />
-                  <Button fx:id="buildImprovement" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build Improvement" />
-                  <Button fx:id="rangedAttack" mnemonicParsing="false" onAction="#rangeAttackUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
+                  <Button fx:id="buildImprovement" mnemonicParsing="false" onMouseClicked="#openImprovementPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build Improvement" />
+                  <Button fx:id="rangedAttack" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
                </children>
             </HBox>
          </children>
@@ -126,13 +126,13 @@
       </AnchorPane>
       <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="549.0" layoutY="523.0" prefHeight="100.0" prefWidth="402.0" spacing="10.0" visible="false">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#manageBuildUnitBar" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build" />
+            <Button fx:id="productionBuild" mnemonicParsing="false" onMouseClicked="#manageBuildUnitBar" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build" />
             <Button mnemonicParsing="false" onMouseClicked="#buyTile" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
             <Button mnemonicParsing="false" onMouseClicked="#citizenManagement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
          </children>
       </HBox>
       <Label fx:id="notification" alignment="CENTER" layoutX="435.0" layoutY="11.0" prefHeight="21.0" prefWidth="866.0" styleClass="notification" />
-      <Button layoutX="1044.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#openChatRoom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="openChatRoom" />
+
       <AnchorPane layoutX="1152.0" layoutY="96.0" prefHeight="213.0" prefWidth="338.0">
          <children>
             <Polygon fx:id="tilePolyInfo" fill="DODGERBLUE" layoutX="207.0" layoutY="136.0" opacity="0.7" points="-105.0, 136.0, 35.0, 136.0, 119.0, -6.0, 35.0, -136.0, -105.0, -136.0, -195.0, -6.0" stroke="BLACK" strokeType="INSIDE" />
@@ -149,7 +149,49 @@
       </AnchorPane>
       <ScrollPane fx:id="technologies" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
       <ScrollPane fx:id="buildUnitsBar" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
-      <Button layoutX="1298.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="166.0" styleClass="buttons" text="Diplomacy" />
-      <Button layoutX="1317.0" layoutY="471.0" mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="MIlitary Overview" />
+      <AnchorPane fx:id="improvementPanel" disable="true" layoutX="379.0" layoutY="546.0" prefHeight="154.0" prefWidth="743.0" visible="false">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="35.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="674.0" />
+            <HBox alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="62.0" prefWidth="710.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#buildRoad" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Road" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildRoad" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="RailWay" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Camp" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Farm" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="LumberMill" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Mine" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" prefHeight="66.0" prefWidth="689.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Quarry" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="TradingPost" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="ManuFactury" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Plantation" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Pasture" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="1049.0" layoutY="37.0" prefHeight="49.0" prefWidth="448.0" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="166.0" styleClass="buttons" text="Diplomacy" />
+            <Button mnemonicParsing="false" onMouseClicked="#openChatRoom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showCheatField" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="cheat" />
+         </children>
+      </HBox>
+      <HBox fx:id="cheatBar" alignment="CENTER" disable="true" layoutX="464.0" layoutY="52.0" prefHeight="42.0" prefWidth="574.0" spacing="5.0" visible="false">
+         <children>
+            <TextField fx:id="cheatTextField" alignment="CENTER" prefHeight="31.0" prefWidth="360.0" promptText="write down cheat code" styleClass="textFields" />
+            <Button mnemonicParsing="false" onAction="#cheat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Enter" />
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutX="1273.0" layoutY="523.0" prefHeight="200.0" prefWidth="221.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="Military Overview" />
+            <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="161.0" styleClass="buttons" text="Notification history" />
+            <Button mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
+         </children>
+      </VBox>
    </children>
 </Pane>

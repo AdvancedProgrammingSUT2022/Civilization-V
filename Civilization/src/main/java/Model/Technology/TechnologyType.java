@@ -587,7 +587,6 @@ public enum TechnologyType implements Unlocks {
     static {
         for (
                 TechnologyType technologyType: TechnologyType.values()) {
-            if(technologyType.equals(TechnologyType.Theology))continue;
             technologyType.image = new Image("/images/Technologies/" + technologyType.name() + ".png");
         }
     }
