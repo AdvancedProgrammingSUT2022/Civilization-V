@@ -1230,4 +1230,60 @@ public class GameplayGraphicController implements Initializable {
         cheatBar.setVisible(false);
         updateMap();
     }
+    @FXML
+    private void openEconomicOverview(MouseEvent mouseEvent){
+        Label economic_label = new Label("ECONOMIC OVERVIEW");
+        VBox names = new VBox(new Label("CITY NAME"));
+        VBox population_v = new VBox(new Label("POPULATION"));
+        VBox strength_v = new VBox(new Label("STRENGTH"));
+        VBox food_v = new VBox(new Label("FOOD PER TURNS"));
+        VBox production_v = new VBox(new Label("PRODUCTION PER TURN"));
+        VBox underConstruction_u = new VBox(new Label("UNDER CONSTRUCTION UNIT"));
+        VBox underConstruction_b = new VBox(new Label("UNDER CONSTRUCTION BUILDING"));
+        HBox cityDetails = new HBox(names, new Separator(), population_v, new Separator(), strength_v,
+                new Separator(), food_v, new Separator(), production_v, new Separator(),
+                underConstruction_u, new Separator(), underConstruction_b);
+        ArrayList<City> cities;
+        if((cities = GameController.getInstance().getPlayerTurn().getCities()) != null){
+            for(City city : cities){
+                setDetail(names, city.getName());
+                setDetail(population_v, String.valueOf(city.getPopulation()));
+                setDetail(strength_v, String.valueOf(city.getStrength()));
+                setDetail(food_v, String.valueOf(city.getFoodPerTurn()));
+                setDetail(production_v, String.valueOf(city.getProductionPerTurn()));
+                String underConstructionUnit = city.getUnderConstructionUnit() != null ? city.getUnderConstructionUnit().name() : "nothing";
+                setDetail(underConstruction_u, underConstructionUnit);
+                String underConstructionBuilding = city.getUnderConstructionBuilding() != null ? city.getUnderConstructionBuilding().name() : "nothing";
+                setDetail(underConstruction_b, underConstructionBuilding);
+            }
+        }
+        VBox economic_vBox  = new VBox(economic_label, new Separator(), cityDetails);
+        economic_vBox.setAlignment(Pos.CENTER);
+        Button button = new Button("close");
+        button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                + "-fx-text-fill: #4f4e4e;");
+        economic_vBox.getChildren().add(new Separator());
+        economic_vBox.getChildren().add(button);
+        Popup popup = new Popup();
+        Window window = Main.scene.getWindow();
+        economic_vBox.setStyle("-fx-background-color: rgba(201, 238, 221, 0.7);  -fx-background-radius: 20;");
+        popup.getContent().add(economic_vBox);
+        popup.setY(200);
+        popup.setX(230);
+        popup.show(window);
+        button.setOnMouseClicked(mouseEvent1 -> {
+            pane.setEffect(null);
+            popup.hide();
+        });
+    }
+
+    private void setDetail(VBox vBox, String labelS){
+        vBox.getChildren().add(new Separator());
+        Label label = new Label(labelS);
+        label.setStyle("-fx-font-family: Britannic Bold; -fx-font-size: 18;");
+        vBox.getChildren().add(label);
+        label.setAlignment(Pos.CENTER);
+        vBox.setStyle("-fx-background-radius: 5; -fx-background-color: rgba(201, 238, 221, 0.7);");
+    }
 }
