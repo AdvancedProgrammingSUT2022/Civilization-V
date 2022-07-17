@@ -610,20 +610,20 @@ public class UnitController {
         return null;
     }
 
-    public String buildImprovementMatcher(Matcher matcher){
+    public String buildImprovementMatcher(String type){
         Unit selected = GameController.getInstance().getSelectedUnit();
         if(selected == null)return "no unit is selected";
         if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
         ImprovementType improvementType;
-        if(matcher.group("ImprovementType").equals("Camp"))improvementType = ImprovementType.Camp;
-        else if(matcher.group("ImprovementType").equals("Farm"))improvementType = ImprovementType.Farm;
-        else if(matcher.group("ImprovementType").equals("LumberMill"))improvementType = ImprovementType.LumberMill;
-        else if(matcher.group("ImprovementType").equals("Mine"))improvementType = ImprovementType.Mine;
-        else if(matcher.group("ImprovementType").equals("Pasture"))improvementType = ImprovementType.Pasture;
-        else if(matcher.group("ImprovementType").equals("Plantation"))improvementType = ImprovementType.Plantation;
-        else if(matcher.group("ImprovementType").equals("Quarry"))improvementType = ImprovementType.Quarry;
-        else if(matcher.group("ImprovementType").equals("TradingPost"))improvementType = ImprovementType.TradingPost;
-        else if(matcher.group("ImprovementType").equals("ManuFactory"))improvementType = ImprovementType.ManuFactory;
+        if(type.equals("Camp"))improvementType = ImprovementType.Camp;
+        else if(type.equals("Farm"))improvementType = ImprovementType.Farm;
+        else if(type.equals("LumberMill"))improvementType = ImprovementType.LumberMill;
+        else if(type.equals("Mine"))improvementType = ImprovementType.Mine;
+        else if(type.equals("Pasture"))improvementType = ImprovementType.Pasture;
+        else if(type.equals("Plantation"))improvementType = ImprovementType.Plantation;
+        else if(type.equals("Quarry"))improvementType = ImprovementType.Quarry;
+        else if(type.equals("TradingPost"))improvementType = ImprovementType.TradingPost;
+        else if(type.equals("ManuFactory"))improvementType = ImprovementType.ManuFactory;
         else return "not a valid improvement";
         selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
         selected = new Worker(selected.getCivilization(), selected.getTile());
@@ -631,16 +631,16 @@ public class UnitController {
         return worker.buildImprovement(improvementType);
     }
 
-    public String buildRoadMatcher(Matcher matcher){
+    public String buildRoadMatcher(String type){
         Unit selected = GameController.getInstance().getSelectedUnit();
         if(selected == null)return "no unit is selected";
         if(!selected.getUnitType().equals(UnitType.Worker))return "you didn't choose a worker";
         RoadType roadType;
-        if(matcher.group("RoadType").equals("RailWay"))roadType = RoadType.RailWay;
-        else if(matcher.group("RoadType").equals("Road"))roadType = RoadType.Road;
+        if(type.equals("RailWay"))roadType = RoadType.RailWay;
+        else if(type.equals("Road"))roadType = RoadType.Road;
         else return "not a valid road type";
-        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
-        selected = new Worker(selected.getCivilization(), selected.getTile());
+//        selected = new NonCombat(selected.getCivilization(), selected.getTile(), selected.getUnitType());
+//        selected = new Worker(selected.getCivilization(), selected.getTile());
         Worker worker = (Worker) selected;
         return worker.buildRoad(roadType);
     }

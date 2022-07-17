@@ -48,7 +48,9 @@ public class Civilization {
     private HashMap<Tile, Improvement> revealedImprovements = new HashMap<>();
     private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
     //private ArrayList<Resource> resources;
-    private ArrayList<Technology> technologies = new ArrayList<Technology>();
+    private ArrayList<Technology> technologies = new ArrayList<Technology>(){{
+        add(new Technology(TechnologyType.Agriculture));
+    }};
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
     private TechnologyType currentResearchProject;
@@ -219,15 +221,13 @@ public class Civilization {
 
     public ArrayList<TechnologyType> searchableTechnologiesTypes(){
         Set<TechnologyType> searchableTechnologiesTypes = new HashSet<>();
-        for (TechnologyType technology:TechnologyType.values()) {
-            if(technology.PrerequisiteTechs == null && !hasTechnology(technology))
-                searchableTechnologiesTypes.add(technology);
-        }
 
         for (Technology technology:technologies) {
-            for (TechnologyType technologyType:technology.getTechnologyType().LeadsToTechs) {
-                if(!hasTechnology(technologyType))
-                    searchableTechnologiesTypes.add(technologyType);
+            if(technology.getTechnologyType().LeadsToTechs != null) {
+                for (TechnologyType technologyType : technology.getTechnologyType().LeadsToTechs) {
+                    if (technologyType != null && !hasTechnology(technologyType))
+                        searchableTechnologiesTypes.add(technologyType);
+                }
             }
         }
 
