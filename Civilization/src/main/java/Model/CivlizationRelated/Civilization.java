@@ -53,9 +53,29 @@ public class Civilization {
     }};
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
+
+
     private TechnologyType currentResearchProject;
     private int researchTurns = 0;
-    private ArrayList<DiplomaticTie> diplomaticTies;
+
+    public HashMap<Civilization, DiplomaticTie> getDiplomacyRelation() {
+        return diplomacyRelation;
+    }
+
+
+    public void declareWar(Civilization civilization){
+        diplomacyRelation.put(civilization,DiplomaticTie.War);
+    }
+
+    public void makePeace(Civilization civilization){
+        diplomacyRelation.put(civilization,DiplomaticTie.Peace);
+    }
+
+    public void setDiplomacyRelation(HashMap<Civilization, DiplomaticTie> diplomacyRelation) {
+        this.diplomacyRelation = diplomacyRelation;
+    }
+
+    private HashMap<Civilization,DiplomaticTie> diplomacyRelation = new HashMap<>();
     private ArrayList<String> Notification = new ArrayList<>();
     private ArrayList<ResourceType> foundedLuxuryRecourses = new ArrayList<>();
     private HashMap<ResourceType,Integer> luxuryResourceCount = new HashMap<>(){{
@@ -196,9 +216,6 @@ public class Civilization {
     public ArrayList<String> getNotification() {
         return Notification;
     }
-    public void addDiplomaticTie(DiplomaticTie diplomaticTie){
-        diplomaticTies.add(diplomaticTie);
-    }
     public void addUnit(Unit unit){
         units.add(unit);
     }
@@ -206,12 +223,6 @@ public class Civilization {
         this.gold += gold;
     }
 
-    public ArrayList<DiplomaticTie> getDiplomaticTies() {
-        return diplomaticTies;
-    }
-    public void setDiplomaticTies(ArrayList<DiplomaticTie> diplomaticTies) {
-        this.diplomaticTies = diplomaticTies;
-    }
 
     public void checkGoldRunningOut(){
         if(gold <= 0){

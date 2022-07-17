@@ -2,6 +2,8 @@ package main.java;
 
 import Controller.SavingDataController.UserDataController;
 import Model.Enums.Menus;
+import Model.TileRelated.Feature.Feature;
+import Model.TileRelated.Feature.FeatureType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

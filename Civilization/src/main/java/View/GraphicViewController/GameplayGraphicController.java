@@ -8,6 +8,9 @@ import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.GameController.UnitController;
 import Controller.PreGameController.LoginAndRegisterController;
+import Model.ChatRelated.Alert;
+import Model.ChatRelated.AlertDataBase;
+import Model.ChatRelated.AlertType;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
@@ -58,6 +61,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -906,9 +910,19 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
+    private void handleAlerts(){
+        for (Alert alert:AlertDataBase.getInstance().getAlerts()) {
+            if(alert.getAlertFor() == GameController.getInstance().getPlayerTurn()) {
+                if(alert.getAlertType() == AlertType.Request)
+                    createRequestPopup(alert, alert.getRunnable());
+                else
+                    createStatementPopup(alert);
+            }
+        }
+    }
     public void nextTurn(ActionEvent actionEvent) {
         GameController.getInstance().nextTurn();
-//        System.out.println(GameController.getInstance().getPlayerTurn().getUser().getUsername());
+        handleAlerts();
         updateMap();
     }
 
@@ -976,6 +990,62 @@ public class GameplayGraphicController implements Initializable {
         button.setOnMouseClicked(mouseEvent1 -> {
             militaryOverview.hide();
         });
+    }
+    public void createRequestPopup(Alert alert,Runnable runnable) {
+        Popup popup = new Popup();
+        popup.requestFocus();
+        Label label = new Label(alert.getMessage());
+        label.setTextFill(Color.rgb(180,0,0,1));
+        label.setMinHeight(200);
+        label.setMinWidth(600);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
+                "-fx-background-color: white; -fx-background-radius: 5; -fx-alignment: center;" +
+                "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
+        popup.getContent().add(label);
+        Button acceptButton = new Button();
+        acceptButton.setText("Accept");
+        acceptButton.setLayoutX(225);
+        acceptButton.setLayoutY(150);
+        Button declineButton = new Button();
+        declineButton.setLayoutX(125);
+        declineButton.setLayoutY(150);
+        declineButton.setText("Decline");
+        popup.getContent().add(acceptButton);
+        popup.getContent().add(declineButton);
+        popup.show(Main.scene.getWindow());
+        acceptButton.setOnMouseClicked(mouseEvent -> {
+            runnable.run();
+            AlertDataBase.getInstance().getAlerts().remove(alert);
+            popup.hide();
+        });
+        declineButton.setOnMouseClicked(mouseEvent -> {
+            AlertDataBase.getInstance().getAlerts().remove(alert);
+            popup.hide();
+        });
+    }
+
+    public void createStatementPopup(Alert alert) {
+        Popup popup = new Popup();
+        popup.requestFocus();
+        Label label = new Label(alert.getMessage());
+        label.setTextFill(Color.rgb(180,0,0,1));
+        label.setMinHeight(200);
+        label.setMinWidth(600);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
+                "-fx-background-color: white; -fx-background-radius: 5; -fx-alignment: center;" +
+                "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
+        Button closeButton = new Button();
+        closeButton.setText("Close");
+        closeButton.setLayoutX(10);closeButton.setLayoutY(10);
+        closeButton.setOnMouseClicked(mouseEvent -> {
+            AlertDataBase.getInstance().getAlerts().remove(alert);
+            popup.hide();
+        });
+        popup.getContent().add(label);
+        popup.getContent().add(closeButton);
+        popup.show(Main.scene.getWindow());
     }
 
     private VBox UnitSupply(){

@@ -1,11 +1,10 @@
 package View.GraphicViewController;
-
 import Controller.GameController.GameController;
-import Controller.GameController.MapControllers.MapFunctions;
+import Model.ChatRelated.Alert;
+import Model.ChatRelated.AlertType;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
-import View.GameView.Game;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -73,6 +72,10 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
     }
 
     public void openTradePanel(ActionEvent actionEvent) {
+        assignOpp(actionEvent);
+        main.java.Main.changeMenu(Menus.TRADE_PANEL.value);
+    }
+    public void assignOpp(ActionEvent actionEvent){
         Node button = (Node) actionEvent.getSource();
         HBox hBox = (HBox) button.getParent();
         for (Node node:hBox.getChildren()) {
@@ -85,12 +88,21 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
                 }
             }
         }
-        main.java.Main.changeMenu(Menus.TRADE_PANEL.value);
     }
-
 
     public void openChat(ActionEvent actionEvent) {
         main.java.Main.changeMenu(Menus.CHAT_MENU.value);
+    }
+    public void sendWarAlert(ActionEvent actionEvent){
+        assignOpp(actionEvent);
+        GameController.getInstance().getPlayerTurn().declareWar(opponent);
+        new Alert(opponent, GameController.getInstance().getPlayerTurn().getUser().getUsername() + " has declared war on you!");
+        main.java.Main.changeMenu(Menus.GAME_MENU.value);
+    }
+    public void sendPeaceRequest(ActionEvent actionEvent){
+        assignOpp(actionEvent);
+        new Alert(opponent, GameController.getInstance().getPlayerTurn().getUser().getUsername() + " wants peace", () -> GameController.getInstance().getPlayerTurn().makePeace(opponent),AlertType.Request);
+        main.java.Main.changeMenu(Menus.GAME_MENU.value);
     }
 }
 
