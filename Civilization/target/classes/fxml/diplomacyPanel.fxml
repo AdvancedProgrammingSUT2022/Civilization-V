@@ -15,15 +15,17 @@
       <AnchorPane layoutX="292.0" layoutY="157.0" prefHeight="418.0" prefWidth="749.0">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#284765" height="393.0" layoutX="18.0" layoutY="17.0" opacity="0.63" stroke="#3c3939" strokeType="INSIDE" width="716.0" />
-            <VBox layoutX="123.0" layoutY="42.0" prefHeight="320.0" prefWidth="446.0">
+            <VBox layoutX="54.0" layoutY="38.0" prefHeight="348.0" prefWidth="655.0">
                <children>
-                  <HBox prefHeight="54.0" prefWidth="446.0" spacing="10.0">
+                  <HBox prefHeight="54.0" prefWidth="490.0" spacing="10.0">
                      <children>
                         <Label prefHeight="69.0" prefWidth="269.0" text="Label">
                            <font>
                               <Font size="24.0" />
                            </font></Label>
                         <Button mnemonicParsing="false" onAction="#openChat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="43.0" prefWidth="117.0" text="Declare War" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="46.0" prefWidth="76.0" text="Peace" />
                         <Button mnemonicParsing="false" onAction="#openTradePanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
                      </children>
                   </HBox>
@@ -34,6 +36,8 @@
                               <Font size="24.0" />
                            </font></Label>
                         <Button mnemonicParsing="false" onAction="#openChat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="43.0" prefWidth="119.0" text="Declare War" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="44.0" prefWidth="79.0" text="Peace" />
                         <Button mnemonicParsing="false" onAction="#openTradePanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="42.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
                      </children>
                   </HBox>
@@ -44,6 +48,8 @@
                               <Font size="24.0" />
                            </font></Label>
                         <Button mnemonicParsing="false" onAction="#openChat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="39.0" prefWidth="81.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="45.0" prefWidth="118.0" text="Declare War" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="44.0" prefWidth="77.0" text="Peace" />
                         <Button mnemonicParsing="false" onAction="#openTradePanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="39.0" prefWidth="81.0" styleClass="buttons" text="Trade" />
                      </children>
                   </HBox>
@@ -54,6 +60,8 @@
                               <Font size="24.0" />
                            </font></Label>
                         <Button mnemonicParsing="false" onAction="#openChat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="41.0" prefWidth="116.0" text="Declare War" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="41.0" prefWidth="75.0" text="Peace" />
                         <Button mnemonicParsing="false" onAction="#openTradePanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
                      </children>
                   </HBox>
@@ -64,6 +72,8 @@
                               <Font size="24.0" />
                            </font></Label>
                         <Button mnemonicParsing="false" onAction="#openChat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="38.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="39.0" prefWidth="116.0" text="Declare War" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="38.0" prefWidth="76.0" text="Peace" />
                         <Button mnemonicParsing="false" onAction="#openTradePanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="39.0" prefWidth="80.0" styleClass="buttons" text="Trade" />
                      </children>
                   </HBox>
@@ -74,6 +84,8 @@
                               <Font size="24.0" />
                            </font></Label>
                         <Button mnemonicParsing="false" onAction="#openChat" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="42.0" prefWidth="80.0" styleClass="buttons" text="Chat" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="43.0" prefWidth="116.0" text="Declare War" />
+                        <Button mnemonicParsing="false" onAction="#warOrPeace" prefHeight="42.0" prefWidth="78.0" text="Peace" />
                         <Button mnemonicParsing="false" onAction="#openTradePanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="40.0" prefWidth="81.0" styleClass="buttons" text="Trade" />
                      </children>
                   </HBox>

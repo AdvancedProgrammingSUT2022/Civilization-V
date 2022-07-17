@@ -151,17 +151,24 @@ public class MapGenerator {
         int setRiver = (mapX*mapY) / 3 - riverCount;
         while(setRiver > 0){
             int randomTileIndex = GameMap.getInstance().getRandom().nextInt(doesNotHaveRiver.size());
-            int setRandom = GameMap.getInstance().getRandom().nextInt( 6);
-            while(MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom) == null)
-                setRandom = GameMap.getInstance().getRandom().nextInt( 6);
+            int setRandom = 0;
+            for (Tile tile:(MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex)))) {
+                if(tile != null)
+                    setRandom = (MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex))).indexOf(tile);
+            }
             setRiverTile(doesNotHaveRiver.get(randomTileIndex), MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom));
+            ArrayList<Tile> removables = new ArrayList<>();
+            Tile tileRiver = doesNotHaveRiver.get(randomTileIndex);
+            doesNotHaveRiver.remove(randomTileIndex);
             for(Tile value : doesNotHaveRiver){
-                if(Objects.equals(value,MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom))){
-                    doesNotHaveRiver.remove(MapFunctions.getInstance().getSurroundings(doesNotHaveRiver.get(randomTileIndex)).get(setRandom));
+                if(Objects.equals(value,MapFunctions.getInstance().getSurroundings(tileRiver).get(setRandom))){
+                    removables.add(MapFunctions.getInstance().getSurroundings(tileRiver).get(setRandom));
                     break;
                 }
             }
-            doesNotHaveRiver.remove(randomTileIndex);
+            for (Tile tile:removables) {
+                doesNotHaveRiver.remove(tile);
+            }
             setRiver--;
         }
     }

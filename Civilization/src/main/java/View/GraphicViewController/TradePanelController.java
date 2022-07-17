@@ -1,7 +1,11 @@
 package View.GraphicViewController;
 
 import Controller.GameController.GameController;
+import Model.ChatRelated.Alert;
+import Model.ChatRelated.AlertDataBase;
 import Model.CivlizationRelated.Civilization;
+import Model.CivlizationRelated.Trade;
+import Model.CivlizationRelated.TradeOffer;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Resource.ResourceType;
@@ -102,22 +106,16 @@ public class TradePanelController implements Initializable {
     }
 
     public void trade(ActionEvent actionEvent) {
-        doTrade(myOffer,GameController.getInstance().getPlayerTurn(),DiplomacyPanelGraphicPageController.opponent);
-        doTrade(oppOffer,DiplomacyPanelGraphicPageController.opponent,GameController.getInstance().getPlayerTurn());
-        for (ResourceType type:DiplomacyPanelGraphicPageController.opponent.getLuxuryResourceCount().keySet()) {
-            if(DiplomacyPanelGraphicPageController.opponent.getLuxuryResourceCount().get(type) != 0){
-                System.out.println(DiplomacyPanelGraphicPageController.opponent.getUser().getUsername() + " " + type.name() + " " +  DiplomacyPanelGraphicPageController.opponent.getLuxuryResourceCount().get(type));
-            }
-        }
-        for (ResourceType type:GameController.getInstance().getPlayerTurn().getLuxuryResourceCount().keySet()) {
-            if(GameController.getInstance().getPlayerTurn().getLuxuryResourceCount().get(type) != 0){
-                System.out.println(GameController.getInstance().getPlayerTurn().getUser().getUsername() + " " + type.name() + " " +  GameController.getInstance().getPlayerTurn().getLuxuryResourceCount().get(type));
-            }
-        }
+        TradeOffer one = new TradeOffer(),two = new TradeOffer();
+        doTrade(myOffer,GameController.getInstance().getPlayerTurn(),one);
+        doTrade(oppOffer,DiplomacyPanelGraphicPageController.opponent,two);
+        Trade trade = new Trade(one,two,false);
+        trade.makeTrade();
         main.java.Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
     }
 
-    public void doTrade(VBox myOffer,Civilization myCivilization,Civilization otherCiv){
+    public void doTrade(VBox myOffer, Civilization myCivilization,TradeOffer tradeOffer){
+        tradeOffer.setCivilization(myCivilization);
         for (Node node: myOffer.getChildren()) {
             String name = null;
             int amount = 0;
@@ -137,19 +135,26 @@ public class TradePanelController implements Initializable {
             }
             if(name != null && name.equals("coin")){
                 if (myCivilization.getGold() <= amount){
-                    myCivilization.setGold(0);
+                    tradeOffer.setGold(myCivilization.getGold());
                 }else {
-                    myCivilization.setGold(myCivilization.getGold() - amount);
-                    otherCiv.setGold(otherCiv.getGold() + amount);
+                    tradeOffer.setGold(amount);
                 }
             }
             for (ResourceType type:ResourceType.values()) {
                 if(type.name().equals(name)){
-                    myCivilization.getLuxuryResourceCount().replace(type,myCivilization.getLuxuryResourceCount().get(type) - amount);
-                    otherCiv.getLuxuryResourceCount().replace(type,otherCiv.getLuxuryResourceCount().get(type) + amount);
+                    tradeOffer.getResources().put(type,amount);
                 }
             }
         }
+    }
+
+    public void demand(ActionEvent actionEvent) {
+        TradeOffer one = new TradeOffer(),two = new TradeOffer();
+        doTrade(oppOffer,DiplomacyPanelGraphicPageController.opponent,two);
+        one.setCivilization(GameController.getInstance().getPlayerTurn());
+        Trade trade = new Trade(one,two,true);
+        new Model.ChatRelated.Alert(DiplomacyPanelGraphicPageController.opponent,trade.toString(),trade);
+        main.java.Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
     }
 }
 

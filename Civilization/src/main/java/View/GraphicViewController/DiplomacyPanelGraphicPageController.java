@@ -91,5 +91,8 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
     public void openChat(ActionEvent actionEvent) {
         main.java.Main.changeMenu(Menus.CHAT_MENU.value);
     }
+
+    public void warOrPeace(ActionEvent actionEvent) {
+    }
 }
 

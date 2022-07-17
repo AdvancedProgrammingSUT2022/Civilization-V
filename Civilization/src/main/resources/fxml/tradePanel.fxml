@@ -24,7 +24,8 @@
                 <Label layoutX="550.0" layoutY="337.0" prefHeight="29.0" prefWidth="82.0" text="My Offer" />
                 <Label layoutX="762.0" layoutY="337.0" prefHeight="29.0" prefWidth="82.0" text="Opp Offer" />
                 <Label layoutX="997.0" layoutY="254.0" prefHeight="29.0" prefWidth="105.0" text="Opp Resources" />
-                <Button layoutX="641.0" layoutY="656.0" mnemonicParsing="false" onAction="#trade" prefHeight="36.0" prefWidth="97.0" text="Trade" />
+                <Button layoutX="683.0" layoutY="661.0" mnemonicParsing="false" onAction="#trade" prefHeight="36.0" prefWidth="97.0" text="Trade" />
+            <Button layoutX="560.0" layoutY="661.0" mnemonicParsing="false" onAction="#demand" prefHeight="36.0" prefWidth="97.0" text="Demand" />
             </children>
         </Pane>
     </children>
