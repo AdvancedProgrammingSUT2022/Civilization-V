@@ -79,6 +79,7 @@ import java.util.regex.Pattern;
 
 
 public class GameplayGraphicController implements Initializable {
+    public Label turnCount;
     @FXML
     private Label sciencePerTurn;
     @FXML
@@ -435,6 +436,7 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void updateMap(){
+        turnCount.setText(Integer.toString(GameController.getInstance().getGameTurn()));
         for (StackPane stack:cityBanners) {
             pane.getChildren().remove(stack);
         }
@@ -930,14 +932,58 @@ public class GameplayGraphicController implements Initializable {
                 if(alert.getAlertType() == AlertType.Request)
                     createRequestPopup(alert, alert.getRunnable());
                 else
-                    createStatementPopup(alert);
+                    createStatementPopup(alert, () -> {});
             }
         }
     }
     public void nextTurn(ActionEvent actionEvent) {
-        GameController.getInstance().nextTurn();
+        endGameConditions(GameController.getInstance().nextTurn());
         handleAlerts();
         updateMap();
+    }
+    private void endGameConditions(String nextTurnOutput){
+        Civilization winner = gameWinConditionMet();
+        if(winner != null){
+            System.out.println("end game bruh");
+            GameController.getInstance().setWinner(winner);
+            createStatementPopup(new Alert("game is over! the winner is " + winner.getUserName()),this::endGame);
+        }else if(nextTurnOutput.equals("Game Over")){
+            createStatementPopup(new Alert("game is over! the winner is " + announceWinner()),this::endGame);
+        }
+    }
+
+    private Civilization gameWinConditionMet() {
+            int eliminatedPlayers = 0;
+        Civilization winner = null;
+        for (Civilization civ:GameMap.getInstance().getCivilizations()) {
+            if(civ.getCities().size() == 0 && civ.getSettler() == null)
+                eliminatedPlayers++;
+            else
+                winner = civ;
+        }
+        System.out.println("eliminated player count : " + eliminatedPlayers);
+        if(GameMap.getInstance().getCivilizations().size() - 1 == eliminatedPlayers && winner != null)
+            return winner;
+        return null;
+    }
+
+    private void endGame() {
+        GameController.getInstance().getWinner().getUser().setScore(GameController.getInstance().getWinner().getUser().getScore() + GameMap.getInstance().getCivilizations().size() * 15);
+        Main.changeMenu(Menus.MAIN_MENU.value);
+    }
+
+    private String announceWinner() {
+        Civilization maxGold = null;
+        int maxGoldAmount = -1;
+        for (Civilization civilization:GameMap.getInstance().getCivilizations()) {
+            if(civilization.getGold() >= maxGoldAmount) {
+                maxGoldAmount = civilization.getGold();
+                maxGold = civilization;
+            }
+        }
+        assert maxGold != null;
+        GameController.getInstance().setWinner(maxGold);
+        return maxGold.getUserName();
     }
 
     @FXML
@@ -1069,7 +1115,7 @@ public class GameplayGraphicController implements Initializable {
         });
     }
 
-    public void createStatementPopup(Alert alert) {
+    public void createStatementPopup(Alert alert,Runnable runnable) {
         Popup popup = new Popup();
         popup.requestFocus();
         Label label = new Label(alert.getMessage());
@@ -1086,6 +1132,7 @@ public class GameplayGraphicController implements Initializable {
         closeButton.setOnMouseClicked(mouseEvent -> {
             AlertDataBase.getInstance().getAlerts().remove(alert);
             popup.hide();
+            runnable.run();
             updateMap();
         });
         popup.getContent().add(label);

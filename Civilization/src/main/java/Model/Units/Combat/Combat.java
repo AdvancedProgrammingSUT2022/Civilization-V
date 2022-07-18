@@ -84,6 +84,7 @@ public class Combat extends Unit {
     }
 
     public void captureCivilian(Unit nonCombatUnit) {
+        nonCombatUnit.getCivilization().getUnits().remove(nonCombatUnit);
         this.civilization.getUnits().add(nonCombatUnit);
         nonCombatUnit.setCivilization(this.civilization);
         nonCombatUnit.getCivilization().getUnits().remove(nonCombatUnit);

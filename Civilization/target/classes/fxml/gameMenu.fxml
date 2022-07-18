@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 
-<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
    <children>
       <Pane fx:id="pane" />
       <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1284.0" />
@@ -70,7 +70,7 @@
                      <children>
                         <Label fx:id="researchNotif" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="170.0" styleClass="statusBar" text="research" />
                         <Button fx:id="research" mnemonicParsing="false" onMouseClicked="#manageTechnologies" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Research" />
-                        <Button mnemonicParsing="false" text="Tech Tree" onMouseClicked="#openTechTree" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
+                        <Button mnemonicParsing="false" onMouseClicked="#openTechTree" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Tech Tree" />
                      </children>
                   </VBox>
                </children>
@@ -197,5 +197,6 @@
             <Button mnemonicParsing="false" onMouseClicked="#openDemographics" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Demographics" />
          </children>
       </VBox>
+      <Label fx:id="turnCount" layoutX="1231.0" layoutY="11.0" styleClass="tileInfo" text="0" />
    </children>
 </Pane>

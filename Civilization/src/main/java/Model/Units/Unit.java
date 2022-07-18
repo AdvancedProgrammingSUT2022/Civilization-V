@@ -1,6 +1,7 @@
 package Model.Units;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.MapRelated.GameMap;
 import Model.Movement.Node;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Tile.Tile;
