@@ -736,7 +736,7 @@ public class GameplayGraphicController implements Initializable {
             stack.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 1 / 2);
             stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
             stack.setOnMouseClicked(mouseEvent -> {
-                CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText());
+                notification.setText(CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText()));
                 cityShow();
             });
             cityBanners.add(stack);
@@ -747,11 +747,13 @@ public class GameplayGraphicController implements Initializable {
 
     private void cityShow() {
         updateMap();
-        researchBar.setVisible(false);
-        researchBar.setDisable(true);
-        cityButtons.setVisible(true);
-        cityButtons.setDisable(false);
-        if(GameController.getInstance().getSelectedCity().getCivilization().getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser()))manageCityPanel();
+        if(GameController.getInstance().getSelectedCity().getCivilization().getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())){
+            manageCityPanel();
+            researchBar.setVisible(false);
+            researchBar.setDisable(true);
+            cityButtons.setVisible(true);
+            cityButtons.setDisable(false);
+        }
         for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
             Polygon pol = tileToPoly.get(key);
             pol.setStroke(key.getCivilization().getColor());
@@ -1159,5 +1161,10 @@ public class GameplayGraphicController implements Initializable {
         cheatBar.setDisable(true);
         cheatBar.setVisible(false);
         updateMap();
+    }
+
+    @FXML
+    private void openTechTree(MouseEvent mouseEvent) {
+        Main.changeMenu(Menus.Tech_Tree.value);
     }
 }

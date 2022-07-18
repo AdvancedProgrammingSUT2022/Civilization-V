@@ -58,7 +58,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="researchBar" disable="true" layoutX="13.0" layoutY="52.0" prefHeight="137.0" prefWidth="264.0" visible="false">
+      <AnchorPane fx:id="researchBar" layoutX="13.0" layoutY="52.0" prefHeight="131.0" prefWidth="269.0">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#acbdcd85" height="123.0" layoutX="3.0" stroke="BLACK" strokeType="INSIDE" width="255.0" />
             <ImageView fitHeight="123.0" fitWidth="143.0" layoutX="25.0" pickOnBounds="true" preserveRatio="true" />
@@ -70,6 +70,7 @@
                      <children>
                         <Label fx:id="researchNotif" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="170.0" styleClass="statusBar" text="research" />
                         <Button fx:id="research" mnemonicParsing="false" onMouseClicked="#manageTechnologies" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Research" />
+                        <Button mnemonicParsing="false" text="Tech Tree" onMouseClicked="#openTechTree" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
                      </children>
                   </VBox>
                </children>
@@ -173,9 +174,9 @@
             </HBox>
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER" layoutX="1049.0" layoutY="37.0" prefHeight="49.0" prefWidth="448.0" spacing="5.0">
+      <HBox alignment="CENTER" layoutX="1122.0" layoutY="37.0" prefHeight="49.0" prefWidth="380.0" spacing="5.0">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="166.0" styleClass="buttons" text="Diplomacy" />
+            <Button mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Diplomacy" />
             <Button mnemonicParsing="false" onMouseClicked="#openChatRoom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showCheatField" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="cheat" />
          </children>
@@ -188,8 +189,8 @@
       </HBox>
       <VBox alignment="CENTER" layoutX="1235.0" layoutY="523.0" prefHeight="200.0" prefWidth="259.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="179.0" styleClass="buttons" text="Military Overview" />
-            <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="31.0" prefWidth="181.0" styleClass="buttons" text="Notification history" />
+            <Button mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Military Overview" />
+            <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Notification history" />
             <Button mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
          </children>
       </VBox>
