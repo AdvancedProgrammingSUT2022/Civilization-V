@@ -583,6 +583,9 @@ public class GameplayGraphicController implements Initializable {
             }
             if (attackMode) {
                 notification.setText(GameController.getInstance().attack(polyToTile.get(polygon)));
+                if(notification.getText().equals("city was taken choose annex or destroy")){
+                    createCityTakingPopup(new Alert("city was taken choose annex or destroy"));
+                }
                 updateMap();
                 attackMode = false;
             }
@@ -1027,10 +1030,40 @@ public class GameplayGraphicController implements Initializable {
             runnable.run();
             AlertDataBase.getInstance().getAlerts().remove(alert);
             popup.hide();
+            updateMap();
         });
         declineButton.setOnMouseClicked(mouseEvent -> {
             AlertDataBase.getInstance().getAlerts().remove(alert);
+            updateMap();
             popup.hide();
+        });
+    }
+
+    public void createCityTakingPopup(Alert alert) {
+        Popup popup = new Popup();
+        popup.requestFocus();
+        Label label = new Label(alert.getMessage());
+        label.setTextFill(Color.rgb(180,0,0,1));label.setMinHeight(200);label.setMinWidth(600);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
+                "-fx-background-color: white; -fx-background-radius: 5; -fx-alignment: center;" +
+                "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
+        popup.getContent().add(label);
+        Button acceptButton = new Button();
+        acceptButton.setText("Annex");acceptButton.setLayoutX(225);acceptButton.setLayoutY(150);
+        Button declineButton = new Button();
+        declineButton.setLayoutX(125);declineButton.setLayoutY(150);declineButton.setText("Destroy");
+        popup.getContent().add(acceptButton);popup.getContent().add(declineButton);
+        popup.show(Main.scene.getWindow());
+        acceptButton.setOnMouseClicked(mouseEvent -> {
+            notification.setText(UnitController.getInstance().changesAfterCityVictory(acceptButton.getText()));
+            AlertDataBase.getInstance().getAlerts().remove(alert);popup.hide();
+            updateMap();
+        });
+        declineButton.setOnMouseClicked(mouseEvent -> {
+            notification.setText(UnitController.getInstance().changesAfterCityVictory(declineButton.getText()));
+            AlertDataBase.getInstance().getAlerts().remove(alert);popup.hide();
+            updateMap();
         });
     }
 
@@ -1051,6 +1084,7 @@ public class GameplayGraphicController implements Initializable {
         closeButton.setOnMouseClicked(mouseEvent -> {
             AlertDataBase.getInstance().getAlerts().remove(alert);
             popup.hide();
+            updateMap();
         });
         popup.getContent().add(label);
         popup.getContent().add(closeButton);

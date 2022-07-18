@@ -74,6 +74,11 @@ public class Alert {
         this.alertType = alertType;
         this.runnable = runnable;
     }
+    public Alert(String message) {
+        this.message = message;
+        this.alertType = AlertType.Statement;
+        AlertDataBase.getInstance().getAlerts().add(this);
+    }
     public Alert(Civilization alertFor, String message, Trade demand) {
         this.alertFor = alertFor;
         this.message = message;

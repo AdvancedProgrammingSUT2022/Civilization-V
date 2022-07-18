@@ -29,7 +29,6 @@ public class Settler extends NonCombat {
         this.tile.setCapital(true);
         city.setName(cityName);
         CivilizationController.getInstance().calculateProducts(civilization);
-
     }
     public int calculateProductionAfterBuildingCity(){
         return 0;

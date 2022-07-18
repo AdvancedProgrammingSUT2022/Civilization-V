@@ -23,7 +23,7 @@ public class City {
     private int productionPerTurn;
     private double hitPoint = 3;
     private double strength = 15;
-    private int population =1;
+    private int population = 1;
 
     private BuildingType underConstructionBuilding;
     private int BuildingTurn = 0;
