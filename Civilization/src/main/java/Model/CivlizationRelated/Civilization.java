@@ -10,6 +10,7 @@ import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Road.Road;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.NonCombat.Settler;
 import Model.Units.Unit;
 import Model.User.User;
 import javafx.scene.paint.Color;
@@ -367,5 +368,13 @@ public class Civilization {
 
     public String getUserName(){
         return this.user.getUsername();
+    }
+
+    public Settler getSettler(){
+        for (Unit unit:this.units) {
+            if(unit instanceof Settler)
+                return ((Settler)unit);
+        }
+        return  null;
     }
 }

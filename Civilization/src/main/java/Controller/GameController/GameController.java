@@ -22,6 +22,27 @@ import java.util.regex.Matcher;
 public class GameController{
     private int turn = 1;
     private Civilization playerTurn;
+
+    private int gameTurn = 0;
+
+    private Civilization winner;
+
+    public Civilization getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Civilization winner) {
+        this.winner = winner;
+    }
+
+    public int getGameTurn() {
+        return gameTurn;
+    }
+
+    public void setGameTurn(int gameTurn) {
+        this.gameTurn = gameTurn;
+    }
+
     private Unit selectedUnit;
     private City selectedCity;
     private City selectedCityToAttack;
@@ -63,6 +84,8 @@ public class GameController{
     }
     public String nextTurn(){
         changePlayer();
+        if(gameTurn == 2050)
+            return "Game Over";
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheUnitsAndBuildings();
@@ -226,7 +249,9 @@ public class GameController{
     }
     private void changePlayer(){
         int turnIndex = this.map.getCivilizations().indexOf(playerTurn);
-        if(turnIndex == this.map.getCivilizations().size() - 1){turnIndex = 0;}
+        if(turnIndex == this.map.getCivilizations().size() - 1){
+            gameTurn += 50;
+            turnIndex = 0;}
         else turnIndex++;
         playerTurn = this.map.getCivilizations().get(turnIndex);
     }
