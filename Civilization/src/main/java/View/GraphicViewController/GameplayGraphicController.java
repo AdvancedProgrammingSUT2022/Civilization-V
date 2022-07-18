@@ -145,6 +145,7 @@ public class GameplayGraphicController implements Initializable {
     private ImageView researchPic;
 
     private boolean moveMode = false;
+    private boolean cityAttackMode = false;
     private boolean cheating = false;
 
     private boolean attackMode = false;
@@ -419,8 +420,8 @@ public class GameplayGraphicController implements Initializable {
         for (Tile tile :availablePolys.keySet()) {
             tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
             tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, Color.RED));
-            moveMode = true;
         }
+        moveMode = true;
     }
 
     private void printMap() {
@@ -569,15 +570,19 @@ public class GameplayGraphicController implements Initializable {
     private void clickSettings(Polygon polygon) {
         polygon.setOnMouseClicked(mouseEvent -> {
             if (moveMode) {
-//                System.out.println("im in move init");
-                GameController.getInstance().initMoveUnit(polyToTile.get(polygon));
+                notification.setText(GameController.getInstance().initMoveUnit(polyToTile.get(polygon)));
                 updateMap();
                 moveMode = false;
             }
-            if (attackMode) {
-                GameController.getInstance().attack(polyToTile.get(polygon));
+            if (cityAttackMode) {
+                notification.setText(UnitController.getInstance().cityUnitAttack(polyToTile.get(polygon)));
                 updateMap();
-                moveMode = false;
+                cityAttackMode = false;
+            }
+            if (attackMode) {
+                notification.setText(GameController.getInstance().attack(polyToTile.get(polygon)));
+                updateMap();
+                attackMode = false;
             }
             if (selectedPoly != null) {
                 if (polyToTile.get(selectedPoly).getUnits().size() != 0) {
@@ -595,14 +600,16 @@ public class GameplayGraphicController implements Initializable {
             if (timesClickedOnTile != 0) {
                 if (polyToTile.get(polygon).getCombatUnitOnTile() != null && timesClickedOnTile % 2 == 0)
                     isCombat = true;
-                if (UnitController.getInstance().selectUnit(polyToTile.get(polygon), isCombat)) {
+                String output = UnitController.getInstance().selectUnit(polyToTile.get(polygon), isCombat);
+                if (output.equals("selection successful")) {
                     updateMap();
                     selectedPoly = polygon;
                     polygon.setStroke(Paint.valueOf("Cyan"));
                     polygon.setEffect(new InnerShadow(75, 1, 1, Color.CYAN));
                     polygon.setStrokeWidth(polygon.getStrokeWidth() * 4);
                     unitBar();
-                }
+                }else
+                    notification.setText(output);
             }
             polygon.requestFocus();
         });
@@ -1229,5 +1236,15 @@ public class GameplayGraphicController implements Initializable {
         cheatBar.setDisable(true);
         cheatBar.setVisible(false);
         updateMap();
+    }
+
+    public void cityAttack(MouseEvent mouseEvent) {
+        Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedCity().getTile());
+        availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
+        for (Tile tile :availablePolys.keySet()) {
+            tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
+            tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, Color.RED));
+        }
+        cityAttackMode = true;
     }
 }

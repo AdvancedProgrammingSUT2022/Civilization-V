@@ -262,7 +262,7 @@ public class City {
             }
             else if(building.getBuildingType().equals(BuildingType.University)){
                 for (Tile tile:cityTiles) {
-                    if(tile.getFeature().getFeatureType().equals(FeatureType.Forest) && tile.getCitizen() != null)sciencePerTurn +=2;
+                    if(tile.getFeature() != null && tile.getFeature().getFeatureType().equals(FeatureType.Forest) && tile.getCitizen() != null)sciencePerTurn +=2;
                 }
                 sciencePerTurn += sciencePerTurn/2;
             }
@@ -457,7 +457,7 @@ public class City {
 
     public double cityAttackDamage(Combat defender) {
         double multiplyer = 1.5;
-        if(defender.getTile().getFeature().getFeatureType() == FeatureType.Jungle || defender.getTile().getTerrain() == TerrainType.Hill)
+        if((defender.getTile().getFeature() != null && defender.getTile().getFeature().getFeatureType() == FeatureType.Jungle )|| defender.getTile().getTerrain() == TerrainType.Hill)
             multiplyer -= 0.4;
         return defender.cityAttackDamage(this) * multiplyer;
     }

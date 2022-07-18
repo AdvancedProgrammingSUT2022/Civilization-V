@@ -124,10 +124,11 @@
             </VBox>
          </children>
       </AnchorPane>
-      <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="549.0" layoutY="523.0" prefHeight="100.0" prefWidth="402.0" spacing="10.0" visible="false">
+      <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="440.0" layoutY="523.0" prefHeight="100.0" prefWidth="585.0" spacing="10.0" visible="false">
          <children>
             <Button fx:id="productionBuild" mnemonicParsing="false" onMouseClicked="#manageBuildUnitBar" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build" />
             <Button mnemonicParsing="false" onMouseClicked="#buyTile" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
+            <Button mnemonicParsing="false" onMouseClicked="#cityAttack" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="City Attack" />
             <Button mnemonicParsing="false" onMouseClicked="#citizenManagement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
          </children>
       </HBox>

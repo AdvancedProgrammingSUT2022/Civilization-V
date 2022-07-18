@@ -39,20 +39,20 @@ public class UnitController {
     }
 
 
-    public boolean selectUnit(Tile tile, boolean isCombatUnit){
+    public String selectUnit(Tile tile, boolean isCombatUnit){
         int x = tile.getX();
         int y = tile.getY();
-        if(x > GameMap.getInstance().getMapWidth() -1 || y > GameMap.getInstance().getMapHeight() -1)return false;
+        if(x > GameMap.getInstance().getMapWidth() -1 || y > GameMap.getInstance().getMapHeight() -1)return "tile clicked is out of the map";
         ArrayList<Unit> tileUnits;
-        if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return false;
+        if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return "tile does not contain a unit";
         for (Unit unit:tileUnits) {
             if((unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit) || (!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit)){
-                if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return false;
+                if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return "unit does not belong to your civilization";
                 GameController.getInstance().setSelectedUnit(unit);
-                return true;
+                return "selection successful";
             }
         }
-        return false;
+        return "selection failed!";
     }
 
     public void restoreUnitMovementLeft(){
@@ -125,8 +125,7 @@ public class UnitController {
         if(selectedUnit.getMovementsLeft() == 0)    
             return "no movements left";
         if (selectedUnit.getUnitType() == UnitType.Settler) {
-            selectedUnit = (Settler) selectedUnit;
-            if (selectedUnit.getTile().getCivilization() != null && selectedUnit.getTile().getCivilization() != selectedUnit.getCivilization() ) 
+            if (selectedUnit.getTile().getCivilization() != null && selectedUnit.getTile().getCivilization() != selectedUnit.getCivilization() )
                 return "this tile belongs to another civilization";
             for (Tile surrounding : MapFunctions.getInstance().getSurroundings(selectedUnit.getTile())) {
                 if (surrounding.getCivilization() != null && surrounding.getCivilization() != selectedUnit.getCivilization() ||
@@ -184,7 +183,7 @@ public class UnitController {
 
     public String fortify(){
         Unit unit = GameController.getInstance().getSelectedUnit();
-        if(checkFortifyErrors() == false)
+        if(!checkFortifyErrors())
             return "you cannot fortify a unit with this combat types.";
         else{
             unit.fortify();
@@ -197,14 +196,14 @@ public class UnitController {
         unit.getUnitType().combatType == CombatType.Armored ||
         unit.getUnitType().combatType == CombatType.Civilian)
             return false;
-            return true;
+        return true;
     }
     public String sleep(){
         GameController.getInstance().getSelectedUnit().sleep();
         return "unit is sleep!";
     }
     public String fortifyUntilHealed(){
-        if(checkFortifyErrors() == false)
+        if(!checkFortifyErrors())
             return "you cannot fortify a unit with this combat types.";
         GameController.getInstance().getSelectedUnit().fortifyUntilHealed();
         return "unit is sleep!";
@@ -241,7 +240,7 @@ public class UnitController {
             return "this position is either mountain or ocean";
         if(GameController.getInstance().getSelectedUnit().getUnitType().mainType == MainType.NONCOMBAT)
             return "unit is not of the type that can perform an attack";
-        if( MapFunctions.getInstance().getTile(x, y).getUnits().size() == 0 && tile.isCapital() == false)
+        if( MapFunctions.getInstance().getTile(x, y).getUnits().size() == 0 && !tile.isCapital())
             return "selected tile does not contain a unit nor is it a city";
         if( MapFunctions.getInstance().getTile(x, y).getUnits().size() > 0  &&
             MapFunctions.getInstance().getTile(x, y).getUnits().get(0).getCivilization() ==  GameController.getInstance().getSelectedUnit().getCivilization() ||
@@ -249,7 +248,7 @@ public class UnitController {
             return "selected tile contains a unit of same civilization as unit selected or your own city";
         if((GameController.getInstance().getSelectedUnit() instanceof Combat) && ((Combat) GameController.getInstance().getSelectedUnit()).isHasAttacked())
             return "no attacks left";
-        if((GameController.getInstance().getSelectedUnit() instanceof Siege) && ((Siege)GameController.getInstance().getSelectedUnit()).isPreAttackDone() == false)
+        if((GameController.getInstance().getSelectedUnit() instanceof Siege) && !((Siege) GameController.getInstance().getSelectedUnit()).isPreAttackDone())
             return "pre attack not done yet";
         return null;
     }
@@ -266,7 +265,7 @@ public class UnitController {
                 Unit nonCombatUnit = MapFunctions.getInstance().getTile(tile.getX(),tile.getY()).getUnits().get(0);
                 attacker.captureCivilian(nonCombatUnit);
                 attacker.setHasAttacked(true);
-                if(attacker.getUnitType().canMoveAfterAttack == false)
+                if(!attacker.getUnitType().canMoveAfterAttack)
                     attacker.setMovementsLeft(0);
                 GameController.getInstance().setSelectedUnit(null);
                 return "civilian captured";
@@ -281,7 +280,7 @@ public class UnitController {
         }
     }
     private String meleeAttackErrors(Tile tile) {
-        if( MapFunctions.getInstance().getSurroundings(GameController.getInstance().getSelectedUnit().getTile()).contains(tile) == false)
+        if(!MapFunctions.getInstance().getSurroundings(GameController.getInstance().getSelectedUnit().getTile()).contains(tile))
             return "this type of unit cannot melee attack";
         return null;
     }
@@ -303,7 +302,7 @@ public class UnitController {
             }else
                 unitDefender.addXp(15);
             attacker.setHasAttacked(true);
-            if(attacker.getUnitType().canMoveAfterAttack == false)
+            if(!attacker.getUnitType().canMoveAfterAttack)
                 attacker.setMovementsLeft(0);
         }
         attacker.addXp(15);
@@ -333,7 +332,7 @@ public class UnitController {
             return "city was taken choose annex or destroy";
         }
         attacker.setHasAttacked(true);
-        if(attacker.getUnitType().canMoveAfterAttack == false)
+        if(!attacker.getUnitType().canMoveAfterAttack)
             attacker.setMovementsLeft(0);
         return "melee attack on city successful";
     }
@@ -368,7 +367,7 @@ public class UnitController {
             return errorMassege;
         Ranged attacker = (Ranged)GameController.getInstance().getSelectedUnit();
         double damageToCity =  attacker.cityAttackDamage(tile.getCity());
-        if(attacker.getUnitType().mainType == MainType.SIEGE && ((Siege)attacker).isPreAttackDone() == false)
+        if(attacker.getUnitType().mainType == MainType.SIEGE && !((Siege) attacker).isPreAttackDone())
             return "pre attack isnt done";
         tile.getCity().changeHitPoint(-damageToCity);
         attacker.addXp(15);
@@ -377,7 +376,7 @@ public class UnitController {
             attacker.addXp(15);
         }
         attacker.setHasAttacked(true);
-        if(attacker.getUnitType().canMoveAfterAttack == false)
+        if(!attacker.getUnitType().canMoveAfterAttack)
             attacker.setMovementsLeft(0);
         return "ranged attack on city successful";
     }
@@ -503,7 +502,7 @@ public class UnitController {
         removeUnitFromGame(loser);
         TileVisibilityController.getInstance().changeVision(victor.getTile(), victor.getCivilization().getSeenBy(), 1, 2);
         victor.addXp(30);
-        if(victor.getUnitType().canMoveAfterAttack != true)
+        if(!victor.getUnitType().canMoveAfterAttack)
             victor.setMovementsLeft(0);
     }
     public void changesAfterMeleeCombat(Combat attacker,Combat defender,double damageToAttacker,double damageToDefender){
@@ -525,23 +524,21 @@ public class UnitController {
                 changesAfterMeleeVictory(victor, loser);
             }   
         } else{
-            if(attacker.getUnitType().canMoveAfterAttack != true)
+            if(!attacker.getUnitType().canMoveAfterAttack)
                 attacker.setMovementsLeft(0);
             attacker.addXp(15);defender.addXp(15);
         }
     }
-    public String cityUnitAttack(Matcher matcher){
-        int y = Integer.parseInt(matcher.group("y"));
-        int x = Integer.parseInt(matcher.group("x"));
-        String errorMassege;
-        Tile tile = MapFunctions.getInstance().getTile(x, y);
-        if((errorMassege = cityAttackErrors(tile)) != null)
-            return errorMassege;
+    public String cityUnitAttack(Tile tile){
+        String errorMessage;
+        if((errorMessage = cityAttackErrors(tile)) != null)
+            return errorMessage;
         City city = GameController.getInstance().getSelectedCity();
+        System.out.println("yeah");
         if(tile.getCombatUnitOnTile() != null &&tile.getCombatUnitOnTile().getUnitType().mainType != MainType.NONCOMBAT){
             Combat defender = tile.getCombatUnitOnTile();
-            double damageTounit =  city.cityAttackDamage(defender);
-            defender.changeHitPoint(-damageTounit);
+            double damageToUnit =  city.cityAttackDamage(defender);
+            defender.changeHitPoint(-damageToUnit);
             defender.addXp(15);
             if(defender.getHitPoints() <= 0){
                 removeUnitFromGame(defender);
@@ -595,7 +592,7 @@ public class UnitController {
         if((errorMassege = siegePreAttackErrors()) != null)
             return errorMassege;
         ((Siege)GameController.getInstance().getSelectedUnit()).setPreAttackDone(true);
-        ((Siege)GameController.getInstance().getSelectedUnit()).setMovementsLeft(0);
+        GameController.getInstance().getSelectedUnit().setMovementsLeft(0);
         return "pre attack done";
     }
     private String siegePreAttackErrors() {
@@ -724,13 +721,13 @@ public class UnitController {
         boolean isOnACity = false;
         if(GameController.getInstance().getSelectedUnit() == null)
             return "unit is not selected";
-        if((GameController.getInstance().getSelectedUnit() instanceof Combat) == false )
+        if(!(GameController.getInstance().getSelectedUnit() instanceof Combat))
             return "unit cannot be garrisonned";
         for (City city : GameController.getInstance().getPlayerTurn().getCities()) {
             if(city.getTile() == ((Combat)GameController.getInstance().getSelectedUnit()).getTile())
                 isOnACity = true;
         }
-        if(isOnACity == false)
+        if(!isOnACity)
             return "unit is not on a city tile";
         return null;
     }
