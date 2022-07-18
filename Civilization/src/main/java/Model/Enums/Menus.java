@@ -11,7 +11,8 @@ public enum Menus {
     SCORE_BOARD("scoreBoard"),
     GAME_MENU("gameMenu"),
     CHANGE_USERNAME_PASSWORD_MENU("changeUserPassMenu"),
-    PRE_GAME("preGame");
+    PRE_GAME("preGame"),
+    Tech_Tree("TechTree");
 
     public final String value;
 

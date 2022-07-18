@@ -58,7 +58,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="researchBar" disable="true" layoutX="13.0" layoutY="52.0" prefHeight="137.0" prefWidth="264.0" visible="false">
+      <AnchorPane fx:id="researchBar" layoutX="13.0" layoutY="52.0" prefHeight="131.0" prefWidth="269.0">
          <children>
             <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#acbdcd85" height="123.0" layoutX="3.0" stroke="BLACK" strokeType="INSIDE" width="255.0" />
             <ImageView fitHeight="123.0" fitWidth="143.0" layoutX="25.0" pickOnBounds="true" preserveRatio="true" />
@@ -70,6 +70,7 @@
                      <children>
                         <Label fx:id="researchNotif" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="170.0" styleClass="statusBar" text="research" />
                         <Button fx:id="research" mnemonicParsing="false" onMouseClicked="#manageTechnologies" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Research" />
+                        <Button mnemonicParsing="false" text="Tech Tree" onMouseClicked="#openTechTree" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
                      </children>
                   </VBox>
                </children>

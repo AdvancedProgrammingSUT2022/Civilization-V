@@ -111,7 +111,7 @@ public class MapGenerator {
         setMountains(mapX, mapY, MapSeed);
         setFeatures(mapX, mapY, MapSeed);
         setResources(mapX, mapY, MapSeed);
-        setRivers(mapX, mapY);
+        //setRivers(mapX, mapY);
         setRuins(mapX,mapY);
         setWaterSideTiles(mapX , mapY);
     }
