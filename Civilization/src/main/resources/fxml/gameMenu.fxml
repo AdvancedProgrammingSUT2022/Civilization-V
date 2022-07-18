@@ -192,6 +192,7 @@
             <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Notification history" />
             <Button mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
             <Button mnemonicParsing="false" onMouseClicked="#openEconomicOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Economic Overview" />
+            <Button mnemonicParsing="false" onMouseClicked="#openDemographics" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Demographics" />
          </children>
       </VBox>
    </children>

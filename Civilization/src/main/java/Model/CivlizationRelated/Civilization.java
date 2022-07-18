@@ -361,4 +361,11 @@ public class Civilization {
     public void changeCurrentIron(int currentIron) {
         this.currentIron += currentIron;
     }
+    public int getTilesSize(){
+        return tiles.size();
+    }
+
+    public String getUserName(){
+        return this.user.getUsername();
+    }
 }

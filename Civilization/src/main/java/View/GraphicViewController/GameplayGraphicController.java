@@ -26,6 +26,7 @@ import Model.Units.Combat.Ranged;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+import Model.User.User;
 import View.Images;
 import View.Pics;
 import javafx.animation.KeyFrame;
@@ -69,6 +70,7 @@ import main.java.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -1285,5 +1287,112 @@ public class GameplayGraphicController implements Initializable {
         vBox.getChildren().add(label);
         label.setAlignment(Pos.CENTER);
         vBox.setStyle("-fx-background-radius: 5; -fx-background-color: rgba(201, 238, 221, 0.7);");
+    }
+
+    @FXML
+    private void openDemographics(MouseEvent mouseEvent){
+        String s ="AVERAGE";
+        Label label = new Label("DEMOGRAPHICS");
+        label.setStyle("-fx-font-family: Britannic Bold; -fx-font-size: 18;");
+        VBox demographics = new VBox(label, new Separator());
+        label.setAlignment(Pos.CENTER);
+        VBox RankV = new VBox(new Label("RANK"));
+        VBox namesV = new VBox(new Label("PLAYERS"));
+        VBox scoreV = new VBox(new Label("SCORE"));
+        VBox scienceV = new VBox(new Label("SCIENCE"));
+        VBox populationV = new VBox(new Label("POPULATION"));
+        VBox landV = new VBox(new Label("LAND(tiles)"));
+        VBox goldV = new VBox(new Label("GOLD"));
+        VBox researchProjectV = new VBox(new Label("CURRENT RESEARCH PROJECT"));
+        Comparator<Civilization> comparator = Comparator.comparing(Civilization::getUserScore).thenComparing(Civilization::getTilesSize).
+                thenComparing(Civilization::getGold).thenComparing(Civilization::getSciencePerTurn).
+                thenComparing(Civilization::getUserName);
+        ArrayList<Civilization> civilizations = new ArrayList<>(GameMap.getInstance().getCivilizations());
+        civilizations.sort(comparator);
+        for (int i = 0; i < civilizations.size(); i++){
+            if(i < 10) {
+                int j = i + 1;
+                // rank
+                ImageView rank = creatingImageView("/images/scoreBoard/" + j + ".png", 50, 50);
+                RankV.getChildren().add(new Separator());
+                RankV.getChildren().add(rank);
+                // name v profile
+                User user = civilizations.get(i).getUser();
+                int profIndex = user.getProfPicIndex() + 1;
+                ImageView imageView = creatingImageView("/images/profiles/" + profIndex + ".png", 50, 50);
+                Label username = new Label(user.getUsername());
+                HBox player = new HBox(imageView, username);
+                namesV.getChildren().add(new Separator());
+                namesV.getChildren().add(player);
+                // score
+                String score_u = String.valueOf(user.getScore());
+                Label score = new Label(score_u);
+                score.setPrefHeight(50);
+                scoreV.getChildren().add(new Separator());
+                scoreV.getChildren().add(score);
+                // science
+                String science = String.valueOf(civilizations.get(i).getSciencePerTurn());
+                Label science_u = new Label(science);
+                science_u.setPrefHeight(50);
+                scienceV.getChildren().add(new Separator());
+                scienceV.getChildren().add(science_u);
+                // population
+                populationV.getChildren().add(new Separator());
+                int population = 0;
+                for (int k = 0; k < civilizations.get(i).getCities().size(); k++) {
+                    population += civilizations.get(i).getCities().get(k).getPopulation();
+                }
+                String p = String.valueOf(population);
+                Label populationL = new Label(p);
+                populationL.setPrefHeight(50);
+                populationV.getChildren().add(populationL);
+                // land
+                String land = String.valueOf(civilizations.get(i).getTilesSize());
+                Label count = new Label(land);
+                count.setPrefHeight(50);
+                landV.getChildren().add(new Separator());
+                landV.getChildren().add(count);
+                // research project
+                Label research = new Label(civilizations.get(i).getCurrentResearchProject() == null ?  "nothing" : civilizations.get(i).getCurrentResearchProject().name());
+                research.setPrefHeight(50);
+                researchProjectV.getChildren().add(new Separator());
+                researchProjectV.getChildren().add(research);
+                // gold
+                String gold = String.valueOf(civilizations.get(i).getGold());
+                Label gold_u = new Label(gold);
+                gold_u.setPrefHeight(50);
+                goldV.getChildren().add(new Separator());
+                goldV.getChildren().add(gold_u);
+            }
+        }
+        HBox details = new HBox(RankV, new Separator(), namesV, new Separator(), scoreV, new Separator(),
+                scienceV, new Separator(), populationV, new Separator(), landV,
+                new Separator(), goldV, new Separator(), researchProjectV);
+        demographics.getChildren().add(details);
+        Button button = new Button("close");
+        button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                + "-fx-text-fill: #4f4e4e;");
+        demographics.getChildren().add(button);
+        demographics.setStyle(" -fx-background-color: rgba(201, 238, 221, 0.7); -fx-background-radius: 10; -fx-text-fill: #4f4e4e;");
+        Popup popup = new Popup();
+        Window window = Main.scene.getWindow();
+        demographics.setAlignment(Pos.CENTER);
+        popup.getContent().add(demographics);
+        popup.show(window);
+
+        button.setOnMouseClicked(mouseEvent1 -> {
+            pane.setEffect(null);
+            popup.hide();
+        });
+    }
+
+
+    private ImageView creatingImageView(String address, int FitWidth, int FitHeight){
+        Image image = new Image(address);
+        ImageView imageView = new ImageView(image);
+        if(FitWidth != 0) imageView.setFitWidth(FitWidth);
+        if(FitHeight != 0) imageView.setFitHeight(FitHeight);
+        return imageView;
     }
 }
