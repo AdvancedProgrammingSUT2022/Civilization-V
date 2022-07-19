@@ -2,12 +2,17 @@ package Model.TileRelated.Road;
 
 import Model.CivlizationRelated.Civilization;
 import Model.Units.NonCombat.Worker;
+import com.google.gson.annotations.Expose;
 
 public class Road {
+    @Expose
     private RoadType roadType;
+    @Expose
     private int daysToComplete;
+    @Expose
     private boolean ruined = false;
     private Civilization civilization;
+    @Expose
     private Worker worker;
 
 

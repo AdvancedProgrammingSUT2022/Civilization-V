@@ -1,9 +1,12 @@
 package Controller.GameController.MapControllers;
 
-import java.util.ArrayList;
+import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
+import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 
 public class MapFunctions {
     private static MapFunctions mapFunctions;
@@ -42,6 +45,10 @@ public class MapFunctions {
             }
         };
         return surroundings;
+    }
+
+    public Color getCivColor(Civilization civilization){
+        return MapGenerator.getInstance().getColors().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
     }
     public Tile getTile(int x , int y){
         for (Tile key: GameMap.getInstance().getTiles()) {

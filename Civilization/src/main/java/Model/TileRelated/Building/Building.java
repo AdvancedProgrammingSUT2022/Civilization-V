@@ -1,6 +1,9 @@
 package Model.TileRelated.Building;
 
+import com.google.gson.annotations.Expose;
+
 public class Building {
+    @Expose
     private BuildingType buildingType;
 
     public Building(BuildingType buildingType) {

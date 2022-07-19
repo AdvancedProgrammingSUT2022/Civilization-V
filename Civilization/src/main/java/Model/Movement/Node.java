@@ -1,6 +1,7 @@
 package Model.Movement;
 
 import Model.TileRelated.Tile.Tile;
+import com.google.gson.annotations.Expose;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,10 +10,10 @@ import java.util.Map;
 
 public class Node {
 
+    @Expose
     private Tile tile;
-
     private List<Node> shortestPath = new LinkedList<>();
-
+    @Expose
     private Double distance = Double.MAX_VALUE;
 
     Map<Node, Double> adjacentNodes = new HashMap<>();

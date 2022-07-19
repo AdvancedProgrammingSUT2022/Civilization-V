@@ -13,22 +13,34 @@ import Model.TileRelated.Terraine.TerrainType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
 import Model.Units.TypeEnums.MainType;
+import com.google.gson.annotations.Expose;
 
 public class Tile {
+    @Expose
     private int x;
+    @Expose
     private int y;
+    @Expose
     private int mpCost;
+    @Expose
     private boolean hasRiverOrOcean = false;
     private Citizen citizen;
     private ArrayList<Unit> units = new ArrayList<>();
+    @Expose
     private Feature feature;
+    @Expose
     private Resource resource;
+    @Expose
     private ArrayList<River> rivers = new ArrayList<>();
+    @Expose
     private TerrainType terrain;
+    @Expose
     private Improvement improvement;
+    @Expose
     private Road road;
     private Civilization civilization;
     private City city;
+    @Expose
     private boolean isCapital = false;
 
     public Ruin getRuin() {

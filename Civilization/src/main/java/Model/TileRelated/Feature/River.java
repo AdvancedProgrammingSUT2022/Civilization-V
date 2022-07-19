@@ -13,9 +13,9 @@ public class River {
         this.adjacentTiles = adjacentTiles;
     }
     public Tile otherTile(Tile tile){
-        for (int i = 0; i < adjacentTiles.size(); i++) {
-            if(adjacentTiles.get(i).equals(tile) == false)
-                return adjacentTiles.get(i);
+        for (Tile adjacentTile : adjacentTiles) {
+            if (!adjacentTile.equals(tile))
+                return adjacentTile;
         }
         return null;
     }

@@ -440,10 +440,6 @@ public enum TechnologyType implements Unlocks {
     }},"") {
         @Override
         public String Unlock() {
-            // chariot
-            // Archer
-            // Water Mill
-            // Build a Road
             return "";
         }
     },

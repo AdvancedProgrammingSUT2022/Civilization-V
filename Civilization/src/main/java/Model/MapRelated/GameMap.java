@@ -1,24 +1,38 @@
 package Model.MapRelated;
 import java.util.ArrayList;
 import java.util.Random;
+
+import Controller.GameController.MapControllers.MapGenerator;
 import Controller.GameController.MapControllers.MapPrinter;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
+import com.google.gson.annotations.Expose;
 
 public class GameMap {
+    @Expose
     private Graph initialGraph;
+    @Expose
     private ArrayList<Unit> movingUnits = new ArrayList<>();
+    @Expose
+    private Civilization playerTurn;
+    @Expose
+    private int turn = 1;
+    @Expose
+    private int gameTurn = 0;
     private ArrayList<Unit> units = new ArrayList<Unit>();
+    @Expose
     private ArrayList<Tile> tiles = new ArrayList<>();
+    @Expose
     private final ArrayList<Civilization> civilizations = new ArrayList<>();
-    private ArrayList<Building> builtBuildings = new ArrayList<Building>();
-    private Random random = new Random();
+    @Expose
+    private int mapWidth;
+    @Expose
+    private int mapHeight;
+
     private static GameMap map;
-    private int mapWidth ;
-    private int mapHeight ;
 
     private GameMap(){
     }
@@ -27,7 +41,20 @@ public class GameMap {
             map = new GameMap();
         return map;
     }
+    public int getTurn() {
+        return turn;
+    }
 
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+    public Civilization getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(Civilization playerTurn) {
+        this.playerTurn = playerTurn;
+    }
     public Tile getATile(int x, int y){
         for(Tile tile : tiles){
             if(tile.getX() == x && tile.getY() == y){
@@ -37,20 +64,19 @@ public class GameMap {
         return null;
     }
 
-    public ArrayList<Building> getBuiltBuildings() {
-        return builtBuildings;
+
+    public int getGameTurn() {
+        return gameTurn;
     }
-    public void addBuiltBuilding(Building building){
-        this.builtBuildings.add(building);
+
+    public void setGameTurn(int gameTurn) {
+        this.gameTurn = gameTurn;
     }
     public Graph getInitialGraph() {
         return initialGraph;
     }
     public Random getRandom() {
-        return random;
-    }
-    public void setRandom(Random random) {
-        this.random = random;
+        return MapGenerator.getInstance().random;
     }
     public ArrayList<Civilization> getCivilizations() {
         return civilizations;

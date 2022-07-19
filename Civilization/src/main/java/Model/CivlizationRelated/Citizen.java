@@ -1,8 +1,10 @@
 package Model.CivlizationRelated;
 import Model.TileRelated.Tile.Tile;
+import com.google.gson.annotations.Expose;
 
 public class Citizen {
     private City city;
+    @Expose
     private Tile tile;
 
     public Citizen(City city){

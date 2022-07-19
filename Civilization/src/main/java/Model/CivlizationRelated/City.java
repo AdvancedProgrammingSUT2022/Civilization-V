@@ -10,34 +10,59 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
 import Model.Units.Combat.Combat;
+import com.google.gson.annotations.Expose;
 
 public class City {
+    @Expose
     private String name;
     private Civilization civilization;
+    @Expose
     private Tile tile;
+    @Expose
     boolean isCapital = false;
+    @Expose
     private int storedFood;
+    @Expose
     private int goldPerTurn;
+    @Expose
     private int sciencePerTurn;
+    @Expose
     private int foodPerTurn;
+    @Expose
     private int productionPerTurn;
+    @Expose
     private double hitPoint = 3;
+    @Expose
     private double strength = 15;
+    @Expose
     private int population = 1;
-
+    @Expose
     private BuildingType underConstructionBuilding;
+    @Expose
     private int BuildingTurn = 0;
+    @Expose
     private UnitType underConstructionUnit;
+    @Expose
     private int UnitTurn = 0;
+    @Expose
     private UnitType unitUnderConstruction;
+    @Expose
     private ArrayList<BuildingType> BuildingTypesCanBeBuilt;
+    @Expose
     private ArrayList<Building> buildings;
+    @Expose
     private ArrayList<Tile> cityTiles;
+    @Expose
     private ArrayList<UnitType> unitsCanBeBuilt;
+    @Expose
     private Unit garrisonUnit;
+    @Expose
     private ArrayList<Unit> units;
+    @Expose
     private ArrayList<Citizen> citizens;
+    @Expose
     private ArrayList<Improvement> improvements;
+    @Expose
     private boolean hasAttackLeft = true;
 
     public City(Civilization civilization) {

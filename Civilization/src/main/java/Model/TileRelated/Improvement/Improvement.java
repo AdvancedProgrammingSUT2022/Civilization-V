@@ -1,12 +1,17 @@
 package Model.TileRelated.Improvement;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.NonCombat.Worker;
+import com.google.gson.annotations.Expose;
 
 public class Improvement {
+    @Expose
     private ImprovementType improvementType;
+    @Expose
     private int daysToComplete;
+    @Expose
     private Worker worker;
     private Tile tile;
+    @Expose
     private boolean ruined = false;
     public Improvement(ImprovementType improvementType) {
         this.setImprovementType(improvementType);

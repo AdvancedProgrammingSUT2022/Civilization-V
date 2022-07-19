@@ -13,45 +13,60 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.NonCombat.Settler;
 import Model.Units.Unit;
 import Model.User.User;
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import javafx.scene.paint.Color;
 
 public class Civilization {
+    @Expose
     private User user;
+    @Expose
     private ArrayList<City> cities = new ArrayList<>();
+    @Expose
     private int gold;
+    @Expose
     private int goldPerTurn;
+    @Expose
     private int sciencePerTurn;
+    @Expose
     private double happiness = 10;
+    @Expose
     private int totalCoal;
+    @Expose
     private int currentCoal;
+    @Expose
     private int totalHorses;
+    @Expose
     private int currentHorses;
+    @Expose
     private int totalIron;
+    @Expose
     private int currentIron;
+    @Expose
     private int roadMaintenance;
-    private Color color;
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
+    @Expose
     private ArrayList<Tile> tiles = new ArrayList<>();
+    @Expose
     private ArrayList<Improvement> improvementsUnderConstruction = new ArrayList<>();
+    @Expose
     private ArrayList<Road> roadsUnderConstruction = new ArrayList<>();
+    @Expose
     private ArrayList<Feature> featuresBeingCleared = new ArrayList<>();
+
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
+    @Expose
     private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
+    @Expose
     private HashMap<Tile, Resource> revealedResources = new HashMap<>();
+    @Expose
     private HashMap<Tile, Improvement> revealedImprovements = new HashMap<>();
+    @Expose
     private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
-    //private ArrayList<Resource> resources;
+    @Expose
     private ArrayList<Technology> technologies = new ArrayList<Technology>(){{
         add(new Technology(TechnologyType.Agriculture));
     }};
+    @Expose
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
 

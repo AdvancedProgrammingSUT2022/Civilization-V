@@ -1,12 +1,14 @@
 package Model.TileRelated.Feature;
 
 import Model.Units.NonCombat.Worker;
-
+import com.google.gson.annotations.Expose;
 
 
 public class Feature {
+    @Expose
     private FeatureType featureType;
     private Worker worker;
+    @Expose
     private int daysToClear;
     public Feature(FeatureType featureType){
         this.setFeatureType(featureType);

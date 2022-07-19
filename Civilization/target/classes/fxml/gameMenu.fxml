@@ -198,5 +198,7 @@
          </children>
       </VBox>
       <Label fx:id="turnCount" layoutX="1231.0" layoutY="11.0" styleClass="tileInfo" text="0" />
+      <Button layoutX="408.0" layoutY="58.0" mnemonicParsing="false" onAction="#saveGame" text="Save" />
+      <Button layoutX="314.0" layoutY="58.0" mnemonicParsing="false" onAction="#loadGame" text="Load" />
    </children>
 </Pane>

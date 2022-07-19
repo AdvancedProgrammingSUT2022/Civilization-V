@@ -2,18 +2,26 @@ package Model.User;
 
 import Model.ChatRelated.Chat;
 import View.Images;
+import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
 public class User {
+    @Expose
     private String username;
+    @Expose
     private  String password;
+    @Expose
     private String nickname;
+    @Expose
     private int score ;
+    @Expose
     private int profPicIndex;
+    @Expose
     private boolean isOnline = false;
+    @Expose
     private ArrayList<Chat> chats = new ArrayList<>();
     
     public String getUsername() {

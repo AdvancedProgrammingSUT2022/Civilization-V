@@ -1,12 +1,15 @@
 package Model.ChatRelated;
 
 import Model.User.User;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 
 public class Chat {
+    @Expose
     private String chat_name;
     private ArrayList<User> users_names;
+    @Expose
     private ArrayList<Message> messages = new ArrayList<>();
 
     public Chat(String chat_name, ArrayList<User> users_names){

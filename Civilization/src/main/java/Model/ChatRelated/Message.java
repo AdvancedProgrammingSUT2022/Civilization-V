@@ -1,11 +1,14 @@
 package Model.ChatRelated;
 
 import Model.User.User;
+import com.google.gson.annotations.Expose;
 
 public class Message {
     private User sender_user;
 //    private User getter_user;
+    @Expose
     private String text;
+    @Expose
     private String send_time;
 
     public Message(User sender_user, String text, String send_time) {

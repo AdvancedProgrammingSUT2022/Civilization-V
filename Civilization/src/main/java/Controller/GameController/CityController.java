@@ -143,7 +143,7 @@ public class CityController {
     private void buildBuildingNow(){
         Building building = new Building(this.selectedBuildingType);
         GameController.getInstance().getSelectedCity().addBuilding(building);
-        GameMap.getInstance().addBuiltBuilding(building);
+//        GameMap.getInstance().addBuiltBuilding(building);
         int newGoldAmount = GameController.getInstance().getSelectedCity().getCivilization().getGold() - this.selectedBuildingType.getCost();
         GameController.getInstance().getSelectedCity().getCivilization().setGold(newGoldAmount);
     }
@@ -161,7 +161,7 @@ public class CityController {
         if(GameController.getInstance().getSelectedCity().getProductionPerTurn() >= turn) {
             Building building = new Building(buildingType);
             GameController.getInstance().getSelectedCity().addBuilding(building);
-            GameMap.getInstance().addBuiltBuilding(building);
+//            GameMap.getInstance().addBuiltBuilding(building);
             GameController.getInstance().getPlayerTurn().addNotification("your new building is built");
             return "your new building is built";
         }

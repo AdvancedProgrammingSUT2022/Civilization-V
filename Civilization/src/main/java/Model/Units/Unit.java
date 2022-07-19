@@ -15,14 +15,19 @@ import Controller.GameController.GameController;
 import Controller.GameController.Movement;
 import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
+import com.google.gson.annotations.Expose;
 
 public class Unit {
     protected Civilization civilization;
-    protected City city;
+    @Expose
     protected Tile tile;
+    @Expose
     public double movementsLeft;
+    @Expose
     protected UnitType unitType;
+    @Expose
     protected UnitStateType unitStateType;
+    @Expose
     protected double maxDamage;
     protected List<Node> path = new LinkedList<>();
 

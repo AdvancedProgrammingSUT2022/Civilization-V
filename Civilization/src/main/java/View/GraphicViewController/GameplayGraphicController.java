@@ -8,6 +8,7 @@ import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.GameController.UnitController;
 import Controller.PreGameController.LoginAndRegisterController;
+import Controller.SavingDataController.UserDataController;
 import Model.ChatRelated.Alert;
 import Model.ChatRelated.AlertDataBase;
 import Model.ChatRelated.AlertType;
@@ -68,6 +69,8 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 import main.java.Main;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -271,7 +274,7 @@ public class GameplayGraphicController implements Initializable {
                 for (Tile tile :availablePolys.keySet()) {
                     if(availablePolys.get(tile) <= GameController.getInstance().getSelectedUnit().getMovementsLeft()) {
                         tileToPoly.get(tile).setStroke(Paint.valueOf("Gray"));
-                        tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, GameController.getInstance().getSelectedUnit().getCivilization().getColor()));
+                        tileToPoly.get(tile).setEffect(new InnerShadow(75, 1, 1, MapFunctions.getInstance().getCivColor(GameController.getInstance().getSelectedUnit().getCivilization())));
                         moveMode = true;
                     }
                 }
@@ -650,7 +653,7 @@ public class GameplayGraphicController implements Initializable {
                 circle.setRadius(tile.getUnits().get(0).getUnitType().image.getWidth() * 1 / 5);
                 circle.setFill(new ImagePattern(tile.getUnits().get(0).getUnitType().image));
                 circle.setStrokeWidth(6);
-                circle.setStroke(tile.getUnits().get(0).getCivilization().getColor());
+                circle.setStroke(MapFunctions.getInstance().getCivColor(tile.getUnits().get(0).getCivilization()));
                 pane.getChildren().add(circle);
                 unitImages.add(circle);
                 if(tile.getUnits().size() == 2){
@@ -661,7 +664,7 @@ public class GameplayGraphicController implements Initializable {
                     circleSecond.setRadius(tile.getUnits().get(0).getUnitType().image.getWidth() * 1 / 5);
                     circleSecond.setFill(new ImagePattern(tile.getUnits().get(0).getUnitType().image));
                     circleSecond.setStrokeWidth(6);
-                    circleSecond.setStroke(tile.getUnits().get(0).getCivilization().getColor());
+                    circleSecond.setStroke(MapFunctions.getInstance().getCivColor(tile.getUnits().get(0).getCivilization()));
                     pane.getChildren().add(circleSecond);
                     unitImages.add(circleSecond);
                 }
@@ -774,8 +777,8 @@ public class GameplayGraphicController implements Initializable {
         }
         for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
             Polygon pol = tileToPoly.get(key);
-            pol.setStroke(key.getCivilization().getColor());
-            pol.setEffect(new InnerShadow(75, 1, 1, key.getCivilization().getColor()));
+            pol.setStroke(MapFunctions.getInstance().getCivColor(key.getCivilization()));
+            pol.setEffect(new InnerShadow(75, 1, 1,MapFunctions.getInstance().getCivColor(key.getCivilization())));
             pol.setStrokeWidth(pol.getStrokeWidth()*10);
         }
     }
@@ -1501,4 +1504,11 @@ public class GameplayGraphicController implements Initializable {
         Main.changeMenu(Menus.Tech_Tree.value);
     }
 
+    public void saveGame(ActionEvent actionEvent) throws FileNotFoundException {
+        UserDataController.getInstance().saveGame();
+    }
+
+    public void loadGame(ActionEvent actionEvent) throws IOException {
+        UserDataController.getInstance().loadGame();
+    }
 }
