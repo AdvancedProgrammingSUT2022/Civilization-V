@@ -33,7 +33,7 @@ public class Game extends Menu{
     private final Consumer<Matcher> chooseTechnology = matcher -> System.out.println(CivilizationController.getInstance().chooseTechnologyMenu()); // Arash changes technology
 //    private final Consumer<Matcher> studyTechnology = matcher -> System.out.println(CivilizationController.getInstance().createTechnologyForStudy(matcher)); // Arash changes technology
 //    private final Consumer<Matcher> changeResearchProject = matcher -> System.out.println(CivilizationController.getInstance().changeStudyingTechnology(matcher)); // Arash changes technology
-    private final Consumer<Matcher> cancelResearchProject = matcher -> System.out.println(CivilizationController.getInstance().cancelResearchProject());// Arash changes technology
+//    private final Consumer<Matcher> cancelResearchProject = matcher -> System.out.println(CivilizationController.getInstance().cancelResearchProject());// Arash changes technology
     private final Consumer<Matcher> changeCityConstruction = matcher -> System.out.println(CityController.getInstance().changeConstruction(matcher)); // Arash changes
     private final Consumer<Matcher> showInfoPanel = matcher -> System.out.println(CivilizationController.getInstance().InfoPanel()); // Arash changes
     private final Consumer<Matcher> sleep = matcher -> System.out.println(UnitController.getInstance().sleep());//
@@ -99,7 +99,7 @@ public class Game extends Menu{
         commandsMap.put(regex.cancelBuildUnit, cancelBuildUnit); // Arash changes
         commandsMap.put(regex.chooseTechnologyMenu, chooseTechnology); // Arash changes
         //commandsMap.put(regex.studyTechnology, studyTechnology); // Arash changes
-        commandsMap.put(regex.cancelResearchProject, cancelResearchProject); // Arash changes
+//        commandsMap.put(regex.cancelResearchProject, cancelResearchProject); // Arash changes
         //commandsMap.put(regex.changeResearchProject, changeResearchProject); // Arash changes
         commandsMap.put(regex.changeCityConstruction, changeCityConstruction); // Arash changes
         commandsMap.put(regex.showInfoPanel, showInfoPanel); // Arash changes

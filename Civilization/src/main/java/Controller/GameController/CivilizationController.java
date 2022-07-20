@@ -160,13 +160,13 @@ public class CivilizationController {
         GameController.getInstance().getPlayerTurn().setCurrentResearchProject(newResearchProject);
     }
 
-    public String cancelResearchProject(){
-        if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() == null) return "you do not have any research project now";
-        int turn = GameController.getInstance().getPlayerTurn().getResearchTurns();
-        TechnologyType technologyType = GameController.getInstance().getPlayerTurn().getCurrentResearchProject();
-        GameController.getInstance().getPlayerTurn().addResearchProject(technologyType, turn);
-        GameController.getInstance().getPlayerTurn().setResearchTurns(0);
-        GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
+    public String cancelResearchProject(Civilization civilization){
+        if(civilization.getCurrentResearchProject() == null) return "you do not have any research project now";
+        int turn = civilization.getResearchTurns();
+        TechnologyType technologyType = civilization.getCurrentResearchProject();
+        civilization.addResearchProject(technologyType, turn);
+        civilization.setResearchTurns(0);
+        civilization.setCurrentResearchProject(null);
         return "your research project has stopped";
     }
     // info panel ------------------------------------------------
