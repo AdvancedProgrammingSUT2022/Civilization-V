@@ -305,7 +305,21 @@ public class GameplayGraphicController implements Initializable {
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         Label label1 = new Label("Choose Production:");
+        HBox buttons = new HBox();
+        buttons.setSpacing(7);
+        Button cancelBuilding = new Button("Cancel building");
+        cancelBuilding.setOnMouseClicked(mouseEvent -> {
+            notification.setText(CityController.getInstance().cancelBuilding());
+        });
+        Button cancelUnit = new Button("Cancel Unit");
+        cancelUnit.setOnMouseClicked(mouseEvent -> {
+            notification.setText(CityController.getInstance().cancelBuildingUnit());
+        });
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().add(cancelBuilding);
+        buttons.getChildren().add(cancelUnit);
         vBox.getChildren().add(label1);
+        vBox.getChildren().add(buttons);
         label1.setAlignment(Pos.CENTER);
         label1.setStyle("-fx-font-size: 22; -fx-text-fill: #000000; -fx-font-family: 'Britannic Bold'");
                 for (UnitType unit: CityController.getInstance().validUnits()) {
@@ -1501,4 +1515,38 @@ public class GameplayGraphicController implements Initializable {
         Main.changeMenu(Menus.Tech_Tree.value);
     }
 
+    @FXML
+    private void cancelResearch(ActionEvent actionEvent) {
+        for (Civilization civilization:GameMap.getInstance().getCivilizations()) {
+            if(LoginAndRegisterController.getInstance().getLoggedInUser().equals(civilization.getUser())){
+                notification.setText(CivilizationController.getInstance().cancelResearchProject(civilization));
+                updateMap();
+            }
+        }
+    }
+
+    @FXML
+    private void stopWorking(ActionEvent actionEvent) {
+        notification.setText(UnitController.getInstance().stopWorker());
+    }
+
+    @FXML
+    private void repairRoad(ActionEvent actionEvent) {
+        notification.setText(UnitController.getInstance().RORRmatcher());
+    }
+
+    @FXML
+    private void repairImprovement(ActionEvent actionEvent) {
+        notification.setText(UnitController.getInstance().RORImatcher());
+    }
+
+    @FXML
+    private void destroyRoad(ActionEvent actionEvent) {
+        notification.setText(UnitController.getInstance().destroyRoad());
+    }
+
+    @FXML
+    private void clearLand(ActionEvent actionEvent) {
+        notification.setText(UnitController.getInstance().clearFeature());
+    }
 }
