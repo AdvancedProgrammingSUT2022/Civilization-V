@@ -8,7 +8,7 @@ import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.GameController.UnitController;
 import Controller.PreGameController.LoginAndRegisterController;
-import Controller.SavingDataController.UserDataController;
+import Controller.SavingDataController.DataSaver;
 import Model.ChatRelated.Alert;
 import Model.ChatRelated.AlertDataBase;
 import Model.ChatRelated.AlertType;
@@ -36,8 +36,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.css.Style;
-import javafx.css.StyleClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -1519,11 +1517,11 @@ public class GameplayGraphicController implements Initializable {
     }
 
     public void saveGame(ActionEvent actionEvent) throws FileNotFoundException {
-        UserDataController.getInstance().saveGame();
+        DataSaver.getInstance().saveGame();
     }
 
     public void loadGame(ActionEvent actionEvent) throws IOException {
-        UserDataController.getInstance().loadGame();
+        DataSaver.getInstance().loadGame();
     }
     @FXML
     private void cancelResearch(ActionEvent actionEvent) {

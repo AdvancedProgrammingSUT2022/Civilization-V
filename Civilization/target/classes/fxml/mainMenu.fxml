@@ -54,7 +54,7 @@
          <HBox alignment="CENTER" prefHeight="92.0" prefWidth="364.0" spacing="10">
             <children>
                <Button mnemonicParsing="false" onMouseClicked="#startGame" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Play Game" />
-               <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Load Game" />
+               <Button mnemonicParsing="false" onAction="#loadGame" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Load Game" />
             </children>
          </HBox>
          <HBox alignment="CENTER" prefHeight="61.0" prefWidth="279.0" spacing="10.0">

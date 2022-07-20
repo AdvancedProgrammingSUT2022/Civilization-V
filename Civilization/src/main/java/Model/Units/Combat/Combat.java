@@ -6,12 +6,16 @@ import Model.CivlizationRelated.Civilization;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 import Model.Units.TypeEnums.UnitType;
+import com.google.gson.annotations.Expose;
 
 public class Combat extends Unit {
-
+    @Expose
     protected int Xp;
+    @Expose
     protected double hitPoints = 8;
+    @Expose
     private int fortifiedTurnCount = 0;
+    @Expose
     private boolean hasAttacked;
 
     public Combat(Civilization civilization, Tile tile, UnitType unitType) {

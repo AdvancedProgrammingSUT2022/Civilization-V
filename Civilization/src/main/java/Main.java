@@ -1,16 +1,13 @@
 package main.java;
 
-import Controller.SavingDataController.UserDataController;
+import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
-import Model.TileRelated.Feature.Feature;
-import Model.TileRelated.Feature.FeatureType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -24,7 +21,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        UserDataController.getInstance().loadUsers();
+        DataSaver.getInstance().loadUsers();
         Parent root = loadFXML(Menus.LOGIN_MENU.value);
         assert root != null;
         Scene scene = new Scene(root);

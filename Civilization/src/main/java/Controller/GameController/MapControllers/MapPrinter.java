@@ -144,9 +144,9 @@ public class MapPrinter {
     }
     private void addRevealedTypeTexts(Tile tile,ArrayList<String> texts){
         texts.add("REVEALED");
-        if(GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile) != null)texts.add("F:" + GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
-        if(GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile) != null)texts.add("R:" + GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
-        if(GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile) != null)texts.add("I:" + GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
+//        if(GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile) != null)texts.add("F:" + GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
+//        if(GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile) != null)texts.add("R:" + GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
+//        if(GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile) != null)texts.add("I:" + GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
     }
     private void printInfoTile(String map[][],int textDistance,String infoString,int x,int y){
@@ -177,15 +177,15 @@ public class MapPrinter {
 
     private ArrayList<String> hasRiverBorders(Tile tile){
         ArrayList<String> hasRivers = new ArrayList<>(){{for(int i = 0;i < 6;i++)add("");}};
-        if(getVisibility(tile).equals(TileVisibility.FOGOFWAR) == false)
+        if(!getVisibility(tile).equals(TileVisibility.FOGOFWAR))
             for (River borderRiver : tile.getRivers()) {
                 hasRivers.set(findNeighborDirection(tile, borderRiver.otherTile(tile)).ordinal(), Color.ANSI_CYAN_BACKGROUND);
             }
         return hasRivers;
     }
     public TileVisibility getVisibility(Tile tile){
-        if(GameController.getInstance().getPlayerTurn().getSeenBy().get(tile) == -1)return TileVisibility.FOGOFWAR;
-        if(GameController.getInstance().getPlayerTurn().getSeenBy().get(tile) == 0)return TileVisibility.REVEALED;
+        if(GameController.getInstance().getPlayerTurn().getSeenBy(tile) == -1)return TileVisibility.FOGOFWAR;
+        if(GameController.getInstance().getPlayerTurn().getSeenBy(tile) == 0)return TileVisibility.REVEALED;
         return TileVisibility.VISIBLE;
     }
     private Direction findNeighborDirection(Tile origin,Tile neighbour){

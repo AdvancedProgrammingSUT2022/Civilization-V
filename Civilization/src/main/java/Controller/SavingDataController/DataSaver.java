@@ -15,13 +15,13 @@ import Model.User.User;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class UserDataController {
-    private static UserDataController userDataController;
-    private UserDataController(){}
-    public static UserDataController getInstance(){
-        if(userDataController == null)
-            userDataController = new UserDataController();
-        return userDataController;
+public class DataSaver {
+    private static DataSaver dataSaver;
+    private DataSaver(){}
+    public static DataSaver getInstance(){
+        if(dataSaver == null)
+            dataSaver = new DataSaver();
+        return dataSaver;
     }
 
     public void loadUsers() {
@@ -49,6 +49,7 @@ public class UserDataController {
     public void saveGame() throws FileNotFoundException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+        GameMap.getInstance().saveHashmap();
         String json = gson.toJson(GameMap.getInstance());
         saveToFile(json);
     }
@@ -59,6 +60,13 @@ public class UserDataController {
         String json = loadFromFile();
         GameMap gameMap = gson.fromJson(json, GameMap.class);
         completeFatherChildFields(gameMap);
+        gameMap.loadHashMap();
+        GameMap.setInstance(gameMap);
+        GameMap copy = GameMap.getInstance();
+    }
+
+    public void replaceTilesInHashMap(){
+
     }
 
     private void completeFatherChildFields(GameMap gameMap) {
@@ -82,6 +90,8 @@ public class UserDataController {
                 gameMap.getUnits().add(unit);
                 equalizeTiles(gameMap,unit.getTile());
             }
+            if(gameMap.getPlayerTurn().getUser().getUsername().equals(civilization.getUser().getUsername()))
+                gameMap.setPlayerTurn(civilization);
         }
     }
 
@@ -104,11 +114,11 @@ public class UserDataController {
     }
 
     private static String loadFromFile() throws IOException {
-        File file = new File("./src/main/resources/GameDatabaseGameMap.json");
-        FileInputStream inputStream = new FileInputStream(file);
-        String text = new String(inputStream.readAllBytes());
-        inputStream.close();
-        return text;
+            File file = new File("./src/main/resources/GameDatabaseGameMap.json");
+            FileInputStream inputStream = new FileInputStream(file);
+            String text = new String(inputStream.readAllBytes());
+            inputStream.close();
+            return text;
     }
     private static void saveToFile(String text) throws FileNotFoundException {
         File file = new File("./src/main/resources/GameDatabaseGameMap.json");

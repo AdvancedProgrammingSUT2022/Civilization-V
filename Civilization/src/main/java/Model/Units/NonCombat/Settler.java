@@ -7,8 +7,6 @@ import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 
 public class Settler extends NonCombat {
-
-    
     public Settler(Civilization civilization, Tile tile) {
         super(civilization, tile,UnitType.Settler);
     }

@@ -2,11 +2,11 @@ package Model.MapRelated;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapGenerator;
 import Controller.GameController.MapControllers.MapPrinter;
 import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
-import Model.TileRelated.Building.Building;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 import com.google.gson.annotations.Expose;
@@ -22,7 +22,7 @@ public class GameMap {
     private int turn = 1;
     @Expose
     private int gameTurn = 0;
-    private ArrayList<Unit> units = new ArrayList<Unit>();
+    private ArrayList<Unit> units = new ArrayList<>();
     @Expose
     private ArrayList<Tile> tiles = new ArrayList<>();
     @Expose
@@ -31,8 +31,10 @@ public class GameMap {
     private int mapWidth;
     @Expose
     private int mapHeight;
-
     private static GameMap map;
+    public static void setInstance(GameMap gameMap){
+        map = gameMap;
+    }
 
     private GameMap(){
     }
@@ -40,6 +42,31 @@ public class GameMap {
         if(map == null) 
             map = new GameMap();
         return map;
+    }
+    public void loadHashMap(){
+        for (Civilization civilization:this.civilizations) {
+            for (int i = 0; i < civilization.getSavingSeenByTile().size(); i++) {
+                Tile tile = getTile(civilization.getSavingSeenByTile().get(i).getX(),civilization.getSavingSeenByTile().get(i).getY());
+                civilization.getSeenBy().put(tile,civilization.getSavingSeenByInteger().get(i));
+            }
+        }
+    }
+    public Tile getTile(int x , int y){
+
+        for (Tile key: this.tiles) {
+            if(key.getX() == x && key.getY() == y)
+                return key;
+        }
+        return null;
+    }
+
+    public void saveHashmap(){
+        for (Civilization civilization:civilizations) {
+            civilization.newSavingSeenByTile(civilization.getSeenBy().keySet());
+            for (Tile tile:civilization.getSavingSeenByTile()) {
+                civilization.getSavingSeenByInteger().add(civilization.getSeenBy().get(tile));
+            }
+        }
     }
     public int getTurn() {
         return turn;

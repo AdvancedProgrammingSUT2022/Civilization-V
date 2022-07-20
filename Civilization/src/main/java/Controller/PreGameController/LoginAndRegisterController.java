@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import Controller.Controller.Controller;
-import Controller.SavingDataController.UserDataController;
+import Controller.SavingDataController.DataSaver;
 import Model.User.User;
 
 public class LoginAndRegisterController extends Controller{
@@ -50,7 +50,7 @@ public class LoginAndRegisterController extends Controller{
             user.setUsername(username);
             user.setPassword(password);
             users.add(user);
-            UserDataController.getInstance().saveUsers();
+            DataSaver.getInstance().saveUsers();
             return "user created successfully";
         }
         else return "user with username " + username + " already exists";

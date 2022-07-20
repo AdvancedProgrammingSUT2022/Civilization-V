@@ -1,6 +1,9 @@
 package Model.TileRelated.Resource;
 
+import com.google.gson.annotations.Expose;
+
 public class Resource {
+    @Expose
     private ResourceType resourceType;
     private boolean isAvailable = false;
 

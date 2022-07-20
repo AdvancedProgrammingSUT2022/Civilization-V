@@ -52,18 +52,13 @@ public class Civilization {
     private ArrayList<Road> roadsUnderConstruction = new ArrayList<>();
     @Expose
     private ArrayList<Feature> featuresBeingCleared = new ArrayList<>();
-
     private HashMap<Tile, Integer> seenBy = new HashMap<>();
     @Expose
-    private HashMap<Tile, Feature> revealedFeatures = new HashMap<>();
+    private ArrayList<Tile> savingSeenByTile = new ArrayList<>();
     @Expose
-    private HashMap<Tile, Resource> revealedResources = new HashMap<>();
+    private ArrayList<Integer> savingSeenByInteger = new ArrayList<>();
     @Expose
-    private HashMap<Tile, Improvement> revealedImprovements = new HashMap<>();
-    @Expose
-    private HashMap<Tile, Building> revealedBuildings = new HashMap<>();
-    @Expose
-    private ArrayList<Technology> technologies = new ArrayList<Technology>(){{
+    private ArrayList<Technology> technologies = new ArrayList<>() {{
         add(new Technology(TechnologyType.Agriculture));
     }};
     @Expose
@@ -138,6 +133,14 @@ public class Civilization {
         return researchTurns;
     }
 
+    public Integer getSeenBy(Tile tile){
+        for (Tile key:seenBy.keySet()) {
+            if(key.getX() == tile.getX() && key.getY() == tile.getY())
+                return seenBy.get(key);
+        }
+        return 1;
+    }
+
     public ArrayList<Improvement> getImprovementsUnderConstruction(){
         return improvementsUnderConstruction;
     }
@@ -163,7 +166,27 @@ public class Civilization {
     public void removeFeaturesBeingCleared(Feature feature){
         featuresBeingCleared.remove(feature);
     }
+    public ArrayList<Tile> getSavingSeenByTile() {
+        return savingSeenByTile;
+    }
 
+    public void setSavingSeenByTile(ArrayList<Tile> savingSeenByTile) {
+        this.savingSeenByTile = savingSeenByTile;
+    }
+    public void newSavingSeenByTile(Set<Tile> keySet) {
+        this.savingSeenByTile = new ArrayList<>(keySet);
+    }
+
+    public ArrayList<Integer> getSavingSeenByInteger() {
+        return savingSeenByInteger;
+    }
+
+    public void setSavingSeenByInteger(ArrayList<Integer> savingSeenByInteger) {
+        this.savingSeenByInteger = savingSeenByInteger;
+    }
+    public void newSavingSeenByInteger(Set<Integer> set) {
+        this.savingSeenByInteger = new ArrayList<>();
+    }
     public void removeFromImprovementsUnderConstruction(Improvement improvement){
         improvementsUnderConstruction.remove(improvement);
     }
@@ -179,35 +202,6 @@ public class Civilization {
         return false;
     }
 
-    public HashMap<Tile, Building> getRevealedBuildings() {
-        return revealedBuildings;
-    }
-
-    public void setRevealedBuildings(HashMap<Tile, Building> revealedBuildings) {
-        this.revealedBuildings = revealedBuildings;
-    }
-    public void addRevealBuilding(Tile tile, Building building){
-        this.revealedBuildings.put(tile, building);
-    }
-    public HashMap<Tile, Resource> getRevealedResources() {
-        return revealedResources;
-    }
-
-    public void setRevealedResources(HashMap<Tile, Resource> revealedResources) {
-        this.revealedResources = revealedResources;
-    }
-    public HashMap<Tile, Improvement> getRevealedImprovements() {
-        return revealedImprovements;
-    }
-    public void setRevealedImprovements(HashMap<Tile, Improvement> revealedImprovements) {
-        this.revealedImprovements = revealedImprovements;
-    }
-    public HashMap<Tile, Feature> getRevealedFeatures() {
-        return revealedFeatures;
-    }
-    public void setRevealedFeatures(HashMap<Tile, Feature> revealedFeatures) {
-        this.revealedFeatures = revealedFeatures;
-    }
     public HashMap<Tile, Integer> getSeenBy() {
         return seenBy;
     }

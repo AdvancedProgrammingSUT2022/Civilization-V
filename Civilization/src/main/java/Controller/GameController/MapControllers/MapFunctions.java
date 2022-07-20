@@ -51,8 +51,10 @@ public class MapFunctions {
         return MapGenerator.getInstance().getColors().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
     }
     public Tile getTile(int x , int y){
+
         for (Tile key: GameMap.getInstance().getTiles()) {
-            if(key.getX() == x && key.getY() == y)return key;
+            if(key.getX() == x && key.getY() == y)
+                return key;
         }
         return null;
     }

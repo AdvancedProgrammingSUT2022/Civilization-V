@@ -4,9 +4,11 @@ import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapGenerator;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
+import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
 import Model.User.User;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -16,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -97,5 +100,11 @@ public class MainPageController implements Initializable {
     @FXML
     private void openChatroom(MouseEvent mouseEvent) {
         main.java.Main.changeMenu("ChatPage");
+    }
+
+    public void loadGame(ActionEvent actionEvent) throws IOException {
+        DataSaver.getInstance().loadGame();
+
+        main.java.Main.changeMenu(Menus.GAME_MENU.value);
     }
 }
