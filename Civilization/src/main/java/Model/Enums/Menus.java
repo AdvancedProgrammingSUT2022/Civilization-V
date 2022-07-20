@@ -12,7 +12,8 @@ public enum Menus {
     GAME_MENU("gameMenu"),
     CHANGE_USERNAME_PASSWORD_MENU("changeUserPassMenu"),
     PRE_GAME("preGame"),
-    Tech_Tree("TechTree");
+    Tech_Tree("TechTree"),
+    Trailer("trailer");
 
     public final String value;
 

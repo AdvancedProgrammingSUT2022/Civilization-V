@@ -22,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         DataSaver.getInstance().loadUsers();
-        Parent root = loadFXML(Menus.LOGIN_MENU.value);
+        Parent root = loadFXML(Menus.Trailer.value);
         assert root != null;
         Scene scene = new Scene(root);
         Main.stage = stage;
