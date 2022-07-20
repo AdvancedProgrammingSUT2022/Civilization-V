@@ -16,6 +16,10 @@ public class Worker extends NonCombat {
         super(civilization, tile, UnitType.Worker);
     }
 
+    public Worker() {
+        super();
+    }
+
     public String buildImprovement(ImprovementType improvement){
         if(tile.getImprovement() != null)return"there is an improvement here!";
         if(!civilization.equals(tile.getCivilization()))return "this is not your territory";

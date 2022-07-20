@@ -15,6 +15,10 @@ public class NonCombat extends Unit {
         //TODO Auto-generated constructor stub
     }
 
+    public NonCombat() {
+
+    }
+
     public void updateDataAfterAction(City city){
 
     }

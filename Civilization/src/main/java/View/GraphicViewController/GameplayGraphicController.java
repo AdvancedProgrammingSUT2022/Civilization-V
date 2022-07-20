@@ -959,7 +959,6 @@ public class GameplayGraphicController implements Initializable {
     private void endGameConditions(String nextTurnOutput){
         Civilization winner = gameWinConditionMet();
         if(winner != null){
-            System.out.println("end game bruh");
             GameController.getInstance().setWinner(winner);
             createStatementPopup(new Alert("game is over! the winner is " + winner.getUserName()),this::endGame);
         }else if(nextTurnOutput.equals("Game Over")){
@@ -971,7 +970,8 @@ public class GameplayGraphicController implements Initializable {
             int eliminatedPlayers = 0;
         Civilization winner = null;
         for (Civilization civ:GameMap.getInstance().getCivilizations()) {
-            if(civ.getCities().size() == 0 && civ.getSettler() == null)
+            if(civ.getCities().size() == 0 &&
+                    civ.getSettler() == null)
                 eliminatedPlayers++;
             else
                 winner = civ;

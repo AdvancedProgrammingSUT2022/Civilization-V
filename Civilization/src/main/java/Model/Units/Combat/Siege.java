@@ -9,6 +9,8 @@ public class Siege extends Ranged {
         super(civilization, tile, unitType);
         //TODO Auto-generated constructor stub
     }
+    public Siege() {
+    }
     @Expose
     protected boolean preAttackDone;
     
