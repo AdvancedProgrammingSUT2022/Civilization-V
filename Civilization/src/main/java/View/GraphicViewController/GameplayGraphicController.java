@@ -14,6 +14,7 @@ import Model.ChatRelated.AlertDataBase;
 import Model.ChatRelated.AlertType;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.Enums.AutoSave;
 import Model.Enums.MapEnum;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
@@ -951,11 +952,22 @@ public class GameplayGraphicController implements Initializable {
             }
         }
     }
-    public void nextTurn(ActionEvent actionEvent) {
+    public void nextTurn(ActionEvent actionEvent) throws FileNotFoundException {
+        autoSave();
         endGameConditions(GameController.getInstance().nextTurn());
         handleAlerts();
         updateMap();
     }
+
+    private void autoSave() throws FileNotFoundException {
+
+        if((Integer.parseInt(turnCount.getText()) % 200 == 0 && DataSaver.getInstance().getAutoSave() == AutoSave.EveryNYears)
+                || (Integer.parseInt(turnCount.getText()) % 100 == 0 && DataSaver.getInstance().getAutoSave() == AutoSave.AfterNYears2)
+                || (GameController.getInstance().getPlayerTurn() == GameMap.getInstance().getCivilizations().get(0) && DataSaver.getInstance().getAutoSave() == AutoSave.AfterEveryTurn)){
+            DataSaver.getInstance().saveGame();
+        }
+    }
+
     private void endGameConditions(String nextTurnOutput){
         Civilization winner = gameWinConditionMet();
         if(winner != null){
@@ -1520,9 +1532,6 @@ public class GameplayGraphicController implements Initializable {
         DataSaver.getInstance().saveGame();
     }
 
-    public void loadGame(ActionEvent actionEvent) throws IOException {
-        DataSaver.getInstance().loadGame();
-    }
     @FXML
     private void cancelResearch(ActionEvent actionEvent) {
         for (Civilization civilization:GameMap.getInstance().getCivilizations()) {

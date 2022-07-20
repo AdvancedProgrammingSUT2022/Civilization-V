@@ -124,7 +124,7 @@ public class MapGenerator {
     private void setRuins(int mapX, int mapY) {
         for(int i = 1; i < mapY - 1; i++){
             for(int j = 1; j < mapX - 1; j++){
-                int random = GameMap.getInstance().getRandom().nextInt(12);
+                int random = GameMap.getInstance().getRandom().nextInt(15);
                 if(random >= 10) {
                     Tile tile = GameMap.getInstance().getATile(j, i);
                     Ruin ruin = new Ruin(tile);

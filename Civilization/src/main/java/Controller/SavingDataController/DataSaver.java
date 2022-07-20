@@ -8,6 +8,7 @@ import java.util.List;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.*;
+import Model.Enums.AutoSave;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Combat.Combat;
@@ -33,6 +34,15 @@ public class DataSaver {
         return dataSaver;
     }
 
+    public AutoSave getAutoSave() {
+        return autoSave;
+    }
+
+    public void setAutoSave(AutoSave autoSave) {
+        this.autoSave = autoSave;
+    }
+
+    private AutoSave autoSave;
     public void loadUsers() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));

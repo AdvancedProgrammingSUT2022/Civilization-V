@@ -1,4 +1,5 @@
 package Controller.GameController;
+import Controller.SavingDataController.DataSaver;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
@@ -18,6 +19,7 @@ import Model.Units.Unit;
 import Controller.GameController.MapControllers.MapGenerator;
 import View.GameView.Game;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -82,7 +84,7 @@ public class GameController{
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
     }
-    public String nextTurn(){
+    public String nextTurn() {
         changePlayer();
         if(GameMap.getInstance().getGameTurn() == 2050)
             return "Game Over";
@@ -240,7 +242,6 @@ public class GameController{
         if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() <= 0){
             Building building = new Building(city.getUnderConstructionBuilding());
             city.addBuilding(building);
-//            GameMap.getInstance().addBuiltBuilding(building);
             city.setUnderConstructionBuilding(null);
             city.setBuildingTurn(0);
         }

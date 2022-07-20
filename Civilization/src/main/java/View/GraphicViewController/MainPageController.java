@@ -5,6 +5,7 @@ import Controller.GameController.MapControllers.MapGenerator;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
 import Controller.SavingDataController.DataSaver;
+import Model.Enums.AutoSave;
 import Model.Enums.Menus;
 import Model.User.User;
 import javafx.application.Application;
@@ -41,9 +42,9 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menuName.setText(MainMenuController.getInstance().showCurrentMenu());
-        autoSave.getItems().add("after claiming a city");
-        autoSave.getItems().add("every 5 minutes");
-        autoSave.getItems().add("after winning a game");
+        autoSave.getItems().add("after every 100 years");
+        autoSave.getItems().add("every 200 years");
+        autoSave.getItems().add("after every round");
         playerDes.setTooltip(new Tooltip("number of players attending in the game including you"));
         inviteDes.setTooltip(new Tooltip("invite your friends to play with you"));
         MapDes.setTooltip(new Tooltip("customize your own map!"));
@@ -106,5 +107,14 @@ public class MainPageController implements Initializable {
         DataSaver.getInstance().loadGame();
 
         main.java.Main.changeMenu(Menus.GAME_MENU.value);
+    }
+
+    public void AutoSaveSelected(ActionEvent actionEvent) {
+        if(autoSave.getValue().equals("after every 100 years"))
+            DataSaver.getInstance().setAutoSave(AutoSave.AfterNYears2);
+        else if(autoSave.getValue().equals("after every round"))
+            DataSaver.getInstance().setAutoSave(AutoSave.AfterEveryTurn);
+        else if(autoSave.getValue().equals("every 200 years"))
+            DataSaver.getInstance().setAutoSave(AutoSave.EveryNYears);
     }
 }
