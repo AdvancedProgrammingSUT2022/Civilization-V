@@ -10,6 +10,11 @@ public class Settler extends NonCombat {
     public Settler(Civilization civilization, Tile tile) {
         super(civilization, tile,UnitType.Settler);
     }
+
+    public Settler() {
+        super();
+    }
+
     public void buildCity(String cityName){
         City city = new City(civilization);
         city.addCityTiles(this.tile);

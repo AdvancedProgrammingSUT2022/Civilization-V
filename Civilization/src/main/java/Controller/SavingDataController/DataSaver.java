@@ -5,11 +5,20 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.*;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
+import Model.Units.Combat.Combat;
+import Model.Units.Combat.Ranged;
+import Model.Units.Combat.Siege;
+import Model.Units.NonCombat.Settler;
+import Model.Units.NonCombat.Worker;
+import Model.Units.TypeEnums.MainType;
+import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+import View.GraphicViewController.LoginPageController;
 import com.google.gson.Gson;
 import Model.User.User;
 import com.google.gson.GsonBuilder;
@@ -71,6 +80,12 @@ public class DataSaver {
 
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
+            for(User user: LoginAndRegisterController.getInstance().getUsers()){
+                if(user.getNickname().equals(civilization.getUser().getUsername())) {
+                    civilization.setUser(user);
+                    break;
+                }
+            }
             for (City city:civilization.getCities()) {
                 city.setCivilization(civilization);
                 city.getTile().setCivilization(civilization);
@@ -79,38 +94,64 @@ public class DataSaver {
                     citizen.setCity(city);
                     if(citizen.getTile() != null) {
                         citizen.getTile().setCitizen(citizen);
-                        equalizeTiles(gameMap, citizen.getTile());
+                        citizen.setTile(equalizeTiles(gameMap, citizen.getTile()));
                     }
                 }
-                equalizeTiles(gameMap,city.getTile());
+                city.setTile(equalizeTiles(gameMap,city.getTile()));
             }
-            for (Unit unit:civilization.getUnits()) {
-                unit.setCivilization(civilization);
-                unit.getTile().getUnits().add(unit);
-                gameMap.getUnits().add(unit);
-                equalizeTiles(gameMap,unit.getTile());
+            ArrayList<Unit> copyUnits = new ArrayList<>(civilization.getUnits());
+            for (Unit unit:copyUnits) {
+                Unit newUnit = makeUnit(unit);
+                civilization.getUnits().set(civilization.getUnits().indexOf(unit),newUnit);
+                newUnit.setCivilization(civilization);
+                newUnit.getTile().getUnits().add(newUnit);
+                newUnit.setTile(equalizeTiles(gameMap,newUnit.getTile()));
+                gameMap.getUnits().add(newUnit);
             }
             if(gameMap.getPlayerTurn().getUser().getUsername().equals(civilization.getUser().getUsername()))
                 gameMap.setPlayerTurn(civilization);
         }
     }
 
-    public void equalizeTiles(GameMap gameMap, Tile originalTile){
-        for (int i = 0; i < gameMap.getTiles().size(); i++) {
-            if (gameMap.getTiles().get(i).getX() == originalTile.getX() && gameMap.getTiles().get(i).getY() == originalTile.getY()) {
-                equalizeTile(gameMap.getTiles().get(i),originalTile);
-            }
-        }
+    public Unit makeUnit(Unit original){
+        Unit unit;
+        UnitType unitType = original.getUnitType();
+        if(unitType == UnitType.Settler)
+            unit = new Settler();
+        else if(unitType == UnitType.Worker)
+            unit = new Worker();
+        else if(unitType.mainType == MainType.NONCOMBAT)
+            unit = new Unit();
+        else if(unitType.mainType == MainType.NONRANGED)
+            unit = new Combat();
+        else if(unitType.mainType == MainType.RANGED)
+            unit = new Ranged();
+        else
+            unit = new Siege();
+        unit.setTile(original.getTile());
+        unit.setUnitStateType(original.getUnitStateType());
+        unit.setUnitType(original.getUnitType());
+        return unit;
     }
 
-    public void equalizeTile(Tile fakeTile,Tile originalTile){
+    public Tile equalizeTiles(GameMap gameMap, Tile originalTile){
+        for (int i = 0; i < gameMap.getTiles().size(); i++) {
+            if (gameMap.getTiles().get(i).getX() == originalTile.getX() && gameMap.getTiles().get(i).getY() == originalTile.getY()) {
+                return equalizeTile(gameMap.getTiles().get(i),originalTile);
+            }
+        }
+        return null;
+    }
+
+    public Tile equalizeTile(Tile fakeTile,Tile originalTile){
         if(originalTile != null) {
             fakeTile.setCity(originalTile.getCity());
             fakeTile.setCivilization(originalTile.getCivilization());
             fakeTile.setCitizen(originalTile.getCitizen());
             fakeTile.setUnits(originalTile.getUnits());
-            originalTile = fakeTile;
+            return fakeTile;
         }
+        return null;
     }
 
     private static String loadFromFile() throws IOException {

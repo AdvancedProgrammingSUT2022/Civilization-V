@@ -11,4 +11,8 @@ public class Ranged extends Combat {
     }
     @Expose
     int rangedStrength;
+
+    public Ranged() {
+
+    }
 }
