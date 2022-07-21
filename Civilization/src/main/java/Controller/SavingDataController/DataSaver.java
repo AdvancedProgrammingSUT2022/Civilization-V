@@ -87,10 +87,6 @@ public class DataSaver {
         GameMap copy = GameMap.getInstance();
     }
 
-    public void replaceTilesInHashMap(){
-
-    }
-
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
             for(User user: LoginAndRegisterController.getInstance().getUsers()){
@@ -103,6 +99,12 @@ public class DataSaver {
                 city.setCivilization(civilization);
                 city.getTile().setCivilization(civilization);
                 city.getTile().setCity(city);
+                ArrayList<Tile> cityTiles = new ArrayList<>(city.getCityTiles());
+                for (int i = 0; i < cityTiles.size(); i++) {
+                    cityTiles.get(i).setCivilization(civilization);
+                    cityTiles.get(i).setCity(city);
+                    city.getCityTiles().set(i,equalizeTiles(gameMap,cityTiles.get(i)));
+                }
                 for (Citizen citizen:city.getCitizens()) {
                     citizen.setCity(city);
                     if(citizen.getTile() != null) {
@@ -167,16 +169,15 @@ public class DataSaver {
         return null;
     }
 
-    private static String loadFromFile(String fileName) throws IOException {
+    private String loadFromFile(String fileName) throws IOException {
             File file = new File("./src/main/resources/GameSaves/" + fileName);
             FileInputStream inputStream = new FileInputStream(file);
             String text = new String(inputStream.readAllBytes());
             inputStream.close();
             return text;
     }
-    private static void saveToFile(String text) throws FileNotFoundException {
+    private void saveToFile(String text) throws FileNotFoundException {
         int m = 1;
-
         URL resource = DataSaver.class.getResource("/GameSaves");
         File directory = null;
         try {
