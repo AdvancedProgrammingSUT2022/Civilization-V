@@ -4,6 +4,7 @@
     -fx-background-color: rgba(201, 238, 221, 0.7);
     -fx-font-size: 18;
     -fx-text-fill: #4f4e4e;
+    -fx-cursor: hand;
 }
 
 .welcome{

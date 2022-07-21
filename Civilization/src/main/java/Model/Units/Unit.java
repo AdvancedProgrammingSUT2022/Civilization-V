@@ -15,6 +15,9 @@ import Controller.GameController.GameController;
 import Controller.GameController.Movement;
 import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
+import javafx.scene.control.Label;
+import javafx.stage.Popup;
+import net.bytebuddy.asm.Advice;
 
 public class Unit {
     protected Civilization civilization;
@@ -58,6 +61,17 @@ public class Unit {
             getTile().addUnit(this);
             getPath().remove(0);
             TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), 1, 2);
+            if(tile.getRuin() != null){
+                Popup popup = new Popup();
+                Label label = new Label(tile.getRuin().getBenefit(civilization));
+                label.setStyle("-fx-font-family: Britannic Bold; -fx-font-size: 25; -fx-text-fill: #9c0dbb");
+                popup.setX(440);
+                popup.setY(90);
+                popup.getContent().add(label);
+                popup.setAutoHide(true);
+                popup.show(main.java.Main.scene.getWindow());
+                tile.setRuin(null);
+            }
             if(getPath().size() == 0)
                 break;
         }

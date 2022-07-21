@@ -89,6 +89,7 @@ public class MapGenerator {
             }
         }
     }
+
     private void setOceans(int mapX, int mapY){
         for(int i = 0; i < mapY; i++){
             for(int j = 0; j < mapX; j++){
@@ -102,6 +103,7 @@ public class MapGenerator {
             }
         }
     }
+
     public void generateMap(int mapX, int mapY){ // map[x][y]
         Random randomSeed = new Random();
         int MapSeed = randomSeed.nextInt(1000);
@@ -119,8 +121,8 @@ public class MapGenerator {
     private void setRuins(int mapX, int mapY) {
         for(int i = 1; i < mapY - 1; i++){
             for(int j = 1; j < mapX - 1; j++){
-                int random = GameMap.getInstance().getRandom().nextInt(12);
-                if(random >= 10) {
+                int random = GameMap.getInstance().getRandom().nextInt(25);
+                if(random >= 24) {
                     Tile tile = GameMap.getInstance().getATile(j, i);
                     Ruin ruin = new Ruin(tile);
                     tile.setRuin(ruin);

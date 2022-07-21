@@ -149,7 +149,6 @@ public class GameplayGraphicController implements Initializable {
 
     private boolean moveMode = false;
     private boolean cityAttackMode = false;
-    private boolean cheating = false;
 
     private boolean attackMode = false;
 
@@ -190,10 +189,6 @@ public class GameplayGraphicController implements Initializable {
     private Button upgrade;
     @FXML
     private AnchorPane improvementPanel;
-    @FXML
-    private HBox cheatBar;
-    @FXML
-    private TextField cheatTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -204,6 +199,7 @@ public class GameplayGraphicController implements Initializable {
         researchPic.setImage(Pics.questionMark.image);
         CheatCode.getInstance().unlockFirstHalfTechnologies();
         GameController.getInstance().getPlayerTurn().setGold(20000);
+        Platform.runLater(this::updateMap);
     }
 
     public javafx.scene.shape.Polygon getPolygon(Tile tile) {
@@ -212,9 +208,7 @@ public class GameplayGraphicController implements Initializable {
 
     public void timeline() {
         move();
-        manageMainPanel();
-        if(!cheating)pane.requestFocus();
-        else cheatTextField.requestFocus();
+        pane.requestFocus();
     }
 
     public Timeline getTimeline() {
@@ -264,6 +258,7 @@ public class GameplayGraphicController implements Initializable {
                 case LEFT -> left = false;
             }
         }));
+
         Platform.runLater(() -> Main.scene.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.M && GameController.getInstance().getSelectedUnit() != null) {
                 Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
@@ -450,6 +445,7 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void updateMap(){
+        manageMainPanel();
         turnCount.setText(Integer.toString(GameController.getInstance().getGameTurn()));
         for (StackPane stack:cityBanners) {
             pane.getChildren().remove(stack);
@@ -497,12 +493,27 @@ public class GameplayGraphicController implements Initializable {
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignPicToImprovements(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+            assignPicToRuin(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
+                    , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignPicForResources(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignImages(GameMap.getInstance().getTiles().get(i), tileToPoly.get(GameMap.getInstance().getTiles().get(i)), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
             assignRectangleToCities(GameMap.getInstance().getTiles().get(i), MapFunctions.getInstance().NonConventionalCoordinatesX(GameMap.getInstance().getTiles().get(i))
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i)));
+        }
+    }
+
+    private void assignPicToRuin(Tile tile, int x, int y) {
+        if(tile.getRuin() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+            ImageView imageView = new ImageView();
+            imageView.setImage(Pics.ruin.image);
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 1 / 5);
+            imageView.setLayoutY(y );
+            imageView.setFitWidth(2400/16);
+            imageView.setFitHeight(1500/16);
+            cityPics.add(imageView);
+            pane.getChildren().add(imageView);
         }
     }
 
@@ -538,13 +549,13 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void assignPicToRoads(Tile tile, int x, int y) {
-        if(tile.getRoad() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
+        if(tile.getRoad() != null &&  tile.getRoad().getDaysToComplete() <=0 && !tile.getRoad().isRuined() && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)) {
             ImageView imageView = new ImageView();
             imageView.setImage(tile.getRoad().getRoadType().image);
-            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 2 / 5);
-            imageView.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
-            imageView.setFitWidth(595/5);
-            imageView.setFitHeight(476/5);
+            imageView.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 5);
+            imageView.setLayoutY(y );
+            imageView.setFitWidth(600/8);
+            imageView.setFitHeight(370/8);
             cityPics.add(imageView);
             pane.getChildren().add(imageView);
         }
@@ -1074,16 +1085,18 @@ public class GameplayGraphicController implements Initializable {
         label.setMinWidth(600);
         label.setTextAlignment(TextAlignment.CENTER);
         label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
-                "-fx-background-color: white; -fx-background-radius: 5; -fx-alignment: center;" +
+                "-fx-background-color: rgba(255,255,255,0.34); -fx-background-radius: 5; -fx-alignment: center;" +
                 "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
         popup.getContent().add(label);
         Button acceptButton = new Button();
         acceptButton.setText("Accept");
+        acceptButton.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
         acceptButton.setLayoutX(225);
         acceptButton.setLayoutY(150);
         Button declineButton = new Button();
         declineButton.setLayoutX(125);
         declineButton.setLayoutY(150);
+        declineButton.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
         declineButton.setText("Decline");
         popup.getContent().add(acceptButton);
         popup.getContent().add(declineButton);
@@ -1138,10 +1151,11 @@ public class GameplayGraphicController implements Initializable {
         label.setMinWidth(600);
         label.setTextAlignment(TextAlignment.CENTER);
         label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
-                "-fx-background-color: white; -fx-background-radius: 5; -fx-alignment: center;" +
+                "-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 5; -fx-alignment: center;" +
                 "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
         Button closeButton = new Button();
         closeButton.setText("Close");
+        closeButton.setStyle("-fx-font-family: \"Britannic Bold\"; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7);-fx-font-size: 18;-fx-text-fill: #4f4e4e;");
         closeButton.setLayoutX(10);closeButton.setLayoutY(10);
         closeButton.setOnMouseClicked(mouseEvent -> {
             AlertDataBase.getInstance().getAlerts().remove(alert);
@@ -1270,15 +1284,34 @@ public class GameplayGraphicController implements Initializable {
 
     @FXML
     private void showCheatField(ActionEvent actionEvent) {
-        cheatBar.setVisible(true);
-        cheatBar.setDisable(false);
-        cheating = true;
-
+        Popup popup = new Popup();
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(5);
+        hBox.setPrefHeight(42);
+        hBox.setPrefWidth(574);
+        TextField textField = new TextField();
+        textField.setPrefHeight(31);
+        textField.setPrefWidth(360);
+        textField.setPromptText("write down cheat code");
+        textField.setStyle("-fx-background-color: rgba(248, 248, 248, 0.35);-fx-background-radius: 10;");
+        Button button = new Button();
+        button.setOnAction(actionEvent1 -> {
+            cheat(textField.getText());
+            popup.hide();
+        });
+        button.setText("Enter");
+        button.setStyle("-fx-font-family: \"Britannic Bold\"; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7);-fx-font-size: 18;-fx-text-fill: #4f4e4e;");
+        hBox.getChildren().add(textField);
+        hBox.getChildren().add(button);
+        popup.getContent().add(hBox);
+        popup.setX(464);
+        popup.setY(70);
+        popup.show(Main.scene.getWindow());
     }
 
     @FXML
-    private void cheat(ActionEvent actionEvent) {
-        String input = cheatTextField.getText();
+    private void cheat(String input) {
         String regex;
         Pattern pattern;
         Matcher matcher;
@@ -1331,9 +1364,6 @@ public class GameplayGraphicController implements Initializable {
         }
         else
             notification.setText("wrong cheat!");
-        cheating = false;
-        cheatBar.setDisable(true);
-        cheatBar.setVisible(false);
         updateMap();
     }
     @FXML
