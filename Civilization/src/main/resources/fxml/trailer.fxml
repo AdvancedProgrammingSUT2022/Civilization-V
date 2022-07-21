@@ -7,6 +7,6 @@
 <AnchorPane prefHeight="750" prefWidth="1333" xmlns="http://javafx.com/javafx/8.0.171" stylesheets="/css/styles.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.Trailer">
    <children>
       <MediaView fx:id="mediaView" fitHeight="750.0" fitWidth="1333.0" />
-       <Button layoutX="1178.0" layoutY="644.0" mnemonicParsin g="false" onMouseClicked="#skip" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="skip" />
+       <Button layoutX="1178.0" layoutY="644.0" mnemonicParsing="false" onMouseClicked="#skip" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="skip" />
    </children>
 </AnchorPane>
