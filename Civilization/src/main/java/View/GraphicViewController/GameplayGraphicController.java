@@ -1559,6 +1559,7 @@ public class GameplayGraphicController implements Initializable {
     }
 
     public void saveGame(ActionEvent actionEvent) throws FileNotFoundException {
+        notification.setText("Game saved");
         DataSaver.getInstance().saveGame();
     }
 

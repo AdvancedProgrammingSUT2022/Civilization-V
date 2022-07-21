@@ -49,6 +49,7 @@
                   </children>
                </HBox>
                <Label />
+               <TextField alignment="CENTER" maxWidth="250.0" prefHeight="31.0" prefWidth="100.0" promptText="Max save files" styleClass="textFields"/>
             </children>
          </VBox>
          <HBox alignment="CENTER" prefHeight="92.0" prefWidth="364.0" spacing="10">
@@ -66,5 +67,5 @@
       </children>
    </VBox>
    <Label fx:id="menuName" styleClass="loginFont" />
-   <Button layoutX="1133.0" layoutY="24.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" onMouseClicked="#openChatroom"/>
+   <Button layoutX="1133.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#openChatroom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
 </Pane>

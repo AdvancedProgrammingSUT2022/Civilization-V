@@ -13,7 +13,8 @@ public enum Menus {
     CHANGE_USERNAME_PASSWORD_MENU("changeUserPassMenu"),
     PRE_GAME("preGame"),
     Tech_Tree("TechTree"),
-    Trailer("trailer");
+    Trailer("trailer"),
+    LoadMenu("LoadMenu");
 
     public final String value;
 

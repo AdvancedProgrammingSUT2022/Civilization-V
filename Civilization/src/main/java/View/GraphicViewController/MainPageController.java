@@ -104,9 +104,7 @@ public class MainPageController implements Initializable {
     }
 
     public void loadGame(ActionEvent actionEvent) throws IOException {
-        DataSaver.getInstance().loadGame();
-
-        main.java.Main.changeMenu(Menus.GAME_MENU.value);
+        main.java.Main.changeMenu(Menus.LoadMenu.value);
     }
 
     public void AutoSaveSelected(ActionEvent actionEvent) {

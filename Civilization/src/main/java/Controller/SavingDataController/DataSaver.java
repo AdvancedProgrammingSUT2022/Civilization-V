@@ -1,5 +1,7 @@
 package Controller.SavingDataController;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+import View.GameView.Game;
 import View.GraphicViewController.LoginPageController;
 import com.google.gson.Gson;
 import Model.User.User;
@@ -73,10 +76,10 @@ public class DataSaver {
         saveToFile(json);
     }
 
-    public void loadGame() throws IOException {
+    public void loadGame(String fileName) throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-        String json = loadFromFile();
+        String json = loadFromFile(fileName);
         GameMap gameMap = gson.fromJson(json, GameMap.class);
         completeFatherChildFields(gameMap);
         gameMap.loadHashMap();
@@ -164,15 +167,28 @@ public class DataSaver {
         return null;
     }
 
-    private static String loadFromFile() throws IOException {
-            File file = new File("./src/main/resources/GameDatabaseGameMap.json");
+    private static String loadFromFile(String fileName) throws IOException {
+            File file = new File("./src/main/resources/GameSaves/" + fileName);
             FileInputStream inputStream = new FileInputStream(file);
             String text = new String(inputStream.readAllBytes());
             inputStream.close();
             return text;
     }
     private static void saveToFile(String text) throws FileNotFoundException {
-        File file = new File("./src/main/resources/GameDatabaseGameMap.json");
+        int m = 1;
+
+        URL resource = DataSaver.class.getResource("/GameSaves");
+        File directory = null;
+        try {
+            directory = Paths.get(resource.toURI()).toFile();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        for (String string:directory.list()) {
+            if (string.contains("SaveNumber"))
+                m++;
+            }
+        File file = new File("./src/main/resources/GameSaves/SaveNumber" + m + ".json");
         PrintWriter printWriter = new PrintWriter(file);
         printWriter.write(text);
         printWriter.close();

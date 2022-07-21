@@ -71,3 +71,7 @@
     -fx-background-position: center;
     -fx-background-size: 1550;
 }
+
+.scroll-pane{
+    -fx-background-color: transparent;
+}
