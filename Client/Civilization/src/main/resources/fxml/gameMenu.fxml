@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
+
+<Pane prefHeight="750.0" prefWidth="1500.0" stylesheets="/css/styles.css,/css/gameplay.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.GameplayGraphicController">
+   <children>
+      <Pane fx:id="pane" />
+      <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#bcd32721" height="245.0" layoutX="1262.0" layoutY="495.0" stroke="BLACK" strokeType="INSIDE" width="206.0" />
+      <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#00000084" height="31.0" layoutX="13.0" layoutY="6.0" stroke="#3c3939" strokeType="INSIDE" width="1284.0" />
+      <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="174.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/statusBar/gold.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="sciencePerTurn" layoutX="68.0" layoutY="11.0" prefHeight="21.0" prefWidth="76.0" styleClass="stats" text="Label" />
+      <ImageView fitHeight="31.0" fitWidth="35.0" layoutX="37.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/statusBar/science.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="21.0" fitWidth="31.0" layoutX="366.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/statusBar/happiness.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="happiness" layoutX="398.0" layoutY="11.0" styleClass="stats" text="Label" />
+      <HBox layoutX="205.0" layoutY="11.0" prefHeight="21.0" prefWidth="125.0">
+         <children>
+            <Label fx:id="currentGold" styleClass="stats" text="Label" />
+            <Label fx:id="goldPerTurn" styleClass="stats" text="Label" />
+         </children>
+      </HBox>
+      <AnchorPane fx:id="unitBar" disable="true" layoutX="13.0" layoutY="401.0" prefHeight="344.0" prefWidth="367.0" visible="false">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#8f979e7d" height="202.0" layoutX="4.0" layoutY="126.0" stroke="BLACK" strokeType="INSIDE" width="389.0" />
+            <ImageView fx:id="unitPic" fitHeight="186.0" fitWidth="161.0" layoutX="35.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+            </ImageView>
+            <VBox alignment="CENTER" layoutX="196.0" layoutY="110.0" prefHeight="234.0" prefWidth="206.0">
+               <children>
+                  <Label fx:id="unitLabel" alignment="CENTER" prefHeight="42.0" prefWidth="125.0" styleClass="statusBar" text="archer" textAlignment="CENTER" />
+                  <Label fx:id="unitMoves" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="167.0" styleClass="statusBar" text="description" textAlignment="CENTER" />
+                  <HBox alignment="CENTER" prefHeight="62.0" prefWidth="213.0" spacing="5.0">
+                     <children>
+                        <Button fx:id="button1" mnemonicParsing="false" onMouseClicked="#showActions" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Actions" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="researchBar" layoutX="13.0" layoutY="52.0" prefHeight="166.0" prefWidth="269.0">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#acbdcd85" height="166.0" layoutX="3.0" stroke="BLACK" strokeType="INSIDE" width="292.0" />
+            <ImageView fitHeight="123.0" fitWidth="143.0" layoutX="25.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox alignment="TOP_CENTER" layoutX="5.0" layoutY="7.0" prefHeight="151.0" prefWidth="292.0">
+               <children>
+                  <ImageView fx:id="researchPic" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
+                  </ImageView>
+                  <VBox alignment="CENTER" prefHeight="151.0" prefWidth="152.0" spacing="2.0">
+                     <children>
+                        <Label fx:id="researchNotif" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="170.0" styleClass="statusBar" text="research" />
+                        <Button fx:id="research" mnemonicParsing="false" onMouseClicked="#manageTechnologies" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Research" />
+                        <Button mnemonicParsing="false" onMouseClicked="#openTechTree" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Tech Tree" />
+                        <Button mnemonicParsing="false" onAction="#cancelResearch" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Cancel" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="1273.0" layoutY="-3.0" prefHeight="49.0" prefWidth="221.0" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#saveGame" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="save" />
+            <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Menu" />
+         </children>
+      </HBox>
+      <AnchorPane fx:id="actionPanel" layoutX="379.0" layoutY="546.0" prefHeight="154.0" prefWidth="743.0" visible="false">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="151.0" layoutX="35.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="674.0" />
+            <HBox alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="62.0" prefWidth="710.0" spacing="5.0">
+               <children>
+                  <Button fx:id="sleep" mnemonicParsing="false" onAction="#sleepUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Sleep" />
+                  <Button fx:id="alert" mnemonicParsing="false" onAction="#alertUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Alert" />
+                  <Button fx:id="fortify" mnemonicParsing="false" onAction="#fortifyUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Fortify" />
+                  <Button fx:id="heal" mnemonicParsing="false" onAction="#healUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Heal" />
+                  <Button fx:id="setup" mnemonicParsing="false" onAction="#preAttack" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Setup" />
+                  <Button fx:id="wake" mnemonicParsing="false" onAction="#wakeUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Wake" />
+                  <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Delete" />
+                  <Button fx:id="move" mnemonicParsing="false" onMouseClicked="#moveButton" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="move" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" prefHeight="66.0" prefWidth="689.0" spacing="5.0">
+               <children>
+                  <Button fx:id="upgrade" mnemonicParsing="false" onAction="#upgradeUnit" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Upgrade" />
+                  <Button fx:id="buildCity" mnemonicParsing="false" onMouseClicked="#buildCity" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Create City" />
+                  <Button fx:id="buildImprovement" mnemonicParsing="false" onMouseClicked="#openImprovementPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Worker actions" />
+                  <Button fx:id="rangedAttack" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Ranged attack" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="cityPanel" disable="true" layoutX="-5.0" layoutY="32.0" prefHeight="328.0" prefWidth="298.0" visible="false">
+         <children>
+            <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#638d7182" height="372.0" layoutX="17.0" layoutY="28.0" stroke="BLACK" strokeType="INSIDE" width="264.0" />
+            <VBox alignment="CENTER" layoutX="17.0" layoutY="36.0" prefHeight="344.0" prefWidth="264.0">
+               <children>
+                  <ImageView fx:id="profilePic" fitHeight="131.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label alignment="CENTER" prefHeight="21.0" prefWidth="293.0" styleClass="topics" text="City Panel" />
+                  <Label fx:id="populationCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="275.0" styleClass="stats" text="population" />
+                  <Label fx:id="growthCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="292.0" styleClass="stats" text="growth" />
+                  <Label fx:id="foodCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="272.0" styleClass="stats" text="food" />
+                  <Label fx:id="productionCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="286.0" styleClass="stats" text="production" />
+                  <Label fx:id="goldCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="254.0" styleClass="stats" text="gold" />
+                  <Label fx:id="scienceCityBar" alignment="CENTER" prefHeight="21.0" prefWidth="259.0" styleClass="stats" text="science" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <HBox fx:id="cityButtons" alignment="CENTER" disable="true" layoutX="440.0" layoutY="523.0" prefHeight="100.0" prefWidth="585.0" spacing="10.0" visible="false">
+         <children>
+            <Button fx:id="productionBuild" mnemonicParsing="false" onMouseClicked="#manageBuildUnitBar" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Build" />
+            <Button mnemonicParsing="false" onMouseClicked="#buyTile" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Buy Tile" />
+            <Button mnemonicParsing="false" onMouseClicked="#cityAttack" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="City Attack" />
+            <Button mnemonicParsing="false" onMouseClicked="#citizenManagement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Citizen Mangement" />
+         </children>
+      </HBox>
+      <Label fx:id="notification" alignment="CENTER" layoutX="435.0" layoutY="11.0" prefHeight="21.0" prefWidth="866.0" styleClass="notification" />
+
+      <AnchorPane layoutX="1152.0" layoutY="96.0" prefHeight="213.0" prefWidth="338.0">
+         <children>
+            <Polygon fx:id="tilePolyInfo" fill="DODGERBLUE" layoutX="207.0" layoutY="136.0" opacity="0.7" points="-105.0, 136.0, 35.0, 136.0, 119.0, -6.0, 35.0, -136.0, -105.0, -136.0, -195.0, -6.0" stroke="BLACK" strokeType="INSIDE" />
+            <VBox layoutX="4.0" layoutY="56.0" prefHeight="166.0" prefWidth="331.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="331.0" styleClass="topics" text="Tile information" />
+                  <Label fx:id="terrainType" alignment="CENTER" prefHeight="30.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+                  <Label fx:id="tileUnit" alignment="CENTER" prefHeight="29.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+                  <Label fx:id="featureType" alignment="CENTER" prefHeight="30.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+                  <Label fx:id="recourseType" alignment="CENTER" prefHeight="31.0" prefWidth="331.0" styleClass="tileInfo" text="Label" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <ScrollPane fx:id="technologies" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
+      <ScrollPane fx:id="buildUnitsBar" disable="true" layoutX="616.0" layoutY="127.0" prefHeight="383.0" prefWidth="269.0" style="-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35" visible="false" />
+      <AnchorPane fx:id="improvementPanel" disable="true" layoutX="464.0" layoutY="491.0" prefHeight="245.0" prefWidth="743.0" visible="false">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="#7d899466" height="234.0" layoutX="29.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" width="701.0" />
+            <HBox alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="62.0" prefWidth="701.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#buildRoad" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Road" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildRoad" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="RailWay" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Camp" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Farm" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="LumberMill" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Quarry" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="8.0" layoutY="79.0" prefHeight="66.0" prefWidth="710.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="TradingPost" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Plantation" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Pasture" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Mine" />
+                  <Button mnemonicParsing="false" onMouseClicked="#buildImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="ManuFactory" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="-11.0" layoutY="145.0" prefHeight="66.0" prefWidth="770.0" spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#clearLand" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Clear Land" />
+                  <Button mnemonicParsing="false" onAction="#destroyRoad" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Destroy road" />
+                  <Button mnemonicParsing="false" onAction="#stopWorking" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="stopWorking" />
+                  <Button mnemonicParsing="false" onAction="#repairRoad" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="repair Road" />
+                  <Button mnemonicParsing="false" onAction="#repairImprovement" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="repair Improvement" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutX="1122.0" layoutY="37.0" prefHeight="49.0" prefWidth="380.0" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#openDiplomacyPanel" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Diplomacy" />
+            <Button mnemonicParsing="false" onMouseClicked="#openChatRoom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showCheatField" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="cheat" />
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutX="1235.0" layoutY="523.0" prefHeight="200.0" prefWidth="259.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#openMilitaryOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Military Overview" />
+            <Button mnemonicParsing="false" onMouseClicked="#openNotificationHistory" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Notification history" />
+            <Button mnemonicParsing="false" onAction="#nextTurn" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="nextTurn" />
+            <Button mnemonicParsing="false" onMouseClicked="#openEconomicOverview" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Economic Overview" />
+            <Button mnemonicParsing="false" onMouseClicked="#openDemographics" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Demographics" />
+         </children>
+      </VBox>
+      <Label fx:id="turnCount" layoutX="1231.0" layoutY="11.0" styleClass="tileInfo" text="0" />
+   </children>
+</Pane>
