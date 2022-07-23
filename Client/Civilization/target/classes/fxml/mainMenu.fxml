@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Polygon?>
 
 <Pane fx:id="content" prefHeight="750.0" prefWidth="1333.0" styleClass="backGroundMain" stylesheets="/css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.MainPageController">
-    <Button layoutX="1380.0" layoutY="24.0" onMouseClicked="#logout" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Logout" />
+    <Button layoutX="61.0" layoutY="46.0" onMouseClicked="#logout" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Logout" />
    <VBox alignment="CENTER" layoutX="514.0" layoutY="155.0" prefHeight="411.0" prefWidth="473.0" styleClass="border">
       <children>
          <VBox alignment="CENTER" prefHeight="256.0" prefWidth="473.0" spacing="10">
@@ -49,7 +49,7 @@
                   </children>
                </HBox>
                <Label />
-               <TextField alignment="CENTER" maxWidth="250.0" prefHeight="31.0" prefWidth="100.0" promptText="Max save files" styleClass="textFields"/>
+               <TextField alignment="CENTER" maxWidth="250.0" prefHeight="31.0" prefWidth="100.0" promptText="Max save files" styleClass="textFields" />
             </children>
          </VBox>
          <HBox alignment="CENTER" prefHeight="92.0" prefWidth="364.0" spacing="10">

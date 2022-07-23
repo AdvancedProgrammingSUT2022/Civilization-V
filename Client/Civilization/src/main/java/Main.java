@@ -1,5 +1,6 @@
 package main.java;
 
+import Controller.NetworkController;
 import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
 import javafx.application.Application;
@@ -20,8 +21,14 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        DataSaver.getInstance().loadUsers();
+    public void start(Stage stage) {
+       // DataSaver.getInstance().loadUsers();
+        try {
+            NetworkController.getInstance().connect();
+            NetworkController.getInstance().listenForServerUpdates();
+        }catch(Exception e){
+            System.out.println("connection Failed");
+        }
         Parent root = loadFXML(Menus.LOGIN_MENU.value);
         assert root != null;
         Scene scene = new Scene(root);

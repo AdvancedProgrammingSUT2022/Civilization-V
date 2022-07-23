@@ -49,14 +49,17 @@ public class DataSaver {
     public void loadUsers() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
-            ArrayList<User> createdUsers;
-            createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
-            if (createdUsers != null) {
-                LoginAndRegisterController.getInstance().setUsers(createdUsers);
-            }
+            setUsersFromJsonString(json);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    public void setUsersFromJsonString(String json){
+        ArrayList<User> createdUsers;
+        createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
+        }.getType());
+        if (createdUsers != null) {
+            LoginAndRegisterController.getInstance().setUsers(createdUsers);
         }
     }
     public void saveUsers() {

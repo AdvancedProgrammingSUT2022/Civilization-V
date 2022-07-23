@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -12,5 +13,10 @@
     <bytecodeTargetLevel>
       <module name="untitled1" target="17" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="untitled1" options="--add-exports jdk.jfr/jdk.jfr.internal.consumer=ALL-UNNAMED --add-exports java.net.http/jdk.internal.net.http.common=ALL-UNNAMED" />
+    </option>
   </component>
 </project>

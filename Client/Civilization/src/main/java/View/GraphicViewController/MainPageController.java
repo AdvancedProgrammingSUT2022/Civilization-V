@@ -2,11 +2,15 @@ package View.GraphicViewController;
 
 import Controller.GameController.GameController;
 import Controller.GameController.MapControllers.MapGenerator;
+import Controller.NetworkController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
 import Controller.SavingDataController.DataSaver;
 import Model.Enums.AutoSave;
 import Model.Enums.Menus;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
+import Model.NetworkRelated.Response;
 import Model.User.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -63,6 +67,7 @@ public class MainPageController implements Initializable {
     }
 
     public void logout(MouseEvent mouseEvent) {
+        NetworkController.getInstance().send(new Request(RequestType.Logout,new ArrayList<>()));
         MainMenuController.getInstance().userLogout();
         main.java.Main.changeMenu(Menus.LOGIN_MENU.value);
     }

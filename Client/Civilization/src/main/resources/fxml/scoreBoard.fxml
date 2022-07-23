@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <Pane fx:id="content" prefHeight="750.0" prefWidth="1500.0" styleClass="backGroundScoreBoard" stylesheets="/css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GraphicViewController.ScoreBoardPageController">
-    <Button layoutX="1380.0" layoutY="24.0" onMouseClicked="#back" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="back" />
+    <Button layoutX="78.0" layoutY="39.0" onMouseClicked="#back" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Back" />
     <VBox fx:id="list" alignment="CENTER" layoutX="282.0" layoutY="39.0" prefHeight="31.0" prefWidth="936.0" BorderPane.alignment="CENTER" />
     <Label fx:id="menuName" styleClass="loginFont" />
 </Pane>

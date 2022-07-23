@@ -32,6 +32,7 @@
          <Label fx:id="nickNameError" alignment="CENTER" prefHeight="21.0" prefWidth="410.0" styleClass="errors" text="error" visible="false" />
       </children>
    </VBox>
-   <Button id="choosePick" layoutX="734.0" layoutY="247.0" mnemonicParsing="false" text="Choose Pic" onMouseClicked="#choosePic" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons"/>
+   <Button id="choosePick" layoutX="734.0" layoutY="247.0" mnemonicParsing="false" onMouseClicked="#choosePic" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Choose Pic" />
+   <Button layoutX="77.0" layoutY="39.0"  mnemonicParsing="false" onMouseClicked="#choosePic" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" onAction="#back" text="Back" />
 
 </Pane>

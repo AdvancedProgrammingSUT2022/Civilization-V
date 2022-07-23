@@ -46,22 +46,24 @@ public class DataSaver {
     }
 
     private AutoSave autoSave;
-    public void loadUsers() {
+    public String loadUsers() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserSaves/UserDatabase.json")));
             ArrayList<User> createdUsers;
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             if (createdUsers != null) {
                 LoginAndRegisterController.getInstance().setUsers(createdUsers);
             }
+            return  json;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
     public void saveUsers() {
         try {
-            FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");
+            FileWriter fileWriter = new FileWriter("./src/main/resources/UserSaves/UserDatabase.json");
             fileWriter.write(new Gson().toJson(LoginAndRegisterController.getInstance().getUsers()));
             fileWriter.close();
         } catch (IOException e) {

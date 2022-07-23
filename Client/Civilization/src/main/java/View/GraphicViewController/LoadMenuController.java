@@ -26,22 +26,16 @@ public class LoadMenuController implements Initializable {
         pane.setAlignment(Pos.TOP_CENTER);
         URL resource = this.getClass().getResource("/GameSaves");
         try {
-
             File directory = Paths.get(resource.toURI()).toFile();
             for (String string:directory.list()) {
                 if(string.contains("SaveNumber")){
                     Label label = new Label(string.replace(".json",""));
                     label.setOnMouseClicked(mouseEvent -> {
-                        try {
-                            DataSaver.getInstance().loadGame(string);
-                            main.java.Main.changeMenu(Menus.GAME_MENU.value);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        //DataSaver.getInstance().loadGame(string);
+                        main.java.Main.changeMenu(Menus.GAME_MENU.value);
                     });
                     label.setStyle("-fx-font-size: 20");
                     pane.getChildren().add(label);
-
                 }
             }
         } catch (URISyntaxException e) {

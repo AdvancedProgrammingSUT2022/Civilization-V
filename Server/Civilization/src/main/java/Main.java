@@ -2,6 +2,7 @@ package main.java;
 
 import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
+import Model.NetworkRelated.NetworkController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,15 +22,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         DataSaver.getInstance().loadUsers();
-        Parent root = loadFXML(Menus.LOGIN_MENU.value);
-        assert root != null;
-        Scene scene = new Scene(root);
-        Main.stage = stage;
-        Main.scene = scene;
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        NetworkController.getInstance().initializeServer(8000);
+        NetworkController.getInstance().listenForClients();
     }
 
     public static void changeMenu(String name){

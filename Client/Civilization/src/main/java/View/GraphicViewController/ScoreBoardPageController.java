@@ -1,7 +1,12 @@
 package View.GraphicViewController;
 
+import Controller.NetworkController;
 import Controller.PreGameController.LoginAndRegisterController;
+import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
+import Model.NetworkRelated.Response;
 import Model.User.User;
 import javafx.animation.Timeline;
 import javafx.fxml.Initializable;
@@ -17,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
@@ -30,7 +36,7 @@ public class ScoreBoardPageController implements Initializable {
         Text text1 = new Text("Top 10 Players:");
         text1.setStyle("-fx-font-family: 'Cooper Black' ; -fx-fill: #86033b; -fx-font-size: 60;");
         list.getChildren().add(text1);
-        Comparator comparator = Comparator.comparing(User::getScore);
+        Comparator<User> comparator = Comparator.comparing(User::getScore);
         LoginAndRegisterController.getInstance().getUsers().sort(comparator);
         for (User user: LoginAndRegisterController.getInstance().getUsers()) {
             Label text = new Label("\n"+user.getUsername() + "\t\t\t\t\t\t\t" + user.getScore());

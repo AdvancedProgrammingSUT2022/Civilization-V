@@ -6,6 +6,7 @@ import Model.User.User;
 import java.util.regex.Matcher;
 
 import Controller.Controller.Controller;
+import View.Images;
 
 public class ProfileMenuController extends Controller{
 
@@ -26,7 +27,11 @@ public class ProfileMenuController extends Controller{
         DataSaver.getInstance().saveUsers();
         return "nickname changed successfully!";
     }
-
+    public void increaseImageIndex(int size){
+        int index = LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex();
+        if(index + 1 == size)index = -1;
+        LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(index + 1);
+    }
     public String changeCurrentPassword(String old,String newPass) {
         if(!old.equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
         if(old.equals(newPass))return "please enter a new password";
@@ -43,5 +48,11 @@ public class ProfileMenuController extends Controller{
     @Override
     public String enterMenu(Matcher matcher) {
         return "menu navigation is not possible";
+    }
+
+    public void decreaseImageIndex(int size) {
+        int index = LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex();
+        if(index - 1 == -1)index = size;
+        LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(index - 1);
     }
 }

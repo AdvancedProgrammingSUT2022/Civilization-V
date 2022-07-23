@@ -23,7 +23,7 @@ public class ProfileMenuController extends Controller{
                 return "user with nickname "+ key.getNickname() +" already exists";
         }
         LoginAndRegisterController.getInstance().getLoggedInUser().setNickname(newNickname);
-        DataSaver.getInstance().saveUsers();
+        //DataSaver.getInstance().saveUsers();
         return "nickname changed successfully!";
     }
 
@@ -31,7 +31,7 @@ public class ProfileMenuController extends Controller{
         if(!old.equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
         if(old.equals(newPass))return "please enter a new password";
         LoginAndRegisterController.getInstance().getLoggedInUser().setPassword(newPass);
-        DataSaver.getInstance().saveUsers();
+        //DataSaver.getInstance().saveUsers();
         return "password changed successfully!";
     }
 
