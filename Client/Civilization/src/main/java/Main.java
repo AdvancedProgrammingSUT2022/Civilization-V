@@ -29,7 +29,7 @@ public class Main extends Application {
         }catch(Exception e){
             System.out.println("connection Failed");
         }
-        Parent root = loadFXML(Menus.LOGIN_MENU.value);
+        Parent root = loadFXML(Menus.Trailer.value);
         assert root != null;
         Scene scene = new Scene(root);
         Main.stage = stage;
