@@ -15,9 +15,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import main.java.Main;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -34,11 +38,22 @@ public class LoginPageController implements Initializable {
 
     @FXML
     Label menuName;
-
+    private File file;
+    private Media media;
+    private MediaPlayer mediaPlayer;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menuName.setText(LoginAndRegisterController.getInstance().showCurrentMenu());
-
+        file = new File("./src/main/resources/media/civMedia.mp3");
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+        mediaPlayer.play();
     }
     
     public void buttonSizeIncrease(MouseEvent mouseEvent) {
@@ -63,6 +78,7 @@ public class LoginPageController implements Initializable {
         error.setVisible(true);
         LoginAndRegisterController.getInstance().login(username.getText(),password.getText());
         if(error.getText().equals("user logged in successfully!")){
+            mediaPlayer.stop();
             main.java.Main.changeMenu(Menus.MAIN_MENU.value);
         }
     }

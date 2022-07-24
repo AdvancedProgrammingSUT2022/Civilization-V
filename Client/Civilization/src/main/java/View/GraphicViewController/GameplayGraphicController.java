@@ -54,6 +54,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
@@ -68,6 +70,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 import main.java.Main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -191,7 +194,9 @@ public class GameplayGraphicController implements Initializable {
     private Button upgrade;
     @FXML
     private AnchorPane improvementPanel;
-
+    private File file;
+    private Media media;
+    private MediaPlayer mediaPlayer;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(this::printMap);
@@ -202,6 +207,16 @@ public class GameplayGraphicController implements Initializable {
         CheatCode.getInstance().unlockFirstHalfTechnologies();
         GameController.getInstance().getPlayerTurn().setGold(20000);
         Platform.runLater(this::updateMap);
+        file = new File("./src/main/resources/media/GameMedia2.mp3");
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+        mediaPlayer.play();
     }
 
     public javafx.scene.shape.Polygon getPolygon(Tile tile) {
@@ -1006,6 +1021,7 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void endGame() {
+        mediaPlayer.stop();
         GameController.getInstance().getWinner().getUser().setScore(GameController.getInstance().getWinner().getUser().getScore() + GameMap.getInstance().getCivilizations().size() * 15);
         Main.changeMenu(Menus.MAIN_MENU.value);
     }
@@ -1232,6 +1248,7 @@ public class GameplayGraphicController implements Initializable {
 
     @FXML
     private void openChatRoom(MouseEvent mouseEvent) {
+        mediaPlayer.stop();
         main.java.Main.changeMenu("ChatPage");
     }
 
@@ -1270,6 +1287,7 @@ public class GameplayGraphicController implements Initializable {
     }
 
     public void openDiplomacyPanel(MouseEvent actionEvent) {
+        mediaPlayer.stop();
         Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
     }
 

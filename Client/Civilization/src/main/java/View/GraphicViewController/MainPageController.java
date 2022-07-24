@@ -20,9 +20,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -42,6 +46,9 @@ public class MainPageController implements Initializable {
     private TextField mapWidth;
     @FXML
     private TextField mapHeight;
+    private File file;
+    private Media media;
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,6 +60,16 @@ public class MainPageController implements Initializable {
         inviteDes.setTooltip(new Tooltip("invite your friends to play with you"));
         MapDes.setTooltip(new Tooltip("customize your own map!"));
         autoSave.setTooltip(new Tooltip("choose on which period you want to save your game"));
+        file = new File("./src/main/resources/media/gameMedia3.mp3");
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+        mediaPlayer.play();
     }
 
 
@@ -67,12 +84,14 @@ public class MainPageController implements Initializable {
     }
 
     public void logout(MouseEvent mouseEvent) {
+        mediaPlayer.stop();
         NetworkController.getInstance().send(new Request(RequestType.Logout,new ArrayList<>()));
         MainMenuController.getInstance().userLogout();
         main.java.Main.changeMenu(Menus.LOGIN_MENU.value);
     }
 
     public void scoreBoard(MouseEvent mouseEvent) {
+        mediaPlayer.stop();
         main.java.Main.changeMenu(Menus.SCORE_BOARD.value);
     }
 
@@ -87,6 +106,7 @@ public class MainPageController implements Initializable {
     }
 
     public void profile(MouseEvent mouseEvent) {
+        mediaPlayer.stop();
         main.java.Main.changeMenu(Menus.PROFILE_MENU.value);
     }
 
@@ -97,6 +117,7 @@ public class MainPageController implements Initializable {
         users.add(LoginAndRegisterController.getInstance().getUser("sero"));
         users.add(LoginAndRegisterController.getInstance().getUser("arash"));
         if(Integer.parseInt(mapHeight.getText()) > 0 && Integer.parseInt(mapWidth.getText()) > 0) {
+            mediaPlayer.stop();
             MapGenerator.getInstance().gameInit(users, Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
             System.out.println( "first turn:" + GameController.getInstance().getPlayerTurn().getUser().getUsername());
             main.java.Main.changeMenu(Menus.GAME_MENU.value);
@@ -105,10 +126,12 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void openChatroom(MouseEvent mouseEvent) {
+        mediaPlayer.stop();
         main.java.Main.changeMenu("ChatPage");
     }
 
     public void loadGame(ActionEvent actionEvent) throws IOException {
+        mediaPlayer.stop();
         main.java.Main.changeMenu(Menus.LoadMenu.value);
     }
 
