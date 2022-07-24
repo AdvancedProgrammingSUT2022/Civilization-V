@@ -127,6 +127,7 @@ public class MainPageController implements Initializable {
     @FXML
     private void openChatroom(MouseEvent mouseEvent) {
         mediaPlayer.stop();
+        CalledMethods.getInstance().getMethodsName().add("MainPage");
         main.java.Main.changeMenu("ChatPage");
     }
 

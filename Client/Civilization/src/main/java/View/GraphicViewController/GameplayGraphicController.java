@@ -1249,6 +1249,7 @@ public class GameplayGraphicController implements Initializable {
     @FXML
     private void openChatRoom(MouseEvent mouseEvent) {
         mediaPlayer.stop();
+        CalledMethods.getInstance().getMethodsName().add("gamePlayPage");
         main.java.Main.changeMenu("ChatPage");
     }
 

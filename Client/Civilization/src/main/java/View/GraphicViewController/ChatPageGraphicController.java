@@ -277,7 +277,9 @@ public class ChatPageGraphicController {
     }
 
     public void backToMain(MouseEvent mouseEvent){
-        Main.changeMenu(Menus.MAIN_MENU.value);
+        if(CalledMethods.getInstance().getMethodsName().get(CalledMethods.getInstance().getMethodsName().size()-1).equals("MainPage"))
+            Main.changeMenu(Menus.MAIN_MENU.value);
+        else Main.changeMenu(Menus.GAME_MENU.value);
     }
 
     public void OpacityGroupIconToDefault(MouseEvent mouseEvent) {
