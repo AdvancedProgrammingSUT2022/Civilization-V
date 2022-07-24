@@ -22,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-       // DataSaver.getInstance().loadUsers();
+        DataSaver.getInstance().loadUsers();
         try {
             NetworkController.getInstance().connect();
             NetworkController.getInstance().listenForServerUpdates();

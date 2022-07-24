@@ -22,7 +22,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         DataSaver.getInstance().loadUsers();
         NetworkController.getInstance().initializeServer(8000);
         NetworkController.getInstance().listenForClients();

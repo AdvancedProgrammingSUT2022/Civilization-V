@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static jdk.internal.net.http.common.Utils.close;
 
 
 public class LoginPageController implements Initializable {
@@ -74,11 +73,11 @@ public class LoginPageController implements Initializable {
     }
 
     public void quit(ActionEvent actionEvent) {
-        Main.scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                close();
-            }
-        });
+//        Main.scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent windowEvent) {
+//                close();
+//            }
+//        });
     }
 }

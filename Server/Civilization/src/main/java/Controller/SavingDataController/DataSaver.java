@@ -86,7 +86,6 @@ public class DataSaver {
         completeFatherChildFields(gameMap);
         gameMap.loadHashMap();
         GameMap.setInstance(gameMap);
-        GameMap copy = GameMap.getInstance();
     }
 
     private void completeFatherChildFields(GameMap gameMap) {
