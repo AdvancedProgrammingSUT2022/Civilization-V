@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class DataSaver {
     private AutoSave autoSave;
     public String loadUsers() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserSaves/UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("C:\\Users\\nima\\Desktop\\project-group-24\\Server\\Civilization\\src\\main\\resources\\UserSaves\\UserDatabase.json")));
             ArrayList<User> createdUsers;
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());

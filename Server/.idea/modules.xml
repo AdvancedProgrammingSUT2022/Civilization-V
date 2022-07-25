@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Civilization/Civilization.iml" filepath="$PROJECT_DIR$/Civilization/Civilization.iml" />
       <module fileurl="file://$PROJECT_DIR$/project-group-24.iml" filepath="$PROJECT_DIR$/project-group-24.iml" />
     </modules>
   </component>

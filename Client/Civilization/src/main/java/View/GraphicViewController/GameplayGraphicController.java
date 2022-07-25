@@ -68,7 +68,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.Duration;
-import main.java.Main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -216,7 +215,7 @@ public class GameplayGraphicController implements Initializable {
                 mediaPlayer.seek(Duration.ZERO);
             }
         });
-        mediaPlayer.play();
+        //mediaPlayer.play();
     }
 
     public javafx.scene.shape.Polygon getPolygon(Tile tile) {
@@ -276,7 +275,7 @@ public class GameplayGraphicController implements Initializable {
             }
         }));
 
-        Platform.runLater(() -> Main.scene.setOnKeyPressed(keyEvent -> {
+        Platform.runLater(() -> main.java.Main.scene.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.M && GameController.getInstance().getSelectedUnit() != null) {
                 Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
                 availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
@@ -1023,7 +1022,7 @@ public class GameplayGraphicController implements Initializable {
     private void endGame() {
         mediaPlayer.stop();
         GameController.getInstance().getWinner().getUser().setScore(GameController.getInstance().getWinner().getUser().getScore() + GameMap.getInstance().getCivilizations().size() * 15);
-        Main.changeMenu(Menus.MAIN_MENU.value);
+        main.java.Main.changeMenu(Menus.MAIN_MENU.value);
     }
 
     private String announceWinner() {
@@ -1063,8 +1062,8 @@ public class GameplayGraphicController implements Initializable {
     @FXML
     private void openMilitaryOverview(MouseEvent mouseEvent){
         Pane pane = new Pane();
-        javafx.stage.Popup militaryOverview = new javafx.stage.Popup();
-        Window window = Main.scene.getWindow();
+        Popup militaryOverview = new Popup();
+        Window window = main.java.Main.scene.getWindow();
         Label name = new Label("MILITARY OVERVIEW");
         VBox unit_supply = UnitSupply();
         VBox vBox = new VBox();
@@ -1129,7 +1128,7 @@ public class GameplayGraphicController implements Initializable {
         declineButton.setText("Decline");
         popup.getContent().add(acceptButton);
         popup.getContent().add(declineButton);
-        popup.show(Main.scene.getWindow());
+        popup.show(main.java.Main.scene.getWindow());
         acceptButton.setOnMouseClicked(mouseEvent -> {
             runnable.run();
             AlertDataBase.getInstance().getAlerts().remove(alert);
@@ -1158,7 +1157,7 @@ public class GameplayGraphicController implements Initializable {
         Button declineButton = new Button();
         declineButton.setLayoutX(125);declineButton.setLayoutY(150);declineButton.setText("Destroy");
         popup.getContent().add(acceptButton);popup.getContent().add(declineButton);
-        popup.show(Main.scene.getWindow());
+        popup.show(main.java.Main.scene.getWindow());
         acceptButton.setOnMouseClicked(mouseEvent -> {
             notification.setText(UnitController.getInstance().changesAfterCityVictory(acceptButton.getText()));
             AlertDataBase.getInstance().getAlerts().remove(alert);popup.hide();
@@ -1194,7 +1193,7 @@ public class GameplayGraphicController implements Initializable {
         });
         popup.getContent().add(label);
         popup.getContent().add(closeButton);
-        popup.show(Main.scene.getWindow());
+        popup.show(main.java.Main.scene.getWindow());
     }
 
     private VBox UnitSupply(){
@@ -1214,7 +1213,7 @@ public class GameplayGraphicController implements Initializable {
     private void openNotificationHistory(MouseEvent mouseEvent){
         Popup popup = new Popup();
         popup.centerOnScreen();
-        Window window = Main.scene.getWindow();
+        Window window = main.java.Main.scene.getWindow();
         Label name = new Label("NOTIFICATION HISTORY");
         name.setStyle("-fx-font-family: 'Times New Roman'; -fx-font-size: 20; -fx-text-fill: #47a8d3");
         VBox notificationHistory = new VBox(name, new Separator());
@@ -1289,7 +1288,7 @@ public class GameplayGraphicController implements Initializable {
 
     public void openDiplomacyPanel(MouseEvent actionEvent) {
         mediaPlayer.stop();
-        Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
+        main.java.Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
     }
 
     @FXML
@@ -1339,7 +1338,7 @@ public class GameplayGraphicController implements Initializable {
         popup.getContent().add(hBox);
         popup.setX(464);
         popup.setY(70);
-        popup.show(Main.scene.getWindow());
+        popup.show(main.java.Main.scene.getWindow());
     }
 
     @FXML
@@ -1434,7 +1433,7 @@ public class GameplayGraphicController implements Initializable {
         economic_vBox.getChildren().add(new Separator());
         economic_vBox.getChildren().add(button);
         Popup popup = new Popup();
-        Window window = Main.scene.getWindow();
+        Window window = main.java.Main.scene.getWindow();
         economic_vBox.setStyle("-fx-background-color: rgba(201, 238, 221, 0.7);  -fx-background-radius: 20;");
         popup.getContent().add(economic_vBox);
         popup.setY(200);
@@ -1542,7 +1541,7 @@ public class GameplayGraphicController implements Initializable {
         demographics.getChildren().add(button);
         demographics.setStyle(" -fx-background-color: rgba(201, 238, 221, 0.7); -fx-background-radius: 10; -fx-text-fill: #4f4e4e;");
         Popup popup = new Popup();
-        Window window = Main.scene.getWindow();
+        Window window = main.java.Main.scene.getWindow();
         demographics.setAlignment(Pos.CENTER);
         popup.getContent().add(demographics);
         popup.show(window);
@@ -1574,7 +1573,7 @@ public class GameplayGraphicController implements Initializable {
 
     @FXML
     private void openTechTree(MouseEvent mouseEvent) {
-        Main.changeMenu(Menus.Tech_Tree.value);
+        main.java.Main.changeMenu(Menus.Tech_Tree.value);
     }
 
     public void saveGame(ActionEvent actionEvent) throws FileNotFoundException {

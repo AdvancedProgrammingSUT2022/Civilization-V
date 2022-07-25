@@ -9,6 +9,7 @@ public class Request {
 
     RequestType requestType;
     private String action;
+    private ArrayList<String> params = new ArrayList<>();
 
     public Request(String action) {
         this.action = action;
@@ -19,8 +20,6 @@ public class Request {
         this.requestType = requestType;
         this.params = params;
     }
-
-    private ArrayList<String> params = new ArrayList<>();
 
     public String getAction() {
         return action;

@@ -35,8 +35,8 @@
                      <HBox alignment="CENTER" prefHeight="76.0" prefWidth="439.0" spacing="7.0">
                         <children>
                            <Label fx:id="inviteDes" prefHeight="21.0" prefWidth="94.0" styleClass="loginFont" text="Send Invite:" />
-                           <TextField prefHeight="31.0" prefWidth="219.0" promptText="Enter player's Username" styleClass="textFields" />
-                           <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Send" />
+                           <TextField fx:id="inviteUsername" prefHeight="31.0" prefWidth="219.0" promptText="Enter player's Username" styleClass="textFields" />
+                           <Button mnemonicParsing="false" onMouseClicked="#sendInvite" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Send" />
                         </children>
                      </HBox>
                   </children>
@@ -68,4 +68,5 @@
    </VBox>
    <Label fx:id="menuName" styleClass="loginFont" />
    <Button layoutX="1133.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#openChatroom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
+   <Label fx:id="notification" alignment="CENTER" layoutX="536.0" layoutY="91.0" prefHeight="21.0" prefWidth="429.0" styleClass="errors" />
 </Pane>

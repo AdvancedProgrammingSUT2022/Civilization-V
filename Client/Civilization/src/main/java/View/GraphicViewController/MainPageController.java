@@ -49,6 +49,10 @@ public class MainPageController implements Initializable {
     private File file;
     private Media media;
     private MediaPlayer mediaPlayer;
+    @FXML
+    private TextField inviteUsername;
+    @FXML
+    private Label notification;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,7 +73,7 @@ public class MainPageController implements Initializable {
                 mediaPlayer.seek(Duration.ZERO);
             }
         });
-        mediaPlayer.play();
+        //mediaPlayer.play();
     }
 
 
@@ -143,5 +147,12 @@ public class MainPageController implements Initializable {
             DataSaver.getInstance().setAutoSave(AutoSave.AfterEveryTurn);
         else if(autoSave.getValue().equals("every 200 years"))
             DataSaver.getInstance().setAutoSave(AutoSave.EveryNYears);
+    }
+
+    @FXML
+    private void sendInvite(MouseEvent mouseEvent) {
+        notification.setText(NetworkController.getInstance().send(new Request(RequestType.sendInvite,new ArrayList<>(){{
+            add(inviteUsername.getText());
+        }})).getMessage());
     }
 }

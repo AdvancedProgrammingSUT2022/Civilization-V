@@ -22,11 +22,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        DataSaver.getInstance().loadUsers();
         try {
             NetworkController.getInstance().connect();
-            NetworkController.getInstance().listenForServerUpdates();
         }catch(Exception e){
+            e.printStackTrace();
             System.out.println("connection Failed");
         }
         Parent root = loadFXML(Menus.Trailer.value);

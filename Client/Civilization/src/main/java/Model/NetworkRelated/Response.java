@@ -6,6 +6,15 @@ public class Response {
     private ResponseType responseType;
     private String message;
 
+
+    public ResponseType getResponseType() {
+        return responseType;
+    }
+
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
+    }
+
     public String getMessage() {
         return message;
     }
