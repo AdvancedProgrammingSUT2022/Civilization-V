@@ -8,6 +8,7 @@ import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
 import Model.NetworkRelated.Response;
 import Model.User.User;
+import View.Images;
 import javafx.animation.Timeline;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -21,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,11 +39,12 @@ public class ScoreBoardPageController implements Initializable {
         text1.setStyle("-fx-font-family: 'Cooper Black' ; -fx-fill: #86033b; -fx-font-size: 60;");
         list.getChildren().add(text1);
         Comparator<User> comparator = Comparator.comparing(User::getScore);
+        DataSaver.getInstance().updateUsers();
         LoginAndRegisterController.getInstance().getUsers().sort(comparator);
         for (User user: LoginAndRegisterController.getInstance().getUsers()) {
             Label text = new Label("\n"+user.getUsername() + "\t\t\t\t\t\t\t" + user.getScore());
             text.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
-            ImageView imageView = null;
+            ImageView imageView;
             if(i == 1){
                 imageView = creatingImageView("/images/scoreBoard/firstPlace.png", 80, 80);
             } else if (i == 2){

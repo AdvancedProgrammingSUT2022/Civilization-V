@@ -8,10 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Controller.GameController.MapControllers.TileVisibilityController;
+import Controller.NetworkController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.*;
 import Model.Enums.AutoSave;
 import Model.MapRelated.GameMap;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
+import Model.NetworkRelated.Response;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Combat.Combat;
 import Model.Units.Combat.Ranged;
@@ -21,8 +25,8 @@ import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import View.GameView.Game;
 import View.GraphicViewController.LoginPageController;
+import View.Images;
 import com.google.gson.Gson;
 import Model.User.User;
 import com.google.gson.GsonBuilder;
@@ -62,6 +66,17 @@ public class DataSaver {
             LoginAndRegisterController.getInstance().setUsers(createdUsers);
         }
     }
+
+    public void updateUsers(){
+        ArrayList<String> param = new ArrayList<>();
+        Response response = NetworkController.getInstance().send(new Request(RequestType.Users,param));
+        DataSaver.getInstance().setUsersFromJsonString(response.getMessage());
+        if(LoginAndRegisterController.getInstance().getLoggedInUser() != null) {
+            User loggedInUser = LoginAndRegisterController.getInstance().getUser(LoginAndRegisterController.getInstance().getLoggedInUser());
+            LoginAndRegisterController.getInstance().setLoggedInUser(loggedInUser);
+        }
+    }
+
     public void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserDatabase.json");

@@ -34,8 +34,6 @@ public class LoginPageController implements Initializable {
     @FXML private TextField nickname;
     @FXML private PasswordField password;
     @FXML private Label error;
-
-
     @FXML
     Label menuName;
     private File file;
@@ -48,6 +46,7 @@ public class LoginPageController implements Initializable {
         media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.05);
+        mediaPlayer.setMute(true);
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
         mediaPlayer.play();
     }
@@ -69,10 +68,12 @@ public class LoginPageController implements Initializable {
             add(username.getText());
             add(password.getText());
         }};
+
         Response response = NetworkController.getInstance().send(new Request(RequestType.Login,params));
+        DataSaver.getInstance().updateUsers();
+        LoginAndRegisterController.getInstance().setLoggedInUser(LoginAndRegisterController.getInstance().getUser(username.getText()));
         error.setText(response.getMessage());
         error.setVisible(true);
-        LoginAndRegisterController.getInstance().login(username.getText(),password.getText());
         if(error.getText().equals("user logged in successfully!")){
             mediaPlayer.stop();
             main.java.Main.changeMenu(Menus.MAIN_MENU.value);
@@ -80,16 +81,14 @@ public class LoginPageController implements Initializable {
     }
 
     public void register(MouseEvent mouseEvent) {
-        error.setText(LoginAndRegisterController.getInstance().register(username.getText(),password.getText(),nickname.getText()));
+        ArrayList<String> params = new ArrayList<>(){{
+            add(username.getText());
+            add(password.getText());
+            add(nickname.getText());
+        }};
+        Response response = NetworkController.getInstance().send(new Request(RequestType.Register,params));
+        DataSaver.getInstance().updateUsers();
+        error.setText(response.getMessage());
         error.setVisible(true);
-    }
-
-    public void quit(ActionEvent actionEvent) {
-//        Main.scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(WindowEvent windowEvent) {
-//                close();
-//            }
-//        });
     }
 }

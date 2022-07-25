@@ -64,6 +64,7 @@ public class MainPageController implements Initializable {
         media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.05);
+        mediaPlayer.setMute(true);
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
         mediaPlayer.play();
     }

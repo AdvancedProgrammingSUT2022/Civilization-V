@@ -26,5 +26,5 @@
       <Label fx:id="error" styleClass="errors" text="" visible="false" />
    </VBox>
    <Label fx:id="menuName" styleClass="loginFont" />
-   <Button layoutX="81.0" layoutY="58.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" onAction="#quit" text="Quit" />
+   <Button layoutX="81.0" layoutY="58.0" mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Quit" />
 </Pane>

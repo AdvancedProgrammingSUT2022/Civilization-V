@@ -3,6 +3,7 @@ package View.GraphicViewController;
 import Controller.NetworkController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.ProfileMenuController;
+import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
 import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
@@ -68,8 +69,8 @@ public class ProfilePageController implements Initializable {
             add(newNickname.getText());
         }};
         Response response = NetworkController.getInstance().send(new Request(RequestType.ChangeNickname,params));
+        DataSaver.getInstance().updateUsers();
         nickNameError.setText(response.getMessage());
-        ProfileMenuController.getInstance().changeNickname(newNickname.getText());
         nickNameError.setVisible(true);
     }
 
@@ -79,8 +80,8 @@ public class ProfilePageController implements Initializable {
             add(newPass.getText());
         }};
         Response response = NetworkController.getInstance().send(new Request(RequestType.ChangePassword,params));
+        DataSaver.getInstance().updateUsers();
         PasswordError.setText(response.getMessage());
-        ProfileMenuController.getInstance().changeCurrentPassword(oldPass.getText(),newPass.getText());
         PasswordError.setVisible(true);
     }
 
@@ -101,7 +102,6 @@ public class ProfilePageController implements Initializable {
         int index = LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex();
         if(index - 1 == -1)index = Images.profilePics.pics.size() ;
         profilePic.setImage(Images.profilePics.pics.get(index - 1));
-        LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(index -1);
     }
 
     public void choosePic(MouseEvent mouseEvent) {
@@ -112,6 +112,5 @@ public class ProfilePageController implements Initializable {
         ArrayList<String> param = new ArrayList<>();
         param.add(Integer.toString(Images.profilePics.pics.indexOf(image)));
         NetworkController.getInstance().send(new Request(RequestType.ChoosePic,param));
-        LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(Images.profilePics.pics.indexOf(image));
     }
 }

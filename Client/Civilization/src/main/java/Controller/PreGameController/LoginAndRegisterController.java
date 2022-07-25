@@ -25,6 +25,13 @@ public class LoginAndRegisterController extends Controller{
         }
         return null;
     }
+    public User getUser(User user){
+        for (User key:users) {
+            if(key.getUsername().equals(user.getUsername()))
+                return key;
+        }
+        return null;
+    }
     public ArrayList<User> getUsers() {
         return users;
     }
@@ -39,22 +46,6 @@ public class LoginAndRegisterController extends Controller{
         this.loggedInUser = loggedInUser;
     }
 
-    public String register(String username , String password , String nickname){
-        if(usernameCheck(username) == null) {
-            for (User key:users) {
-                if(key.getNickname().equals(nickname))
-                    return "user with nickname " + key.getNickname() +" already exists";
-            }
-            User user = new User();
-            user.setNickname(nickname);
-            user.setUsername(username);
-            user.setPassword(password);
-            users.add(user);
-            return "user created successfully";
-        }
-        else return "user with username " + username + " already exists";
-    }
-
     public User usernameCheck(String username){
         for (User key:users) {
             if(key.getUsername().equals(username))
@@ -62,16 +53,6 @@ public class LoginAndRegisterController extends Controller{
         }
         return null;
     }
-
-    public String login(String username , String password){
-        if(username.equals(""))return "enter username!";
-        User user = usernameCheck(username);
-        if(user == null)return "Username and password didn’t match!";
-        if(!user.getPassword().equals(password))return "Username and password didn’t match!";
-        setLoggedInUser(user);
-        return "user logged in successfully!";
-    }
-
     @Override
     public String showCurrentMenu() {
         return "Login menu";

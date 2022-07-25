@@ -11,7 +11,6 @@ public class NetworkController {
         if (instance == null) instance = new NetworkController();
         return instance;
     }
-
     private ServerSocket serverSocket;
     public void initializeServer(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
@@ -22,5 +21,4 @@ public class NetworkController {
             new SocketHandler(socket).start();
         }
     }
-
 }
