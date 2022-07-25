@@ -24,8 +24,8 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             NetworkController.getInstance().connect();
-            NetworkController.getInstance().listenForServerUpdates();
         }catch(Exception e){
+            e.printStackTrace();
             System.out.println("connection Failed");
         }
         Parent root = loadFXML(Menus.Trailer.value);

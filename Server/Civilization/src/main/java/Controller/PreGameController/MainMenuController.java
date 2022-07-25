@@ -1,5 +1,8 @@
 package Controller.PreGameController;
 
+import Model.NetworkRelated.NetworkController;
+import Model.NetworkRelated.Update;
+import Model.NetworkRelated.UpdateType;
 import Model.User.User;
 
 import java.util.ArrayList;
@@ -16,10 +19,6 @@ public class MainMenuController extends Controller{
         if(mainMenuController == null)
             mainMenuController = new MainMenuController();
         return mainMenuController;
-    }
-    public String userLogout(User loggedInUser){
-        loggedInUser = null;
-        return "user logged out successfully!";
     }
 
 
@@ -60,4 +59,19 @@ public class MainMenuController extends Controller{
         return "menu navigation is not possible";
     }
 
+    public String sendInvite(String sender,String receiver) {
+        User user = LoginAndRegisterController.getInstance().getUser(receiver);
+        if(user == null) return "no such user exists";
+        if(LoginAndRegisterController.getInstance().getUser(sender).equals(user))return "you can't invite yourself!";
+        System.out.println(user + "    " + user.getUsername());
+        for (User online:NetworkController.getInstance().getOnlineUsers()) {
+            System.out.println(online + "    " + online.getUsername());
+        }
+        if(!NetworkController.getInstance().getOnlineUsers().contains(user))return "user is offline";
+        ArrayList<String> params = new ArrayList<>(){{
+            add(sender);
+        }};
+        NetworkController.getInstance().sendUpdate(new Update(UpdateType.invitation,params),user);
+        return "invite sent";
+    }
 }

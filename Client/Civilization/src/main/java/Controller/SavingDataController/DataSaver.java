@@ -86,6 +86,7 @@ public class DataSaver {
             e.printStackTrace();
         }
     }
+
     public void saveGame() throws FileNotFoundException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();

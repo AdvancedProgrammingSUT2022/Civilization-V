@@ -1,4 +1,4 @@
-package main.java;
+
 
 import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
@@ -13,34 +13,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class Main extends Application {
-    public static Scene scene;
-    private static Stage stage;
+public class Main {
     public static void main(String[] args){
-        launch();
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        DataSaver.getInstance().loadUsers();
-        NetworkController.getInstance().initializeServer(8000);
-        NetworkController.getInstance().listenForClients();
-    }
-
-    public static void changeMenu(String name){
-        Parent root = loadFXML(name);
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private static Parent loadFXML(String name){
         try {
-            URL address = new URL(Objects.requireNonNull(Main.class.getResource("/fxml/" + name + ".fxml")).toString());
-            return FXMLLoader.load(address);
+            DataSaver.getInstance().loadUsersForTheFirstTime();
+            NetworkController.getInstance().initializeServer(8000);
+            System.out.println("listening on port 8000");
+            NetworkController.getInstance().listenForClients();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 }

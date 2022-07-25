@@ -19,9 +19,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import main.java.Main;
+
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -48,7 +49,7 @@ public class LoginPageController implements Initializable {
         mediaPlayer.setVolume(0.05);
         mediaPlayer.setMute(true);
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
-        mediaPlayer.play();
+        //mediaPlayer.play();
     }
     
     public void buttonSizeIncrease(MouseEvent mouseEvent) {
@@ -62,19 +63,23 @@ public class LoginPageController implements Initializable {
     }
 
     public void login(MouseEvent mouseEvent) {
-        Response responseUser = NetworkController.getInstance().send(new Request(RequestType.Users,new ArrayList<>()));
-        DataSaver.getInstance().setUsersFromJsonString(responseUser.getMessage());
         ArrayList<String> params = new ArrayList<>(){{
             add(username.getText());
             add(password.getText());
         }};
-
         Response response = NetworkController.getInstance().send(new Request(RequestType.Login,params));
         DataSaver.getInstance().updateUsers();
         LoginAndRegisterController.getInstance().setLoggedInUser(LoginAndRegisterController.getInstance().getUser(username.getText()));
         error.setText(response.getMessage());
         error.setVisible(true);
         if(error.getText().equals("user logged in successfully!")){
+            //connecting reader socket
+            try {
+                NetworkController.getInstance().listenForServerUpdates(username.getText());
+            } catch (IOException e) {
+                System.out.println("readerSocket connection failed");
+                e.printStackTrace();
+            }
             mediaPlayer.stop();
             main.java.Main.changeMenu(Menus.MAIN_MENU.value);
         }

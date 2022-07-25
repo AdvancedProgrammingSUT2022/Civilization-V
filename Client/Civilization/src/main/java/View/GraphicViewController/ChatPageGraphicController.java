@@ -24,7 +24,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Window;
-import main.java.Main;
 import javafx.stage.Popup;
 import org.w3c.dom.Text;
 
@@ -163,7 +162,7 @@ public class ChatPageGraphicController {
         popup_vBox.setPrefHeight(400);
         popup_vBox.setPrefWidth(400);
         Popup GroupPopup = new Popup();
-        Window window = Main.scene.getWindow();
+        Window window = main.java.Main.scene.getWindow();
         GroupPopup.getContent().add(popup_vBox);
         GroupPopup.setY(window.getHeight() / 3);
         GroupPopup.setX(window.getWidth() / 3);
@@ -278,8 +277,8 @@ public class ChatPageGraphicController {
 
     public void backToMain(MouseEvent mouseEvent){
         if(CalledMethods.getInstance().getMethodsName().get(CalledMethods.getInstance().getMethodsName().size()-1).equals("MainPage"))
-            Main.changeMenu(Menus.MAIN_MENU.value);
-        else Main.changeMenu(Menus.GAME_MENU.value);
+            main.java.Main.changeMenu(Menus.MAIN_MENU.value);
+        else main.java.Main.changeMenu(Menus.GAME_MENU.value);
     }
 
     public void OpacityGroupIconToDefault(MouseEvent mouseEvent) {

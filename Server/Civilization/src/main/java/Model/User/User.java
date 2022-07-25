@@ -5,9 +5,17 @@ import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class User {
+    transient private Socket updateSocket;
+    transient private DataOutputStream dataOutputStream;
+    transient private boolean isOnline = false;
+
     @Expose
     private String username;
     @Expose
@@ -19,12 +27,24 @@ public class User {
     @Expose
     private int profPicIndex;
     @Expose
-    private boolean isOnline = false;
-    @Expose
     private ArrayList<Chat> chats = new ArrayList<>();
     
     public String getUsername() {
         return username;
+    }
+
+    public void setUpdateSocket(Socket updateSocket) {
+        this.updateSocket = updateSocket;
+        try {
+            dataOutputStream = new DataOutputStream(updateSocket.getOutputStream());
+        } catch (IOException e) {
+            System.out.println("stream failed");
+            e.printStackTrace();
+        }
+    }
+
+    public DataOutputStream getDataOutputStream() {
+        return dataOutputStream;
     }
 
     public int getScore() {

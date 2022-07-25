@@ -14,6 +14,7 @@ public enum Menus {
     PRE_GAME("preGame"),
     Tech_Tree("TechTree"),
     Trailer("trailer"),
+    WaitingRoom("WaitingRoom"),
     LoadMenu("LoadMenu");
 
     public final String value;

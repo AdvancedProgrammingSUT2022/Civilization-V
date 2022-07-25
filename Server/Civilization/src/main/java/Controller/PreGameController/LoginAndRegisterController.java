@@ -32,6 +32,7 @@ public class LoginAndRegisterController extends Controller{
         }
         return null;
     }
+
     public ArrayList<User> getUsers() {
         return users;
     }
@@ -41,7 +42,7 @@ public class LoginAndRegisterController extends Controller{
 
 
     public String register(String username , String password , String nickname){
-        if(usernameCheck(username) == null) {
+        if(getUser(username) == null) {
             for (User key:users) {
                 if(key.getNickname().equals(nickname))
                     return "user with nickname " + key.getNickname() +" already exists";
@@ -57,13 +58,6 @@ public class LoginAndRegisterController extends Controller{
         else return "user with username " + username + " already exists";
     }
 
-    public User usernameCheck(String username){
-        for (User key:users) {
-            if(key.getUsername().equals(username))
-                return key;
-        }
-        return null;
-    }
 
     @Override
     public String showCurrentMenu() {
