@@ -29,7 +29,10 @@ public class ProfileMenuController extends Controller{
     public void increaseImageIndex(int size,User loggedInUser){
         int index = loggedInUser.getProfPicIndex();
         if(index + 1 == size)index = -1;
+        LoginAndRegisterController.getInstance().getUser(loggedInUser).setProfPicIndex(index + 1);
+        System.out.println(LoginAndRegisterController.getInstance().getUser(loggedInUser).getProfPicIndex());
         loggedInUser.setProfPicIndex(index + 1);
+        System.out.println(LoginAndRegisterController.getInstance().getUser(loggedInUser).getProfPicIndex());
         DataSaver.getInstance().saveUsers();
     }
     public String changeCurrentPassword(String old,String newPass,User loggedInUser) {
@@ -51,8 +54,9 @@ public class ProfileMenuController extends Controller{
     }
 
     public void decreaseImageIndex(int size,User loggedInUser) {
-        int index = loggedInUser.getProfPicIndex();
+        int index = LoginAndRegisterController.getInstance().getUser(loggedInUser).getProfPicIndex();
         if(index - 1 == -1)index = size;
+        LoginAndRegisterController.getInstance().getUser(loggedInUser).setProfPicIndex(index - 1);
         loggedInUser.setProfPicIndex(index - 1);
         DataSaver.getInstance().saveUsers();
     }

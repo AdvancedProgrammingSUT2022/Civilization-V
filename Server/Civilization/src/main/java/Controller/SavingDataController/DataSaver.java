@@ -44,7 +44,7 @@ public class DataSaver {
     }
 
     private AutoSave autoSave;
-    public String loadUsers() {
+    public synchronized String loadUsers() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserSaves/UserDatabase.json")));
             ArrayList<User> createdUsers;
@@ -59,7 +59,7 @@ public class DataSaver {
         }
         return null;
     }
-    public void saveUsers() {
+    public synchronized void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter("./src/main/resources/UserSaves/UserDatabase.json");
             fileWriter.write(new Gson().toJson(LoginAndRegisterController.getInstance().getUsers()));
@@ -68,7 +68,7 @@ public class DataSaver {
             e.printStackTrace();
         }
     }
-    public void saveGame() throws FileNotFoundException {
+    public synchronized void saveGame() throws FileNotFoundException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         GameMap.getInstance().saveHashmap();
@@ -76,7 +76,7 @@ public class DataSaver {
         saveToFile(json);
     }
 
-    public void loadGame(String fileName) throws IOException {
+    public synchronized void loadGame(String fileName) throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         String json = loadFromFile(fileName);

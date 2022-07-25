@@ -54,10 +54,6 @@ public class SocketHandler extends Thread {
             case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case ChoosePic ->  loggedInUser.setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
         }
-        if(loggedInUser != null)
-            System.out.println(loggedInUser.getUsername());
-        else
-            System.out.println("im null bitch");
         return new Response(response);
     }
 
@@ -67,7 +63,6 @@ public class SocketHandler extends Thread {
         if(user == null)return "Username and password didn’t match!";
         if(!user.getPassword().equals(password))return "Username and password didn’t match!";
         loggedInUser = user;
-        System.out.println(loggedInUser.getUsername());
         return "user logged in successfully!";
     }
 

@@ -24,6 +24,14 @@ public class LoginAndRegisterController extends Controller{
         }
         return null;
     }
+
+    public User getUser(User user){
+        for (User key:users) {
+            if(key.getUsername().equals(user.getUsername()))
+                return key;
+        }
+        return null;
+    }
     public ArrayList<User> getUsers() {
         return users;
     }

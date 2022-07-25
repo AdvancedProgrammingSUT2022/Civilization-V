@@ -50,7 +50,6 @@ public class LoginAndRegisterController extends Controller{
             user.setUsername(username);
             user.setPassword(password);
             users.add(user);
-           // DataSaver.getInstance().saveUsers();
             return "user created successfully";
         }
         else return "user with username " + username + " already exists";
