@@ -1,4 +1,4 @@
-package main.java;
+
 
 import Controller.NetworkController;
 import Controller.SavingDataController.DataSaver;
@@ -22,7 +22,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        DataSaver.getInstance().loadUsers();
         try {
             NetworkController.getInstance().connect();
             NetworkController.getInstance().listenForServerUpdates();

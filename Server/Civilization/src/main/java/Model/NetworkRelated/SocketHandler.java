@@ -52,6 +52,7 @@ public class SocketHandler extends Thread {
             case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)));
             case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)));
             case ChoosePic ->  LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
+            case sendInvite -> MainMenuController.getInstance().sendInvite(request.getParams().get(0));
         }
         return new Response(response);
     }

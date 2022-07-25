@@ -1,6 +1,8 @@
 package Controller;
+import Controller.PreGameController.LoginAndRegisterController;
 import Model.NetworkRelated.Request;
 import Model.NetworkRelated.Response;
+import Model.NetworkRelated.ResponseType;
 import com.google.gson.Gson;
 
 import java.io.DataInputStream;
@@ -19,9 +21,9 @@ public class NetworkController {
     public DataOutputStream outputStream;
 
     public Thread listener;
-    public Scanner scanner;
 
     private int port = 8000;
+    private int listenerPort = 8500;
 
     public static NetworkController getInstance(){
         if(networkController == null)
@@ -35,14 +37,14 @@ public class NetworkController {
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException ignored) {
-            ignored.printStackTrace();
+            System.out.println("connection Failed!");
             return false;
         }
         return true;
     }
 
     public void listenForServerUpdates() throws IOException {
-        listenerSocket = new Socket("localhost",port);
+        listenerSocket = new Socket("localhost",listenerPort);
         DataInputStream inputListenerStream = new DataInputStream(listenerSocket.getInputStream());
         DataOutputStream outputListenerStream = new DataOutputStream(listenerSocket.getOutputStream());
         listener = new Thread(() -> {
@@ -59,7 +61,9 @@ public class NetworkController {
     }
 
     private void handleResponse(Response fromJson) {
+        if(fromJson.getResponseType().equals(ResponseType.invitation)){
 
+        }
     }
 
     private void disconnect() {

@@ -34,8 +34,8 @@
                   <children>
                      <HBox alignment="CENTER" prefHeight="76.0" prefWidth="439.0" spacing="7.0">
                         <children>
-                           <Label fx:id="inviteDes" prefHeight="21.0" prefWidth="94.0" styleClass="loginFont" text="Send Invite:" />
-                           <TextField prefHeight="31.0" prefWidth="219.0" promptText="Enter player's Username" styleClass="textFields" />
+                           <Label fx:id="inviteDes" prefHeight="21.0" prefWidth="94.0" styleClass="loginFont" text="Send Invite:" onMouseClicked="#sendInvite"/>
+                           <TextField fx:id="inviteUsername" prefHeight="31.0" prefWidth="219.0" promptText="Enter player's Username" styleClass="textFields" />
                            <Button mnemonicParsing="false" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="Send" />
                         </children>
                      </HBox>

@@ -17,6 +17,7 @@ public class MainMenuController extends Controller{
             mainMenuController = new MainMenuController();
         return mainMenuController;
     }
+
     public String userLogout(){
         LoginAndRegisterController.getInstance().setLoggedInUser(null);
         return "user logged out successfully!";
@@ -60,4 +61,9 @@ public class MainMenuController extends Controller{
         return "menu navigation is not possible";
     }
 
+    public String sendInvite(String username) {
+        User user = LoginAndRegisterController.getInstance().getUser(username);
+        if(user == null) return "no such user exists";
+        if(user)
+    }
 }

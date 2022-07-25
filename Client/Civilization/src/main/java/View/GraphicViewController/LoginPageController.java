@@ -68,7 +68,15 @@ public class LoginPageController implements Initializable {
     }
 
     public void register(MouseEvent mouseEvent) {
-        error.setText(LoginAndRegisterController.getInstance().register(username.getText(),password.getText(),nickname.getText()));
+        Response responseUser = NetworkController.getInstance().send(new Request(RequestType.Users,new ArrayList<>()));
+        DataSaver.getInstance().setUsersFromJsonString(responseUser.getMessage());
+        ArrayList<String> params = new ArrayList<>(){{
+            add(username.getText());
+            add(password.getText());
+            add(nickname.getText());
+        }};
+        Response response = NetworkController.getInstance().send(new Request(RequestType.Register,params));
+        error.setText(response.getMessage());
         error.setVisible(true);
     }
 

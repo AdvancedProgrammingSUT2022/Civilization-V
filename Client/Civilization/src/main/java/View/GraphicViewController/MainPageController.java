@@ -42,6 +42,8 @@ public class MainPageController implements Initializable {
     private TextField mapWidth;
     @FXML
     private TextField mapHeight;
+    @FXML
+    private TextField inviteUsername;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,5 +121,12 @@ public class MainPageController implements Initializable {
             DataSaver.getInstance().setAutoSave(AutoSave.AfterEveryTurn);
         else if(autoSave.getValue().equals("every 200 years"))
             DataSaver.getInstance().setAutoSave(AutoSave.EveryNYears);
+    }
+
+    @FXML
+    private void sendInvite(MouseEvent mouseEvent) {
+        NetworkController.getInstance().send(new Request(RequestType.sendInvite,new ArrayList<>(){{
+            add(inviteUsername.getText());
+        }}));
     }
 }

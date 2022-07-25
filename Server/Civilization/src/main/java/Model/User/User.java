@@ -19,7 +19,6 @@ public class User {
     private int score ;
     @Expose
     private int profPicIndex;
-    @Expose
     private boolean isOnline = false;
     @Expose
     private ArrayList<Chat> chats = new ArrayList<>();
