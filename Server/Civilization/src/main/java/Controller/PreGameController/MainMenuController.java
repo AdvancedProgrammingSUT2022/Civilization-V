@@ -17,8 +17,8 @@ public class MainMenuController extends Controller{
             mainMenuController = new MainMenuController();
         return mainMenuController;
     }
-    public String userLogout(){
-        LoginAndRegisterController.getInstance().setLoggedInUser(null);
+    public String userLogout(User loggedInUser){
+        loggedInUser = null;
         return "user logged out successfully!";
     }
 

@@ -47,12 +47,8 @@ public class LoginPageController implements Initializable {
         file = new File("./src/main/resources/media/civMedia.mp3");
         media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-        });
+        mediaPlayer.setVolume(0.05);
+        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
         mediaPlayer.play();
     }
     

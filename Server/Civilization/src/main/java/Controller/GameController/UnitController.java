@@ -27,7 +27,6 @@ import Model.Units.Combat.Siege;
 import Model.Units.TypeEnums.CombatType;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitStateType;
-import View.GraphicViewController.GameplayGraphicController;
 
 public class UnitController {
     private static UnitController unitController;

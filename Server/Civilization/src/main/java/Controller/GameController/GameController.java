@@ -16,8 +16,6 @@ import Model.TileRelated.Road.Road;
 import Model.Units.TypeEnums.UnitStateType;
 import Model.User.User;
 import Model.Units.Unit;
-import Controller.GameController.MapControllers.MapGenerator;
-import View.GameView.Game;
 
 import java.io.FileNotFoundException;
 import java.util.*;

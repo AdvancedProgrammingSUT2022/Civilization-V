@@ -6,7 +6,6 @@ import Model.User.User;
 import java.util.regex.Matcher;
 
 import Controller.Controller.Controller;
-import View.Images;
 
 public class ProfileMenuController extends Controller{
 
@@ -17,25 +16,26 @@ public class ProfileMenuController extends Controller{
             profileMenuController = new ProfileMenuController();
         return profileMenuController;
     }
-    public String changeNickname(String newNickname){
+    public String changeNickname(String newNickname,User loggedInUser){
         if(newNickname.equals(""))return "field is empty";
         for (User key: LoginAndRegisterController.getInstance().getUsers()) {
             if(key.getNickname().equals(newNickname))
                 return "user with nickname "+ key.getNickname() +" already exists";
         }
-        LoginAndRegisterController.getInstance().getLoggedInUser().setNickname(newNickname);
+        loggedInUser.setNickname(newNickname);
         DataSaver.getInstance().saveUsers();
         return "nickname changed successfully!";
     }
-    public void increaseImageIndex(int size){
-        int index = LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex();
+    public void increaseImageIndex(int size,User loggedInUser){
+        int index = loggedInUser.getProfPicIndex();
         if(index + 1 == size)index = -1;
-        LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(index + 1);
+        loggedInUser.setProfPicIndex(index + 1);
+        DataSaver.getInstance().saveUsers();
     }
-    public String changeCurrentPassword(String old,String newPass) {
-        if(!old.equals(LoginAndRegisterController.getInstance().getLoggedInUser().getPassword()))return "current password is invalid";
+    public String changeCurrentPassword(String old,String newPass,User loggedInUser) {
+        if(!old.equals(loggedInUser.getPassword()))return "current password is invalid";
         if(old.equals(newPass))return "please enter a new password";
-        LoginAndRegisterController.getInstance().getLoggedInUser().setPassword(newPass);
+        loggedInUser.setPassword(newPass);
         DataSaver.getInstance().saveUsers();
         return "password changed successfully!";
     }
@@ -50,9 +50,10 @@ public class ProfileMenuController extends Controller{
         return "menu navigation is not possible";
     }
 
-    public void decreaseImageIndex(int size) {
-        int index = LoginAndRegisterController.getInstance().getLoggedInUser().getProfPicIndex();
+    public void decreaseImageIndex(int size,User loggedInUser) {
+        int index = loggedInUser.getProfPicIndex();
         if(index - 1 == -1)index = size;
-        LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(index - 1);
+        loggedInUser.setProfPicIndex(index - 1);
+        DataSaver.getInstance().saveUsers();
     }
 }

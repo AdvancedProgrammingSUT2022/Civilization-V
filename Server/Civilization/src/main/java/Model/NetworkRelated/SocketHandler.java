@@ -4,8 +4,7 @@ import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
 import Controller.PreGameController.ProfileMenuController;
 import Controller.SavingDataController.DataSaver;
-import View.GraphicViewController.LoginPageController;
-import View.Images;
+import Model.User.User;
 import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,6 +16,8 @@ public class SocketHandler extends Thread {
     private final Socket socket;
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
+
+    private User loggedInUser;
 
     public SocketHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -43,17 +44,31 @@ public class SocketHandler extends Thread {
     private Response handleRequest(Request request) {
         String response = null;
         switch (request.getRequestType()){
-            case Login -> response = LoginAndRegisterController.getInstance().login(request.getParams().get(0),request.getParams().get(1));
+            case Login -> response = login(request.getParams().get(0),request.getParams().get(1));
             case Register -> response = LoginAndRegisterController.getInstance().register(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
-            case Logout -> response = MainMenuController.getInstance().userLogout();
+            case Logout -> response = MainMenuController.getInstance().userLogout(loggedInUser);
             case Users -> response = DataSaver.getInstance().loadUsers();
-            case ChangeNickname -> response = ProfileMenuController.getInstance().changeNickname(request.getParams().get(0));
-            case ChangePassword -> response = ProfileMenuController.getInstance().changeCurrentPassword(request.getParams().get(0),request.getParams().get(1));
-            case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)));
-            case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)));
-            case ChoosePic ->  LoginAndRegisterController.getInstance().getLoggedInUser().setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
+            case ChangeNickname -> response = ProfileMenuController.getInstance().changeNickname(request.getParams().get(0),loggedInUser);
+            case ChangePassword -> response = ProfileMenuController.getInstance().changeCurrentPassword(request.getParams().get(0),request.getParams().get(1),loggedInUser);
+            case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
+            case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
+            case ChoosePic ->  loggedInUser.setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
         }
+        if(loggedInUser != null)
+            System.out.println(loggedInUser.getUsername());
+        else
+            System.out.println("im null bitch");
         return new Response(response);
+    }
+
+    public String login(String username , String password){
+        if(username.equals(""))return "enter username!";
+        User user = LoginAndRegisterController.getInstance().usernameCheck(username);
+        if(user == null)return "Username and password didn’t match!";
+        if(!user.getPassword().equals(password))return "Username and password didn’t match!";
+        loggedInUser = user;
+        System.out.println(loggedInUser.getUsername());
+        return "user logged in successfully!";
     }
 
 }

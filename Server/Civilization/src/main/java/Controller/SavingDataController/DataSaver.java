@@ -21,8 +21,6 @@ import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
-import View.GameView.Game;
-import View.GraphicViewController.LoginPageController;
 import com.google.gson.Gson;
 import Model.User.User;
 import com.google.gson.GsonBuilder;

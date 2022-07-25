@@ -16,7 +16,6 @@ public class LoginAndRegisterController extends Controller{
         return loginAndRegisterController;
     }
     private ArrayList<User> users = new ArrayList<>();
-    private  User loggedInUser;
 
     public User getUser(String username){
         for (User key:users) {
@@ -31,13 +30,7 @@ public class LoginAndRegisterController extends Controller{
     public void setUsers(ArrayList<User> createdUsers){
         users = createdUsers;
     }
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
 
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
 
     public String register(String username , String password , String nickname){
         if(usernameCheck(username) == null) {
@@ -64,22 +57,12 @@ public class LoginAndRegisterController extends Controller{
         return null;
     }
 
-    public String login(String username , String password){
-        if(username.equals(""))return "enter username!";
-        User user = usernameCheck(username);
-        if(user == null)return "Username and password didn’t match!";
-        if(!user.getPassword().equals(password))return "Username and password didn’t match!";
-        setLoggedInUser(user);
-        return "user logged in successfully!";
-    }
-
     @Override
     public String showCurrentMenu() {
         return "Login menu";
     }
     @Override
     public String enterMenu(Matcher matcher) {
-        if(loggedInUser == null)return "please login first";
         if(matcher.group("menu").equals("Main_Menu"))return "done!";
         return "menu navigation is not possible";
     }

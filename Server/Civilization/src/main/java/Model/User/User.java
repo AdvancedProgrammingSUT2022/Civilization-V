@@ -1,7 +1,6 @@
 package Model.User;
 
 import Model.ChatRelated.Chat;
-import View.Images;
 import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
