@@ -1,5 +1,6 @@
 package Controller.PreGameController;
 
+import Controller.GameController.MapControllers.MapGenerator;
 import Model.NetworkRelated.NetworkController;
 import Model.NetworkRelated.Update;
 import Model.NetworkRelated.UpdateType;
@@ -22,31 +23,19 @@ public class MainMenuController extends Controller{
     }
 
 
-    public String gameStart(Matcher matcher , ArrayList<User> players){
-        String regex = "--player(?<num>\\d+) (?<user>\\S+)";
-        HashMap<Integer,String> numbers = new HashMap<>();
-        Matcher matcher2 = Pattern.compile(regex).matcher(matcher.group("playerData"));
-        while (matcher2.find()){
-            numbers.put(Integer.parseInt(matcher2.group("num")) , matcher2.group("user"));
-        }
-        if(numbers.size() <= 1)return "not a valid command!";
-
-        for (int t = 1; t <= numbers.size() ; t++) {
-            String username;
-            if((username = numbers.get(t)) == null)return "player numbers are not valid";
-            boolean playerExists = false;
-            for (User key: LoginAndRegisterController.getInstance().getUsers()) {
-                if(key.getUsername().equals(username)){
-                    playerExists = true;
-                    for (User key2:players) {
-                        if(key2.getUsername().equals(username))return "repetitive username";
-                    }
-                    players.add(key);
-                }
+    public void gameStart(ArrayList<String> players){
+        int mapWidth = Integer.parseInt(players.get(0));
+        int mapHeight = Integer.parseInt(players.get(1));
+        players.remove(0);
+        players.remove(0);
+        ArrayList<User> users = new ArrayList<>(){{
+            for (String username:players) {
+                if(LoginAndRegisterController.getInstance().getUser(username) != null)
+                add(LoginAndRegisterController.getInstance().getUser(username));
             }
-            if(!playerExists)return "not a valid username";
-        }
-         return "game has started!";
+        }};
+        MapGenerator.getInstance().gameInit(users, mapWidth, mapHeight);
+        System.out.println("map has been generated");
     }
 
     @Override
@@ -73,5 +62,14 @@ public class MainMenuController extends Controller{
         }};
         NetworkController.getInstance().sendUpdate(new Update(UpdateType.invitation,params),user);
         return "invite sent";
+    }
+
+
+    public void inviteAcceptation(String acceptanceStatus, String sender, String invitee) {
+        Update update = new Update(UpdateType.inviteAcceptance,new ArrayList<>(){{
+            add(acceptanceStatus);
+            add(invitee);
+        }});
+        NetworkController.getInstance().sendUpdate(update,LoginAndRegisterController.getInstance().getUser(sender));
     }
 }

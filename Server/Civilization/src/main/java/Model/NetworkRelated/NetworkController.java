@@ -19,7 +19,13 @@ public class NetworkController {
     }
 
     public void sendUpdate(Update update,User receiver){
-
+        try {
+            receiver.getDataOutputStream().writeUTF(update.toJson());
+            receiver.getDataOutputStream().flush();
+        } catch (IOException e) {
+            System.out.println("couldn't send update");
+            e.printStackTrace();
+        }
     }
 
     public void addOnlineUser(User user){

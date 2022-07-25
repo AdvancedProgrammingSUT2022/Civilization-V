@@ -56,6 +56,7 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        MainMenuController.getInstance().addPlayer(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
         menuName.setText(MainMenuController.getInstance().showCurrentMenu());
         autoSave.getItems().add("after every 100 years");
         autoSave.getItems().add("every 200 years");
@@ -119,15 +120,15 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void startGame(MouseEvent mouseEvent) {
-        ArrayList<User> users = new ArrayList<>();
-        users.add(LoginAndRegisterController.getInstance().getUser("nima"));
-        users.add(LoginAndRegisterController.getInstance().getUser("sero"));
-        users.add(LoginAndRegisterController.getInstance().getUser("arash"));
-        if(Integer.parseInt(mapHeight.getText()) > 0 && Integer.parseInt(mapWidth.getText()) > 0) {
+        ArrayList<String> players = MainMenuController.getInstance().getPlayers();
+        if(Integer.parseInt(playerNum.getText()) != players.size())notification.setText("player count is invalid!");
+        else if(Integer.parseInt(mapHeight.getText()) < 5 || Integer.parseInt(mapWidth.getText()) < 5)notification.setText("map config is invalid");
+        else {
+            players.add(0,mapHeight.getText());
+            players.add(0,mapWidth.getText());
             mediaPlayer.stop();
-            MapGenerator.getInstance().gameInit(users, Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
-            System.out.println( "first turn:" + GameController.getInstance().getPlayerTurn().getUser().getUsername());
-            main.java.Main.changeMenu(Menus.GAME_MENU.value);
+            NetworkController.getInstance().send(new Request(RequestType.startGame,players));
+            //main.java.Main.changeMenu(Menus.GAME_MENU.value);
         }
     }
 

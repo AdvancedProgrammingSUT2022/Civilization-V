@@ -56,16 +56,17 @@ public class SocketHandler extends Thread {
             case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case ChoosePic ->  loggedInUser.setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
-            case registerReaderSocket -> response = registerReaderSocket(request.getParams().get(0));
+            case registerReaderSocket -> registerReaderSocket(request.getParams().get(0));
             case sendInvite -> response = MainMenuController.getInstance().sendInvite(loggedInUser.getUsername(),request.getParams().get(0));
+            case inviteAcceptation -> MainMenuController.getInstance().inviteAcceptation(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
+            case startGame -> MainMenuController.getInstance().gameStart(request.getParams());
         }
         return new Response(response);
     }
 
-    private String registerReaderSocket(String username) {
+    private void registerReaderSocket(String username) {
         LoginAndRegisterController.getInstance().getUser(username).setUpdateSocket(socket);
         working = false;
-        return "connection made";
     }
 
     public String login(String username , String password){
