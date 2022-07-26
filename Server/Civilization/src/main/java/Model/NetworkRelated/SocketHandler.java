@@ -77,7 +77,7 @@ public class SocketHandler extends Thread {
             case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case ChoosePic ->  loggedInUser.setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
-            case registerReaderSocket -> {registerReaderSocket(request.getParams().get(0)); return null;}
+            case registerReaderSocket -> {registerReaderSocket(request.getParams().get(0));}
             case sendInvite -> response = MainMenuController.getInstance().sendInvite(loggedInUser.getUsername(),request.getParams().get(0));
             case inviteAcceptation -> MainMenuController.getInstance().inviteAcceptation(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
             case startGame -> MainMenuController.getInstance().gameStart(request.getParams());
@@ -106,7 +106,6 @@ public class SocketHandler extends Thread {
             case AcceptFriendship, RejectFriendship -> updateFriendship(request);
             case UpdateGame -> {
                 GameController.getInstance().nextTurn(request.getParams());
-                return null;
             }
         }
         return new Response(response);
@@ -157,5 +156,4 @@ public class SocketHandler extends Thread {
         }
         NetworkController.getInstance().getFriendshipRequests().get(request.getParams().get(0)).remove(request.getParams().get(1));
     }
-
 }

@@ -108,9 +108,7 @@ public class NetworkController {
     public Response send(Request request) {
         try {
             sendMessage(request.toJson(),outputStream);
-            System.out.println("alo alo");
             String response = getMessage(inputStream);
-            System.out.println("greftam");
             return new Gson().fromJson(response,Response.class);
         } catch (IOException e) {
             e.printStackTrace();
