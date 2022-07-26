@@ -69,4 +69,7 @@
    <Label fx:id="menuName" styleClass="loginFont" />
    <Button layoutX="1133.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#openChatroom" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="openChatRoom" />
    <Label fx:id="notification" alignment="CENTER" layoutX="536.0" layoutY="91.0" prefHeight="21.0" prefWidth="429.0" styleClass="errors" />
+   <Button layoutX="800.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#showFriendshipRequests" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="show friendship requests" />
+   <Button layoutX="650.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#addFriend" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" styleClass="buttons" text="add friend" />
+   <Button layoutX="472.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#showFriends" onMouseEntered="#buttonSizeIncrease" onMouseExited="#buttonSizeDecrease" prefHeight="26.0" prefWidth="96.0" styleClass="buttons" text="show friends" />
 </Pane>

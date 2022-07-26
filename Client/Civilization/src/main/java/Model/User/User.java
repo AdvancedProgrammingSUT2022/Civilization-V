@@ -15,6 +15,8 @@ public class User {
     transient private Socket updateSocket;
     transient private DataOutputStream dataOutputStream;
     @Expose
+    private ArrayList<String> friendsName = new ArrayList<>();
+    @Expose
     private boolean isOnline = false;
     @Expose
     private String lastSeen = "";
@@ -107,5 +109,9 @@ public class User {
 
     public String getLastSeen() {
         return lastSeen;
+    }
+
+    public ArrayList<String> getFriendsName() {
+        return friendsName;
     }
 }

@@ -12,12 +12,18 @@ import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
 import Model.NetworkRelated.Response;
 import Model.User.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -31,6 +37,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
@@ -164,5 +171,198 @@ public class MainPageController implements Initializable {
         notification.setText(NetworkController.getInstance().send(new Request(RequestType.sendInvite,new ArrayList<>(){{
             add(inviteUsername.getText());
         }})).getMessage());
+    }
+    @FXML
+    private void showFriendshipRequests(MouseEvent mouseEvent){
+        Request request = new Request(RequestType.ShowFriendshipRequests, new ArrayList<String>());
+        String response = NetworkController.getInstance().send(request).getMessage();
+        System.out.println(response);
+        ArrayList<String> names = new Gson().fromJson(response, new TypeToken<List<String>>() {
+        }.getType());
+        Popup popup = new Popup();
+        Window window = main.java.Main.scene.getWindow();
+        Label text = new Label("Friendship requests");
+        VBox vBox = new VBox(text, new Separator());
+        if(names.size() == 0){
+            Label empty = new Label("no request for friendship:(");
+            vBox.getChildren().add(empty);
+        } else {
+            for(String name : names){
+                DataSaver.getInstance().updateUsers();
+                User user = LoginAndRegisterController.getInstance().usernameCheck(name);
+                String profIndex = String.valueOf(user.getProfPicIndex() + 1);
+                ImageView u_imageView = creatingImageView("/images/profiles/"+profIndex+".png", 60, 60);
+                Label label = new Label("\n"+name+" has sent friend ship request");
+                Button accept = creatingButton("accept");
+                Button reject = creatingButton("reject");
+                HBox hBox = new HBox(u_imageView, label);
+                HBox b_hBox = new HBox(new Label("\t\t"), accept, new Label("\t\t"), reject);
+                vBox.getChildren().add(hBox);
+                vBox.getChildren().add(b_hBox);
+                vBox.getChildren().add(new Separator());
+                ArrayList<String> params= new ArrayList<>();
+                params.add(name);
+                params.add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
+                accept.setOnMouseClicked(mouseEvent1 -> {
+                    popup.hide();
+                    user.getFriendsName().add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
+                    LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName().add(name);
+                    // remove from friendship arraylist
+                    Request request1 = new Request(RequestType.AcceptFriendship, params);
+                    request1.setAction("accept");
+                    NetworkController.getInstance().send(request1);
+                    DataSaver.getInstance().updateUsers();
+                });
+                reject.setOnMouseClicked(mouseEvent1 -> {
+                    popup.hide();
+                    Request request1 = new Request(RequestType.RejectFriendship, params);
+                    request1.setAction("reject");
+                    NetworkController.getInstance().send(request1);
+                    DataSaver.getInstance().updateUsers();
+                });
+            }
+        }
+        Button close = creatingButton("close");
+        vBox.setStyle("-fx-background-color: rgba(201, 238, 221, 0.7); -fx-background-radius: 10;");
+        vBox.getChildren().add(close);
+        popup.getContent().add(vBox);
+        popup.setX(300);
+        popup.setY(500);
+        popup.show(window);
+        close.setOnMouseClicked(mouseEvent1 -> {
+            popup.hide();
+        });
+    }
+
+    private Button creatingButton(String name){
+        Button button = new Button(name);
+        button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                + "-fx-text-fill: #4f4e4e;");
+        return button;
+    }
+
+    private javafx.scene.image.ImageView creatingImageView(String address, int FitWidth, int FitHeight) {
+        Image image = new Image(address);
+        javafx.scene.image.ImageView imageView = new ImageView(image);
+        if (FitWidth != 0) imageView.setFitWidth(FitWidth);
+        if (FitHeight != 0) imageView.setFitHeight(FitHeight);
+        return imageView;
+    }
+
+    @FXML
+    private void addFriend(MouseEvent mouseEvent){
+        DataSaver.getInstance().updateUsers();
+        User user = LoginAndRegisterController.getInstance().getLoggedInUser();
+        if(user.getFriendsName().size() != 100){
+            TextField textField = new TextField();
+            textField.setPromptText("search for users ...");
+            textField.setStyle("-fx-font-family: Britannic Bold; -fx-background-radius: 5; -fx-font-size: 18;");
+            Button searchButton = new Button("search");
+            searchButton.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                    " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                    + "-fx-text-fill: #4f4e4e;");
+            Button close = new Button("close");
+            close.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                    " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                    + "-fx-text-fill: #4f4e4e;");
+            HBox hBox = new HBox(textField, searchButton, close);
+            VBox vBox = new VBox(hBox);
+            Popup popup = new Popup();
+            Window window = main.java.Main.scene.getWindow();
+            ScrollPane scrollPane = new ScrollPane(vBox);
+            scrollPane.setMaxHeight(500);
+            scrollPane.setStyle("-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35");
+            popup.getContent().add(scrollPane);
+            popup.show(window);
+            searchButton.setOnMouseClicked(mouseEvent1 -> {
+                ArrayList<String> friends = user.getFriendsName();
+                for(User user1 : LoginAndRegisterController.getInstance().getUsers()){
+                    if(!friends.contains(user1.getUsername()) && user1.getUsername().equals(textField.getText())){
+                        int profIndex = user1.getProfPicIndex()+1;
+                        String address = "./images/profiles/"+profIndex+".png";
+                        ImageView profile = creatingImageView(address, 60, 60);
+                        Button button = null;
+                        Label label = null;
+                        if(user1.getFriendsName().size() != 100) {
+                            button = new Button("add " + user1.getUsername());
+                            button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                                    " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                                    + "-fx-text-fill: #4f4e4e;");
+                            button.setAlignment(Pos.CENTER_RIGHT);
+                        } else {
+                            label = new Label("this user has 100 friends");
+                            label.setStyle("-fx-font-family: Britannic Bold; ");
+                        }
+                        HBox u_hBox;
+                        if(label == null ) u_hBox = new HBox(profile, button);
+                        else u_hBox = new HBox(profile, label);
+                        vBox.getChildren().add(u_hBox);
+                        vBox.getChildren().add(new Separator());
+                        if(button != null) {
+                            button.setOnMouseClicked(mouseEvent2 -> {
+                                popup.hide();
+                                ArrayList<String> params = new ArrayList<>();
+                                params.add(user.getUsername());
+                                params.add(user1.getUsername());
+                                Request request = new Request(RequestType.Friendship, params);
+                                request.setAction("request for friendship");
+                                NetworkController.getInstance().send(request);
+                            });
+                        }
+                    } else if(user1.getUsername().equals(textField.getText()) && friends.contains(user1.getUsername())){
+                        Label error  = new Label("this user is one of your friends");
+                        vBox.getChildren().add(error);
+                    }
+                }
+            });
+            close.setOnMouseClicked(mouseEvent1 ->{
+                popup.hide();
+            });
+        } else {
+            notification.setText("you can not add a friend");
+        }
+    }
+
+    @FXML
+    private void showFriends(MouseEvent mouseEvent){
+        Label friends = new Label("YOUR FRIENDS");
+        VBox vBox = new VBox(friends, new Separator());
+        if(LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName() != null){
+            System.out.println("not null");
+            for(String name : LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName()){
+                User user = LoginAndRegisterController.getInstance().getUser(name);
+                int profIndex = user.getProfPicIndex()+1;
+                String address = "./images/profiles/"+profIndex+".png";
+                ImageView profile = creatingImageView(address, 40, 40);
+                HBox hBox = new HBox(profile, new Separator(), new Label("\n\t"+name));
+                hBox.setPrefHeight(60);
+                hBox.setPrefWidth(400);
+                vBox.getChildren().add(hBox);
+            }
+        } else {
+            System.out.println("nulll");
+            Label label = new Label("you do not have any friends :(");
+            vBox.getChildren().add(label);
+        }
+        Button close = new Button("close");
+        close.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                + "-fx-text-fill: #4f4e4e;");
+        vBox.getChildren().add(close);
+        Popup popup = new Popup();
+        Window window = main.java.Main.scene.getWindow();
+        ScrollPane scrollPane = new ScrollPane(vBox);
+        vBox.setAlignment(Pos.CENTER);
+        scrollPane.setStyle("-fx-background: rgba(0,0,0,0.16); -fx-background-color: transparent ; -fx-arc-height: 35 ; -fx-arc-width: 35");
+        scrollPane.setMaxWidth(600);
+        scrollPane.setMaxHeight(500);
+        popup.getContent().add(scrollPane);
+        popup.setX(300);
+        popup.setY(200);
+        popup.show(window);
+        close.setOnMouseClicked(mouseEvent1 -> {
+            popup.hide();
+        });
     }
 }
