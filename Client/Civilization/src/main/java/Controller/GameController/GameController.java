@@ -18,6 +18,7 @@ import Model.Units.TypeEnums.UnitStateType;
 import Model.User.User;
 import Model.Units.Unit;
 import Controller.GameController.MapControllers.MapGenerator;
+import View.GraphicViewController.GameplayGraphicController;
 
 
 import java.io.FileNotFoundException;
@@ -107,6 +108,7 @@ public class GameController{
     }
     public void setGameMap(Update update) throws IOException {
         GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
+        GameplayGraphicController.updateMade = true;
     }
 
 

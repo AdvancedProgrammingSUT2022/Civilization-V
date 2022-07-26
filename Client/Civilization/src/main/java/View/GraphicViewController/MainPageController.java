@@ -346,7 +346,6 @@ public class MainPageController implements Initializable {
                 vBox.getChildren().add(hBox);
             }
         } else {
-            System.out.println("nulll");
             Label label = new Label("you do not have any friends :(");
             vBox.getChildren().add(label);
         }

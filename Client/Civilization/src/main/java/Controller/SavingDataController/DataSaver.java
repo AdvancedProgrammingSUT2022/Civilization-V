@@ -25,12 +25,14 @@ import Model.Units.NonCombat.Worker;
 import Model.Units.TypeEnums.MainType;
 import Model.Units.TypeEnums.UnitType;
 import Model.Units.Unit;
+import View.GraphicViewController.GameplayGraphicController;
 import View.GraphicViewController.LoginPageController;
 import View.Images;
 import com.google.gson.Gson;
 import Model.User.User;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.shape.Polygon;
 
 public class DataSaver {
     private static DataSaver dataSaver;
@@ -150,6 +152,7 @@ public class DataSaver {
                 gameMap.setPlayerTurn(civilization);
         }
     }
+
 
     public Unit makeUnit(Unit original){
         Unit unit;

@@ -156,6 +156,8 @@ public class GameplayGraphicController implements Initializable {
     private ImageView researchPic;
 
     private boolean moveMode = false;
+
+    public static boolean updateMade = false;
     private boolean cityAttackMode = false;
 
     private boolean attackMode = false;
@@ -229,6 +231,28 @@ public class GameplayGraphicController implements Initializable {
     public void timeline() {
         move();
         pane.requestFocus();
+        checkForUpdates();
+    }
+
+    private void checkForUpdates() {
+        if(updateMade){
+            fixPolyToTile();
+            fixTileToPoly();
+            updateMade = false;
+        }
+    }
+    private void fixTileToPoly() {
+        tileToPoly = new HashMap<>();
+        for (Polygon polygon:polyToTile.keySet()) {
+            tileToPoly.put(polyToTile.get(polygon),polygon);
+        }
+    }
+
+    private void fixPolyToTile() {
+        for (Polygon polygon:polyToTile.keySet()) {
+            Tile tile = MapFunctions.getInstance().getTile(polyToTile.get(polygon).getX(),polyToTile.get(polygon).getY());
+            polyToTile.replace(polygon,tile);
+        }
     }
 
     public Timeline getTimeline() {
