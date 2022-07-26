@@ -807,7 +807,6 @@ public class GameplayGraphicController implements Initializable {
         resetPoly(polygon);
         assignPicToPoly(polygon);
         assignPicToUnits(tile,x,y);
-        assignPicForResources(tile,x,y);
     }
 
     private void assignPicForResources(Tile tile, double x, double y) {
