@@ -384,4 +384,8 @@ public class Civilization {
         }
         return  null;
     }
+
+    public void setSeenBy(HashMap<Tile, Integer> seenBy) {
+        this.seenBy = seenBy;
+    }
 }

@@ -1,5 +1,6 @@
 package Model.MapRelated;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import Controller.GameController.MapControllers.MapFunctions;
@@ -34,10 +35,12 @@ public class GameMap {
 
     public void loadHashMap(){
         for (Civilization civilization:this.civilizations) {
+            HashMap<Tile,Integer> seenBy = new HashMap<>();
             for (int i = 0; i < civilization.getSavingSeenByTile().size(); i++) {
                 Tile tile = getTile(civilization.getSavingSeenByTile().get(i).getX(),civilization.getSavingSeenByTile().get(i).getY());
-                civilization.getSeenBy().put(tile,civilization.getSavingSeenByInteger().get(i));
+                seenBy.put(tile,civilization.getSavingSeenByInteger().get(i));
             }
+            civilization.setSeenBy(seenBy);
         }
     }
     public Tile getTile(int x , int y){
@@ -52,6 +55,7 @@ public class GameMap {
     public void saveHashmap(){
         for (Civilization civilization:civilizations) {
             civilization.newSavingSeenByTile(civilization.getSeenBy().keySet());
+            civilization.setSavingSeenByInteger(new ArrayList<>());
             for (Tile tile:civilization.getSavingSeenByTile()) {
                 civilization.getSavingSeenByInteger().add(civilization.getSeenBy().get(tile));
             }

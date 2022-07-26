@@ -65,6 +65,7 @@ public class GameMap {
     public void saveHashmap(){
         for (Civilization civilization:civilizations) {
             civilization.newSavingSeenByTile(civilization.getSeenBy().keySet());
+            civilization.setSavingSeenByInteger(new ArrayList<>());
             for (Tile tile:civilization.getSavingSeenByTile()) {
                 civilization.getSavingSeenByInteger().add(civilization.getSeenBy().get(tile));
             }
