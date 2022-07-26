@@ -14,7 +14,10 @@ import java.util.ArrayList;
 public class User {
     transient private Socket updateSocket;
     transient private DataOutputStream dataOutputStream;
-    transient private boolean isOnline = false;
+    @Expose
+    private boolean isOnline = false;
+    @Expose
+    private String lastSeen = "";
 
     @Expose
     private String username;
@@ -96,5 +99,13 @@ public class User {
 
     public boolean getOnline(){
         return this.isOnline;
+    }
+
+    public void setLastSeen(String lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public String getLastSeen() {
+        return lastSeen;
     }
 }

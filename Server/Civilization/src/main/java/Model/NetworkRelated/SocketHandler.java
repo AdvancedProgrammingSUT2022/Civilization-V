@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SocketHandler extends Thread {
     private boolean working = true;
@@ -75,11 +77,19 @@ public class SocketHandler extends Thread {
         if(user == null)return "Username and password didn’t match!";
         if(!user.getPassword().equals(password))return "Username and password didn’t match!";
         loggedInUser = user;
+        loggedInUser.setOnline(true);
+        DataSaver.getInstance().saveUsers();
+        DataSaver.getInstance().loadUsers();
         NetworkController.getInstance().addOnlineUser(user);
         return "user logged in successfully!";
     }
 
     public String userLogout(){
+        String lastSeen = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
+        LoginAndRegisterController.getInstance().getUser(loggedInUser.getUsername()).setLastSeen(lastSeen);
+        LoginAndRegisterController.getInstance().getUser(loggedInUser.getUsername()).setOnline(false);
+        DataSaver.getInstance().saveUsers();
+        DataSaver.getInstance().loadUsers();
         NetworkController.getInstance().removeOnlineUser(loggedInUser);
         loggedInUser = null;
         return "user logged out successfully!";

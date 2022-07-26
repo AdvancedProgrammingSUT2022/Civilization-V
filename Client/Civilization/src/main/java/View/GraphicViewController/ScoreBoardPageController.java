@@ -54,9 +54,23 @@ public class ScoreBoardPageController implements Initializable {
             } else {
                 imageView = creatingImageView("/images/scoreBoard/"+i+".png", 80, 80);
             }
+            Label isOnline;
+            Label lastSeen = null;
+            if(user.getOnline()){
+                isOnline = new Label("\n\t\t\tonline");
+            } else {
+                isOnline = new Label("\n\t\t\toffline");
+                lastSeen = new Label("\n\t\t\t"+user.getLastSeen());
+                lastSeen.setStyle("fx-font-size: 20; -fx-font-family: Garamond;");
+                System.out.println(user.getLastSeen());
+            }
+            isOnline.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
             String profIndex = String.valueOf(user.getProfPicIndex() + 1);
             ImageView u_imageView = creatingImageView("/images/profiles/"+profIndex+".png", 60, 60);
-            HBox u_hBox = new HBox(imageView, u_imageView, new Separator(), text);
+            HBox u_hBox;
+            if(lastSeen != null)
+                u_hBox = new HBox(imageView, u_imageView, new Separator(), text, new Separator(), isOnline, new Separator(), lastSeen);
+            else u_hBox = new HBox(imageView, u_imageView, new Separator(), text, new Separator(), isOnline);
             text.setAlignment(Pos.CENTER_RIGHT);
             list.getChildren().add(u_hBox);
             list.getChildren().add(new Separator());
