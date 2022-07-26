@@ -58,17 +58,23 @@ public class NetworkController {
             add(username);
         }}).toJson());
         listener = new Thread(() -> {
-            while (isOnline) {
-                try {
+            try {
+                while (isOnline) {
                     String update = inputListenerStream.readUTF();
                     try {
-                        handleUpdate(new Gson().fromJson(update, Update.class));
+                        if(!update.equals("{}"))
+                            handleUpdate(new Gson().fromJson(update, Update.class));
+                    }catch ( com.google.gson.JsonSyntaxException e){
+                        System.out.println("not a valid update");
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
-                    catch (Exception e){
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+                inputListenerStream.close();
+                listenerSocket.close();
+            } catch (Exception e) {
+                System.out.println("disconnected");
+                isOnline = false;
             }
         });
         listener.start();

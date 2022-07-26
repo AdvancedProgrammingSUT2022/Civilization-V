@@ -121,14 +121,20 @@ public class MainPageController implements Initializable {
     @FXML
     private void startGame(MouseEvent mouseEvent) {
         ArrayList<String> players = MainMenuController.getInstance().getPlayers();
-        if(Integer.parseInt(playerNum.getText()) != players.size())notification.setText("player count is invalid!");
-        else if(Integer.parseInt(mapHeight.getText()) < 5 || Integer.parseInt(mapWidth.getText()) < 5)notification.setText("map config is invalid");
-        else {
-            players.add(0,mapHeight.getText());
-            players.add(0,mapWidth.getText());
-            mediaPlayer.stop();
-            NetworkController.getInstance().send(new Request(RequestType.startGame,players));
-            //main.java.Main.changeMenu(Menus.GAME_MENU.value);
+        try {
+            if (Integer.parseInt(playerNum.getText()) != players.size())
+                notification.setText("player count is invalid!");
+            else if (Integer.parseInt(mapHeight.getText()) < 5 || Integer.parseInt(mapWidth.getText()) < 5)
+                notification.setText("map config is invalid");
+            else {
+                players.add(0, mapHeight.getText());
+                players.add(0, mapWidth.getText());
+                mediaPlayer.stop();
+                NetworkController.getInstance().send(new Request(RequestType.startGame, players));
+                //main.java.Main.changeMenu(Menus.GAME_MENU.value);
+            }
+        }catch (NumberFormatException e){
+            notification.setText("please enter a number between 5 and 100 in the width and height section.");
         }
     }
 

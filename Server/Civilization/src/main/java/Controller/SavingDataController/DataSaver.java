@@ -47,7 +47,7 @@ public class DataSaver {
     private AutoSave autoSave;
     public synchronized String loadUsers() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("C:\\Users\\nima\\Desktop\\project-group-24\\Server\\Civilization\\src\\main\\resources\\UserSaves\\UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserSaves/UserDatabase.json")));
             ArrayList<User> createdUsers;
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
@@ -60,7 +60,7 @@ public class DataSaver {
 
     public String loadUsersForTheFirstTime() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("C:\\Users\\nima\\Desktop\\project-group-24\\Server\\Civilization\\src\\main\\resources\\UserSaves\\UserDatabase.json")));
+            String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/UserSaves/UserDatabase.json")));
             ArrayList<User> createdUsers;
             createdUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());

@@ -24,6 +24,7 @@ public class MainMenuController extends Controller{
 
 
     public void gameStart(ArrayList<String> players){
+        System.out.println("ya bruh");
         int mapWidth = Integer.parseInt(players.get(0));
         int mapHeight = Integer.parseInt(players.get(1));
         players.remove(0);
@@ -31,10 +32,13 @@ public class MainMenuController extends Controller{
         ArrayList<User> users = new ArrayList<>(){{
             for (String username:players) {
                 if(LoginAndRegisterController.getInstance().getUser(username) != null)
-                add(LoginAndRegisterController.getInstance().getUser(username));
+                    add(LoginAndRegisterController.getInstance().getUser(username));
             }
         }};
+        System.out.println(mapWidth);
+        System.out.println(mapHeight);
         MapGenerator.getInstance().gameInit(users, mapWidth, mapHeight);
+        System.out.println("ya bruh2");
         System.out.println("map has been generated");
     }
 
