@@ -15,6 +15,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class SocketHandler extends Thread {
     private boolean working = true;
@@ -65,6 +67,29 @@ public class SocketHandler extends Thread {
             case sendInvite -> response = MainMenuController.getInstance().sendInvite(loggedInUser.getUsername(),request.getParams().get(0));
             case inviteAcceptation -> MainMenuController.getInstance().inviteAcceptation(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
             case startGame -> MainMenuController.getInstance().gameStart(request.getParams());
+            case Friendship -> {
+                String firstUsername = request.getParams().get(0);
+                String secondUsername= request.getParams().get(1);
+                boolean find = false;
+                for (Map.Entry<String , ArrayList<String>> entry : NetworkController.getInstance().getFriendshipRequests().entrySet()) {
+                    if(entry.getKey().equals(firstUsername)){
+                        if(!entry.getValue().contains(secondUsername)) {
+                            entry.getValue().add(secondUsername);
+                        } else {
+                            response = "this user is one of your friends";
+                        }
+                        find = true;
+                        break;
+                    }
+                }
+                if(!find){
+                    ArrayList<String> users = new ArrayList<>();
+                    users.add(secondUsername);
+                    NetworkController.getInstance().getFriendshipRequests().put(firstUsername, users);
+                }
+            }
+            case ShowFriendshipRequests -> response = updateFriendshipRequests(loggedInUser);
+            case AcceptFriendship, RejectFriendship -> updateFriendship(request);
         }
         return new Response(response);
     }
@@ -96,6 +121,23 @@ public class SocketHandler extends Thread {
         NetworkController.getInstance().removeOnlineUser(loggedInUser);
         loggedInUser = null;
         return "user logged out successfully!";
+    }
+    public String updateFriendshipRequests(User user){
+        ArrayList<String> names = new ArrayList<>();
+        for (Map.Entry<String , ArrayList<String>> entry : NetworkController.getInstance().getFriendshipRequests().entrySet()){
+            if(entry.getValue().contains(user.getUsername())){
+                System.out.println(entry.getKey());
+                names.add(entry.getKey());
+            }
+        }
+        return new Gson().toJson(names);
+    }
+    public void updateFriendship(Request request){
+        if(request.getAction().equals("accept")) {
+            LoginAndRegisterController.getInstance().getUser(request.getParams().get(0)).getFriendsName().add(request.getParams().get(1));
+            LoginAndRegisterController.getInstance().getUser(request.getParams().get(1)).getFriendsName().add(request.getParams().get(0));
+        }
+        NetworkController.getInstance().getFriendshipRequests().get(request.getParams().get(0)).remove(request.getParams().get(1));
     }
 
 }

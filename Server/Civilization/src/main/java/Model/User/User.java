@@ -17,6 +17,8 @@ public class User {
     private boolean isOnline = false;
     @Expose
     private String lastSeen = "";
+    @Expose
+    private ArrayList<String> friendsName = new ArrayList<>();
 
     @Expose
     private String username;
@@ -106,5 +108,9 @@ public class User {
 
     public String getLastSeen() {
         return lastSeen;
+    }
+
+    public ArrayList<String> getFriendsName() {
+        return friendsName;
     }
 }

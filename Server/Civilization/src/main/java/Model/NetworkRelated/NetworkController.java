@@ -15,6 +15,7 @@ public class NetworkController {
     private final static ArrayList<User> onlineUsers = new ArrayList<>();
     private ServerSocket serverSocket;
     private ArrayList<GameMap> gamesInProgress = new ArrayList<>();
+    private HashMap<String, ArrayList<String>> friendshipRequests = new HashMap<>();
 
     private NetworkController() {}
     public static NetworkController getInstance() {
@@ -59,5 +60,9 @@ public class NetworkController {
             Socket socket = serverSocket.accept();
             new SocketHandler(socket).start();
         }
+    }
+
+    public HashMap<String, ArrayList<String>> getFriendshipRequests() {
+        return friendshipRequests;
     }
 }
