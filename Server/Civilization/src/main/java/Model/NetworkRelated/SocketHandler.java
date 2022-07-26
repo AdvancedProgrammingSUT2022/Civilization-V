@@ -1,5 +1,6 @@
 package Model.NetworkRelated;
 
+import Controller.GameController.GameController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
 import Controller.PreGameController.ProfileMenuController;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -34,11 +36,11 @@ public class SocketHandler extends Thread {
     public void run() {
         while (working) {
             try {
-                Request request =  new Gson().fromJson(this.dataInputStream.readUTF(),Request.class);
+                String message = getMessage();
+                Request request =  new Gson().fromJson(message,Request.class);
                 Response response = handleRequest(request);
                 if(response != null) {
-                    this.dataOutputStream.writeUTF(response.toJson());
-                    this.dataOutputStream.flush();
+                    sendMessage(response.toJson());
                 }
             } catch (SocketException e) {
                 break;
@@ -48,8 +50,20 @@ public class SocketHandler extends Thread {
         }
         System.out.println("im out");
     }
+    public void sendMessage(String message) throws IOException {
+        byte [] updateBytes = message.getBytes(StandardCharsets.UTF_8);
+        dataOutputStream.writeInt(updateBytes.length);
+        dataOutputStream.write(updateBytes);
+        dataOutputStream.flush();
+    }
+    public String getMessage() throws IOException {
+        int length = dataInputStream.readInt();
+        byte [] data = new byte[length];
+        dataInputStream.readFully(data);
+        return new String(data, StandardCharsets.UTF_8);
+    }
 
-    private Response handleRequest(Request request) {
+    private Response handleRequest(Request request) throws IOException {
         String response = null;
         switch (request.getRequestType()){
             case Login -> response = login(request.getParams().get(0),request.getParams().get(1));
@@ -61,10 +75,14 @@ public class SocketHandler extends Thread {
             case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case ChoosePic ->  loggedInUser.setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
-            case registerReaderSocket -> {registerReaderSocket(request.getParams().get(0)); return  null;}
+            case registerReaderSocket -> {registerReaderSocket(request.getParams().get(0)); return null;}
             case sendInvite -> response = MainMenuController.getInstance().sendInvite(loggedInUser.getUsername(),request.getParams().get(0));
             case inviteAcceptation -> MainMenuController.getInstance().inviteAcceptation(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
             case startGame -> MainMenuController.getInstance().gameStart(request.getParams());
+            case UpdateGame -> {
+                GameController.getInstance().nextTurn(request.getParams());
+                return null;
+            }
         }
         return new Response(response);
     }

@@ -3,6 +3,9 @@ import Controller.SavingDataController.DataSaver;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
+import Model.NetworkRelated.NetworkController;
+import Model.NetworkRelated.Update;
+import Model.NetworkRelated.UpdateType;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
@@ -18,6 +21,7 @@ import Model.User.User;
 import Model.Units.Unit;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -60,7 +64,7 @@ public class GameController{
         return gameController;
     }
     public Civilization getPlayerTurn(GameMap gameMap) {
-        return gameMap.getPlayerTurn(gameMap);
+        return gameMap.getPlayerTurn();
     }
     public void setPlayerTurn(GameMap gameMap ,Civilization playerTurn) {
         gameMap.setPlayerTurn(playerTurn);
@@ -81,7 +85,9 @@ public class GameController{
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
     }
-    public String nextTurn(GameMap gameMap) {
+    public String nextTurn(ArrayList<String> params) throws IOException {
+        NetworkController.getInstance().setGame(params.get(1),DataSaver.getInstance().loadGame(params.get(0)));
+        GameMap gameMap = NetworkController.getInstance().getGame(params.get(1));
         changePlayer(gameMap);
         if(gameMap.getGameTurn() == 2050)
             return "Game Over";
@@ -98,9 +104,16 @@ public class GameController{
         // graph init is a heavy method
         gameMap.setInitialGraph(Movement.getInstance().graphInit(gameMap));
         if(getPlayerTurn(gameMap).equals(gameMap.getCivilizations().get(0))) gameMap.setTurn(gameMap.getTurn(gameMap) + 1);
+        updateGame(gameMap);
         return "next player turn!";
     }
-
+    public void updateGame(GameMap gameMap){
+        String data = DataSaver.getInstance().makeJson(gameMap);
+        Update update = new Update(UpdateType.UpdateGame,new ArrayList<>(){{add(data);}});
+        for (Civilization civilization:gameMap.getCivilizations()) {
+            NetworkController.getInstance().sendUpdate(update,civilization.getUser());
+        }
+    }
 
     public void reduceTurnOfFeaturesBeingCleared(GameMap gameMap){
         ArrayList<Feature> Constructions = getPlayerTurn(gameMap).getFeaturesBeingCleared();

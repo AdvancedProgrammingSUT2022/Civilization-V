@@ -110,7 +110,12 @@ public class DataSaver {
 //        gameMap.loadHashMap();
 //        GameMap.setInstance(gameMap);
 //    }
-
+    public GameMap loadGame(String json) throws IOException {
+        GameMap gameMap = new Gson().fromJson(json, GameMap.class);
+        completeFatherChildFields(gameMap);
+        gameMap.loadHashMap();
+        return gameMap;
+    }
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
             for(User user: LoginAndRegisterController.getInstance().getUsers()){
@@ -147,7 +152,7 @@ public class DataSaver {
                 newUnit.setTile(equalizeTiles(gameMap,newUnit.getTile()));
                 gameMap.getUnits().add(newUnit);
             }
-            if(gameMap.getPlayerTurn(gameMap).getUser().getUsername().equals(civilization.getUser().getUsername()))
+            if(gameMap.getPlayerTurn().getUser().getUsername().equals(civilization.getUser().getUsername()))
                 gameMap.setPlayerTurn(civilization);
         }
     }

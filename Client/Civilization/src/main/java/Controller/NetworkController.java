@@ -1,9 +1,14 @@
 package Controller;
+import Controller.GameController.GameController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.PreGameController.MainMenuController;
+import Controller.SavingDataController.DataSaver;
 import Model.ChatRelated.AlertDataBase;
 import Model.Enums.Menus;
+import Model.MapRelated.GameMap;
 import Model.NetworkRelated.*;
+import View.GraphicViewController.GameplayGraphicController;
+import View.GraphicViewController.MainPageController;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -55,9 +60,9 @@ public class NetworkController {
         listenerSocket = new Socket("localhost",port);
         DataInputStream inputListenerStream = new DataInputStream(listenerSocket.getInputStream());
         DataOutputStream outputListenerStream = new DataOutputStream(listenerSocket.getOutputStream());
-        outputListenerStream.writeUTF(new Request(RequestType.registerReaderSocket,new ArrayList<>(){{
+        sendMessage(new Request(RequestType.registerReaderSocket,new ArrayList<>(){{
             add(username);
-        }}).toJson());
+        }}).toJson(),outputListenerStream);
         listener = new Thread(() -> {
             try {
                 while (isOnline) {
@@ -65,6 +70,7 @@ public class NetworkController {
                     byte [] data = new byte[length];
                     inputListenerStream.readFully(data);
                     String update = new String(data, StandardCharsets.UTF_8);
+                    System.out.println("i got your update!");
                     try {
                         if(!update.equals("{}"))
                             handleUpdate(new Gson().fromJson(update, Update.class));
@@ -78,63 +84,22 @@ public class NetworkController {
                 listenerSocket.close();
             } catch (Exception e) {
                 System.out.println("disconnected");
-                isOnline = false;
+                disconnect();
             }
         });
         listener.start();
     }
 
-    private void handleUpdate(Update update) {
+    private void handleUpdate(Update update) throws IOException {
         switch (update.getUpdateType()) {
-            case invitation -> createInvitePopUp(update);
+            case invitation -> MainPageController.createInvitePopUp(update);
             case inviteAcceptance -> MainMenuController.getInstance().handleInvitation(update);
             case initializeGame -> MainMenuController.getInstance().initializeGame(update);
+            case UpdateGame -> GameController.getInstance().setGameMap(update);
         }
     }
 
-    private void createInvitePopUp(Update update) {
-        Popup popup = new Popup();
-        popup.requestFocus();
-        Label label = new Label(update.getParams().get(0) + " has invited you to a game!");
-        label.setTextFill(Color.rgb(180,0,0,1));
-        label.setMinHeight(200);
-        label.setMinWidth(600);
-        label.setTextAlignment(TextAlignment.CENTER);
-        label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
-                "-fx-background-color: rgba(255,255,255,0.34); -fx-background-radius: 5; -fx-alignment: center;" +
-                "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
-        popup.getContent().add(label);
-        Button acceptButton = new Button();
-        acceptButton.setText("Accept");
-        acceptButton.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
-        acceptButton.setLayoutX(225);
-        acceptButton.setLayoutY(150);
-        Button declineButton = new Button();
-        declineButton.setLayoutX(125);
-        declineButton.setLayoutY(150);
-        declineButton.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
-        declineButton.setText("Decline");
-        popup.getContent().add(acceptButton);
-        popup.getContent().add(declineButton);
-        Platform.runLater(()->{popup.show(main.java.Main.scene.getWindow());});
-        acceptButton.setOnMouseClicked(mouseEvent -> {
-            main.java.Main.changeMenu(Menus.WaitingRoom.value);
-            send(new Request(RequestType.inviteAcceptation,new ArrayList<>(){{
-                add("accepted");
-                add(update.getParams().get(0));
-                add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
-            }}));
-            popup.hide();
-        });
-        declineButton.setOnMouseClicked(mouseEvent -> {
-            send(new Request(RequestType.inviteAcceptation,new ArrayList<>(){{
-                add("declined");
-                add(update.getParams().get(0));
-                add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
-            }}));
-            popup.hide();
-        });
-    }
+
 
     private void disconnect() {
         isOnline = false;
@@ -142,13 +107,27 @@ public class NetworkController {
 
     public Response send(Request request) {
         try {
-            outputStream.writeUTF(request.toJson());
-            outputStream.flush();
-            String response = this.inputStream.readUTF();
+            sendMessage(request.toJson(),outputStream);
+            System.out.println("alo alo");
+            String response = getMessage(inputStream);
+            System.out.println("greftam");
             return new Gson().fromJson(response,Response.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+    public void sendMessage(String message, DataOutputStream outputStream) throws IOException {
+        byte [] updateBytes = message.getBytes(StandardCharsets.UTF_8);
+        outputStream.writeInt(updateBytes.length);
+        outputStream.write(updateBytes);
+        outputStream.flush();
+    }
+
+    public String getMessage(DataInputStream inputStream) throws IOException {
+        int length = inputStream.readInt();
+        byte [] data = new byte[length];
+        inputStream.readFully(data);
+        return new String(data, StandardCharsets.UTF_8);
     }
 }

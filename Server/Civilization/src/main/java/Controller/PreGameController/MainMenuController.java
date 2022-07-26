@@ -2,6 +2,7 @@ package Controller.PreGameController;
 
 import Controller.GameController.MapControllers.MapGenerator;
 import Controller.SavingDataController.DataSaver;
+import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.NetworkRelated.NetworkController;
 import Model.NetworkRelated.Update;
@@ -40,11 +41,9 @@ public class MainMenuController extends Controller{
                     add(LoginAndRegisterController.getInstance().getUser(username));
             }
         }};
-        System.out.println(mapWidth);
-        System.out.println(mapHeight);
         GameMap gameMap = MapGenerator.getInstance().gameInit(users, mapWidth, mapHeight);
         NetworkController.getInstance().addGame(gameMap);
-        startGamesForClients(gameMap,users);
+        startGamesForClients(gameMap);
     }
 
     @Override
@@ -82,11 +81,11 @@ public class MainMenuController extends Controller{
         NetworkController.getInstance().sendUpdate(update,LoginAndRegisterController.getInstance().getUser(sender));
     }
 
-    public void startGamesForClients(GameMap gameMap,ArrayList<User> users ){
+    public void startGamesForClients(GameMap gameMap){
         String data = DataSaver.getInstance().makeJson(gameMap);
         Update update = new Update(UpdateType.initializeGame,new ArrayList<>(){{add(data);}});
-        for (User user:users) {
-            NetworkController.getInstance().sendUpdate(update,user);
+        for (Civilization civilization:gameMap.getCivilizations()) {
+            NetworkController.getInstance().sendUpdate(update,civilization.getUser());
         }
     }
 }

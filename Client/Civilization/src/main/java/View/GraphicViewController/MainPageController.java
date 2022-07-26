@@ -11,8 +11,10 @@ import Model.Enums.Menus;
 import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
 import Model.NetworkRelated.Response;
+import Model.NetworkRelated.Update;
 import Model.User.User;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -164,5 +168,49 @@ public class MainPageController implements Initializable {
         notification.setText(NetworkController.getInstance().send(new Request(RequestType.sendInvite,new ArrayList<>(){{
             add(inviteUsername.getText());
         }})).getMessage());
+    }
+
+    public static void createInvitePopUp(Update update) {
+        Popup popup = new Popup();
+        popup.requestFocus();
+        Label label = new Label(update.getParams().get(0) + " has invited you to a game!");
+        label.setTextFill(Color.rgb(180,0,0,1));
+        label.setMinHeight(200);
+        label.setMinWidth(600);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setStyle("-fx-font-size: 30; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold;" +
+                "-fx-background-color: rgba(255,255,255,0.34); -fx-background-radius: 5; -fx-alignment: center;" +
+                "-fx-border-color: cyan; -fx-border-width: 4.5; -fx-border-radius: 5;");
+        popup.getContent().add(label);
+        Button acceptButton = new Button();
+        acceptButton.setText("Accept");
+        acceptButton.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
+        acceptButton.setLayoutX(225);
+        acceptButton.setLayoutY(150);
+        Button declineButton = new Button();
+        declineButton.setLayoutX(125);
+        declineButton.setLayoutY(150);
+        declineButton.setStyle(" -fx-font-family: 'Britannic Bold'; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7); -fx-font-size: 18 ;-fx-text-fill: #4f4e4e;");
+        declineButton.setText("Decline");
+        popup.getContent().add(acceptButton);
+        popup.getContent().add(declineButton);
+        Platform.runLater(()->{popup.show(main.java.Main.scene.getWindow());});
+        acceptButton.setOnMouseClicked(mouseEvent -> {
+            main.java.Main.changeMenu(Menus.WaitingRoom.value);
+            NetworkController.getInstance().send(new Request(RequestType.inviteAcceptation,new ArrayList<>(){{
+                add("accepted");
+                add(update.getParams().get(0));
+                add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
+            }}));
+            popup.hide();
+        });
+        declineButton.setOnMouseClicked(mouseEvent -> {
+            NetworkController.getInstance().send(new Request(RequestType.inviteAcceptation,new ArrayList<>(){{
+                add("declined");
+                add(update.getParams().get(0));
+                add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
+            }}));
+            popup.hide();
+        });
     }
 }

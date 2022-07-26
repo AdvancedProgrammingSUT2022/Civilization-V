@@ -7,6 +7,7 @@ import Controller.GameController.MapControllers.MapFunctions;
 import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Controller.GameController.UnitController;
+import Controller.NetworkController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.SavingDataController.DataSaver;
 import Model.ChatRelated.Alert;
@@ -18,6 +19,9 @@ import Model.Enums.AutoSave;
 import Model.Enums.MapEnum;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
+import Model.NetworkRelated.Update;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Improvement.ImprovementType;
@@ -276,7 +280,10 @@ public class GameplayGraphicController implements Initializable {
         }));
 
         Platform.runLater(() -> main.java.Main.scene.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.M && GameController.getInstance().getSelectedUnit() != null) {
+            if (keyEvent.getCode() == KeyCode.M &&
+                GameController.getInstance().getSelectedUnit() != null &&
+                MapFunctions.getInstance().isMyTurn() &&
+                GameController.getInstance().getSelectedUnit().getCivilization() == MapFunctions.getInstance().getLoggedInUserCiv()) {
                 Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
                 availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
                 for (Tile tile :availablePolys.keySet()) {
@@ -287,7 +294,9 @@ public class GameplayGraphicController implements Initializable {
                     }
                 }
             }
-            if (keyEvent.getCode() == KeyCode.A && GameController.getInstance().getSelectedUnit() != null) {
+            if (keyEvent.getCode() == KeyCode.A && GameController.getInstance().getSelectedUnit() != null&&
+                    MapFunctions.getInstance().isMyTurn() &&
+                    GameController.getInstance().getSelectedUnit().getCivilization() == MapFunctions.getInstance().getLoggedInUserCiv()) {
                 Polygon polygon = tileToPoly.get(GameController.getInstance().getSelectedUnit().getTile());
                 availablePolys =  TileVisibilityController.getInstance().findVisibles(polyToTile.get(polygon), 0, new HashMap<>());
                 for (Tile tile :availablePolys.keySet()) {
@@ -956,14 +965,17 @@ public class GameplayGraphicController implements Initializable {
 
     @FXML
     private void showActions(MouseEvent mouseEvent) {
-        improvementPanel.setDisable(true);
-        improvementPanel.setVisible(false);
-        if (actionPanel.isDisable()) {
-            actionPanel.setDisable(false);
-            actionPanel.setVisible(true);
-        } else {
-            actionPanel.setDisable(true);
-            actionPanel.setVisible(false);
+        if( MapFunctions.getInstance().isMyTurn() &&
+            GameController.getInstance().getSelectedUnit().getCivilization() == MapFunctions.getInstance().getLoggedInUserCiv()) {
+            improvementPanel.setDisable(true);
+            improvementPanel.setVisible(false);
+            if (actionPanel.isDisable()) {
+                actionPanel.setDisable(false);
+                actionPanel.setVisible(true);
+            } else {
+                actionPanel.setDisable(true);
+                actionPanel.setVisible(false);
+            }
         }
     }
 
@@ -978,20 +990,22 @@ public class GameplayGraphicController implements Initializable {
         }
     }
     public void nextTurn(ActionEvent actionEvent) throws FileNotFoundException {
-        autoSave();
-        endGameConditions(GameController.getInstance().nextTurn());
-        handleAlerts();
-        updateMap();
-    }
-
-    private void autoSave() throws FileNotFoundException {
-
-        if((Integer.parseInt(turnCount.getText()) % 200 == 0 && DataSaver.getInstance().getAutoSave() == AutoSave.EveryNYears)
-                || (Integer.parseInt(turnCount.getText()) % 100 == 0 && DataSaver.getInstance().getAutoSave() == AutoSave.AfterNYears2)
-                || (GameController.getInstance().getPlayerTurn() == GameMap.getInstance().getCivilizations().get(0) && DataSaver.getInstance().getAutoSave() == AutoSave.AfterEveryTurn)){
-            DataSaver.getInstance().saveGame();
+        if(MapFunctions.getInstance().isMyTurn()) {
+            Request request = new Request(RequestType.UpdateGame,new ArrayList<>(){{
+                add(DataSaver.getInstance().makeJson(GameMap.getInstance()));
+                add(GameMap.getInstance().getPlayerTurn().getUser().getUsername());
+            }});
+            NetworkController.getInstance().send(request);
+//            endGameConditions(GameController.getInstance().nextTurn());
+//            handleAlerts();
+//            updateMap();
         }
     }
+
+    public void setGameMap(Update update) throws IOException {
+        GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
+    }
+
 
     private void endGameConditions(String nextTurnOutput){
         Civilization winner = gameWinConditionMet();
