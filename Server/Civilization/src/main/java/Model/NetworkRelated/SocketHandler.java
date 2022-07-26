@@ -133,6 +133,7 @@ public class SocketHandler extends Thread {
         if(request.getAction().equals("accept")) {
             LoginAndRegisterController.getInstance().getUser(request.getParams().get(0)).getFriendsName().add(request.getParams().get(1));
             LoginAndRegisterController.getInstance().getUser(request.getParams().get(1)).getFriendsName().add(request.getParams().get(0));
+            DataSaver.getInstance().saveUsers();
         }
         NetworkController.getInstance().getFriendshipRequests().get(request.getParams().get(0)).remove(request.getParams().get(1));
     }

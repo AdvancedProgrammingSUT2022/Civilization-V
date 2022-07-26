@@ -330,6 +330,7 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void showFriends(MouseEvent mouseEvent){
+        DataSaver.getInstance().updateUsers();
         Label friends = new Label("YOUR FRIENDS");
         VBox vBox = new VBox(friends, new Separator());
         if(LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName() != null){
