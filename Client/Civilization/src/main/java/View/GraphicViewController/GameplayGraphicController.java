@@ -238,6 +238,7 @@ public class GameplayGraphicController implements Initializable {
         if(updateMade){
             fixPolyToTile();
             fixTileToPoly();
+            updateMap();
             updateMade = false;
         }
     }

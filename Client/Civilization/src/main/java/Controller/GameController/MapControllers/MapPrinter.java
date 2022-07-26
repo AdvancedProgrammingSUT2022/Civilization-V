@@ -111,7 +111,7 @@ public class MapPrinter {
             nullify(map,1 + x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3, ("->" + tile.getCity().getName()).length(), y + textDistance);
             map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3] += "->" + tile.getCity().getName();
         }else
-        map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
+            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
     }
     private void fillTextsForTilePrint(ArrayList<String> texts,Tile tile){
         if(getVisibility(tile) == TileVisibility.VISIBLE){
@@ -185,8 +185,8 @@ public class MapPrinter {
     }
     public TileVisibility getVisibility(Tile tile){
         Civilization playerCiv = MapFunctions.getInstance().getLoggedInUserCiv();
-        if(playerCiv.getSeenBy(tile) == -1)return TileVisibility.FOGOFWAR;
-        if(playerCiv.getSeenBy(tile) == 0)return TileVisibility.REVEALED;
+        if(playerCiv.getSeenBy(MapFunctions.getInstance().getTile(tile.getX(),tile.getY())) == -1)return TileVisibility.FOGOFWAR;
+        if(playerCiv.getSeenBy(MapFunctions.getInstance().getTile(tile.getX(),tile.getY())) == 0)return TileVisibility.REVEALED;
         return TileVisibility.VISIBLE;
     }
     private Direction findNeighborDirection(Tile origin,Tile neighbour){
