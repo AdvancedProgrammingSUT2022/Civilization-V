@@ -4,7 +4,6 @@ import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -31,28 +30,25 @@ public class MapFunctions {
         return (tile.getX() - 1) * (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) / 2 + (MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDELONG.amount);
     }
 
-    public ArrayList<Tile> getSurroundings(Tile tile){ //Be careful some tiles might be null!
+    public ArrayList<Tile> getSurroundings(GameMap gameMap , Tile tile){ //Be careful some tiles might be null!
         int first,second;
         if(tile.getX() % 2 == 0){first = -1;second = 0;}else{first = 0;second = 1;}
         ArrayList <Tile> surroundings = new ArrayList<>(){
             {
-                add(getTile(tile.getX() , tile.getY() +1)); //index 0 is down
-                add(getTile(tile.getX() , tile.getY() -1)); //index 1 is up
-                add(getTile(tile.getX()+1 , tile.getY() + first)); //index 2 is up right
-                add(getTile(tile.getX()-1 , tile.getY() + first)); //index 3 is up left
-                add(getTile(tile.getX()+1 , tile.getY() + second)); //index 4 is down right
-                add(getTile(tile.getX()-1 , tile.getY() + second)); //index 5 is down left
+                add(getTile(gameMap , tile.getX() , tile.getY() +1)); //index 0 is down
+                add(getTile(gameMap , tile.getX() , tile.getY() -1)); //index 1 is up
+                add(getTile(gameMap ,tile.getX()+1 , tile.getY() + first)); //index 2 is up right
+                add(getTile(gameMap ,tile.getX()-1 , tile.getY() + first)); //index 3 is up left
+                add(getTile(gameMap ,tile.getX()+1 , tile.getY() + second)); //index 4 is down right
+                add(getTile(gameMap ,tile.getX()-1 , tile.getY() + second)); //index 5 is down left
             }
         };
         return surroundings;
     }
 
-    public Color getCivColor(Civilization civilization){
-        return MapGenerator.getInstance().getColors().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
-    }
-    public Tile getTile(int x , int y){
+    public Tile getTile(GameMap gameMap , int x , int y){
 
-        for (Tile key: GameMap.getInstance().getTiles()) {
+        for (Tile key: gameMap.getTiles()) {
             if(key.getX() == x && key.getY() == y)
                 return key;
         }

@@ -2,8 +2,7 @@ package Model.User;
 
 import Model.ChatRelated.Chat;
 import com.google.gson.annotations.Expose;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 
 import java.io.DataOutputStream;
 import java.io.IOException;

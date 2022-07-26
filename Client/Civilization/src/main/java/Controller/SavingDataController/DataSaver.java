@@ -95,15 +95,12 @@ public class DataSaver {
         saveToFile(json);
     }
 
-    public void loadGame(String fileName) throws IOException {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-        String json = loadFromFile(fileName);
-        GameMap gameMap = gson.fromJson(json, GameMap.class);
+
+    public GameMap loadGame(String json) throws IOException {
+        GameMap gameMap = new Gson().fromJson(json, GameMap.class);
         completeFatherChildFields(gameMap);
         gameMap.loadHashMap();
-        GameMap.setInstance(gameMap);
-        GameMap copy = GameMap.getInstance();
+        return gameMap;
     }
 
     private void completeFatherChildFields(GameMap gameMap) {

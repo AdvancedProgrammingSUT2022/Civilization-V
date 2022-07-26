@@ -16,8 +16,7 @@ import Controller.GameController.Movement;
 import Controller.GameController.MapControllers.MapPrinter;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import com.google.gson.annotations.Expose;
-import javafx.scene.control.Label;
-import javafx.stage.Popup;
+
 
 public class Unit {
     protected Civilization civilization;
@@ -47,10 +46,10 @@ public class Unit {
 
     }
 
-    public void moveUnit() {
+    public void moveUnit(GameMap gameMap) {
         System.out.println(movementsLeft);
         while (getMovementsLeft() > 0) {
-            TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), -1, 2);
+            TileVisibilityController.getInstance().changeVision(gameMap , getTile(), civilization.getSeenBy(), -1, 2);
             if (MapPrinter.getInstance().hasRiverBetween(getTile(), getNextMoveNode().getTile()))
                 if(getNextMoveNode().getTile().getRoad() != null && !getNextMoveNode().getTile().getRoad().isRuined() && getNextMoveNode().getTile().getRoad().getDaysToComplete() == 0
                         && civilization.hasTechnology(TechnologyType.Construction))addMovementsLeft(-0.5);
@@ -64,7 +63,7 @@ public class Unit {
             setTile(getNextMoveNode().getTile());
             getTile().addUnit(this);
             getPath().remove(0);
-            TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), 1, 2);
+            TileVisibilityController.getInstance().changeVision(gameMap , getTile(), civilization.getSeenBy(), 1, 2);
             if(tile.getRuin() != null){
 //                Popup popup = new Popup();
 //                Label label = new Label(tile.getRuin().getBenefit(civilization));
@@ -80,12 +79,12 @@ public class Unit {
                 break;
         }
         if (getPath().size() > 0){
-            if(!GameController.getInstance().getMap().getMovingUnits().contains(this))
-                GameController.getInstance().getMap().getMovingUnits().add(this);
+            if(!GameController.getInstance().getMap(gameMap).getMovingUnits().contains(this))
+                GameController.getInstance().getMap(gameMap).getMovingUnits().add(this);
         }
         else
-            if(GameController.getInstance().getMap().getMovingUnits().contains(this))
-                GameController.getInstance().getMap().getMovingUnits().remove(this);
+            if(GameController.getInstance().getMap(gameMap).getMovingUnits().contains(this))
+                GameController.getInstance().getMap(gameMap).getMovingUnits().remove(this);
     }
 
     public double getMovementsLeft() {

@@ -69,18 +69,18 @@ public class Movement {
         }
     }
 
-    public Graph graphInit(){
+    public Graph graphInit(GameMap gameMap){
         Graph graph = new Graph();
-        for (int j = 1; j < GameMap.getInstance().getMapHeight() -1 ; j++) {
-            for (int i = 1; i < GameMap.getInstance().getMapWidth() - 1; i++) {
-                if(MapFunctions.getInstance().getTile(i, j).getTerrain().equals(TerrainType.Mountain) || 
-                MapFunctions.getInstance().getTile(i, j).getTerrain().equals(TerrainType.Ocean))continue;
-                Node node = new Node(MapFunctions.getInstance().getTile(i, j));
+        for (int j = 1; j < gameMap.getMapHeight() -1 ; j++) {
+            for (int i = 1; i < gameMap.getMapWidth() - 1; i++) {
+                if(MapFunctions.getInstance().getTile(gameMap , i, j).getTerrain().equals(TerrainType.Mountain) ||
+                MapFunctions.getInstance().getTile(gameMap , i, j).getTerrain().equals(TerrainType.Ocean))continue;
+                Node node = new Node(MapFunctions.getInstance().getTile(gameMap , i, j));
                 graph.addNode(node);
             }
         }
         for (Node thisNode:graph.getNodes()){
-            for (Tile surrounding: MapFunctions.getInstance().getSurroundings(thisNode.getTile())) {
+            for (Tile surrounding: MapFunctions.getInstance().getSurroundings(gameMap ,thisNode.getTile())) {
                 if(surrounding == null || surrounding.getTerrain().equals(TerrainType.Ocean)
                         || surrounding.getTerrain().equals(TerrainType.Mountain) ||
                         (surrounding.getFeature() != null && surrounding.getFeature().getFeatureType().equals(FeatureType.Ice)))continue;

@@ -3,7 +3,6 @@ package Model.TileRelated.Feature;
 import Model.TileRelated.Resource.Resource;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -21,12 +20,8 @@ public enum FeatureType {
     public final int combatModifier;
     public int movementCost;
     public  ArrayList<Resource> possibleResources;
-    public Image image;
 
     static {
-        for (FeatureType featureType: FeatureType.values()) {
-            featureType.image = new Image("/images/Map/terrain/" + featureType.name() + ".png");
-        }
         FloodPlains.setter(new ArrayList<Resource>(){{
             Resource Wheat = new Resource(ResourceType.Wheat);
             Resource Sugar = new Resource(ResourceType.Sugar);

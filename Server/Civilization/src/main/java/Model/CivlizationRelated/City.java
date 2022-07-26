@@ -1,6 +1,7 @@
 package Model.CivlizationRelated;
 import java.util.ArrayList;
 import Controller.GameController.MapControllers.MapFunctions;
+import Model.MapRelated.GameMap;
 import Model.TileRelated.Building.Building;
 import Model.TileRelated.Building.BuildingType;
 import Model.TileRelated.Feature.FeatureType;
@@ -339,8 +340,8 @@ public class City {
         }
     }
 
-    public String buyTile(Tile tile){
-        if(!findCitySurroundings().contains(tile)){
+    public String buyTile(GameMap gameMap , Tile tile){
+        if(!findCitySurroundings(gameMap).contains(tile)){
             this.civilization.addNotification("you can't buy this tile");
             return "you can't buy this tile";
         }
@@ -356,10 +357,10 @@ public class City {
         return "done!";
     }
 
-    public ArrayList<Tile> findCitySurroundings(){
+    public ArrayList<Tile> findCitySurroundings(GameMap gameMap){
         ArrayList <Tile> surroundings = new ArrayList<>();
         for (Tile cityTile:cityTiles) {
-            for (Tile surrounding:MapFunctions.getInstance().getSurroundings(cityTile)) {
+            for (Tile surrounding:MapFunctions.getInstance().getSurroundings(gameMap , cityTile)) {
                 if(surrounding != null && !surrounding.getTerrain().equals(TerrainType.Ocean) && !cityTiles.contains(surrounding) &&
                         !surrounding.getTerrain().equals(TerrainType.Mountain) && !surroundings.contains(surrounding)){
                     surroundings.add(surrounding);

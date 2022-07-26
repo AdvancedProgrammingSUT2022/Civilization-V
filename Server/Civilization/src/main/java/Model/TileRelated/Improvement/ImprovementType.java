@@ -5,7 +5,6 @@ import Model.Technology.TechnologyType;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Resource.ResourceType;
 import Model.TileRelated.Terraine.TerrainType;
-import javafx.scene.image.Image;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -126,9 +125,6 @@ public enum ImprovementType {
             add(TerrainType.Snow);
         }});
 
-        for (ImprovementType improvementType:ImprovementType.values()) {
-            improvementType.image = new Image("/images/improvements/" + improvementType.name() + ".png");
-        }
     }
 
     private void setter(ArrayList<ResourceType> improvesThisResources,ArrayList<FeatureType> featuresCanBeBuiltOn, ArrayList<TerrainType> terrainCanBeBuiltOn){

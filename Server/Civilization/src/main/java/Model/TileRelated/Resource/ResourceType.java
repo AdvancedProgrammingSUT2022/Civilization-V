@@ -4,7 +4,6 @@ import Model.Technology.TechnologyType;
 import Model.TileRelated.Feature.FeatureType;
 import Model.TileRelated.Improvement.ImprovementType;
 import Model.TileRelated.Terraine.TerrainType;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -55,9 +54,6 @@ public enum ResourceType {
             ResourceMainTypes.LuxuryResources);
 
     static {
-        for (ResourceType resourceType: ResourceType.values()) {
-                resourceType.image = new Image("/images/Map/resource/" + resourceType.name().toLowerCase() + ".png");
-        }
 
         Bananas.setter(null, new ArrayList<>() {{
             add(FeatureType.Forest);
@@ -169,7 +165,6 @@ public enum ResourceType {
     public  ImprovementType improvementNeeded;
     public final TechnologyType requiredTechnology;
 
-    public Image image;
 
     private void setter(ArrayList<TerrainType> canBeFoundOn, ArrayList<FeatureType> canBeFoundOnFeatures, ImprovementType improvementNeeded){
         this.canBeFoundOn = canBeFoundOn;

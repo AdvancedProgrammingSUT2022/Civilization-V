@@ -3,6 +3,7 @@ import Controller.GameController.CivilizationController;
 import Controller.GameController.MapControllers.MapFunctions;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.TypeEnums.UnitType;
 
@@ -15,11 +16,11 @@ public class Settler extends NonCombat {
         super();
     }
 
-    public void buildCity(String cityName){
+    public void buildCity(GameMap gameMap , String cityName){
         City city = new City(civilization);
         city.addCityTiles(this.tile);
         this.tile.setCivilization(civilization);
-        for (Tile tile : MapFunctions.getInstance().getSurroundings(this.tile)) {
+        for (Tile tile : MapFunctions.getInstance().getSurroundings(gameMap , this.tile)) {
             city.addCityTiles(tile);
             tile.setCivilization(civilization);
         }

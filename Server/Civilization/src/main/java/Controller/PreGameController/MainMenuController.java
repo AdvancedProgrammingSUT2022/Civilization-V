@@ -1,17 +1,23 @@
 package Controller.PreGameController;
 
 import Controller.GameController.MapControllers.MapGenerator;
+import Controller.SavingDataController.DataSaver;
+import Model.MapRelated.GameMap;
 import Model.NetworkRelated.NetworkController;
 import Model.NetworkRelated.Update;
 import Model.NetworkRelated.UpdateType;
 import Model.User.User;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import Controller.Controller.Controller;
+
+import javax.xml.crypto.Data;
 
 public class MainMenuController extends Controller{
     private static MainMenuController mainMenuController;
@@ -24,7 +30,6 @@ public class MainMenuController extends Controller{
 
 
     public void gameStart(ArrayList<String> players){
-        System.out.println("ya bruh");
         int mapWidth = Integer.parseInt(players.get(0));
         int mapHeight = Integer.parseInt(players.get(1));
         players.remove(0);
@@ -37,9 +42,9 @@ public class MainMenuController extends Controller{
         }};
         System.out.println(mapWidth);
         System.out.println(mapHeight);
-        MapGenerator.getInstance().gameInit(users, mapWidth, mapHeight);
-        System.out.println("ya bruh2");
-        System.out.println("map has been generated");
+        GameMap gameMap = MapGenerator.getInstance().gameInit(users, mapWidth, mapHeight);
+        NetworkController.getInstance().addGame(gameMap);
+        startGamesForClients(gameMap,users);
     }
 
     @Override
@@ -75,5 +80,13 @@ public class MainMenuController extends Controller{
             add(invitee);
         }});
         NetworkController.getInstance().sendUpdate(update,LoginAndRegisterController.getInstance().getUser(sender));
+    }
+
+    public void startGamesForClients(GameMap gameMap,ArrayList<User> users ){
+        String data = DataSaver.getInstance().makeJson(gameMap);
+        Update update = new Update(UpdateType.initializeGame,new ArrayList<>(){{add(data);}});
+        for (User user:users) {
+            NetworkController.getInstance().sendUpdate(update,user);
+        }
     }
 }

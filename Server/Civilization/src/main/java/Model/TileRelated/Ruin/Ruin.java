@@ -15,15 +15,15 @@ public class Ruin {
 
     private Tile tile;
 
-    public String getBenefit(Civilization civilization){
+    public String getBenefit(GameMap gameMap ,Civilization civilization){
         if(gold) {
-            return giftCoin(civilization);
+            return giftCoin(gameMap , civilization);
         }else if(visibility){
-            TileVisibilityController.getInstance().changeVision(this.tile, civilization.getSeenBy(), 1, 1);
+            TileVisibilityController.getInstance().changeVision(gameMap , this.tile, civilization.getSeenBy(), 1, 1);
             return "You have found a ruin! you get to see the tiles around the ruin as a reward!";
         }else if(citizen){
             if(civilization.getCities().size() == 0){
-                return giftCoin(civilization);
+                return giftCoin(gameMap , civilization);
             }else{
                 City city = civilization.getCities().get(0);
                 city.getCitizens().add(new Citizen(city));
@@ -33,14 +33,14 @@ public class Ruin {
         return null;
     }
 
-    private String giftCoin(Civilization civilization){
-        int amount = GameMap.getInstance().getRandom().nextInt(20) + 10;
+    private String giftCoin(GameMap gameMap , Civilization civilization){
+        int amount = gameMap.getRandom().nextInt(20) + 10;
         civilization.setGold(civilization.getGold() + amount);
         return "You have found a ruin! you get " + amount + " gold coins as a reward!";
     }
 
-    public Ruin(Tile tile) {
-        int whichBenefit = GameMap.getInstance().getRandom().nextInt(3);
+    public Ruin(GameMap gameMap , Tile tile) {
+        int whichBenefit = gameMap.getRandom().nextInt(3);
         switch (whichBenefit) {
             case 0 -> gold = true;
             case 1 -> visibility = true;

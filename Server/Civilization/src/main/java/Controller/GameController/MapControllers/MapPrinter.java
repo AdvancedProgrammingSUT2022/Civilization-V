@@ -22,11 +22,11 @@ public class MapPrinter {
             mapPrinter = new MapPrinter();
         return mapPrinter;
     }
-    public String printMap(){
-        String[][] printMap = new String[GameMap.getInstance().getMapHeight() * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount + 1][GameMap.getInstance().getMapWidth() * (MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount) + MapEnum.HEXSIDESHORT.amount];
+    public String printMap(GameMap gameMap){
+        String[][] printMap = new String[gameMap.getMapHeight() * MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDESHORT.amount + 1][gameMap.getMapWidth() * (MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount) + MapEnum.HEXSIDESHORT.amount];
         blankMap(printMap);
-        for (int i = 0; i < GameMap.getInstance().getTiles().size(); i++) {
-            fillTileInfo(GameMap.getInstance().getTiles().get(i), printMap);
+        for (int i = 0; i < gameMap.getTiles().size(); i++) {
+            fillTileInfo(gameMap , gameMap.getTiles().get(i), printMap);
         }
         return printArray(printMap);
     }
@@ -49,9 +49,9 @@ public class MapPrinter {
         }
     }
 
-    private String assignCharToCivilization(Civilization civilization){
+    private String assignCharToCivilization(GameMap gameMap , Civilization civilization){
         int asciiA = (int)'A';
-        char returnChar = (char)(asciiA + GameMap.getInstance().getCivilizations().indexOf(civilization));
+        char returnChar = (char)(asciiA + gameMap.getCivilizations().indexOf(civilization));
         return Character.toString(returnChar);
     }
     public void nullify(String map[][],int startIndex,int length,int y){
@@ -60,14 +60,14 @@ public class MapPrinter {
         }
     }
 
-    public void fillTileInfo(Tile tile,String map[][]){
+    public void fillTileInfo(GameMap gameMap, Tile tile,String map[][]){
         int x = MapFunctions.getInstance().NonConventionalCoordinatesX(tile);
         int y = MapFunctions.getInstance().NonConventionalCoordinatesY(tile);
-        createHex(map, getBackGroundColor(tile), Color.ANSI_RESET, x, y,tile);
-        printInfo(map, x, y, tile);
+        createHex(gameMap , map, getBackGroundColor(gameMap , tile), Color.ANSI_RESET, x, y,tile);
+        printInfo(gameMap , map, x, y, tile);
     }
-    private String getBackGroundColor(Tile tile){
-        if(getVisibility(tile).equals(TileVisibility.FOGOFWAR))
+    private String getBackGroundColor(GameMap gameMap , Tile tile){
+        if(getVisibility(gameMap , tile).equals(TileVisibility.FOGOFWAR))
             return Color.ANSI_WHITE_BACKGROUND;
         else if(tile.getTerrain().name().equals(TerrainType.Desert.name()))
             return Color.ANSI_YELLOW_BACKGROUND;
@@ -88,13 +88,13 @@ public class MapPrinter {
         return Color.getBackgroundColor(tile.getTerrain().ordinal());
     }
 
-    private void printInfo(String map[][],int x,int y,Tile tile){
-        if(isFogOfWar(tile) == false){
+    private void printInfo(GameMap gameMap , String map[][],int x,int y,Tile tile){
+        if(isFogOfWar(gameMap , tile) == false){
             ArrayList<String> texts = new ArrayList<>();
-            fillTextsForTilePrint(texts, tile);
+            fillTextsForTilePrint(gameMap ,texts, tile);
             int textDistance = MapEnum.HEXSIDESHORT.amount / texts.size(),distance = MapEnum.HEXSIDESHORT.amount * 3 / texts.size();
             if(tile.getCivilization() != null)
-                printCivilizationAndCityChar(map, x, y, distance, tile);
+                printCivilizationAndCityChar(gameMap , map, x, y, distance, tile);
             for (int i = 0; i < texts.size(); i++) {
                 distance += textDistance;
                 if(texts.get(i) != null)
@@ -102,27 +102,27 @@ public class MapPrinter {
             }
         }
     }
-    private boolean isFogOfWar(Tile tile){
-        return (getVisibility(tile) == TileVisibility.FOGOFWAR);
+    private boolean isFogOfWar(GameMap gameMap , Tile tile){
+        return (getVisibility(gameMap , tile) == TileVisibility.FOGOFWAR);
     }
-    private void printCivilizationAndCityChar(String map[][],int x,int y,int textDistance,Tile tile){
+    private void printCivilizationAndCityChar(GameMap gameMap , String map[][],int x,int y,int textDistance,Tile tile){
         if(tile.getCity() != null){
-            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3] = assignCharToCivilization(tile.getCivilization());
+            map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3] = assignCharToCivilization(gameMap , tile.getCivilization());
             nullify(map,1 + x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3, ("->" + tile.getCity().getName()).length(), y + textDistance);
             map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 3] += "->" + tile.getCity().getName();
         }else
-        map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(tile.getCivilization());
+        map[y + textDistance][x + (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount) / 2] = assignCharToCivilization(gameMap , tile.getCivilization());
     }
-    private void fillTextsForTilePrint(ArrayList<String> texts,Tile tile){
-        if(getVisibility(tile) == TileVisibility.VISIBLE){
-            addVisibleTypeTexts(tile, texts);
+    private void fillTextsForTilePrint(GameMap gameMap , ArrayList<String> texts,Tile tile){
+        if(getVisibility(gameMap , tile) == TileVisibility.VISIBLE){
+            addVisibleTypeTexts(gameMap , tile, texts);
         }
         else{
             addRevealedTypeTexts(tile, texts);
         }
         texts.add("T: " + tile.getTerrain().name());
     }
-    private void addVisibleTypeTexts(Tile tile,ArrayList<String> texts){
+    private void addVisibleTypeTexts(GameMap gameMap ,Tile tile,ArrayList<String> texts){
         if(tile.getCity() != null && tile.isCapital())texts.add("HP: " +  String.format("%.2f",tile.getCity().getHitPoint()));else{texts.add(null);}
         if(tile.getFeature() != null)texts.add("F:" + tile.getFeature().getFeatureType().name());else{texts.add(null);}
         if(tile.getResource() != null)texts.add("R:" + tile.getResource().getResourceType().name());else{texts.add(null);}
@@ -132,21 +132,21 @@ public class MapPrinter {
             else texts.add("||");
         }
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
-        printUnitInfo(tile, texts, 0);
-        printUnitInfo(tile, texts, 1);
+        printUnitInfo(gameMap  , tile, texts, 0);
+        printUnitInfo(gameMap , tile, texts, 1);
     }
-    private void printUnitInfo(Tile tile,ArrayList<String> texts,int index){
+    private void printUnitInfo(GameMap gameMap, Tile tile,ArrayList<String> texts,int index){
         if(tile.getUnits().size() == index + 1 && tile.getUnits().get(index).getUnitType().mainType != MainType.NONCOMBAT && tile.getUnits().get(index) instanceof Combat){
             Combat combat = (Combat)tile.getUnits().get(index);
-            texts.add("U:" + combat.getUnitType().name() + " " + String.format("%.2f",combat.getHitPoints()) + " " + assignCharToCivilization(combat.getCivilization()));
+            texts.add("U:" + combat.getUnitType().name() + " " + String.format("%.2f",combat.getHitPoints()) + " " + assignCharToCivilization(gameMap , combat.getCivilization()));
         }
-        else if(tile.getUnits().size() == index + 1){texts.add("U:" + tile.getUnits().get(index).getUnitType().name() + " " + assignCharToCivilization(tile.getUnits().get(index).getCivilization()));}else{texts.add(null);}
+        else if(tile.getUnits().size() == index + 1){texts.add("U:" + tile.getUnits().get(index).getUnitType().name() + " " + assignCharToCivilization(gameMap , tile.getUnits().get(index).getCivilization()));}else{texts.add(null);}
     }
     private void addRevealedTypeTexts(Tile tile,ArrayList<String> texts){
         texts.add("REVEALED");
-//        if(GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile) != null)texts.add("F:" + GameController.getInstance().getPlayerTurn().getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
-//        if(GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile) != null)texts.add("R:" + GameController.getInstance().getPlayerTurn().getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
-//        if(GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile) != null)texts.add("I:" + GameController.getInstance().getPlayerTurn().getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
+//        if(GameController.getInstance().getPlayerTurn(gameMap).getRevealedFeatures().get(tile) != null)texts.add("F:" + GameController.getInstance().getPlayerTurn(gameMap).getRevealedFeatures().get(tile).getFeatureType().name());else{texts.add(null);}
+//        if(GameController.getInstance().getPlayerTurn(gameMap).getRevealedResources().get(tile) != null)texts.add("R:" + GameController.getInstance().getPlayerTurn(gameMap).getRevealedResources().get(tile).getResourceType().name());else{texts.add(null);}
+//        if(GameController.getInstance().getPlayerTurn(gameMap).getRevealedImprovements().get(tile) != null)texts.add("I:" + GameController.getInstance().getPlayerTurn(gameMap).getRevealedImprovements().get(tile).getImprovementType().name());else{texts.add(null);}
         texts.add("y:" + tile.getY() + " " + "x:" + tile.getX());
     }
     private void printInfoTile(String map[][],int textDistance,String infoString,int x,int y){
@@ -161,8 +161,8 @@ public class MapPrinter {
         return false;
     }
 
-    private void createHex(String map[][],String backgroundColor,String reset,int x,int y,Tile tile){
-        ArrayList<String> hasColor = hasRiverBorders(tile);
+    private void createHex(GameMap gameMap, String map[][],String backgroundColor,String reset,int x,int y,Tile tile){
+        ArrayList<String> hasColor = hasRiverBorders(gameMap , tile);
         if(y == 0 || y == MapEnum.HEXSIDESHORT.amount){for (int i = MapEnum.HEXSIDESHORT.amount; i < MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount ; i++){if(i == 0)map[y][x] = hasColor.get(Direction.NORTH.ordinal()) + "_";if(i == MapEnum.HEXSIDELONG.amount + MapEnum.HEXSIDESHORT.amount - 1)map[y][x + i] = "_" + reset;else map[y][x + i] = "_";}}
         for (int i = 1; i < MapEnum.HEXSIDESHORT.amount * 2 + 1; i++) {
             String chap,rast;
@@ -175,17 +175,17 @@ public class MapPrinter {
     }
     
 
-    private ArrayList<String> hasRiverBorders(Tile tile){
+    private ArrayList<String> hasRiverBorders(GameMap gameMap, Tile tile){
         ArrayList<String> hasRivers = new ArrayList<>(){{for(int i = 0;i < 6;i++)add("");}};
-        if(!getVisibility(tile).equals(TileVisibility.FOGOFWAR))
+        if(!getVisibility(gameMap , tile).equals(TileVisibility.FOGOFWAR))
             for (River borderRiver : tile.getRivers()) {
                 hasRivers.set(findNeighborDirection(tile, borderRiver.otherTile(tile)).ordinal(), Color.ANSI_CYAN_BACKGROUND);
             }
         return hasRivers;
     }
-    public TileVisibility getVisibility(Tile tile){
-        if(GameController.getInstance().getPlayerTurn().getSeenBy(tile) == -1)return TileVisibility.FOGOFWAR;
-        if(GameController.getInstance().getPlayerTurn().getSeenBy(tile) == 0)return TileVisibility.REVEALED;
+    public TileVisibility getVisibility(GameMap gameMap , Tile tile){
+        if(GameController.getInstance().getPlayerTurn(gameMap).getSeenBy(tile) == -1)return TileVisibility.FOGOFWAR;
+        if(GameController.getInstance().getPlayerTurn(gameMap).getSeenBy(tile) == 0)return TileVisibility.REVEALED;
         return TileVisibility.VISIBLE;
     }
     private Direction findNeighborDirection(Tile origin,Tile neighbour){

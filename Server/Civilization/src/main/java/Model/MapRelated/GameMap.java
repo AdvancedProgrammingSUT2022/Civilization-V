@@ -32,17 +32,18 @@ public class GameMap {
     @Expose
     private int mapHeight;
     private static GameMap map;
-    public static void setInstance(GameMap gameMap){
-        map = gameMap;
-    }
+//    public static void setInstance(GameMap gameMap){
+//        map = gameMap;
+//    }
+//
+//    private GameMap(){
+//    }
+//    public static GameMap getInstance(){
+//        if(map == null)
+//            map = new GameMap();
+//        return map;
+//    }
 
-    private GameMap(){
-    }
-    public static GameMap getInstance(){
-        if(map == null) 
-            map = new GameMap();
-        return map;
-    }
     public void loadHashMap(){
         for (Civilization civilization:this.civilizations) {
             for (int i = 0; i < civilization.getSavingSeenByTile().size(); i++) {
@@ -68,14 +69,14 @@ public class GameMap {
             }
         }
     }
-    public int getTurn() {
+    public int getTurn(GameMap gameMap) {
         return turn;
     }
 
     public void setTurn(int turn) {
         this.turn = turn;
     }
-    public Civilization getPlayerTurn() {
+    public Civilization getPlayerTurn(GameMap gameMap) {
         return playerTurn;
     }
 
@@ -129,8 +130,8 @@ public class GameMap {
     public void setInitialGraph(Graph initialGraph) {
         this.initialGraph = initialGraph;
     }
-    public String printMap(){
-        return MapPrinter.getInstance().printMap();
+    public String printMap(GameMap gameMap){
+        return MapPrinter.getInstance().printMap(gameMap);
     }
 
     public int getMapWidth() {

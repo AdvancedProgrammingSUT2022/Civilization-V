@@ -17,6 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -60,7 +61,10 @@ public class NetworkController {
         listener = new Thread(() -> {
             try {
                 while (isOnline) {
-                    String update = inputListenerStream.readUTF();
+                    int length = inputListenerStream.readInt();
+                    byte [] data = new byte[length];
+                    inputListenerStream.readFully(data);
+                    String update = new String(data, StandardCharsets.UTF_8);
                     try {
                         if(!update.equals("{}"))
                             handleUpdate(new Gson().fromJson(update, Update.class));
@@ -84,6 +88,7 @@ public class NetworkController {
         switch (update.getUpdateType()) {
             case invitation -> createInvitePopUp(update);
             case inviteAcceptance -> MainMenuController.getInstance().handleInvitation(update);
+            case initializeGame -> MainMenuController.getInstance().initializeGame(update);
         }
     }
 

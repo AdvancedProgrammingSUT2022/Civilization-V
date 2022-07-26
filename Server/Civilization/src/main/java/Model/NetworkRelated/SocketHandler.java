@@ -6,7 +6,6 @@ import Controller.PreGameController.ProfileMenuController;
 import Controller.SavingDataController.DataSaver;
 import Model.User.User;
 import com.google.gson.Gson;
-import javafx.application.Platform;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -37,8 +36,10 @@ public class SocketHandler extends Thread {
             try {
                 Request request =  new Gson().fromJson(this.dataInputStream.readUTF(),Request.class);
                 Response response = handleRequest(request);
-                this.dataOutputStream.writeUTF(response.toJson());
-                this.dataOutputStream.flush();
+                if(response != null) {
+                    this.dataOutputStream.writeUTF(response.toJson());
+                    this.dataOutputStream.flush();
+                }
             } catch (SocketException e) {
                 break;
             } catch (IOException e) {
@@ -60,7 +61,7 @@ public class SocketHandler extends Thread {
             case NextProfilePic -> ProfileMenuController.getInstance().increaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case PrevProfilePic -> ProfileMenuController.getInstance().decreaseImageIndex(Integer.parseInt(request.getParams().get(0)),loggedInUser);
             case ChoosePic ->  loggedInUser.setProfPicIndex(Integer.parseInt(request.getParams().get(0)));
-            case registerReaderSocket -> registerReaderSocket(request.getParams().get(0));
+            case registerReaderSocket -> {registerReaderSocket(request.getParams().get(0)); return  null;}
             case sendInvite -> response = MainMenuController.getInstance().sendInvite(loggedInUser.getUsername(),request.getParams().get(0));
             case inviteAcceptation -> MainMenuController.getInstance().inviteAcceptation(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
             case startGame -> MainMenuController.getInstance().gameStart(request.getParams());

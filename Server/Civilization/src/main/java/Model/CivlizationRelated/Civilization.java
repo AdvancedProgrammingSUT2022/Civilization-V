@@ -14,8 +14,6 @@ import Model.Units.NonCombat.Settler;
 import Model.Units.Unit;
 import Model.User.User;
 import com.google.gson.annotations.Expose;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import javafx.scene.paint.Color;
 
 public class Civilization {
     @Expose

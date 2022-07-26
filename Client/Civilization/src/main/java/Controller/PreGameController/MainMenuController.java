@@ -1,11 +1,14 @@
 package Controller.PreGameController;
 
+import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
+import Model.MapRelated.GameMap;
 import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
 import Model.NetworkRelated.Update;
 import Model.User.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -99,5 +102,16 @@ public class MainMenuController extends Controller{
         if(update.getParams().get(0).equals("accepted")){
             addPlayer(update.getParams().get(1));
         }
+    }
+
+    public void initializeGame(Update update) {
+        try {
+            GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Platform.runLater(()->{
+            main.java.Main.changeMenu(Menus.GAME_MENU.value);
+        });
     }
 }

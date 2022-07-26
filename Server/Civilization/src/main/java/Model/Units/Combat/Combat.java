@@ -3,6 +3,7 @@ import Controller.GameController.UnitController;
 import Controller.GameController.MapControllers.TileVisibilityController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
 import Model.Units.TypeEnums.UnitType;
@@ -87,15 +88,15 @@ public class Combat extends Unit {
         return this.maxDamage;
     }
 
-    public void captureCivilian(Unit nonCombatUnit) {
+    public void captureCivilian(GameMap gameMap , Unit nonCombatUnit) {
         nonCombatUnit.getCivilization().getUnits().remove(nonCombatUnit);
         this.civilization.getUnits().add(nonCombatUnit);
         nonCombatUnit.setCivilization(this.civilization);
         nonCombatUnit.getCivilization().getUnits().remove(nonCombatUnit);
         this.tile.getUnits().remove(this);
-        TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), -1, 2);
+        TileVisibilityController.getInstance().changeVision(gameMap , getTile(), civilization.getSeenBy(), -1, 2);
         this.tile = nonCombatUnit.getTile();
         this.tile.getUnits().add(this);
-        TileVisibilityController.getInstance().changeVision(getTile(), civilization.getSeenBy(), 1, 2);
+        TileVisibilityController.getInstance().changeVision(gameMap , getTile(), civilization.getSeenBy(), 1, 2);
     }
 }

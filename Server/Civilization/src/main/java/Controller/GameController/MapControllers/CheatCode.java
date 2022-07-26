@@ -15,12 +15,12 @@ public class CheatCode {
             cheatCode = new CheatCode();
         return cheatCode;
     }
-    public String goldIncrease (Matcher matcher){
-        GameController.getInstance().getPlayerTurn().changeGold(Integer.parseInt(matcher.group("amount")));
+    public String goldIncrease (GameMap gameMap , Matcher matcher){
+        GameController.getInstance().getPlayerTurn(gameMap).changeGold(Integer.parseInt(matcher.group("amount")));
         return "done";
     }
-    public String happinessIncrease (Matcher matcher){
-        GameController.getInstance().getPlayerTurn().changeHappiness(Integer.parseInt(matcher.group("amount")));
+    public String happinessIncrease (GameMap gameMap , Matcher matcher){
+        GameController.getInstance().getPlayerTurn(gameMap).changeHappiness(Integer.parseInt(matcher.group("amount")));
         return "done";
     }
     public String increaseCityHitPoint (Matcher matcher){
@@ -33,8 +33,8 @@ public class CheatCode {
         GameController.getInstance().getSelectedCity().changeStrength(Integer.parseInt(matcher.group("amount")));
         return "done";
     }
-    public String increaseTurns (Matcher matcher){
-        for (int i = 0; i < GameMap.getInstance().getCivilizations().size() * Integer.parseInt(matcher.group("amount")); i++)GameController.getInstance().nextTurn();
+    public String increaseTurns (GameMap gameMap , Matcher matcher){
+        for (int i = 0; i < gameMap.getCivilizations().size() * Integer.parseInt(matcher.group("amount")); i++)GameController.getInstance().nextTurn(gameMap);
         return "done";
     }
     public String increaseStoredFood (Matcher matcher){
@@ -43,9 +43,9 @@ public class CheatCode {
         return "done";
     }
 
-    public String increaseHealthOfUnits(Matcher matcher){
+    public String increaseHealthOfUnits(GameMap gameMap ,Matcher matcher){
         int amount = Integer.parseInt(matcher.group("amount"));
-        for (Unit unit:GameController.getInstance().getPlayerTurn().getUnits()) {
+        for (Unit unit:GameController.getInstance().getPlayerTurn(gameMap).getUnits()) {
             if(unit instanceof Combat){
                 ((Combat)unit).changeHitPoint(amount);
             }
@@ -53,9 +53,9 @@ public class CheatCode {
         return "cheating is bad but ok";
     }
 
-    public String increaseXpOfUnits(Matcher matcher){
+    public String increaseXpOfUnits(GameMap gameMap ,Matcher matcher){
         int amount = Integer.parseInt(matcher.group("amount"));
-        for (Unit unit:GameController.getInstance().getPlayerTurn().getUnits()) {
+        for (Unit unit:GameController.getInstance().getPlayerTurn(gameMap).getUnits()) {
             if(unit instanceof Combat){
                 ((Combat)unit).addXp(amount);
             }
@@ -63,15 +63,15 @@ public class CheatCode {
         return "cheating is bad but ok";
     }
 
-    public String increaseIron(Matcher matcher){
+    public String increaseIron(GameMap gameMap , Matcher matcher){
         int amount = Integer.parseInt(matcher.group("amount"));
-        GameController.getInstance().getPlayerTurn().changeTotalIron(amount);
-        GameController.getInstance().getPlayerTurn().changeCurrentIron(amount);
+        GameController.getInstance().getPlayerTurn(gameMap).changeTotalIron(amount);
+        GameController.getInstance().getPlayerTurn(gameMap).changeCurrentIron(amount);
         return "done!";
     }
 
-    public String unlockFirstHalfTechnologies(){
-        Civilization player = GameController.getInstance().getPlayerTurn();
+    public String unlockFirstHalfTechnologies(GameMap gameMap){
+        Civilization player = GameController.getInstance().getPlayerTurn(gameMap);
         player.addTechnology(new Technology(TechnologyType.Agriculture));
         player.addTechnology(new Technology(TechnologyType.AnimalHusbandry));
         player.addTechnology(new Technology(TechnologyType.Masonry));
@@ -96,8 +96,8 @@ public class CheatCode {
         return "done";
     }
 
-    public String unlockSecondHalfTechnologies(){
-        Civilization player = GameController.getInstance().getPlayerTurn();
+    public String unlockSecondHalfTechnologies(GameMap gameMap){
+        Civilization player = GameController.getInstance().getPlayerTurn(gameMap);
         player.addTechnology(new Technology(TechnologyType.Machinery));
         player.addTechnology(new Technology(TechnologyType.MetalCasting));
         player.addTechnology(new Technology(TechnologyType.Physics));

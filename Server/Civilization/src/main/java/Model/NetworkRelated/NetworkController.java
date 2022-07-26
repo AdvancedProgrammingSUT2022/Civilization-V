@@ -1,16 +1,20 @@
 package Model.NetworkRelated;
 
+import Model.MapRelated.GameMap;
 import Model.User.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NetworkController {
     private static NetworkController instance;
     private final static ArrayList<User> onlineUsers = new ArrayList<>();
     private ServerSocket serverSocket;
+    private ArrayList<GameMap> gamesInProgress = new ArrayList<>();
 
     private NetworkController() {}
     public static NetworkController getInstance() {
@@ -19,13 +23,19 @@ public class NetworkController {
     }
 
     public void sendUpdate(Update update,User receiver){
+        byte [] updateBytes = update.toJson().getBytes(StandardCharsets.UTF_8);
+        System.out.println(updateBytes);
         try {
-            receiver.getDataOutputStream().writeUTF(update.toJson());
+            receiver.getDataOutputStream().writeInt(updateBytes.length);
+            receiver.getDataOutputStream().write(updateBytes);
             receiver.getDataOutputStream().flush();
         } catch (IOException e) {
-            System.out.println("couldn't send update");
             e.printStackTrace();
         }
+    }
+
+    public void addGame(GameMap gameMap){
+        gamesInProgress.add(gameMap);
     }
 
     public void addOnlineUser(User user){

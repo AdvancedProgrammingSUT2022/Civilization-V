@@ -2,8 +2,7 @@ package Model.TileRelated.Building;
 
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 
 public enum BuildingType implements BuildingNotes{
 
@@ -222,13 +221,6 @@ public enum BuildingType implements BuildingNotes{
     public final int Maintenance;
     public final Technology technologyRequired;
     public final BuildingMainType buildingMainType;
-    public Image image;
-
-    static {
-        for (BuildingType buildingType: BuildingType.values()) {
-            buildingType.image = new Image("/images/Buildings/" + buildingType.name() + ".png");
-        }
-    }
 
     BuildingType(int cost, int maintenance, Technology technologyRequired, BuildingMainType buildingMainType) {
         Cost = cost;

@@ -1,7 +1,6 @@
 package Model.Technology;
 
 import Model.TileRelated.Terraine.TerrainType;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -596,15 +595,8 @@ public enum TechnologyType implements Unlocks {
     public final TechnologyMainType technologyMainType;
     public final ArrayList<TechnologyType> PrerequisiteTechs;
     public final ArrayList<TechnologyType> LeadsToTechs;
-    public Image image;
     public String toolTip;
 
-    static {
-        for (
-                TechnologyType technologyType: TechnologyType.values()) {
-            technologyType.image = new Image("/images/Technologies/" + technologyType.name() + ".png");
-        }
-    }
 
     TechnologyType(int cost, TechnologyMainType technologyMainType, ArrayList<TechnologyType> prerequisiteTechs, ArrayList<TechnologyType> leadsToTechs , String toolTip) {
         this.cost = cost;

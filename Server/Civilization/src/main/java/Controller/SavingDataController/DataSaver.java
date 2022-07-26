@@ -85,23 +85,31 @@ public class DataSaver {
             e.printStackTrace();
         }
     }
-    public synchronized void saveGame() throws FileNotFoundException {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-        GameMap.getInstance().saveHashmap();
-        String json = gson.toJson(GameMap.getInstance());
-        saveToFile(json);
-    }
 
-    public synchronized void loadGame(String fileName) throws IOException {
+    public String makeJson(GameMap gameMap){
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-        String json = loadFromFile(fileName);
-        GameMap gameMap = gson.fromJson(json, GameMap.class);
-        completeFatherChildFields(gameMap);
-        gameMap.loadHashMap();
-        GameMap.setInstance(gameMap);
+        gameMap.saveHashmap();
+        String json = gson.toJson(gameMap);
+        return json;
     }
+//    public synchronized void saveGame() throws FileNotFoundException {
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+//        gameMap.saveHashmap();
+//        String json = gson.toJson(gameMap);
+//        saveToFile(json);
+//    }
+
+//    public synchronized void loadGame(String fileName) throws IOException {
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+//        String json = loadFromFile(fileName);
+//        GameMap gameMap = gson.fromJson(json, GameMap.class);
+//        completeFatherChildFields(gameMap);
+//        gameMap.loadHashMap();
+//        GameMap.setInstance(gameMap);
+//    }
 
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
@@ -139,7 +147,7 @@ public class DataSaver {
                 newUnit.setTile(equalizeTiles(gameMap,newUnit.getTile()));
                 gameMap.getUnits().add(newUnit);
             }
-            if(gameMap.getPlayerTurn().getUser().getUsername().equals(civilization.getUser().getUsername()))
+            if(gameMap.getPlayerTurn(gameMap).getUser().getUsername().equals(civilization.getUser().getUsername()))
                 gameMap.setPlayerTurn(civilization);
         }
     }
