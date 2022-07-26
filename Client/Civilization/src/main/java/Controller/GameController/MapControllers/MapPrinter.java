@@ -184,8 +184,9 @@ public class MapPrinter {
         return hasRivers;
     }
     public TileVisibility getVisibility(Tile tile){
-        if(GameController.getInstance().getPlayerTurn().getSeenBy(tile) == -1)return TileVisibility.FOGOFWAR;
-        if(GameController.getInstance().getPlayerTurn().getSeenBy(tile) == 0)return TileVisibility.REVEALED;
+        Civilization playerCiv = MapFunctions.getInstance().getLoggedInUserCiv();
+        if(playerCiv.getSeenBy(tile) == -1)return TileVisibility.FOGOFWAR;
+        if(playerCiv.getSeenBy(tile) == 0)return TileVisibility.REVEALED;
         return TileVisibility.VISIBLE;
     }
     private Direction findNeighborDirection(Tile origin,Tile neighbour){

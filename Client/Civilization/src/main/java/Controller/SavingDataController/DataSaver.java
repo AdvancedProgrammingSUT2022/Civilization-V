@@ -103,6 +103,13 @@ public class DataSaver {
         return gameMap;
     }
 
+    public String makeJson(GameMap gameMap){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+        gameMap.saveHashmap();
+        return gson.toJson(gameMap);
+    }
+
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
             for(User user: LoginAndRegisterController.getInstance().getUsers()){

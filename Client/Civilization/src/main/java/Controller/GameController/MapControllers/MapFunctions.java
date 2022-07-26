@@ -1,5 +1,6 @@
 package Controller.GameController.MapControllers;
 
+import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
 import Model.MapRelated.GameMap;
@@ -30,7 +31,16 @@ public class MapFunctions {
         }
         return (tile.getX() - 1) * (MapEnum.HEXSIDESHORT.amount * 2 + MapEnum.HEXSIDELONG.amount * 2) / 2 + (MapEnum.HEXSIDESHORT.amount + MapEnum.HEXSIDELONG.amount);
     }
-
+    public Civilization getLoggedInUserCiv(){
+        for (Civilization civilization:GameMap.getInstance().getCivilizations()) {
+            if(civilization.getUser().getUsername().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()))
+                return civilization;
+        }
+        return null;
+    }
+    public boolean isMyTurn(){
+        return GameMap.getInstance().getPlayerTurn() == getLoggedInUserCiv();
+    }
     public ArrayList<Tile> getSurroundings(Tile tile){ //Be careful some tiles might be null!
         int first,second;
         if(tile.getX() % 2 == 0){first = -1;second = 0;}else{first = 0;second = 1;}

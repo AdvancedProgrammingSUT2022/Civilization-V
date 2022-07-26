@@ -3,6 +3,7 @@ import Controller.SavingDataController.DataSaver;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
+import Model.NetworkRelated.Update;
 import Model.Technology.Technology;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.Building;
@@ -20,6 +21,7 @@ import Controller.GameController.MapControllers.MapGenerator;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -102,6 +104,9 @@ public class GameController{
         GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
         if(getPlayerTurn().equals(this.map.getCivilizations().get(0))) GameMap.getInstance().setTurn(GameMap.getInstance().getTurn() + 1);
         return "next player turn!";
+    }
+    public void setGameMap(Update update) throws IOException {
+        GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
     }
 
 

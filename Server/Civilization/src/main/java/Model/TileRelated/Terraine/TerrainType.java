@@ -24,12 +24,12 @@ public enum TerrainType {
     public ArrayList<Resource> possibleResources;
 
     static {
-        Desert.setter(new ArrayList<Feature>(){{
+        Desert.setter(new ArrayList<>() {{
             Feature Oasis = new Feature(FeatureType.Oasis);
             Feature FloodPlains = new Feature(FeatureType.FloodPlains);
             add(Oasis);
             add(FloodPlains);
-        }}, new ArrayList<Resource>(){{
+        }}, new ArrayList<>() {{
             Resource Iron = new Resource(ResourceType.Iron);
             Resource GoldResource = new Resource(ResourceType.GoldResource);
             Resource Marble = new Resource(ResourceType.Marble);
@@ -47,12 +47,12 @@ public enum TerrainType {
             add(Incense);
             add(Sheep);
         }});
-        Grassland.setter( new ArrayList<Feature>(){{
+        Grassland.setter(new ArrayList<>() {{
             Feature Forest = new Feature(FeatureType.Forest);
             Feature Marsh = new Feature(FeatureType.Marsh);
             add(Forest);
             add(Marsh);
-        }}, new ArrayList<Resource>(){{
+        }}, new ArrayList<>() {{
             Resource Iron = new Resource(ResourceType.Iron);
             Resource Horse = new Resource(ResourceType.Horses);
             Resource Coal = new Resource(ResourceType.Coal);
@@ -72,12 +72,12 @@ public enum TerrainType {
             add(Cotton);
             add(Sheep);
         }});
-        Hill.setter( new ArrayList<Feature>(){{
+        Hill.setter(new ArrayList<>() {{
             Feature Forest = new Feature(FeatureType.Forest);
             Feature Jungle = new Feature(FeatureType.Jungle);
             add(Forest);
             add(Jungle);
-        }}, new ArrayList<Resource>(){{
+        }}, new ArrayList<>() {{
             Resource Iron = new Resource(ResourceType.Iron);
             Resource Coal = new Resource(ResourceType.Coal);
             Resource Deer = new Resource(ResourceType.Deer);
@@ -95,12 +95,12 @@ public enum TerrainType {
             add(Marble);
             add(Sheep);
         }});
-        Plains.setter( new ArrayList<Feature>(){{
+        Plains.setter(new ArrayList<>() {{
             Feature Forest = new Feature(FeatureType.Forest);
             Feature Jungle = new Feature(FeatureType.Jungle);
             add(Forest);
             add(Jungle);
-        }}, new ArrayList<Resource>(){{
+        }}, new ArrayList<>() {{
             Resource Iron = new Resource(ResourceType.Iron);
             Resource Horse = new Resource(ResourceType.Horses);
             Resource Coal = new Resource(ResourceType.Coal);
@@ -122,14 +122,14 @@ public enum TerrainType {
             add(Incense);
             add(Sheep);
         }});
-        Snow.setter( null, new ArrayList<Resource>(){{
+        Snow.setter( null, new ArrayList<>() {{
             Resource Iron = new Resource(ResourceType.Iron);
             add(Iron);
         }});
-        Tundra.setter(new ArrayList<Feature>(){{
+        Tundra.setter(new ArrayList<>() {{
             Feature Forest = new Feature(FeatureType.Forest);
             add(Forest);
-        }}, new ArrayList<Resource>(){{
+        }}, new ArrayList<>() {{
             Resource Iron = new Resource(ResourceType.Iron);
             Resource Horse = new Resource(ResourceType.Horses);
             Resource Deer = new Resource(ResourceType.Deer);

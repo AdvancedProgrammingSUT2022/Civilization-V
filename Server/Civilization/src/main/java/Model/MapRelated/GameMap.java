@@ -31,18 +31,6 @@ public class GameMap {
     private int mapWidth;
     @Expose
     private int mapHeight;
-    private static GameMap map;
-//    public static void setInstance(GameMap gameMap){
-//        map = gameMap;
-//    }
-//
-//    private GameMap(){
-//    }
-//    public static GameMap getInstance(){
-//        if(map == null)
-//            map = new GameMap();
-//        return map;
-//    }
 
     public void loadHashMap(){
         for (Civilization civilization:this.civilizations) {
@@ -76,7 +64,7 @@ public class GameMap {
     public void setTurn(int turn) {
         this.turn = turn;
     }
-    public Civilization getPlayerTurn(GameMap gameMap) {
+    public Civilization getPlayerTurn() {
         return playerTurn;
     }
 
@@ -112,9 +100,7 @@ public class GameMap {
     public ArrayList<Tile> getTiles() {
         return tiles;
     }
-    public void setTiles(ArrayList<Tile> tiles) {
-        this.tiles = tiles;
-    }
+
     public ArrayList<Unit> getUnits() {
         return units;
     }
@@ -124,9 +110,7 @@ public class GameMap {
     public ArrayList<Unit> getMovingUnits() {
         return movingUnits;
     }
-    public void setMovingUnits(ArrayList<Unit> movingUnits) {
-        this.movingUnits = movingUnits;
-    }
+
     public void setInitialGraph(Graph initialGraph) {
         this.initialGraph = initialGraph;
     }

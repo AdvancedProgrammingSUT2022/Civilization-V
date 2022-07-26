@@ -33,10 +33,10 @@ public class CheatCode {
         GameController.getInstance().getSelectedCity().changeStrength(Integer.parseInt(matcher.group("amount")));
         return "done";
     }
-    public String increaseTurns (GameMap gameMap , Matcher matcher){
-        for (int i = 0; i < gameMap.getCivilizations().size() * Integer.parseInt(matcher.group("amount")); i++)GameController.getInstance().nextTurn(gameMap);
-        return "done";
-    }
+//    public String increaseTurns (GameMap gameMap , Matcher matcher){
+//        for (int i = 0; i < gameMap.getCivilizations().size() * Integer.parseInt(matcher.group("amount")); i++)GameController.getInstance().nextTurn(gameMap);
+//        return "done";
+//    }
     public String increaseStoredFood (Matcher matcher){
         if(GameController.getInstance().getSelectedCity() == null)return "no city is selected";
         GameController.getInstance().getSelectedCity().changeStoredFood(Integer.parseInt(matcher.group("amount")));
