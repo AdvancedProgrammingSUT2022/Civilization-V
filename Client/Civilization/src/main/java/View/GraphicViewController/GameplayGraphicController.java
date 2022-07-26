@@ -239,8 +239,13 @@ public class GameplayGraphicController implements Initializable {
             fixPolyToTile();
             fixTileToPoly();
             updateMap();
+            setTurnNotification();
             updateMade = false;
         }
+    }
+
+    private void setTurnNotification(){
+        notification.setText(GameMap.getInstance().getPlayerTurn().getUserName() + "'s turn! " + "(" + MapFunctions.getInstance().getCivName(GameController.getInstance().getPlayerTurn())+ ")");
     }
     private void fixTileToPoly() {
         tileToPoly = new HashMap<>();
@@ -492,6 +497,7 @@ public class GameplayGraphicController implements Initializable {
                     , MapFunctions.getInstance().NonConventionalCoordinatesY(GameMap.getInstance().getTiles().get(i))
                     , GameMap.getInstance().getTiles().get(i));
         }
+        setTurnNotification();
     }
 
     private void updateMap(){

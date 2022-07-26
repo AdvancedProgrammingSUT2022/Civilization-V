@@ -224,7 +224,6 @@ public class MapGenerator {
         int playersCount = players.size();
         ArrayList<Tile> availableMapTiles = new ArrayList<>(gameMap.getTiles());
         gameMap.setInitialGraph(Movement.getInstance().graphInit(gameMap));
-
         for (int i = 0; i < playersCount ; i++) {
             Tile settlerDeploy = new Tile();
             Tile warriorDeploy = new Tile();

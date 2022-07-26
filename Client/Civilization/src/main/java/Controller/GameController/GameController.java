@@ -108,6 +108,7 @@ public class GameController{
     }
     public void setGameMap(Update update) throws IOException {
         GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
+        GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
         GameplayGraphicController.updateMade = true;
     }
 

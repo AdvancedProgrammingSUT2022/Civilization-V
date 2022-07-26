@@ -60,6 +60,9 @@ public class MapFunctions {
     public Color getCivColor(Civilization civilization){
         return MapGenerator.getInstance().getColors().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
     }
+    public String getCivName(Civilization civilization){
+        return MapGenerator.getInstance().getColorNames().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
+    }
     public Tile getTile(int x , int y){
 
         for (Tile key: GameMap.getInstance().getTiles()) {

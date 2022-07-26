@@ -1,5 +1,6 @@
 package Controller.PreGameController;
 
+import Controller.GameController.Movement;
 import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
@@ -107,6 +108,7 @@ public class MainMenuController extends Controller{
     public void initializeGame(Update update) {
         try {
             GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
+            GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
         } catch (IOException e) {
             e.printStackTrace();
         }

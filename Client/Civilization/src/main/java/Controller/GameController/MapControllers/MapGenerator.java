@@ -219,6 +219,9 @@ public class MapGenerator {
     public ArrayList<Color> getColors() {
         return colors;
     }
+    public ArrayList<String> getColorNames() {
+        return new ArrayList<>(){{add("RED");add("CYAN");add("BEIGE");add("DARK ORANGE");add("BLUE");add("OLD LACE");}};
+    }
 
     public void setColors(ArrayList<Color> colors) {
         this.colors = colors;

@@ -102,8 +102,6 @@ public class GameController{
         selectedUnit = null;
         selectedCity = null;
         // graph init is a heavy method
-        gameMap.setInitialGraph(Movement.getInstance().graphInit(gameMap));
-        if(getPlayerTurn(gameMap).equals(gameMap.getCivilizations().get(0))) gameMap.setTurn(gameMap.getTurn(gameMap) + 1);
         updateGame(gameMap);
         return "next player turn!";
     }

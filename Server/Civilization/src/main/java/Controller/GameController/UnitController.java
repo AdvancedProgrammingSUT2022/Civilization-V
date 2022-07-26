@@ -581,9 +581,8 @@ public class UnitController {
             }
             combatUnit.setHasAttacked(false);
         }
-//        if(GameController.getInstance().getPlayerTurn(gameMap).getUser().getUsername().equals("nima"))
         System.out.println("1- unit movementsLeft: " + unit.getMovementsLeft() + "movementsLeft: " + unit.getUnitType().movement);
-        unit.movementsLeft =  2;
+        unit.movementsLeft = 2;
     }
     public void updateAllUnitData(GameMap gameMap){
         for (Unit unit : gameMap.getUnits()) {

@@ -170,6 +170,8 @@ public class DataSaver {
         else
             unit = new Siege();
         unit.setTile(original.getTile());
+        unit.movementsLeft = original.movementsLeft;
+        unit.setPath(original.getPath());
         unit.setUnitStateType(original.getUnitStateType());
         unit.setUnitType(original.getUnitType());
         return unit;

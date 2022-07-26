@@ -114,26 +114,21 @@ public class GameMap {
     public ArrayList<Unit> getMovingUnits() {
         return movingUnits;
     }
-
     public void setInitialGraph(Graph initialGraph) {
         this.initialGraph = initialGraph;
     }
     public String printMap(GameMap gameMap){
         return MapPrinter.getInstance().printMap(gameMap);
     }
-
     public int getMapWidth() {
         return mapWidth;
     }
-
     public int getMapHeight() {
         return mapHeight;
     }
-
     public void setMapWidth(int mapWidth) {
         this.mapWidth = mapWidth;
     }
-
     public void setMapHeight(int mapHeight) {
         this.mapHeight = mapHeight;
     }
