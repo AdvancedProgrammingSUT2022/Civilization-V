@@ -81,27 +81,7 @@ public class SocketHandler extends Thread {
             case sendInvite -> response = MainMenuController.getInstance().sendInvite(loggedInUser.getUsername(),request.getParams().get(0));
             case inviteAcceptation -> MainMenuController.getInstance().inviteAcceptation(request.getParams().get(0),request.getParams().get(1),request.getParams().get(2));
             case startGame -> MainMenuController.getInstance().gameStart(request.getParams());
-            case Friendship -> {
-                String firstUsername = request.getParams().get(0);
-                String secondUsername= request.getParams().get(1);
-                boolean find = false;
-                for (Map.Entry<String , ArrayList<String>> entry : NetworkController.getInstance().getFriendshipRequests().entrySet()) {
-                    if(entry.getKey().equals(firstUsername)){
-                        if(!entry.getValue().contains(secondUsername)) {
-                            entry.getValue().add(secondUsername);
-                        } else {
-                            response = "this user is one of your friends";
-                        }
-                        find = true;
-                        break;
-                    }
-                }
-                if(!find){
-                    ArrayList<String> users = new ArrayList<>();
-                    users.add(secondUsername);
-                    NetworkController.getInstance().getFriendshipRequests().put(firstUsername, users);
-                }
-            }
+            case Friendship -> { response = MainMenuController.getInstance().friendship(request);}
             case ShowFriendshipRequests -> response = updateFriendshipRequests(loggedInUser);
             case AcceptFriendship, RejectFriendship -> updateFriendship(request);
             case UpdateGame -> {

@@ -4,15 +4,14 @@ import Controller.GameController.MapControllers.MapGenerator;
 import Controller.SavingDataController.DataSaver;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
-import Model.NetworkRelated.NetworkController;
-import Model.NetworkRelated.Update;
-import Model.NetworkRelated.UpdateType;
+import Model.NetworkRelated.*;
 import Model.User.User;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,5 +86,29 @@ public class MainMenuController extends Controller{
         for (Civilization civilization:gameMap.getCivilizations()) {
             NetworkController.getInstance().sendUpdate(update,civilization.getUser());
         }
+    }
+
+    public String friendship(Request request) {
+        String response = null;
+        String firstUsername = request.getParams().get(0);
+        String secondUsername= request.getParams().get(1);
+        boolean find = false;
+        for (Map.Entry<String , ArrayList<String>> entry : NetworkController.getInstance().getFriendshipRequests().entrySet()) {
+            if(entry.getKey().equals(firstUsername)){
+                if(!entry.getValue().contains(secondUsername)) {
+                    entry.getValue().add(secondUsername);
+                } else {
+                    response = "this user is one of your friends";
+                }
+                find = true;
+                break;
+            }
+        }
+        if(!find){
+            ArrayList<String> users = new ArrayList<>();
+            users.add(secondUsername);
+            NetworkController.getInstance().getFriendshipRequests().put(firstUsername, users);
+        }
+        return response;
     }
 }
