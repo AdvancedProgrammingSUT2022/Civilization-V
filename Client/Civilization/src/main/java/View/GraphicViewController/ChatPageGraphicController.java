@@ -160,10 +160,15 @@ public class ChatPageGraphicController {
         GroupPopup.setX(window.getWidth() / 3);
         GroupPopup.show(window);
         MainPane.setEffect(new Lighting());
-        searching(search, users_vbox);
-        creatingGroup(GroupPopup, create_group, name.getText());
-    }
-    private void creatingGroup(Popup GroupPopup, Button create_group, String name){
+        search.setOnMouseClicked(mouseEvent1 -> {
+            users_vbox.getChildren().clear();
+            selected_users_for_group.clear();
+            int index = 0;
+            for(User user : LoginAndRegisterController.getInstance().getUsers()){
+                searchUser(index, users_vbox, user);
+                index += 2;
+            }
+        });
         StringBuilder nameSB = new StringBuilder();
         nameSB.append(name).append("\n");
         create_group.setOnMouseClicked(mouseEvent1 -> {
@@ -181,7 +186,7 @@ public class ChatPageGraphicController {
                 for(String username : selected_users_for_group){
                     LoginAndRegisterController.getInstance().getUser(username).addChat(room);
                 }
-                allChats.getChildren().clear();;
+                allChats.getChildren().clear();
                 initialize();
                 int index = 2*(LoginAndRegisterController.getInstance().getLoggedInUser().getChats().size() - 1);
                 selectingChatByChat(index, room);
@@ -194,17 +199,9 @@ public class ChatPageGraphicController {
                 create_group.setEffect(new Lighting());
             }
         });
-    }
-
-    private void searching(Button search, VBox users_vbox){
-        search.setOnMouseClicked(mouseEvent1 -> {
-            users_vbox.getChildren().clear();
-            selected_users_for_group.clear();
-            int index = 0;
-            for(User user : LoginAndRegisterController.getInstance().getUsers()){
-                searchUser(index, users_vbox, user);
-                index += 2;
-            }
+        cancel_creating.setOnMouseClicked(mouseEvent1 -> {
+            GroupPopup.hide();
+            MainPane.setEffect(null);
         });
     }
 
@@ -342,13 +339,13 @@ public class ChatPageGraphicController {
     private void addChatToList(int index, Chat chat){
         Image image;
         HBox chatPreview = null;
-        if(chat instanceof Room){
+        if(chat.getUsers_names().size() != 2){
             image = new Image("/images/Chat/GroupChat.png");
             ImageView imageViewForChat = new ImageView(image);
             Label room_name = new Label(chat.getChat_name());
             chatPreview = new HBox(imageViewForChat, room_name);
             chatPreview.setPrefWidth(670);
-        } else {
+        } else if (chat.getUsers_names().size() == 2){
 //            String chatKindOf = "private chat with ";
 //            String withWho = null;
 //            if(chat.getUsers_names().get(0).getUsername().equals(user.getUsername())) withWho = chat.getUsers_names().get(1).getUsername();
@@ -368,6 +365,7 @@ public class ChatPageGraphicController {
         }
         allChats.getChildren().add(chatPreview);
         allChats.getChildren().add(new Separator());
+        assert chatPreview != null;
         chatPreview.setOnMouseClicked(mouseEvent -> {
             selectingChatByChat(index, chat);
         });
@@ -429,6 +427,7 @@ public class ChatPageGraphicController {
                         popup.show(window);
                         enter.setOnMouseClicked(mouseEvent2 -> {
                             message_text.setText(textField.getText());
+                            message.setText(message_text.getText());///////////////////////
                             MainPane.setEffect(null);
                             popup.hide();
                         });
