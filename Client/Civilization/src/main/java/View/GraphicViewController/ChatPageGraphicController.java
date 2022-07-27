@@ -266,10 +266,68 @@ public class ChatPageGraphicController {
             HBox hBox = new HBox();
             hBox.getChildren().add(sender);
             hBox.getChildren().add(message_box);
+            Button edit = new Button("edit");
+            edit.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                    " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                    + "-fx-text-fill: #4f4e4e;");
+            Button delete = new Button("delete");
+            delete.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                    " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                    + "-fx-text-fill: #4f4e4e;");
+            hBox.getChildren().add(edit);
+            hBox.getChildren().add(delete);
+            edit.setOnMouseClicked(mouseEvent1 -> {
+                Popup popup = new Popup();
+                Window window = main.java.Main.scene.getWindow();
+                TextField textField = new TextField();
+                textField.setText(message_text.getText());
+                Button enter = new Button("enter");
+                enter.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                        " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                        + "-fx-text-fill: #4f4e4e;");
+                VBox vBox = new VBox(textField, new Separator(), enter);
+                popup.getContent().add(vBox);
+                MainPane.setEffect(new Lighting());
+                popup.show(window);
+                enter.setOnMouseClicked(mouseEvent2 -> {
+                    message_text.setText(textField.getText());
+                    MainPane.setEffect(null);
+                    popup.hide();
+                });
+            });
             hBox.setAlignment(Pos.BOTTOM_LEFT);
-            hBox.setStyle("-fx-padding : 0 0 15 0;");
+            hBox.setStyle("-fx-padding : 0 0 15 0; -fx-background-color: rgba(242, 245, 244, 0.5); -fx-background-radius: 17;");
             allMessages.getChildren().add(hBox);
             Message message = new Message(LoginAndRegisterController.getInstance().getLoggedInUser(), messageS, message_time.getText());
+            delete.setOnMouseClicked(mouseEvent1 -> {
+                Popup popup = new Popup();
+                Window window = main.java.Main.scene.getWindow();
+                Label question = new Label("Are you sure ?");
+                question.setStyle("-fx-font-family: Gramond; -fx-background-radius: 40;");
+                Button yes = new Button("Yes");
+                yes.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                        " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                        + "-fx-text-fill: #4f4e4e;");
+                Button no = new Button("No");
+                no.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                        " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                        + "-fx-text-fill: #4f4e4e;");
+                HBox hBox1 = new HBox(yes, new Separator(), no);
+                VBox vBox = new VBox(question, hBox1);
+                popup.getContent().add(vBox);
+                MainPane.setEffect(new Lighting());
+                popup.show(window);
+                yes.setOnMouseClicked(mouseEvent2 -> {
+                    selectedChat.getMessages().remove(message);
+                    allMessages.getChildren().remove(hBox);
+                    MainPane.setEffect(null);
+                    popup.hide();
+                });
+                no.setOnMouseClicked(mouseEvent2 -> {
+                    MainPane.setEffect(null);
+                    popup.hide();
+                });
+            });
             selectedChat.addMessages(message);
             messageText.setText("");
         }
