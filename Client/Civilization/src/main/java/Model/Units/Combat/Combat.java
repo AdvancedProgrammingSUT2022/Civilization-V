@@ -12,7 +12,7 @@ public class Combat extends Unit {
     @Expose
     protected int Xp;
     @Expose
-    protected double hitPoints = 8;
+    protected double hitPoints = 10;
     @Expose
     private int fortifiedTurnCount = 0;
     @Expose

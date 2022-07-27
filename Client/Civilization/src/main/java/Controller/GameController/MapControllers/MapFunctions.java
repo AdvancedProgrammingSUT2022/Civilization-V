@@ -58,10 +58,24 @@ public class MapFunctions {
     }
 
     public Color getCivColor(Civilization civilization){
-        return MapGenerator.getInstance().getColors().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
+        int index = 0;
+        for (Civilization civ:GameMap.getInstance().getCivilizations()) {
+            if(civ.getUser().getUsername().equals(civilization.getUser().getUsername())){
+                index = GameMap.getInstance().getCivilizations().indexOf(civ);
+                break;
+            }
+        }
+        return MapGenerator.getInstance().getColors().get(index);
     }
     public String getCivName(Civilization civilization){
-        return MapGenerator.getInstance().getColorNames().get(GameMap.getInstance().getCivilizations().indexOf(civilization));
+        int index = 0;
+        for (Civilization civ:GameMap.getInstance().getCivilizations()) {
+            if(civ.getUser().getUsername().equals(civilization.getUser().getUsername())){
+                index = GameMap.getInstance().getCivilizations().indexOf(civ);
+                break;
+            }
+        }
+        return MapGenerator.getInstance().getColorNames().get(index);
     }
     public Tile getTile(int x , int y){
 

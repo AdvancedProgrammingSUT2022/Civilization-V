@@ -42,6 +42,8 @@ public class Tile {
     private City city;
     @Expose
     private boolean isCapital = false;
+    @Expose
+    private Ruin ruin;
 
     public Ruin getRuin() {
         return ruin;
@@ -50,8 +52,6 @@ public class Tile {
     public void setRuin(Ruin ruin) {
         this.ruin = ruin;
     }
-
-    private Ruin ruin;
     
     public int getX() {
         return x;

@@ -32,7 +32,7 @@ public class City {
     @Expose
     private int productionPerTurn;
     @Expose
-    private double hitPoint = 3;
+    private double hitPoint = 20;
     @Expose
     private double strength = 15;
     @Expose

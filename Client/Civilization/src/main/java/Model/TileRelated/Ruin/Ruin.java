@@ -7,13 +7,24 @@ import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
+import com.google.gson.annotations.Expose;
 
 public class Ruin {
+    @Expose
     private boolean gold;
+    @Expose
     private boolean visibility;
+    @Expose
     private boolean citizen;
-
     private Tile tile;
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
+    }
 
     public String getBenefit(Civilization civilization){
         if(gold) {
