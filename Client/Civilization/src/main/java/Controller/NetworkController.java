@@ -99,6 +99,7 @@ public class NetworkController {
             case peaceRequest -> GameController.getInstance().makePeacePopup(update);
             case demandRequest -> GameController.getInstance().demandPopup(update);
             case declareWar -> GameController.getInstance().declareWarPopup(update);
+            case EndGame -> GameController.getInstance().endGame(update);
         }
     }
 

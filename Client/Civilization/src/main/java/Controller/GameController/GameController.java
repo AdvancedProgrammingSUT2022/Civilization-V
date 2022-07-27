@@ -30,8 +30,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 
-public class GameController{
-
+public class GameController {
 
 
     private Civilization winner;
@@ -55,35 +54,46 @@ public class GameController{
     private Unit selectedUnit;
     private City selectedCity;
     private City selectedCityToAttack;
-    private static GameController gameController; 
+    private static GameController gameController;
     private GameMap map = GameMap.getInstance();
-    private GameController(){}
+
+    private GameController() {
+    }
+
     public City getSelectedCityToAttack() {
         return selectedCityToAttack;
     }
+
     public void setSelectedCityToAttack(City selectdCityToAttack) {
         this.selectedCityToAttack = selectdCityToAttack;
     }
-    public static GameController getInstance(){
-        if(gameController == null)
+
+    public static GameController getInstance() {
+        if (gameController == null)
             gameController = new GameController();
         return gameController;
     }
+
     public Civilization getPlayerTurn() {
         return GameMap.getInstance().getPlayerTurn();
     }
+
     public void setPlayerTurn(Civilization playerTurn) {
         GameMap.getInstance().setPlayerTurn(playerTurn);
     }
-    public GameMap getMap(){
+
+    public GameMap getMap() {
         return this.map;
     }
-    public Unit getSelectedUnit(){
+
+    public Unit getSelectedUnit() {
         return selectedUnit;
     }
-    public void setSelectedUnit(Unit selectedUnit){
+
+    public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
     }
+
     public City getSelectedCity() {
         return selectedCity;
     }
@@ -91,11 +101,10 @@ public class GameController{
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
     }
+
     public String nextTurn() {
         System.out.println(GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser()).getCities().get(0).getUnderConstructionUnit());
         changePlayer();
-        if(GameMap.getInstance().getGameTurn() == 2050)
-            return "Game Over";
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheUnitsAndBuildings();
@@ -108,9 +117,11 @@ public class GameController{
         selectedCity = null;
         // graph init is a heavy method
         GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
-        if(getPlayerTurn().equals(this.map.getCivilizations().get(0))) GameMap.getInstance().setTurn(GameMap.getInstance().getTurn() + 1);
+        if (getPlayerTurn().equals(this.map.getCivilizations().get(0)))
+            GameMap.getInstance().setTurn(GameMap.getInstance().getTurn() + 1);
         return "next player turn!";
     }
+
     public void setGameMap(Update update) throws IOException {
         GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
         GameMap.getInstance().setInitialGraph(Movement.getInstance().graphInit());
@@ -118,16 +129,19 @@ public class GameController{
     }
 
 
-    public void reduceTurnOfFeaturesBeingCleared(){
+    public void reduceTurnOfFeaturesBeingCleared() {
         ArrayList<Feature> Constructions = getPlayerTurn().getFeaturesBeingCleared();
-        for (int i=0;i<Constructions.size() ; i++) {
-            if(Constructions.get(i).getWorker() == null)return;
+        for (int i = 0; i < Constructions.size(); i++) {
+            if (Constructions.get(i).getWorker() == null) return;
             Constructions.get(i).changeDaysToClear(-1);
             Constructions.get(i).getWorker().setMovementsLeft(0);
-            if(Constructions.get(i).getDaysToClear() == 0){
-                if(Constructions.get(i) != null &&Constructions.get(i).getFeatureType().equals(FeatureType.Marsh))Constructions.get(i).getWorker().getTile().setFeature(null);
-                if(Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Jungle))Constructions.get(i).getWorker().getTile().setFeature(null);
-                if(Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Forest))Constructions.get(i).getWorker().getTile().setFeature(null);
+            if (Constructions.get(i).getDaysToClear() == 0) {
+                if (Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Marsh))
+                    Constructions.get(i).getWorker().getTile().setFeature(null);
+                if (Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Jungle))
+                    Constructions.get(i).getWorker().getTile().setFeature(null);
+                if (Constructions.get(i) != null && Constructions.get(i).getFeatureType().equals(FeatureType.Forest))
+                    Constructions.get(i).getWorker().getTile().setFeature(null);
                 Constructions.get(i).setWorker(null);
                 getPlayerTurn().removeFeaturesBeingCleared(Constructions.get(i));
                 i--;
@@ -135,20 +149,23 @@ public class GameController{
         }
     }
 
-    public void reduceTurnOfImprovements(){
+    public void reduceTurnOfImprovements() {
         ArrayList<Improvement> Constructions = getPlayerTurn().getImprovementsUnderConstruction();
-        for (int i=0;i<Constructions.size() ; i++) {
-            if(Constructions.get(i).getWorker() == null)return;
+        for (int i = 0; i < Constructions.size(); i++) {
+            if (Constructions.get(i).getWorker() == null) return;
             Constructions.get(i).changeDaysToComplete(-1);
             Constructions.get(i).getWorker().setMovementsLeft(0);
-            if(Constructions.get(i).getDaysToComplete() == 0){
+            if (Constructions.get(i).getDaysToComplete() == 0) {
                 Constructions.get(i).setWorker(null);
-                if(Constructions.get(i).getTile().getFeature() != null &&Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Marsh))Constructions.get(i).getTile().setFeature(null);
-                if(Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Jungle))Constructions.get(i).getTile().setFeature(null);
-                if(Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Forest))Constructions.get(i).getTile().setFeature(null);
-                if(Constructions.get(i).getTile().getResource() != null) {
+                if (Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Marsh))
+                    Constructions.get(i).getTile().setFeature(null);
+                if (Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Jungle))
+                    Constructions.get(i).getTile().setFeature(null);
+                if (Constructions.get(i).getTile().getFeature() != null && Constructions.get(i).getTile().getFeature().getFeatureType().equals(FeatureType.Forest))
+                    Constructions.get(i).getTile().setFeature(null);
+                if (Constructions.get(i).getTile().getResource() != null) {
                     for (ResourceType resource : Constructions.get(i).getImprovementType().ImprovesThisResources) {
-                        if(Constructions.get(i).getTile().getResource().getResourceType().equals(resource)){
+                        if (Constructions.get(i).getTile().getResource().getResourceType().equals(resource)) {
                             Constructions.get(i).getTile().getResource().setAvailable(true);
                             luxuryAndStrategicRecourses(resource);
                             getPlayerTurn().addLuxuryResourceCount(resource);
@@ -161,13 +178,13 @@ public class GameController{
         }
     }
 
-    public void reduceTurnOfRoads(){
+    public void reduceTurnOfRoads() {
         ArrayList<Road> Constructions = getPlayerTurn().getRoadsUnderConstruction();
-        for (int i=0;i<Constructions.size() ; i++) {
-            if(Constructions.get(i).getWorker() == null)return;
+        for (int i = 0; i < Constructions.size(); i++) {
+            if (Constructions.get(i).getWorker() == null) return;
             Constructions.get(i).changeDaysToComplete(-1);
             Constructions.get(i).getWorker().setMovementsLeft(0);
-            if(Constructions.get(i).getDaysToComplete() == 0){
+            if (Constructions.get(i).getDaysToComplete() == 0) {
                 Constructions.get(i).setWorker(null);
                 getPlayerTurn().removeFromRoadsUnderConstruction(Constructions.get(i));
                 i--;
@@ -176,7 +193,7 @@ public class GameController{
         }
     }
 
-    public String civilizationOutPut(){
+    public String civilizationOutPut() {
         return "Gold : " + getPlayerTurn().getGold() + " + " + getPlayerTurn().getGoldPerTurn() + "\n" +
                 "Science Per Turn : " + getPlayerTurn().getSciencePerTurn() + "\n" +
                 "Happiness : " + getPlayerTurn().getHappiness() + "\n" +
@@ -185,61 +202,62 @@ public class GameController{
                 "Coal : " + getPlayerTurn().getTotalCoal() + " (used : " + (getPlayerTurn().getTotalCoal() - getPlayerTurn().getCurrentCoal()) + ")";
     }
 
-    public void luxuryAndStrategicRecourses(ResourceType resource){
-        if(resource.equals(ResourceType.Iron)){
+    public void luxuryAndStrategicRecourses(ResourceType resource) {
+        if (resource.equals(ResourceType.Iron)) {
             getPlayerTurn().changeTotalIron(2);
             getPlayerTurn().changeCurrentIron(2);
         }
-        if(resource.equals(ResourceType.Horses)){
+        if (resource.equals(ResourceType.Horses)) {
             getPlayerTurn().changeTotalHorses(2);
             getPlayerTurn().changeCurrentHorses(2);
         }
-        if(resource.equals(ResourceType.Coal)){
+        if (resource.equals(ResourceType.Coal)) {
             getPlayerTurn().changeTotalCoal(2);
             getPlayerTurn().changeCurrentCoal(2);
         }
-        if(resource.mainType.equals(ResourceMainTypes.LuxuryResources)){
+        if (resource.mainType.equals(ResourceMainTypes.LuxuryResources)) {
             boolean alreadyHaveIt = false;
-            for (ResourceType founded:getPlayerTurn().getFoundedLuxuryRecourses()) {
-                if(resource.equals(founded)){
+            for (ResourceType founded : getPlayerTurn().getFoundedLuxuryRecourses()) {
+                if (resource.equals(founded)) {
                     alreadyHaveIt = true;
                     break;
                 }
             }
-            if(!alreadyHaveIt){
+            if (!alreadyHaveIt) {
                 getPlayerTurn().addLuxuryRecourse(resource);
                 getPlayerTurn().changeHappiness(2);
             }
         }
     }
 
-    public void reducingTurnOfTheTechnologies(){
-        if(getPlayerTurn().getCurrentResearchProject() != null){
+    public void reducingTurnOfTheTechnologies() {
+        if (getPlayerTurn().getCurrentResearchProject() != null) {
             int turn = GameController.getInstance().getPlayerTurn().getResearchTurns() - GameController.getInstance().getPlayerTurn().getSciencePerTurn();
             getPlayerTurn().setResearchTurns(turn);
             TechnologyType technologyType = getPlayerTurn().getCurrentResearchProject();
-            if(turn <= 0){
+            if (turn <= 0) {
                 Technology technology = new Technology(technologyType);
                 getPlayerTurn().addTechnology(technology);
                 getPlayerTurn().setCurrentResearchProject(null);
             }
         }
     }
-    public void reducingTurnOfTheUnitsAndBuildings(){
-        if(getPlayerTurn().getCities() != null){
-            for(City city : GameController.getInstance().getPlayerTurn().getCities()){
+
+    public void reducingTurnOfTheUnitsAndBuildings() {
+        if (getPlayerTurn().getCities() != null) {
+            for (City city : GameController.getInstance().getPlayerTurn().getCities()) {
                 reducingTurnOFUnits(city);
                 reducingTurnOfTheBuildings(city);
             }
         }
     }
 
-    private void reducingTurnOFUnits(City city){
-        if(city.getUnderConstructionUnit() != null && city.getUnitTurn() != 0){
+    private void reducingTurnOFUnits(City city) {
+        if (city.getUnderConstructionUnit() != null && city.getUnitTurn() != 0) {
             int turn = city.getUnitTurn() - city.getProductionPerTurn();
             city.setUnitTurn(turn);
         }
-        if(city.getUnderConstructionUnit() != null && city.getUnitTurn() <= 0){
+        if (city.getUnderConstructionUnit() != null && city.getUnitTurn() <= 0) {
             //              city.addUnit(unit);
             Tile tile = city.getCityTiles().get(0);
             UnitController.getInstance().makeUnit(city.getUnderConstructionUnit(), GameController.getInstance().getPlayerTurn(), tile);
@@ -247,32 +265,35 @@ public class GameController{
             city.setUnitTurn(0);
         }
     }
-    public void reducingTurnOfTheBuildings(City city){
-        if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() != 0){
+
+    public void reducingTurnOfTheBuildings(City city) {
+        if (city.getUnderConstructionBuilding() != null && city.getBuildingTurn() != 0) {
             int turn = city.getBuildingTurn() - city.getProductionPerTurn();
             city.setBuildingTurn(turn);
         }
-        if(city.getUnderConstructionBuilding() != null && city.getBuildingTurn() <= 0){
+        if (city.getUnderConstructionBuilding() != null && city.getBuildingTurn() <= 0) {
             Building building = new Building(city.getUnderConstructionBuilding());
             city.addBuilding(building);
             city.setUnderConstructionBuilding(null);
             city.setBuildingTurn(0);
         }
     }
-    private void changePlayer(){
+
+    private void changePlayer() {
         int turnIndex = this.map.getCivilizations().indexOf(getPlayerTurn());
-        if(turnIndex == this.map.getCivilizations().size() - 1){
+        if (turnIndex == this.map.getCivilizations().size() - 1) {
             GameMap.getInstance().setGameTurn(GameMap.getInstance().getGameTurn() + 50);
-            turnIndex = 0;}
-        else turnIndex++;
+            turnIndex = 0;
+        } else turnIndex++;
         setPlayerTurn(this.map.getCivilizations().get(turnIndex));
     }
 
-    private void restoreMovementLefts(){
+    private void restoreMovementLefts() {
         UnitController.getInstance().restoreUnitMovementLeft();
     }
-    public String printMap(){
-        if(selectedCity != null ){
+
+    public String printMap() {
+        if (selectedCity != null) {
             System.out.println(selectedCity.getPopulation());
             System.out.println(selectedCity.getGoldPerTurn());
             System.out.println(selectedCity.getFoodPerTurn());
@@ -280,39 +301,49 @@ public class GameController{
         }
         return this.map.printMap();
     }
+
     public String initMoveUnit(Tile tile) {
         return UnitController.getInstance().initMoveUnit(tile);
     }
-    public String attack(Tile tile){
+
+    public String attack(Tile tile) {
         return UnitController.getInstance().combat(tile);
     }
 
     public int getTurn() {
         return GameMap.getInstance().getTurn();
     }
-    public String deleteUnit(){
+
+    public String deleteUnit() {
         return UnitController.getInstance().removeUnitFromGame(selectedUnit);
     }
+
     public String wake() {
         selectedUnit.setUnitStateType(UnitStateType.NORMAL);
         return "unit is awake";
     }
 
+
     public void makePeacePopup(Update update) {
         Civilization you = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser());
         Civilization sender = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getUser(update.getParams().get(0)));
-        GameplayGraphicController.createRequestPopup( sender.getUser().getUsername() + " wants peace", () -> sender.makePeace(you));
+        GameplayGraphicController.createRequestPopup(sender.getUser().getUsername() + " wants peace", () -> sender.makePeace(you));
     }
 
-    public void demandPopup(Update update){
+    public void demandPopup(Update update) {
         Civilization you = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser());
         Civilization sender = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getUser(update.getParams().get(0)));
-        GameplayGraphicController.createRequestPopup( update.getParams().get(2), () -> Trade.fromJson(update.getParams().get(3)).makeTrade());
+        GameplayGraphicController.createRequestPopup(update.getParams().get(2), () -> Trade.fromJson(update.getParams().get(3)).makeTrade());
     }
 
-    public void declareWarPopup(Update update){
+    public void declareWarPopup(Update update) {
         Civilization you = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser());
         Civilization sender = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getUser(update.getParams().get(0)));
-        GameplayGraphicController.createStatementPopup( sender.getUser().getUsername() + " has declared war on you!", null);
+        GameplayGraphicController.createStatementPopup(sender.getUser().getUsername() + " has declared war on you!", null);
+
+    }
+    public void endGame (Update update){
+        GameplayGraphicController.endGame = true;
+        GameplayGraphicController.endGameStatement = update.getParams().get(0);
     }
 }

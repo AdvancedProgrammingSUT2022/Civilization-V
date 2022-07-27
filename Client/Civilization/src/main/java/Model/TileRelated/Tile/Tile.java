@@ -188,7 +188,7 @@ public class Tile {
     public Combat getCombatUnitOnTile(){
         for(int i = 0;i < this.getUnits().size();i++){
             if(this.getUnits().get(i) != null){
-                if( this.getUnits().get(i) != null && this.getUnits().get(i).getUnitType().mainType != MainType.NONCOMBAT){
+                if(this.getUnits().get(i).getUnitType().mainType != MainType.NONCOMBAT){
                     return (Combat) this.getUnits().get(i);
                 }
             }

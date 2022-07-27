@@ -21,6 +21,7 @@ import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
 import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
+import Model.NetworkRelated.Response;
 import Model.NetworkRelated.Update;
 import Model.Technology.TechnologyType;
 import Model.TileRelated.Building.BuildingType;
@@ -160,6 +161,9 @@ public class GameplayGraphicController implements Initializable {
     public static boolean updateMade = false;
     private boolean cityAttackMode = false;
 
+    public static boolean endGame = false;
+    public static String endGameStatement;
+
     private boolean attackMode = false;
 
     private HashMap<Tile,Integer> availablePolys = new HashMap<>();
@@ -241,6 +245,20 @@ public class GameplayGraphicController implements Initializable {
             updateMap();
             setTurnNotification();
             updateMade = false;
+        }
+        if(endGame){
+            if(endGameStatement.startsWith("game is over!")) {
+                Civilization winner = null;
+                String winStatement = endGameStatement;
+                winStatement = winStatement.replaceAll("game is over! the winner is ","");
+                for (Civilization civilization:GameMap.getInstance().getCivilizations()) {
+                    if(winStatement.equals(civilization.getUser().getUsername()))
+                        winner = civilization;
+                }
+                GameController.getInstance().setWinner(winner);
+                createStatementPopup(endGameStatement, this::endGame);
+            }
+            endGame = false;
         }
     }
 
@@ -662,6 +680,8 @@ public class GameplayGraphicController implements Initializable {
         polygon.setOnMouseClicked(mouseEvent -> {
             if (moveMode) {
                 notification.setText(GameController.getInstance().initMoveUnit(polyToTile.get(polygon)));
+                fixPolyToTile();
+                fixTileToPoly();
                 updateMap();
                 moveMode = false;
             }
@@ -903,8 +923,8 @@ public class GameplayGraphicController implements Initializable {
     }
 
     private void hoverSettings(Polygon polygon) {
-        Tile tile = polyToTile.get(polygon);
         polygon.setOnMouseEntered(mouseEvent -> {
+            Tile tile = MapFunctions.getInstance().getTile(polyToTile.get(polygon).getX(),polyToTile.get(polygon).getY());
             if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR)){
                 tilePolyInfo.setFill(new ImagePattern(Pics.cloud.image));
                 recourseType.setText("Resource: Fogged");
@@ -921,8 +941,10 @@ public class GameplayGraphicController implements Initializable {
                 if(tile.getFeature() != null)featureType.setText("Feature: " + tile.getFeature().getFeatureType().name());
                 else featureType.setText("No Feature");
                 if(MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.VISIBLE)){
-                    if(tile.getCombatUnitOnTile() == null)tileUnit.setText("No Unit");
-                    else tileUnit.setText("Combat: HP:" + tile.getCombatUnitOnTile().getHitPoints() + " _ Strength: " + tile.getCombatUnitOnTile().getUnitType().combatStrength);
+                    if(tile.getCombatUnitOnTile() == null)
+                        tileUnit.setText("No Unit");
+                    else
+                        tileUnit.setText("Combat: HP:" + tile.getCombatUnitOnTile().getHitPoints() + " _ Strength: " + tile.getCombatUnitOnTile().getUnitType().combatStrength);
                 }
                 else {
                     tileUnit.setText("Revealed Tile");
@@ -1033,7 +1055,7 @@ public class GameplayGraphicController implements Initializable {
                 add(GameMap.getInstance().getPlayerTurn().getUser().getUsername());
             }});
             NetworkController.getInstance().send(request);
-//            endGameConditions(GameController.getInstance().nextTurn());
+
 //            handleAlerts();
 //            updateMap();
         }
@@ -1043,16 +1065,6 @@ public class GameplayGraphicController implements Initializable {
         GameMap.setInstance(DataSaver.getInstance().loadGame(update.getParams().get(0)));
     }
 
-
-    private void endGameConditions(String nextTurnOutput){
-        Civilization winner = gameWinConditionMet();
-        if(winner != null){
-            GameController.getInstance().setWinner(winner);
-            createStatementPopup("game is over! the winner is " + winner.getUserName(),this::endGame);
-        }else if(nextTurnOutput.equals("Game Over")){
-            createStatementPopup("game is over! the winner is " + announceWinner(),this::endGame);
-        }
-    }
 
     private Civilization gameWinConditionMet() {
             int eliminatedPlayers = 0;

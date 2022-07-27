@@ -85,7 +85,6 @@ public class SocketHandler extends Thread {
             case Friendship -> { response = MainMenuController.getInstance().friendship(request);}
             case ShowFriendshipRequests -> response = updateFriendshipRequests(loggedInUser);
             case AcceptFriendship, RejectFriendship -> updateFriendship(request);
-            case UpdateGame -> GameController.getInstance().nextTurn(request.getParams());
             case peaceRequest -> GameController.getInstance().makePeaceRequestUpdate(request);
             case declareWar -> GameController.getInstance().makeDeclareWarUpdate(request);
             case demand -> GameController.getInstance().makeDemandUpdate(request);
@@ -99,6 +98,7 @@ public class SocketHandler extends Thread {
                 }
                 DataSaver.getInstance().saveUsers();
             }
+            case UpdateGame -> response = GameController.getInstance().nextTurn(request.getParams());
         }
         return new Response(response);
     }

@@ -1,6 +1,7 @@
 package Controller.GameController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.SavingDataController.DataSaver;
+import Model.ChatRelated.Alert;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
@@ -88,11 +89,19 @@ public class GameController{
         this.selectedCity = selectedCity;
     }
     public String nextTurn(ArrayList<String> params) throws IOException {
+        String output;
         NetworkController.getInstance().setGame(params.get(1),DataSaver.getInstance().loadGame(params.get(0)));
         GameMap gameMap = NetworkController.getInstance().getGame(params.get(1));
         changePlayer(gameMap);
-        if(gameMap.getGameTurn() == 2050)
-            return "Game Over";
+        if(gameMap.getGameTurn() == 2050) {
+            output = "Game Over";
+            output = endGameConditions(output,gameMap);
+            ArrayList<String> message = new ArrayList<>();
+            message.add(output);
+            for (Civilization civilization : gameMap.getCivilizations()) {
+                NetworkController.getInstance().sendUpdate(new Update(UpdateType.EndGame, message), civilization.getUser());
+            }
+        }
         UnitController.getInstance().updateAllUnitData(gameMap);
         restoreMovementLefts(gameMap);
         reducingTurnOfTheUnitsAndBuildings(gameMap);
@@ -105,8 +114,59 @@ public class GameController{
         selectedCity = null;
         // graph init is a heavy method
         updateGame(gameMap);
-        return "next player turn!";
+        output = "next player turn!";
+        output = endGameConditions(output,gameMap);
+        if (output.startsWith("game is over!")) {
+            ArrayList<String> message = new ArrayList<>();
+            message.add(output);
+            for (Civilization civilization : gameMap.getCivilizations()) {
+                NetworkController.getInstance().sendUpdate(new Update(UpdateType.EndGame, message), civilization.getUser());
+            }
+        }
+        return output;
     }
+
+    private String endGameConditions(String nextTurnOutput,GameMap gameMap){
+        Civilization winner = gameWinConditionMet(gameMap);
+        if(winner != null){
+            GameController.getInstance().setWinner(winner);
+            return "game is over! the winner is " + winner.getUserName();
+        }else if(nextTurnOutput.equals("Game Over")){
+            return "game is over! the winner is " + announceWinner(gameMap);
+        }
+        return "next turn!";
+    }
+
+    private Civilization gameWinConditionMet(GameMap gameMap) {
+        int eliminatedPlayers = 0;
+        Civilization winner = null;
+        for (Civilization civ:gameMap.getCivilizations()) {
+            if(civ.getCities().size() == 0 &&
+                    civ.getSettler() == null)
+                eliminatedPlayers++;
+            else
+                winner = civ;
+        }
+        System.out.println("eliminated player count : " + eliminatedPlayers);
+        if(gameMap.getCivilizations().size() - 1 == eliminatedPlayers && winner != null)
+            return winner;
+        return null;
+    }
+
+    private String announceWinner(GameMap gameMap) {
+        Civilization maxGold = null;
+        int maxGoldAmount = -1;
+        for (Civilization civilization:gameMap.getCivilizations()) {
+            if(civilization.getGold() >= maxGoldAmount) {
+                maxGoldAmount = civilization.getGold();
+                maxGold = civilization;
+            }
+        }
+        assert maxGold != null;
+        GameController.getInstance().setWinner(maxGold);
+        return maxGold.getUserName();
+    }
+
     public void updateGame(GameMap gameMap){
         String data = DataSaver.getInstance().makeJson(gameMap);
         Update update = new Update(UpdateType.UpdateGame,new ArrayList<>(){{add(data);}});

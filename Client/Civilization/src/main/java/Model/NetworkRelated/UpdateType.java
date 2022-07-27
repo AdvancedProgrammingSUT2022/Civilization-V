@@ -6,5 +6,5 @@ public enum UpdateType {
     UpdateGame,
     initializeGame,
     peaceRequest,
-    demandRequest, declareWar;
+    demandRequest, declareWar,EndGame;
 }
