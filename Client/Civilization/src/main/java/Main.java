@@ -28,7 +28,7 @@ public class Main extends Application {
             e.printStackTrace();
             System.out.println("connection Failed");
         }
-        Parent root = loadFXML(Menus.Trailer.value);
+        Parent root = loadFXML(Menus.LOGIN_MENU.value);
         assert root != null;
         Scene scene = new Scene(root);
         Main.stage = stage;

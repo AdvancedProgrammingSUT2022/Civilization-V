@@ -830,11 +830,12 @@ public class GameplayGraphicController implements Initializable {
             rectangle.setArcWidth(35);
             rectangle.setFill(Paint.valueOf("#9bd8c9b3"));
             StackPane stack = new StackPane();
-            stack.getChildren().addAll(rectangle, text);
+            stack.getChildren().add(rectangle);
+            stack.getChildren().add(text);
             stack.setLayoutX(x + (double) MapEnum.HEXSIDESHORT.amount * 1 / 2);
             stack.setLayoutY(y - (double) MapEnum.HEXSIDELONG.amount * 1 / 5);
             stack.setOnMouseClicked(mouseEvent -> {
-                notification.setText(CityController.getInstance().selectCity(((Text) stack.getChildren().get(1)).getText()));
+                notification.setText(CityController.getInstance().selectCity(tile.getCity().getName()));
                 cityShow();
             });
             cityBanners.add(stack);

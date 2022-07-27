@@ -7,12 +7,15 @@ import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.TileRelated.Tile.Tile;
+import com.google.gson.annotations.Expose;
 
 public class Ruin {
+    @Expose
     private boolean gold;
+    @Expose
     private boolean visibility;
+    @Expose
     private boolean citizen;
-
     private Tile tile;
 
     public String getBenefit(GameMap gameMap ,Civilization civilization){
@@ -46,6 +49,10 @@ public class Ruin {
             case 1 -> visibility = true;
             case 2 -> citizen = true;
         }
+        this.tile = tile;
+    }
+
+    public void setTile(Tile tile) {
         this.tile = tile;
     }
 }

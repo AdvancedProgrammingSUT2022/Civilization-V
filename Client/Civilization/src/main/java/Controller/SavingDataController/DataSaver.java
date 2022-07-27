@@ -115,7 +115,7 @@ public class DataSaver {
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
             for(User user: LoginAndRegisterController.getInstance().getUsers()){
-                if(user.getNickname().equals(civilization.getUser().getUsername())) {
+                if(user.getUsername().equals(civilization.getUser().getUsername())) {
                     civilization.setUser(user);
                     break;
                 }
@@ -124,20 +124,28 @@ public class DataSaver {
                 city.setCivilization(civilization);
                 city.getTile().setCivilization(civilization);
                 city.getTile().setCity(city);
+                if(city.getTile().getRuin() != null)
+                    city.getTile().getRuin().setTile(city.getTile());
+                city.setTile(equalizeTiles(gameMap,city.getTile(),false));
                 ArrayList<Tile> cityTiles = new ArrayList<>(city.getCityTiles());
                 for (int i = 0; i < cityTiles.size(); i++) {
                     cityTiles.get(i).setCivilization(civilization);
                     cityTiles.get(i).setCity(city);
-                    city.getCityTiles().set(i,equalizeTiles(gameMap,cityTiles.get(i)));
+                    if(cityTiles.get(i).getRuin() != null)
+                        cityTiles.get(i).getRuin().setTile(city.getTile());
+                    city.getCityTiles().set(i,equalizeTiles(gameMap,cityTiles.get(i),false));
                 }
                 for (Citizen citizen:city.getCitizens()) {
                     citizen.setCity(city);
                     if(citizen.getTile() != null) {
                         citizen.getTile().setCitizen(citizen);
-                        citizen.setTile(equalizeTiles(gameMap, citizen.getTile()));
+                        citizen.getTile().setCivilization(civilization);
+                        citizen.getTile().setCity(city);
+                        if(citizen.getTile().getRuin() != null)
+                            citizen.getTile().getRuin().setTile(city.getTile());
+                        citizen.setTile(equalizeTiles(gameMap, citizen.getTile(),false));
                     }
                 }
-                city.setTile(equalizeTiles(gameMap,city.getTile()));
             }
             ArrayList<Unit> copyUnits = new ArrayList<>(civilization.getUnits());
             for (Unit unit:copyUnits) {
@@ -145,12 +153,37 @@ public class DataSaver {
                 civilization.getUnits().set(civilization.getUnits().indexOf(unit),newUnit);
                 newUnit.setCivilization(civilization);
                 newUnit.getTile().getUnits().add(newUnit);
-                newUnit.setTile(equalizeTiles(gameMap,newUnit.getTile()));
+                newUnit.getTile().setCivilization(civilization);
+                newUnit.setTile(equalizeTiles(gameMap,newUnit.getTile(),true));
                 gameMap.getUnits().add(newUnit);
             }
             if(gameMap.getPlayerTurn().getUser().getUsername().equals(civilization.getUser().getUsername()))
                 gameMap.setPlayerTurn(civilization);
         }
+    }
+
+    public Tile equalizeTiles(GameMap gameMap, Tile originalTile,boolean isUnit){
+        for (int i = 0; i < gameMap.getTiles().size(); i++) {
+            if (gameMap.getTiles().get(i).getX() == originalTile.getX() && gameMap.getTiles().get(i).getY() == originalTile.getY()) {
+                return equalizeTile(gameMap.getTiles().get(i),originalTile,isUnit);
+            }
+        }
+        return null;
+    }
+    public Tile equalizeTile(Tile fakeTile,Tile originalTile,boolean isUnit){
+        if(originalTile != null) {
+            if(!isUnit)
+                fakeTile.setCity(originalTile.getCity());
+            fakeTile.setCivilization(originalTile.getCivilization());
+            if(!isUnit)
+                fakeTile.setCitizen(originalTile.getCitizen());
+            fakeTile.setUnits(originalTile.getUnits());
+            if(!isUnit)
+                if(originalTile.getRuin() != null)
+                    fakeTile.setRuin(originalTile.getRuin());
+            return fakeTile;
+        }
+        return null;
     }
 
 
@@ -177,25 +210,6 @@ public class DataSaver {
         return unit;
     }
 
-    public Tile equalizeTiles(GameMap gameMap, Tile originalTile){
-        for (int i = 0; i < gameMap.getTiles().size(); i++) {
-            if (gameMap.getTiles().get(i).getX() == originalTile.getX() && gameMap.getTiles().get(i).getY() == originalTile.getY()) {
-                return equalizeTile(gameMap.getTiles().get(i),originalTile);
-            }
-        }
-        return null;
-    }
-
-    public Tile equalizeTile(Tile fakeTile,Tile originalTile){
-        if(originalTile != null) {
-            fakeTile.setCity(originalTile.getCity());
-            fakeTile.setCivilization(originalTile.getCivilization());
-            fakeTile.setCitizen(originalTile.getCitizen());
-            fakeTile.setUnits(originalTile.getUnits());
-            return fakeTile;
-        }
-        return null;
-    }
 
     private String loadFromFile(String fileName) throws IOException {
             File file = new File("./src/main/resources/GameSaves/" + fileName);

@@ -50,7 +50,7 @@ public class Tile {
     public void setRuin(Ruin ruin) {
         this.ruin = ruin;
     }
-
+    @Expose
     private Ruin ruin;
     
     public int getX() {
