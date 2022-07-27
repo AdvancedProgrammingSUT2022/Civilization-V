@@ -61,10 +61,9 @@ public class Civilization {
     }};
     @Expose
     private ArrayList<Unit> units = new ArrayList<Unit>();
-    private LinkedHashMap<TechnologyType, Integer> researchProjects = new LinkedHashMap<TechnologyType, Integer>();
-
-
+    @Expose
     private TechnologyType currentResearchProject;
+    @Expose
     private int researchTurns = 0;
 
     public HashMap<Civilization, DiplomaticTie> getDiplomacyRelation() {
@@ -116,13 +115,6 @@ public class Civilization {
         foundedLuxuryRecourses.add(resourceType);
     }
 
-    public LinkedHashMap<TechnologyType, Integer> getResearchProjects() {
-        return researchProjects;
-    }
-
-    public void addResearchProject(TechnologyType technologyType, int turn){
-        this.researchProjects.put(technologyType, turn);
-    }
     public void setResearchTurns(int researchTurns) {
         this.researchTurns = researchTurns;
     }

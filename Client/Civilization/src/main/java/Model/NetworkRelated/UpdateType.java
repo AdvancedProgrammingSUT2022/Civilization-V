@@ -4,5 +4,7 @@ public enum UpdateType {
     invitation,
     inviteAcceptance,
     UpdateGame,
-    initializeGame;
+    initializeGame,
+    peaceRequest,
+    demandRequest, declareWar;
 }

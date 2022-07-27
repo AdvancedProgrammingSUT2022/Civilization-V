@@ -1,9 +1,14 @@
 package Model.CivlizationRelated;
 
+import Model.NetworkRelated.Request;
 import Model.TileRelated.Resource.ResourceType;
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 public class Trade {
+    @Expose
     TradeOffer firstCivilization;
+    @Expose
     TradeOffer secondCivilization;
 
     boolean isDemand;
@@ -50,5 +55,15 @@ public class Trade {
             }
         }
         return output;
+    }
+
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public static Trade fromJson(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, Trade.class);
     }
 }

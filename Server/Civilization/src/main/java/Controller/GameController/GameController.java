@@ -1,9 +1,11 @@
 package Controller.GameController;
+import Controller.PreGameController.LoginAndRegisterController;
 import Controller.SavingDataController.DataSaver;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
 import Model.NetworkRelated.NetworkController;
+import Model.NetworkRelated.Request;
 import Model.NetworkRelated.Update;
 import Model.NetworkRelated.UpdateType;
 import Model.Technology.Technology;
@@ -291,5 +293,20 @@ public class GameController{
     public String wake(GameMap gameMap) {
         selectedUnit.setUnitStateType(UnitStateType.NORMAL);
         return "unit is awake";
+    }
+
+    public void makePeaceRequestUpdate(Request request) {
+        Update update = new Update(UpdateType.peaceRequest,request.getParams());
+        NetworkController.getInstance().sendUpdate(update, LoginAndRegisterController.getInstance().getUser(request.getParams().get(1)));
+    }
+
+    public void makeDemandUpdate(Request request) {
+        Update update = new Update(UpdateType.demandRequest,request.getParams());
+        NetworkController.getInstance().sendUpdate(update, LoginAndRegisterController.getInstance().getUser(request.getParams().get(1)));
+    }
+
+    public void makeDeclareWarUpdate(Request request) {
+        Update update = new Update(UpdateType.declareWar,request.getParams());
+        NetworkController.getInstance().sendUpdate(update, LoginAndRegisterController.getInstance().getUser(request.getParams().get(1)));
     }
 }

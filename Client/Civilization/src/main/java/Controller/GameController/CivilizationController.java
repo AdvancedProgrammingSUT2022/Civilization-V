@@ -112,59 +112,59 @@ public class CivilizationController {
     }
 
 
-    public String changeStudyingTechnology(TechnologyType technologyType){
-                if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() == null) return "you have no research project to change it";
-                if(technologyType.name().equals(GameController.getInstance().getPlayerTurn().getCurrentResearchProject().name())) return "you already are studying this technology";
-                if(GameController.getInstance().getPlayerTurn().getTechnologies() != null) {
-                    for (Technology technology : GameController.getInstance().getPlayerTurn().getTechnologies()) {
-                        if(technology.getTechnologyType().equals(technologyType)) return "you have this technology";
-                    }
-                }
-                LinkedHashMap<TechnologyType, Integer> researchProjects;
-                if((researchProjects = GameController.getInstance().getPlayerTurn().getResearchProjects()).size() != 0){
-                   if(continueResearch(researchProjects, technologyType) != null) return continueResearch(researchProjects, technologyType);
-                }
-                GameController.getInstance().getPlayerTurn().addResearchProject(GameController.getInstance().getPlayerTurn().getCurrentResearchProject(), GameController.getInstance().getPlayerTurn().getResearchTurns());
-                int turn = technologyType.cost;
-                GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
-                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() <= 0) return "your science is 0 or negative";
-                GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
-                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() >= turn) {
-                    Technology technology = new Technology(GameController.getInstance().getPlayerTurn().getCurrentResearchProject());
-                    GameController.getInstance().getPlayerTurn().addTechnology(technology);
-                    GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
-                    return "your research project is finished";
-                } else return "your research project has started";
-    }
+//    public String changeStudyingTechnology(TechnologyType technologyType){
+//                if(GameController.getInstance().getPlayerTurn().getCurrentResearchProject() == null) return "you have no research project to change it";
+//                if(technologyType.name().equals(GameController.getInstance().getPlayerTurn().getCurrentResearchProject().name())) return "you already are studying this technology";
+//                if(GameController.getInstance().getPlayerTurn().getTechnologies() != null) {
+//                    for (Technology technology : GameController.getInstance().getPlayerTurn().getTechnologies()) {
+//                        if(technology.getTechnologyType().equals(technologyType)) return "you have this technology";
+//                    }
+//                }
+//                LinkedHashMap<TechnologyType, Integer> researchProjects;
+//                if((researchProjects = GameController.getInstance().getPlayerTurn().getResearchProjects()).size() != 0){
+//                   if(continueResearch(researchProjects, technologyType) != null) return continueResearch(researchProjects, technologyType);
+//                }
+//                GameController.getInstance().getPlayerTurn().addResearchProject(GameController.getInstance().getPlayerTurn().getCurrentResearchProject(), GameController.getInstance().getPlayerTurn().getResearchTurns());
+//                int turn = technologyType.cost;
+//                GameController.getInstance().getPlayerTurn().setCurrentResearchProject(technologyType);
+//                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() <= 0) return "your science is 0 or negative";
+//                GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
+//                if(GameController.getInstance().getPlayerTurn().getSciencePerTurn() >= turn) {
+//                    Technology technology = new Technology(GameController.getInstance().getPlayerTurn().getCurrentResearchProject());
+//                    GameController.getInstance().getPlayerTurn().addTechnology(technology);
+//                    GameController.getInstance().getPlayerTurn().setCurrentResearchProject(null);
+//                    return "your research project is finished";
+//                } else return "your research project has started";
+//    }
 
-    private String continueResearch(LinkedHashMap<TechnologyType, Integer> researchProjects, TechnologyType technologyType){
-        boolean hasThisResearchProject = false;
-        for(Map.Entry<TechnologyType, Integer> researchProjectsEntry : researchProjects.entrySet()){
-            if(technologyType.name().equals(researchProjectsEntry.getKey().name())){
-                keepResearchProjects(researchProjectsEntry.getKey(), researchProjectsEntry.getValue());
-                hasThisResearchProject = true;
-                break;
-            }
-        }
-        if(hasThisResearchProject) {
-            GameController.getInstance().getPlayerTurn().getResearchProjects().remove(technologyType);
-            return "your research project is changed";
-        } return null;
-    }
+//    private String continueResearch(LinkedHashMap<TechnologyType, Integer> researchProjects, TechnologyType technologyType){
+//        boolean hasThisResearchProject = false;
+//        for(Map.Entry<TechnologyType, Integer> researchProjectsEntry : researchProjects.entrySet()){
+//            if(technologyType.name().equals(researchProjectsEntry.getKey().name())){
+//                keepResearchProjects(researchProjectsEntry.getKey(), researchProjectsEntry.getValue());
+//                hasThisResearchProject = true;
+//                break;
+//            }
+//        }
+//        if(hasThisResearchProject) {
+//            GameController.getInstance().getPlayerTurn().getResearchProjects().remove(technologyType);
+//            return "your research project is changed";
+//        } return null;
+//    }
 
-    private void keepResearchProjects(TechnologyType newResearchProject, int turn){
-        TechnologyType previousResearchProject = GameController.getInstance().getPlayerTurn().getCurrentResearchProject();
-        int preTurn = GameController.getInstance().getPlayerTurn().getResearchTurns();
-        GameController.getInstance().getPlayerTurn().addResearchProject(previousResearchProject, preTurn);
-        GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
-        GameController.getInstance().getPlayerTurn().setCurrentResearchProject(newResearchProject);
-    }
+//    private void keepResearchProjects(TechnologyType newResearchProject, int turn){
+//        TechnologyType previousResearchProject = GameController.getInstance().getPlayerTurn().getCurrentResearchProject();
+//        int preTurn = GameController.getInstance().getPlayerTurn().getResearchTurns();
+//        GameController.getInstance().getPlayerTurn().addResearchProject(previousResearchProject, preTurn);
+//        GameController.getInstance().getPlayerTurn().setResearchTurns(turn);
+//        GameController.getInstance().getPlayerTurn().setCurrentResearchProject(newResearchProject);
+//    }
 
     public String cancelResearchProject(Civilization civilization){
         if(civilization.getCurrentResearchProject() == null) return "you do not have any research project now";
         int turn = civilization.getResearchTurns();
-        TechnologyType technologyType = civilization.getCurrentResearchProject();
-        civilization.addResearchProject(technologyType, turn);
+        //TechnologyType technologyType = civilization.getCurrentResearchProject();
+        //civilization.addResearchProject(technologyType, turn);
         civilization.setResearchTurns(0);
         civilization.setCurrentResearchProject(null);
         return "your research project has stopped";
