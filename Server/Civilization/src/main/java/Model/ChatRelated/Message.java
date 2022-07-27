@@ -4,25 +4,26 @@ import Model.User.User;
 import com.google.gson.annotations.Expose;
 
 public class Message {
-    private User sender_user;
-//    private User getter_user;
+    @Expose
+    private String sender_user;
+    //    private User getter_user;
     @Expose
     private String text;
     @Expose
     private String send_time;
 
-    public Message(User sender_user, String text, String send_time) {
+    public Message(String sender_user, String text, String send_time) {
         this.sender_user = sender_user;
         this.text = text;
         this.send_time = send_time;
     }
 
 
-    public User getSender_user() {
+    public String getSender_user() {
         return sender_user;
     }
 
-    public void setSender_user(User sender_user) {
+    public void setSender_user(String sender_user) {
         this.sender_user = sender_user;
     }
 //

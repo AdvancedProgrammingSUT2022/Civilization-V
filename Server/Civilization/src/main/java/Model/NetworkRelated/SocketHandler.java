@@ -7,6 +7,7 @@ import Controller.PreGameController.ProfileMenuController;
 import Controller.SavingDataController.DataSaver;
 import Model.User.User;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SocketHandler extends Thread {
@@ -87,6 +89,16 @@ public class SocketHandler extends Thread {
             case peaceRequest -> GameController.getInstance().makePeaceRequestUpdate(request);
             case declareWar -> GameController.getInstance().makeDeclareWarUpdate(request);
             case demand -> GameController.getInstance().makeDemandUpdate(request);
+            case ForSavingChats -> {
+                response = "chats saved";
+                ArrayList<User> users = new Gson().fromJson(request.getParams().get(0), new TypeToken<List<User>>() {
+                }.getType());
+                for(User user : users){
+                    User testUser = LoginAndRegisterController.getInstance().getUser(user.getNickname());
+                    testUser.setChats(user.getChats());
+                }
+                DataSaver.getInstance().saveUsers();
+            }
         }
         return new Response(response);
     }

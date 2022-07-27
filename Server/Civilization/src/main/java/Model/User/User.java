@@ -32,7 +32,7 @@ public class User {
     private int profPicIndex;
     @Expose
     private ArrayList<Chat> chats = new ArrayList<>();
-    
+
     public String getUsername() {
         return username;
     }
@@ -112,5 +112,9 @@ public class User {
 
     public ArrayList<String> getFriendsName() {
         return friendsName;
+    }
+
+    public void setChats(ArrayList<Chat> chats) {
+        this.chats = chats;
     }
 }
