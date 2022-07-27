@@ -89,8 +89,6 @@ public class GameController{
     }
     public String nextTurn() {
         changePlayer();
-        if(GameMap.getInstance().getGameTurn() == 2050)
-            return "Game Over";
         UnitController.getInstance().updateAllUnitData();
         restoreMovementLefts();
         reducingTurnOfTheUnitsAndBuildings();
@@ -291,5 +289,10 @@ public class GameController{
     public String wake() {
         selectedUnit.setUnitStateType(UnitStateType.NORMAL);
         return "unit is awake";
+    }
+
+    public void endGame(Update update) {
+        GameplayGraphicController.endGame = true;
+        GameplayGraphicController.endGameStatement = update.getParams().get(0);
     }
 }

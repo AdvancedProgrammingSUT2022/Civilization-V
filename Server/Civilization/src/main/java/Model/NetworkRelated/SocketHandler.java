@@ -84,9 +84,7 @@ public class SocketHandler extends Thread {
             case Friendship -> { response = MainMenuController.getInstance().friendship(request);}
             case ShowFriendshipRequests -> response = updateFriendshipRequests(loggedInUser);
             case AcceptFriendship, RejectFriendship -> updateFriendship(request);
-            case UpdateGame -> {
-                GameController.getInstance().nextTurn(request.getParams());
-            }
+            case UpdateGame -> response = GameController.getInstance().nextTurn(request.getParams());
         }
         return new Response(response);
     }

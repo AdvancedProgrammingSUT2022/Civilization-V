@@ -96,6 +96,7 @@ public class NetworkController {
             case inviteAcceptance -> MainMenuController.getInstance().handleInvitation(update);
             case initializeGame -> MainMenuController.getInstance().initializeGame(update);
             case UpdateGame -> GameController.getInstance().setGameMap(update);
+            case EndGame -> GameController.getInstance().endGame(update);
         }
     }
 
