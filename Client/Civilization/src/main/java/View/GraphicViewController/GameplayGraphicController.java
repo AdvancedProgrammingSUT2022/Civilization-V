@@ -811,7 +811,7 @@ public class GameplayGraphicController implements Initializable {
 
     private void assignPicForResources(Tile tile, double x, double y) {
         if(tile.getResource() != null && !MapPrinter.getInstance().getVisibility(tile).equals(TileVisibility.FOGOFWAR) &&
-                (tile.getResource().getResourceType().requiredTechnology == null || GameController.getInstance().getPlayerTurn().hasTechnology(tile.getResource().getResourceType().requiredTechnology))) {
+                (tile.getResource().getResourceType().requiredTechnology == null || GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser()).hasTechnology(tile.getResource().getResourceType().requiredTechnology))) {
             Circle circle = new Circle();
             circle.setCenterX(x + (double) MapEnum.HEXSIDESHORT.amount * 4 / 3);
             circle.setCenterY(y + (double) MapEnum.HEXSIDELONG.amount * 11 / 5);

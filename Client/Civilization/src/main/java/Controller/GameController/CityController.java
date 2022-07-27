@@ -1,5 +1,6 @@
 package Controller.GameController;
 import Controller.GameController.MapControllers.MapFunctions;
+import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.MapEnum;
@@ -109,10 +110,7 @@ public class CityController {
         Technology requiredTechnology = buildingType.getTechnologyRequired();
         if(requiredTechnology == null) return true;
         ArrayList<Technology> validTechnologies;
-        if((validTechnologies = GameController.getInstance().getSelectedCity().getCivilization().getTechnologies()) == null) return false;
-        for(Technology technology : validTechnologies){
-            if(Objects.equals(technology, requiredTechnology)) return true;
-        }
+        if(GameController.getInstance().getSelectedCity().getCivilization().hasTechnology(requiredTechnology.getTechnologyType()))return true;
         return false;
     }
 
@@ -212,7 +210,7 @@ public class CityController {
 
     private void showBuiltUnits(){
         ArrayList<Unit> units;
-        if((units = GameController.getInstance().getPlayerTurn().getUnits()) != null){
+        if((units = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser()).getUnits()) != null){
             for (int i = 0; i < units.size(); i++) {
                 System.out.println(i + 1 + " : " + units.get(i).getUnitType().name());
             }

@@ -7,6 +7,7 @@ import Controller.GameController.MapControllers.MapPrinter;
 
 import java.util.Random;
 import Controller.GameController.MapControllers.TileVisibilityController;
+import Controller.PreGameController.LoginAndRegisterController;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
 import Model.MapRelated.GameMap;
@@ -47,7 +48,7 @@ public class UnitController {
         if((tileUnits = MapFunctions.getInstance().getTile(x , y).getUnits()) == null)return "tile does not contain a unit";
         for (Unit unit:tileUnits) {
             if((unit.getUnitType().mainType == MainType.NONCOMBAT && !isCombatUnit) || (!(unit.getUnitType().mainType == MainType.NONCOMBAT) && isCombatUnit)){
-                if(unit.getCivilization() != GameController.getInstance().getPlayerTurn())return "unit does not belong to your civilization";
+                if(unit.getCivilization().getUser() != LoginAndRegisterController.getInstance().getLoggedInUser())return "unit does not belong to your civilization";
                 GameController.getInstance().setSelectedUnit(unit);
                 return "selection successful";
             }

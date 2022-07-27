@@ -10,6 +10,7 @@ import Model.CivlizationRelated.Civilization;
 import Model.Movement.Graph;
 import Model.TileRelated.Tile.Tile;
 import Model.Units.Unit;
+import Model.User.User;
 import com.google.gson.annotations.Expose;
 
 public class GameMap {
@@ -58,6 +59,13 @@ public class GameMap {
         for (Tile key: this.tiles) {
             if(key.getX() == x && key.getY() == y)
                 return key;
+        }
+        return null;
+    }
+
+    public Civilization getCivilization(User user){
+        for (Civilization civilization:civilizations) {
+            if(civilization.getUser().equals(user))return civilization;
         }
         return null;
     }
