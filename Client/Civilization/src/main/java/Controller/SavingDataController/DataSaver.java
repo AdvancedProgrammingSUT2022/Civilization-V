@@ -123,7 +123,7 @@ public class DataSaver {
             for (City city:civilization.getCities()) {
                 city.setCivilization(civilization);
                 city.getTile().setCivilization(civilization);
-                city.getTile().setCity(city);
+                //city.getTile().setCity(city);
                 ArrayList<Tile> cityTiles = new ArrayList<>(city.getCityTiles());
                 for (int i = 0; i < cityTiles.size(); i++) {
                     cityTiles.get(i).setCivilization(civilization);

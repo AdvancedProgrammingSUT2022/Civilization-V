@@ -3,5 +3,5 @@ package Model.NetworkRelated;
 public enum UpdateType {
     invitation,
     inviteAcceptance,
-    initializeGame, UpdateGame;
+    initializeGame, UpdateGame, peaceRequest , demandRequest, declareWar;
 }

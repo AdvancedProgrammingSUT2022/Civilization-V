@@ -1015,16 +1015,16 @@ public class GameplayGraphicController implements Initializable {
         }
     }
 
-    private void handleAlerts(){
-        for (Alert alert:AlertDataBase.getInstance().getAlerts()) {
-            if(alert.getAlertFor() == GameController.getInstance().getPlayerTurn()) {
-                if(alert.getAlertType() == AlertType.Request)
-                    createRequestPopup(alert, alert.getRunnable());
-                else
-                    createStatementPopup(alert, () -> {});
-            }
-        }
-    }
+//    private void handleAlerts(){
+//        for (Alert alert:AlertDataBase.getInstance().getAlerts()) {
+//            if(alert.getAlertFor() == GameController.getInstance().getPlayerTurn()) {
+//                if(alert.getAlertType() == AlertType.Request)
+//                    createRequestPopup(alert, alert.getRunnable());
+//                else
+//                    createStatementPopup(alert, () -> {});
+//            }
+//        }
+//    }
     public void nextTurn(ActionEvent actionEvent) throws FileNotFoundException {
         if(MapFunctions.getInstance().isMyTurn()) {
             Request request = new Request(RequestType.UpdateGame,new ArrayList<>(){{
@@ -1047,9 +1047,9 @@ public class GameplayGraphicController implements Initializable {
         Civilization winner = gameWinConditionMet();
         if(winner != null){
             GameController.getInstance().setWinner(winner);
-            createStatementPopup(new Alert("game is over! the winner is " + winner.getUserName()),this::endGame);
+            createStatementPopup("game is over! the winner is " + winner.getUserName(),this::endGame);
         }else if(nextTurnOutput.equals("Game Over")){
-            createStatementPopup(new Alert("game is over! the winner is " + announceWinner()),this::endGame);
+            createStatementPopup("game is over! the winner is " + announceWinner(),this::endGame);
         }
     }
 
@@ -1154,10 +1154,11 @@ public class GameplayGraphicController implements Initializable {
             militaryOverview.hide();
         });
     }
-    public void createRequestPopup(Alert alert,Runnable runnable) {
+
+    public static void createRequestPopup(String message,Runnable runnable) {
         Popup popup = new Popup();
         popup.requestFocus();
-        Label label = new Label(alert.getMessage());
+        Label label = new Label(message);
         label.setTextFill(Color.rgb(180,0,0,1));
         label.setMinHeight(200);
         label.setMinWidth(600);
@@ -1178,16 +1179,14 @@ public class GameplayGraphicController implements Initializable {
         declineButton.setText("Decline");
         popup.getContent().add(acceptButton);
         popup.getContent().add(declineButton);
-        popup.show(main.java.Main.scene.getWindow());
+        Platform.runLater(()->popup.show(main.java.Main.scene.getWindow()));
         acceptButton.setOnMouseClicked(mouseEvent -> {
             runnable.run();
-            AlertDataBase.getInstance().getAlerts().remove(alert);
             popup.hide();
-            updateMap();
+            //updateMap();
         });
         declineButton.setOnMouseClicked(mouseEvent -> {
-            AlertDataBase.getInstance().getAlerts().remove(alert);
-            updateMap();
+            //updateMap();
             popup.hide();
         });
     }
@@ -1220,10 +1219,10 @@ public class GameplayGraphicController implements Initializable {
         });
     }
 
-    public void createStatementPopup(Alert alert,Runnable runnable) {
+    public static void createStatementPopup(String message,Runnable runnable) {
         Popup popup = new Popup();
         popup.requestFocus();
-        Label label = new Label(alert.getMessage());
+        Label label = new Label(message);
         label.setTextFill(Color.rgb(180,0,0,1));
         label.setMinHeight(200);
         label.setMinWidth(600);
@@ -1236,14 +1235,13 @@ public class GameplayGraphicController implements Initializable {
         closeButton.setStyle("-fx-font-family: \"Britannic Bold\"; -fx-background-radius: 10;-fx-background-color: rgba(201, 238, 221, 0.7);-fx-font-size: 18;-fx-text-fill: #4f4e4e;");
         closeButton.setLayoutX(10);closeButton.setLayoutY(10);
         closeButton.setOnMouseClicked(mouseEvent -> {
-            AlertDataBase.getInstance().getAlerts().remove(alert);
             popup.hide();
-            runnable.run();
-            updateMap();
+            if(runnable != null)runnable.run();
+            //updateMap();
         });
         popup.getContent().add(label);
         popup.getContent().add(closeButton);
-        popup.show(main.java.Main.scene.getWindow());
+        Platform.runLater(()->popup.show(main.java.Main.scene.getWindow()));
     }
 
     private VBox UnitSupply(){

@@ -1,6 +1,7 @@
 package View.GraphicViewController;
 
 import Controller.GameController.GameController;
+import Controller.NetworkController;
 import Model.ChatRelated.Alert;
 import Model.ChatRelated.AlertDataBase;
 import Model.CivlizationRelated.Civilization;
@@ -8,6 +9,8 @@ import Model.CivlizationRelated.Trade;
 import Model.CivlizationRelated.TradeOffer;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
 import Model.TileRelated.Resource.ResourceType;
 import View.Menu.Menu;
 import View.Pics;
@@ -28,6 +31,7 @@ import javafx.scene.shape.Circle;
 
 import javax.swing.text.Element;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 
@@ -168,7 +172,13 @@ public class TradePanelController implements Initializable {
         doTrade(oppOffer,DiplomacyPanelGraphicPageController.opponent,two);
         one.setCivilization(GameController.getInstance().getPlayerTurn());
         Trade trade = new Trade(one,two,true);
-        new Model.ChatRelated.Alert(DiplomacyPanelGraphicPageController.opponent,trade.toString(),trade);
+        //new Model.ChatRelated.Alert(DiplomacyPanelGraphicPageController.opponent,trade.toString(),trade);
+        NetworkController.getInstance().send(new Request(RequestType.peaceRequest,new ArrayList<>(){{
+            add(GameController.getInstance().getPlayerTurn().getUserName());
+            add(DiplomacyPanelGraphicPageController.opponent.getUserName());
+            add(trade.toString());
+            add(trade.toJson());
+        }}));
         main.java.Main.changeMenu(Menus.DIPLOMACY_PANEL.value);
     }
 }

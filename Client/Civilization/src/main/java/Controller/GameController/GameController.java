@@ -1,8 +1,11 @@
 package Controller.GameController;
 import Controller.PreGameController.LoginAndRegisterController;
 import Controller.SavingDataController.DataSaver;
+import Model.ChatRelated.Alert;
+import Model.ChatRelated.AlertType;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
+import Model.CivlizationRelated.Trade;
 import Model.MapRelated.GameMap;
 import Model.NetworkRelated.Update;
 import Model.Technology.Technology;
@@ -293,5 +296,23 @@ public class GameController{
     public String wake() {
         selectedUnit.setUnitStateType(UnitStateType.NORMAL);
         return "unit is awake";
+    }
+
+    public void makePeacePopup(Update update) {
+        Civilization you = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser());
+        Civilization sender = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getUser(update.getParams().get(0)));
+        GameplayGraphicController.createRequestPopup( sender.getUser().getUsername() + " wants peace", () -> sender.makePeace(you));
+    }
+
+    public void demandPopup(Update update){
+        Civilization you = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser());
+        Civilization sender = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getUser(update.getParams().get(0)));
+        GameplayGraphicController.createRequestPopup( update.getParams().get(2), () -> Trade.fromJson(update.getParams().get(3)).makeTrade());
+    }
+
+    public void declareWarPopup(Update update){
+        Civilization you = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser());
+        Civilization sender = GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getUser(update.getParams().get(0)));
+        GameplayGraphicController.createStatementPopup( sender.getUser().getUsername() + " has declared war on you!", null);
     }
 }

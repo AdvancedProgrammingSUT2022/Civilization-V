@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
@@ -84,9 +83,10 @@ public class SocketHandler extends Thread {
             case Friendship -> { response = MainMenuController.getInstance().friendship(request);}
             case ShowFriendshipRequests -> response = updateFriendshipRequests(loggedInUser);
             case AcceptFriendship, RejectFriendship -> updateFriendship(request);
-            case UpdateGame -> {
-                GameController.getInstance().nextTurn(request.getParams());
-            }
+            case UpdateGame -> GameController.getInstance().nextTurn(request.getParams());
+            case peaceRequest -> GameController.getInstance().makePeaceRequestUpdate(request);
+            case declareWar -> GameController.getInstance().makeDeclareWarUpdate(request);
+            case demand -> GameController.getInstance().makeDemandUpdate(request);
         }
         return new Response(response);
     }

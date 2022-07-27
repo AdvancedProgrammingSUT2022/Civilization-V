@@ -1,10 +1,12 @@
 package View.GraphicViewController;
 import Controller.GameController.GameController;
+import Controller.NetworkController;
 import Model.ChatRelated.Alert;
-import Model.ChatRelated.AlertType;
 import Model.CivlizationRelated.Civilization;
 import Model.Enums.Menus;
 import Model.MapRelated.GameMap;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -18,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class DiplomacyPanelGraphicPageController implements Initializable {
@@ -96,12 +99,20 @@ public class DiplomacyPanelGraphicPageController implements Initializable {
     public void sendWarAlert(ActionEvent actionEvent){
         assignOpp(actionEvent);
         GameController.getInstance().getPlayerTurn().declareWar(opponent);
-        new Alert(opponent, GameController.getInstance().getPlayerTurn().getUser().getUsername() + " has declared war on you!");
+        //new Alert(opponent, GameController.getInstance().getPlayerTurn().getUser().getUsername() + " has declared war on you!");
+        NetworkController.getInstance().send(new Request(RequestType.declareWar,new ArrayList<>(){{
+            add(GameController.getInstance().getPlayerTurn().getUserName());
+            add(opponent.getUserName());
+        }}));
         main.java.Main.changeMenu(Menus.GAME_MENU.value);
     }
     public void sendPeaceRequest(ActionEvent actionEvent){
         assignOpp(actionEvent);
-        new Alert(opponent, GameController.getInstance().getPlayerTurn().getUser().getUsername() + " wants peace", () -> GameController.getInstance().getPlayerTurn().makePeace(opponent),AlertType.Request);
+        //new Alert(opponent, GameController.getInstance().getPlayerTurn().getUser().getUsername() + " wants peace", () -> GameController.getInstance().getPlayerTurn().makePeace(opponent),AlertType.Request);
+        NetworkController.getInstance().send(new Request(RequestType.peaceRequest,new ArrayList<>(){{
+            add(GameController.getInstance().getPlayerTurn().getUserName());
+            add(opponent.getUserName());
+        }}));
         main.java.Main.changeMenu(Menus.GAME_MENU.value);
     }
 }
