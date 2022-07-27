@@ -1,4 +1,5 @@
 package Controller.GameController;
+import Controller.PreGameController.LoginAndRegisterController;
 import Controller.SavingDataController.DataSaver;
 import Model.CivlizationRelated.City;
 import Model.CivlizationRelated.Civilization;
@@ -88,6 +89,7 @@ public class GameController{
         this.selectedCity = selectedCity;
     }
     public String nextTurn() {
+        System.out.println(GameMap.getInstance().getCivilization(LoginAndRegisterController.getInstance().getLoggedInUser()).getCities().get(0).getUnderConstructionUnit());
         changePlayer();
         if(GameMap.getInstance().getGameTurn() == 2050)
             return "Game Over";

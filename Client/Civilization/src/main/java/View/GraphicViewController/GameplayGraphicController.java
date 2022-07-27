@@ -500,33 +500,39 @@ public class GameplayGraphicController implements Initializable {
         setTurnNotification();
     }
 
-    private void updateMap(){
+    private void updateMap() {
         manageMainPanel();
         turnCount.setText(Integer.toString(GameController.getInstance().getGameTurn()));
-        for (StackPane stack:cityBanners) {
+        for (StackPane stack : cityBanners) {
             pane.getChildren().remove(stack);
         }
-        for (ImageView imageView:citizenImages) {
+        for (ImageView imageView : citizenImages) {
             pane.getChildren().remove(imageView);
         }
-        for (ImageView imageView:cityPics) {
+        for (ImageView imageView : cityPics) {
             pane.getChildren().remove(imageView);
         }
         ArrayList<Circle> circles = new ArrayList<>();
-        for (Node node:pane.getChildren()) {
-            if(node instanceof Circle) {
+        for (Node node : pane.getChildren()) {
+            if (node instanceof Circle) {
                 circles.add((Circle) node);
             }
         }
-        for (Circle circle:circles) {
+        for (Circle circle : circles) {
             pane.getChildren().remove(circle);
         }
         technologies.setDisable(true);
         technologies.setVisible(false);
         buildUnitsBar.setVisible(false);
         buildUnitsBar.setDisable(true);
-        researchBar.setVisible(true);
-        researchBar.setDisable(false);
+        if (GameController.getInstance().getPlayerTurn().getUser().equals(LoginAndRegisterController.getInstance().getLoggedInUser())) {
+            researchBar.setVisible(true);
+            researchBar.setDisable(false);
+        }
+        else {
+            researchBar.setVisible(false);
+            researchBar.setDisable(true);
+        }
         manageResearchBar();
         cityButtons.setVisible(false);
         cityButtons.setDisable(true);
@@ -854,7 +860,7 @@ public class GameplayGraphicController implements Initializable {
         }
         for (Tile key:GameController.getInstance().getSelectedCity().getCityTiles()) {
             Polygon pol = tileToPoly.get(key);
-            pol.setStroke(MapFunctions.getInstance().getCivColor(key.getCivilization()));
+            pol.setStroke(MapFunctions.getInstance().getCivColor(GameController.getInstance().getSelectedCity().getCivilization()));
             pol.setEffect(new InnerShadow(75, 1, 1,MapFunctions.getInstance().getCivColor(key.getCivilization())));
             pol.setStrokeWidth(pol.getStrokeWidth()*10);
         }

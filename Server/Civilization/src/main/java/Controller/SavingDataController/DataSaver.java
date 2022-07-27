@@ -119,7 +119,7 @@ public class DataSaver {
     private void completeFatherChildFields(GameMap gameMap) {
         for (Civilization civilization:gameMap.getCivilizations()) {
             for(User user: LoginAndRegisterController.getInstance().getUsers()){
-                if(user.getNickname().equals(civilization.getUser().getUsername())) {
+                if(user.getUsername().equals(civilization.getUser().getUsername())) {
                     civilization.setUser(user);
                     break;
                 }
