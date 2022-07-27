@@ -42,7 +42,7 @@ public class ScoreBoardPageController implements Initializable {
         DataSaver.getInstance().updateUsers();
         LoginAndRegisterController.getInstance().getUsers().sort(comparator);
         for (User user: LoginAndRegisterController.getInstance().getUsers()) {
-            Label text = new Label("\n"+user.getUsername() + "\t\t\t\t\t\t\t" + user.getScore());
+            Label text = new Label("\n"+user.getUsername() + "\t\t\t\t" + user.getScore());
             text.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
             ImageView imageView;
             if(i == 1){
@@ -62,15 +62,36 @@ public class ScoreBoardPageController implements Initializable {
                 isOnline = new Label("\n\t\t\toffline");
                 lastSeen = new Label("\n\t\t\t"+user.getLastSeen());
                 lastSeen.setStyle("fx-font-size: 20; -fx-font-family: Garamond;");
-                System.out.println(user.getLastSeen());
             }
             isOnline.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
             String profIndex = String.valueOf(user.getProfPicIndex() + 1);
             ImageView u_imageView = creatingImageView("/images/profiles/"+profIndex+".png", 60, 60);
-            HBox u_hBox;
-            if(lastSeen != null)
-                u_hBox = new HBox(imageView, u_imageView, new Separator(), text, new Separator(), isOnline, new Separator(), lastSeen);
-            else u_hBox = new HBox(imageView, u_imageView, new Separator(), text, new Separator(), isOnline);
+            HBox u_hBox = new HBox(imageView, u_imageView, new Separator(), text, new Separator(), isOnline, new Separator());
+            Button friendshipButton = null;
+            if(!user.getUsername().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()) &&
+                    !LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName().contains(user.getUsername())) {
+                friendshipButton = creatingButton("add " + user.getUsername() + " to friends");
+                Button finalFriendshipButton = friendshipButton;
+                friendshipButton.setOnMouseClicked(mouseEvent -> {
+                    finalFriendshipButton.setDisable(true);
+                    ArrayList<String> params = new ArrayList<>();
+                    params.add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
+                    params.add(user.getUsername());
+                    Request request = new Request(RequestType.Friendship, params);
+                    request.setAction("request for friendship");
+                    NetworkController.getInstance().send(request);
+                });
+            }
+            if(lastSeen != null) {
+                u_hBox.getChildren().add(lastSeen);
+                u_hBox.getChildren().add(new Separator());
+            }
+            if(friendshipButton != null ) u_hBox.getChildren().add(friendshipButton);
+            if(LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName().contains(user.getUsername())){
+                Label label = new Label("\n\t"+user.getUsername()+" is one of your friends");
+                label.setStyle("-fx-fill: #86033b; -fx-font-size: 18;");
+                u_hBox.getChildren().add(label);
+            }
             text.setAlignment(Pos.CENTER_RIGHT);
             list.getChildren().add(u_hBox);
             list.getChildren().add(new Separator());
@@ -98,5 +119,13 @@ public class ScoreBoardPageController implements Initializable {
 
     public void back(){
         main.java.Main.changeMenu(Menus.MAIN_MENU.value);
+    }
+
+    private Button creatingButton(String name){
+        Button button = new Button(name);
+        button.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                + "-fx-text-fill: #4f4e4e;");
+        return button;
     }
 }
