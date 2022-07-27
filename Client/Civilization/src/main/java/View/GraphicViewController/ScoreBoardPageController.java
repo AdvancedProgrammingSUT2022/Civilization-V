@@ -6,9 +6,9 @@ import Controller.SavingDataController.DataSaver;
 import Model.Enums.Menus;
 import Model.NetworkRelated.Request;
 import Model.NetworkRelated.RequestType;
-import Model.NetworkRelated.Response;
 import Model.User.User;
-import View.Images;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -21,17 +21,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import javax.xml.crypto.Data;
+import javafx.util.Duration;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ScoreBoardPageController implements Initializable {
     public VBox list;
     private Timeline timeline;
-
+    private HashMap<String, ArrayList<Label>> usersOnlineLabels = new HashMap<>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         int i = 1;
@@ -42,7 +39,8 @@ public class ScoreBoardPageController implements Initializable {
         DataSaver.getInstance().updateUsers();
         LoginAndRegisterController.getInstance().getUsers().sort(comparator);
         for (User user: LoginAndRegisterController.getInstance().getUsers()) {
-            Label text = new Label("\n"+user.getUsername() + "\t\t\t\t" + user.getScore());
+            Label text = new Label("\n"+user.getUsername());
+            Label score = new Label("\n\t\t\t\t" + user.getScore());
             text.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
             ImageView imageView;
             if(i == 1){
@@ -55,18 +53,23 @@ public class ScoreBoardPageController implements Initializable {
                 imageView = creatingImageView("/images/scoreBoard/"+i+".png", 80, 80);
             }
             Label isOnline;
-            Label lastSeen = null;
+            Label lastSeen =new Label("");
             if(user.getOnline()){
                 isOnline = new Label("\n\t\t\tonline");
             } else {
                 isOnline = new Label("\n\t\t\toffline");
-                lastSeen = new Label("\n\t\t\t"+user.getLastSeen());
+                lastSeen.setText("\n\t\t\t"+user.getLastSeen());
                 lastSeen.setStyle("fx-font-size: 20; -fx-font-family: Garamond;");
             }
+            ArrayList<Label> labels = new ArrayList<>();
+            labels.add(isOnline);
+            labels.add(lastSeen);
+            labels.add(score);
+            usersOnlineLabels.put(user.getUsername(), labels);
             isOnline.setStyle("-fx-font-size: 20; -fx-font-family: Garamond;");
             String profIndex = String.valueOf(user.getProfPicIndex() + 1);
             ImageView u_imageView = creatingImageView("/images/profiles/"+profIndex+".png", 60, 60);
-            HBox u_hBox = new HBox(imageView, u_imageView, new Separator(), text, new Separator(), isOnline, new Separator());
+            HBox u_hBox = new HBox(imageView, u_imageView, new Separator(), text, score, new Separator(), isOnline, new Separator());
             Button friendshipButton = null;
             if(!user.getUsername().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()) &&
                     !LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName().contains(user.getUsername())) {
@@ -82,10 +85,8 @@ public class ScoreBoardPageController implements Initializable {
                     NetworkController.getInstance().send(request);
                 });
             }
-            if(lastSeen != null) {
-                u_hBox.getChildren().add(lastSeen);
-                u_hBox.getChildren().add(new Separator());
-            }
+            u_hBox.getChildren().add(lastSeen);
+            u_hBox.getChildren().add(new Separator());
             if(friendshipButton != null ) u_hBox.getChildren().add(friendshipButton);
             if(LoginAndRegisterController.getInstance().getLoggedInUser().getFriendsName().contains(user.getUsername())){
                 Label label = new Label("\n\t"+user.getUsername()+" is one of your friends");
@@ -98,6 +99,16 @@ public class ScoreBoardPageController implements Initializable {
             i++;
             if(i == 11) break;
         }
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), e -> {
+            DataSaver.getInstance().updateUsers();
+            for (User user: LoginAndRegisterController.getInstance().getUsers()) {
+                usersOnlineLabels.get(user.getUsername()).get(0).setText(user.getOnline() ? "\n\t\t\tonline" : "\n\t\t\toffline");
+                usersOnlineLabels.get(user.getUsername()).get(1).setText(user.getOnline() ? "" : "\n\t\t\t"+user.getLastSeen());
+                usersOnlineLabels.get(user.getUsername()).get(2).setText("\n\t\t\t\t"+user.getScore());
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.playFromStart();
     }
     private javafx.scene.image.ImageView creatingImageView(String address, int FitWidth, int FitHeight){
         Image image = new Image(address);
