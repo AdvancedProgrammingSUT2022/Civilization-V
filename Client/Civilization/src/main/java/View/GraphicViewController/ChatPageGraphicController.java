@@ -1,12 +1,18 @@
 package View.GraphicViewController;
 
+import Controller.NetworkController;
 import Controller.PreGameController.LoginAndRegisterController;
+import Controller.SavingDataController.DataSaver;
 import Model.ChatRelated.Chat;
 import Model.ChatRelated.Message;
 import Model.ChatRelated.PrivateChat;
 import Model.ChatRelated.Room;
 import Model.Enums.Menus;
+import Model.NetworkRelated.Request;
+import Model.NetworkRelated.RequestType;
 import Model.User.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -31,6 +37,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class ChatPageGraphicController {
@@ -43,7 +50,7 @@ public class ChatPageGraphicController {
     public HBox search_hBox;
     public VBox allChats;
     public Pane MainPane;
-    private ArrayList<User> selected_users_for_group = new ArrayList<>();
+    private ArrayList<String> selected_users_for_group = new ArrayList<>();
     private Chat selectedChat = null;
     public static Pane paneCpy;
 
@@ -52,29 +59,13 @@ public class ChatPageGraphicController {
     public void initialize() {
         paneCpy = MainPane;
         int index = 0;
+        sendRequestForUpdateChats();///////////
+        DataSaver.getInstance().updateUsers();
         for(Chat chat : LoginAndRegisterController.getInstance().getLoggedInUser().getChats()){
             addChatToList(index, chat);
             index += 2;
         }
     }
-
-
-    public void editMessage(Message message){
-        // create a window
-        // create a popup
-        // use an edit button
-        // show message with popup and then edit it
-        // for edit use textField
-        // text Field.setText(message.getText())
-        // then edit the message in textField;
-    }
-
-    public void deleteMessage(Message message){
-        // do same thing in edit message but use delete button and popup
-    }
-
-
-
     public void searchForChats(MouseEvent keyEvent) {
         foundUser();
         search_hBox.getChildren().get(0).setOnMouseClicked(mouseEvent ->{
@@ -103,7 +94,7 @@ public class ChatPageGraphicController {
         name.getStyleClass().add("name");
         name.getStyleClass().add("chat_style");
         Label time = new Label(user.getUsername()+" is " + (user.getOnline() ? "online:)" : "offline :(" )+"\nif you want to create private chat with "+user.getUsername()+" please click with mouse"
-        + "\ncurrent time : "+LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
+                + "\ncurrent time : "+LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
         Label message_pr = new Label(time.getText());
         message_pr.getStyleClass().add("chat_style");
         VBox vBox = new VBox(name, message_pr);
@@ -115,13 +106,14 @@ public class ChatPageGraphicController {
     }
     private void newPrivateChat(int index, User user){
         if(!foundChat(user)){
-            ArrayList<User> users_name = new ArrayList<>();
-            users_name.add(LoginAndRegisterController.getInstance().getLoggedInUser());
-            users_name.add(user);
+            ArrayList<String> users_name = new ArrayList<>();
+            users_name.add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
+            users_name.add(user.getUsername());
             selectedChat = new PrivateChat("", users_name);
             user.addChat(selectedChat);
             LoginAndRegisterController.getInstance().getLoggedInUser().addChat(selectedChat);
             LoadingChatMessages(selectedChat);
+            sendRequestForUpdateChats();
         }
         setStylesChat(index);
     }
@@ -178,16 +170,16 @@ public class ChatPageGraphicController {
             if(!selected_users_for_group.isEmpty()){
                 create_group.setDisable(false);
                 create_group.setEffect(null);
-                for(User user : selected_users_for_group){
-                    nameSB.append(user.getUsername() + " ");
+                for(String username : selected_users_for_group){
+                    nameSB.append(username).append(" ");
                     if(GroupPopup.getWidth() == 60){
                         nameSB.append("\n");
                     }
                 }
-                selected_users_for_group.add(LoginAndRegisterController.getInstance().getLoggedInUser());
+                selected_users_for_group.add(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername());
                 Room room = new Room(nameSB.toString(), selected_users_for_group);
-                for(User user : selected_users_for_group){
-                    user.addChat(room);
+                for(String username : selected_users_for_group){
+                    LoginAndRegisterController.getInstance().getUser(username).addChat(room);
                 }
                 allChats.getChildren().clear();;
                 initialize();
@@ -196,9 +188,8 @@ public class ChatPageGraphicController {
                 MainPane.setEffect(null);
                 GroupPopup.hide();
                 selected_users_for_group.clear();
-
+                sendRequestForUpdateChats();
             } else {
-                // show error
                 create_group.setDisable(true);
                 create_group.setEffect(new Lighting());
             }
@@ -221,19 +212,18 @@ public class ChatPageGraphicController {
         int profileIndex = user.getProfPicIndex()+1;
         ImageView imageView = creatingImageView("/images/profiles/"+profileIndex+".png", 50 ,50);
         Label name = new Label(user.getUsername());
-//        name.setStyle("name");
         HBox user_preview = new HBox(imageView, name);
         user_preview.setPrefWidth(350);
         user_preview.setPrefHeight(70);
         users_vBox.getChildren().add(user_preview);
         users_vBox.getChildren().add(new Separator());
         user_preview.setOnMouseClicked(mouseEvent -> {
-            if(selected_users_for_group.contains(user)){
+            if(selected_users_for_group.contains(user.getUsername())){
                 users_vBox.getChildren().get(index).setStyle("-fx-background-color: white;");
-                selected_users_for_group.remove(user);
+                selected_users_for_group.remove(user.getUsername());
             } else {
                 users_vBox.getChildren().get(index).setStyle("-fx-background-color: green;");
-                selected_users_for_group.add(user);
+                selected_users_for_group.add(user.getUsername());
             }
         });
     }
@@ -251,7 +241,7 @@ public class ChatPageGraphicController {
             Label message_text = new Label(messageText.getText());
             message_text.getStyleClass().add("message_text");
             message_text.setPrefHeight(50);
-            Label message_time = new Label(LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
+            Label message_time = new Label(LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")) + "\ndelivered");
             message_time.getStyleClass().add("-fx-label-padding: 10 0 0 240;");
             message_time.getStyleClass().add("-fx-font-size: 10;");
             message_box.getChildren().add(name);
@@ -298,7 +288,7 @@ public class ChatPageGraphicController {
             hBox.setAlignment(Pos.BOTTOM_LEFT);
             hBox.setStyle("-fx-padding : 0 0 15 0; -fx-background-color: rgba(242, 245, 244, 0.5); -fx-background-radius: 17;");
             allMessages.getChildren().add(hBox);
-            Message message = new Message(LoginAndRegisterController.getInstance().getLoggedInUser(), messageS, message_time.getText());
+            Message message = new Message(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername(), messageS, message_time.getText());
             delete.setOnMouseClicked(mouseEvent1 -> {
                 Popup popup = new Popup();
                 Window window = main.java.Main.scene.getWindow();
@@ -329,11 +319,13 @@ public class ChatPageGraphicController {
                 });
             });
             selectedChat.addMessages(message);
+            sendRequestForUpdateChats();
             messageText.setText("");
         }
     }
 
     public void backToMain(MouseEvent mouseEvent){
+        sendRequestForUpdateChats();
         if(CalledMethods.getInstance().getMethodsName().get(CalledMethods.getInstance().getMethodsName().size()-1).equals("MainPage"))
             main.java.Main.changeMenu(Menus.MAIN_MENU.value);
         else main.java.Main.changeMenu(Menus.GAME_MENU.value);
@@ -351,12 +343,12 @@ public class ChatPageGraphicController {
         Image image;
         HBox chatPreview = null;
         if(chat instanceof Room){
-            image = new Image("images/Chat/GroupChat.png");
+            image = new Image("/images/Chat/GroupChat.png");
             ImageView imageViewForChat = new ImageView(image);
             Label room_name = new Label(chat.getChat_name());
             chatPreview = new HBox(imageViewForChat, room_name);
             chatPreview.setPrefWidth(670);
-        } else if(chat instanceof PrivateChat){
+        } else {
 //            String chatKindOf = "private chat with ";
 //            String withWho = null;
 //            if(chat.getUsers_names().get(0).getUsername().equals(user.getUsername())) withWho = chat.getUsers_names().get(1).getUsername();
@@ -366,9 +358,9 @@ public class ChatPageGraphicController {
             image = new Image("/images/Chat/privateChat.png");
             ImageView imageViewForChat = new ImageView(image);
             Label another_username = null;
-            for(User user : chat.getUsers_names()){
-                if(!user.getUsername().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername())){
-                    another_username = new Label(user.getUsername());
+            for(String username : chat.getUsers_names()){
+                if(!username.equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername())){
+                    another_username = new Label(username);
                 }
             }
             chatPreview = new HBox(imageViewForChat, another_username);
@@ -376,8 +368,9 @@ public class ChatPageGraphicController {
         }
         allChats.getChildren().add(chatPreview);
         allChats.getChildren().add(new Separator());
-        assert chatPreview != null;
-        chatPreview.setOnMouseClicked(mouseEvent -> selectingChatByChat(index, chat));
+        chatPreview.setOnMouseClicked(mouseEvent -> {
+            selectingChatByChat(index, chat);
+        });
     }
     private void selectingChatByChat(int index, Chat chat){
         selectedChat = chat;
@@ -390,7 +383,7 @@ public class ChatPageGraphicController {
         if(chat.getMessages() != null){
             for(Message message : chat.getMessages()){
                 VBox message_box = new VBox();
-                Label name = new Label(message.getSender_user().getUsername());
+                Label name = new Label(message.getSender_user());
                 Label message_text = new Label(message.getText());
                 message_text.getStyleClass().add("message");
                 Label message_time = new Label(message.getSend_time());
@@ -400,18 +393,76 @@ public class ChatPageGraphicController {
                 message_box.getChildren().add(message_text);
                 message_box.getChildren().add(message_time);
                 message_box.getStyleClass().add("message_box");
-                if(message.getSender_user().getUsername() != LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()) message_box.setStyle("-fx-background-color: gray;");
+                if(!message.getSender_user().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername())) message_box.setStyle("-fx-background-color: gray;");
                 message_box.setMaxWidth(Region.USE_PREF_SIZE);
                 message_box.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
                 VBox.setMargin(message_box, new Insets(10, 0, 0, 0));
-                int profPicIndex = message.getSender_user().getProfPicIndex() + 1;
+                int profPicIndex = LoginAndRegisterController.getInstance().getUser(message.getSender_user()).getProfPicIndex() + 1;
                 ImageView imageView_sender = creatingImageView("/images/profiles/"+profPicIndex+".png", 50, 50);
                 HBox hBox = new HBox();
                 hBox.getChildren().add(imageView_sender);
                 hBox.getChildren().add(message_box);
-                // set positions of messages
-                if(message.getSender_user().getUsername().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername()))
+                if(message.getSender_user().equals(LoginAndRegisterController.getInstance().getLoggedInUser().getUsername())) {
                     hBox.setAlignment(Pos.BOTTOM_LEFT);
+                    Button edit = new Button("edit");
+                    edit.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                            " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                            + "-fx-text-fill: #4f4e4e;");
+                    Button delete = new Button("delete");
+                    delete.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                            " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                            + "-fx-text-fill: #4f4e4e;");
+                    hBox.getChildren().add(edit);
+                    hBox.getChildren().add(delete);
+                    edit.setOnMouseClicked(mouseEvent1 -> {
+                        Popup popup = new Popup();
+                        Window window = main.java.Main.scene.getWindow();
+                        TextField textField = new TextField();
+                        textField.setText(message_text.getText());
+                        Button enter = new Button("enter");
+                        enter.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                                + "-fx-text-fill: #4f4e4e;");
+                        VBox vBox = new VBox(textField, new Separator(), enter);
+                        popup.getContent().add(vBox);
+                        MainPane.setEffect(new Lighting());
+                        popup.show(window);
+                        enter.setOnMouseClicked(mouseEvent2 -> {
+                            message_text.setText(textField.getText());
+                            MainPane.setEffect(null);
+                            popup.hide();
+                        });
+                    });
+                    delete.setOnMouseClicked(mouseEvent1 -> {
+                        Popup popup = new Popup();
+                        Window window = main.java.Main.scene.getWindow();
+                        Label question = new Label("Are you sure ?");
+                        question.setStyle("-fx-font-family: Gramond; -fx-background-radius: 40;");
+                        Button yes = new Button("Yes");
+                        yes.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                                + "-fx-text-fill: #4f4e4e;");
+                        Button no = new Button("No");
+                        no.setStyle("-fx-font-family: Britannic Bold;" + " -fx-background-radius: 20;" +
+                                " -fx-background-color: rgba(201, 238, 221, 0.7);" + " -fx-font-size: 18; "
+                                + "-fx-text-fill: #4f4e4e;");
+                        HBox hBox1 = new HBox(yes, new Separator(), no);
+                        VBox vBox = new VBox(question, hBox1);
+                        popup.getContent().add(vBox);
+                        MainPane.setEffect(new Lighting());
+                        popup.show(window);
+                        yes.setOnMouseClicked(mouseEvent2 -> {
+                            selectedChat.getMessages().remove(message);
+                            allMessages.getChildren().remove(hBox);
+                            MainPane.setEffect(null);
+                            popup.hide();
+                        });
+                        no.setOnMouseClicked(mouseEvent2 -> {
+                            MainPane.setEffect(null);
+                            popup.hide();
+                        });
+                    });
+                }
                 else hBox.setAlignment(Pos.BOTTOM_RIGHT);
                 hBox.setPrefWidth(200);
                 hBox.setPrefHeight(70);
@@ -459,5 +510,13 @@ public class ChatPageGraphicController {
     public void buttonSizeDecrease(MouseEvent mouseEvent) {
         javafx.scene.control.Button button = (Button) mouseEvent.getSource();
         button.setStyle("-fx-font-size: 18; -fx-background-color: rgba(201, 238, 221, 0.7);");
+    }
+    public void sendRequestForUpdateChats(){
+        ArrayList<User> users = LoginAndRegisterController.getInstance().getUsers();
+        String json = new Gson().toJson(users);
+        ArrayList<String> params = new ArrayList<>();
+        params.add(json);
+        Request request = new Request(RequestType.ForSavingChats, params);
+        NetworkController.getInstance().send(request);
     }
 }

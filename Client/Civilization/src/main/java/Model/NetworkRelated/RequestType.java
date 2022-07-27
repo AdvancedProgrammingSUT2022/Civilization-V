@@ -6,5 +6,5 @@ public enum RequestType {
     startGame,
     Login, Logout, Users, ChangeNickname, ChangePassword, NextProfilePic, PrevProfilePic, ChoosePic, sendInvite,registerReaderSocket
     , Friendship, ShowFriendshipRequests, AcceptFriendship, RejectFriendship, UpdateGame , peaceRequest,
-    demandRequest,declareWar;
+    demandRequest,declareWar, ForSavingChats;
 }

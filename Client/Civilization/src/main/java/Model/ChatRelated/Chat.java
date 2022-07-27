@@ -8,11 +8,12 @@ import java.util.ArrayList;
 public class Chat {
     @Expose
     private String chat_name;
-    private ArrayList<User> users_names;
+    @Expose
+    private ArrayList<String> users_names;
     @Expose
     private ArrayList<Message> messages = new ArrayList<>();
 
-    public Chat(String chat_name, ArrayList<User> users_names){
+    public Chat(String chat_name, ArrayList<String> users_names){
         this.chat_name = chat_name;
         this.users_names = users_names;
     }
@@ -25,11 +26,11 @@ public class Chat {
         this.chat_name = chat_name;
     }
 
-    public ArrayList<User> getUsers_names() {
+    public ArrayList<String> getUsers_names() {
         return users_names;
     }
 
-    public void setUsers_names(ArrayList<User> users_names) {
+    public void setUsers_names(ArrayList<String> users_names) {
         this.users_names = users_names;
     }
 
